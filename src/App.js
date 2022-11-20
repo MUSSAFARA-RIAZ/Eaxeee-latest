@@ -1,25 +1,72 @@
-import logo from './logo.svg';
 import './App.css';
+import AuthRouter from './config/routing/AuthRouter'
+import AppRouter from './config/routing/AppRouter'
+import { connect } from 'react-redux';
+import { useState } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-function App() {
+function App(props) {
+  let { theme } = props
+
+  const [userLoggedIn, setUserLoggedIn] = useState(true);
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+    tabColor: {
+      backgroundColor: 'red'
+    }
+  });
+
+  const defaultTheme = createTheme({
+    pallete: {
+      primary: {
+        main: '#0D7E8A',
+        drawer_icon: '#000000'
+      },
+    },
+  })
+
+  const lightTheme = createTheme({
+    pallete: {
+      mode: 'light'
+    }
+  })
+
+  const appTheme = (theme === "default") ? defaultTheme : (theme === "dark") ? darkTheme : lightTheme;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <ThemeProvider theme={appTheme}>
+      {
+        (userLoggedIn) ?
+          <>
+            <AppRouter />
+          </>
+          :
+          <AuthRouter />
+      }
+    </ThemeProvider>
   );
 }
 
-export default App;
+
+const mapStateToProps = state => {
+  return {
+    language: state.language,
+    theme: state.theme
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLanguage: (lang) => {
+      return dispatch({
+        type: "TOGGLELANG",
+        value: (lang === 'en') ? 'ar' : "en"
+      })
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)
