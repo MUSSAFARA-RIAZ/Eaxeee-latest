@@ -1,11 +1,20 @@
-.toolbar {
-    /* border: 2px solid red; */
-    min-height: 50px !important;
-    max-height: 50px !important;
-    /* display: "flex"; */
-    /* align-content: 'center'; */
-    /* height: 10px; */
+:root {
+    --appBarHeight: 50px;
+    --appBarElementsHeight: 46px;
+}
 
+.appBar {
+    /* border: 1px solid red; */
+    min-height: var(--appBarHeight) !important;
+    max-height: var(--appBarHeight) !important;
+}
+
+.toolbar {
+    /* border: 2px solid blue; */
+    min-height: var(--appBarHeight) !important;
+    max-height: var(--appBarHeight) !important;
+    display: flex;
+    gap: 10px;
 }
 
 .menuIcon {
@@ -16,22 +25,81 @@
 }
 
 .logoParent {
-    border: 2px solid red;
-    height: 50px;
+    height: var(--appBarElementsHeight);
     display: flex;
     justify-content: center;
     align-items: center;
+}
 
+.logoLink {
+    height: 100%;
 }
 
 .logoToolTip {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px
+    position: relative;
+    top: -4px;
+    height: 100%
 }
 
 .logo {
     height: 100%;
-    /* width: 28px; */
+}
+
+.pageTitle {
+    /* border: 2px solid red; */
+    height: var(--appBarElementsHeight);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+
+}
+
+.pageTitleText {
+    font-size: 20px !important;
+    font-weight: 480 !important;
+    font-family: Georgia, 'Times New Roman', Times, serif !important;
+}
+
+.languageToggleButton {
+    /* border: 1px solid red !important; */
+    height: var(--appBarElementsHeight);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.languageToggleButtonChild {
+    height: 100%;
+}
+
+.faHomeEn {
+    /* border: 1px solid red; */
+    height: var(--appBarElementsHeight);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em;
+}
+
+.userMenuEn {
+    /* border: 1px solid red; */
+    height: var(--appBarElementsHeight);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 8em;
+    cursor: pointer;
+}
+
+.userMenuTextEn {
+    /* border: 1px solid red; */
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.userMenuList {
+    box-shadow: 0px 0px 5px gray;
 }
