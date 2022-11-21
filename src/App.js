@@ -4,6 +4,7 @@ import AppRouter from './config/routing/AppRouter'
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Header from './components/Header/Header';
 
 function App(props) {
   let { theme } = props
@@ -42,6 +43,7 @@ function App(props) {
       {
         (userLoggedIn) ?
           <>
+            <Header />
             <AppRouter />
           </>
           :
