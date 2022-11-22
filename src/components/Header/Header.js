@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import CustomAppBar from './Components/CustomAppBar/CustomAppBar'
+import Sidebar from './Components/SideBar/Sidebar';
 
 function Header(props) {
+    let { language, theme } = props
+
     const [Page, setPage] = useState("Home");
     const [drawer, setDrawer] = useState({
         top: false,
@@ -13,21 +16,35 @@ function Header(props) {
     });
 
     const toggleDrawer = (anchor, open) => (event) => {
-
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
-
         setDrawer({ ...drawer, [anchor]: open });
     };
 
-    const changepage = (screenName) => {
+    const changePageTitle = (screenName) => {
         setPage(screenName)
     };
 
     return (
+
         <div>
-            <CustomAppBar text={Page} toggleDrawer={toggleDrawer} changepage={changepage} />
+            <Helmet htmlAttributes={{
+                lang: language,
+                dir: language === 'en' ? 'ltr' : 'rtl'
+            }}>
+                <style>
+                    {
+                        (theme === 'default') ?
+                            'body { background-color: #DFF7FA; }' :
+                            (theme === 'dark') ?
+                                'body { background-color: #121212; }' :
+                                'body { background-color: #ffffff; }'
+                    }
+                </style>
+            </Helmet>
+            <CustomAppBar text={Page} toggleDrawer={toggleDrawer} changepage={changePageTitle} />
+            <Sidebar lang={language} changePageTitle={changePageTitle} state={drawer} toggleDrawer={toggleDrawer} />
         </div>
     )
 }

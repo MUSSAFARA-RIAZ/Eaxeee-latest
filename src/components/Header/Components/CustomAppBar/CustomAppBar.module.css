@@ -82,7 +82,25 @@
     font-size: 1.8em;
 }
 
+.faHomeAr {
+    height: var(--appBarElementsHeight);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em;
+}
+
 .userMenuEn {
+    /* border: 1px solid red; */
+    height: var(--appBarElementsHeight);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 8em;
+    cursor: pointer;
+}
+
+.userMenuAr {
     /* border: 1px solid red; */
     height: var(--appBarElementsHeight);
     display: flex;
@@ -94,12 +112,32 @@
 
 .userMenuTextEn {
     /* border: 1px solid red; */
+    font-weight: bold !important;
     height: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    /* font-family: Georgia, 'Times New Roman', Times, serif !important; */
 }
 
-.userMenuList {
+.userMenuListEn {
     box-shadow: 0px 0px 5px gray;
+    position: absolute;
+    top: 55px;
+    right: 20px;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    width: 170px;
+}
+
+.userMenuListAr {
+    box-shadow: 0px 0px 5px gray;
+    position: absolute;
+    top: 55px;
+    left: 20px;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    padding: 10px 20px;
+    width: 190px;
 }

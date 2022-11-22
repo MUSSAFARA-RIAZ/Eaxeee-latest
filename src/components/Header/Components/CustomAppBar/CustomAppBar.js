@@ -21,18 +21,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from './CustomAppBar.module.css'
 import "./Dropdown.css"
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 function CustomAppBar(props) {
   let { setLanguage, language, theme } = props
-
-  const [open, setOpen] = useState(false);
-
   const navigate = useNavigate();
   const appTheme = useTheme();
 
   let menuRef = useRef();
   let menuParentRef = useRef();
+  const [open, setOpen] = useState(false);
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleCloseDialog = () => {
+    console.log("hussain");
+    setOpenDialog(false);
+  };
+  const handleCloseDialogWhenClickOutside = () => {
+    console.log("handleCloseDialogOnOutsideClick");
+    setOpenDialog(false);
+  };
 
 
   useEffect(() => {
@@ -42,7 +53,6 @@ function CustomAppBar(props) {
       } else if (!menuRef.current.contains(e.target)) {
         setOpen(false);
       }
-
     };
     document.addEventListener("mousedown", handler);
 
@@ -53,20 +63,26 @@ function CustomAppBar(props) {
   });
 
 
-
   function DropdownItem(props) {
     return (
-      <li className={language === 'en' ? 'dropdownItem' : 'dropdownItemar'} onClick={props.gotoPage}>
+      <li className={language === 'en' ? 'dropdownItem' : 'dropdownItemar'} onClick={props.onClick}>
         <img src={props.img} alt=""></img>
         <div> {props.text} </div>
       </li>
     );
   }
 
+  let changeLanguageAndView = () => {
+    setLanguage(language)
+  }
+
   let gotoPage = (route, title) => {
+    title = (title == "Profile") ? "الملف الشخصي" :
+      (title == "Home") ? "مسكن" : ""
     props.changepage(title)
     navigate(route)
   }
+
 
   return (
     <Box>
@@ -76,7 +92,7 @@ function CustomAppBar(props) {
           sx={{ background: (theme === "default" ? `${appTheme.pallete.primary.main}` : theme === 'light' ? '#dee1e6' : "#063f45") }}
           className={styles.toolbar}
         >
-
+          {/* MenuIcon Button start */}
           <Button onClick={props.toggleDrawer('left', true)} >
             <MenuIcon
               style={{
@@ -85,11 +101,12 @@ function CustomAppBar(props) {
               className={styles.menuIcon}
             />
           </Button>
+          {/* MenuIcon Button end */}
 
+          {/* Eaxee logo start */}
           <Box className={styles.logoParent}>
             <Link to="/" className={styles.logoLink}>
               <Tooltip title="Home" placement="right" className={styles.logoToolTip}>
-
                 <Box
                   component="img"
                   className={styles.logo}
@@ -100,7 +117,10 @@ function CustomAppBar(props) {
               </Tooltip>
             </Link>
           </Box>
+          {/* Eaxee logo end */}
 
+
+          {/* Page title start */}
           <Box className={styles.pageTitle}>
             <Typography
               sx={{
@@ -111,23 +131,32 @@ function CustomAppBar(props) {
               {props.text}
             </Typography>
           </Box>
+          {/* Page title start */}
 
+
+          {/* Page View Switch start */}
           <Button className={styles.languageToggleButton}>
             <Box
               className={styles.languageToggleButtonChild}
               component="img"
               alt="Change Language"
               src={arabicLogo}
-            // onClick={() => testFunc()}
+              onClick={changeLanguageAndView}
             >
             </Box>
           </Button >
+          {/* Page View Switch end */}
 
-          <div className={language === 'en' ? styles.faHomeEn : 'faHomeAr'}>
+
+          {/* home icon start */}
+          <div className={language === 'en' ? styles.faHomeEn : styles.faHomeAr}>
             <FontAwesomeIcon icon={faHome} style={{ color: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff ") }} cursor="pointer" />
           </div>
+          {/* home icon end */}
 
-          <div ref={menuParentRef} className={language === 'en' ? ` ${styles.userMenuEn} 'menu-trigger' ` : 'userMenuAr'} onClick={() => setOpen(!open)}>
+
+          {/* User dropdown Menu start */}
+          <div ref={menuParentRef} className={language === 'en' ? ` ${styles.userMenuEn} 'menu-trigger' ` : `${styles.userMenuEn} 'userMenuAr' `} onClick={() => setOpen(!open)}>
             <Typography
               sx={{
                 color: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
@@ -141,53 +170,47 @@ function CustomAppBar(props) {
             <FontAwesomeIcon icon={faCaretDown} style={{ color: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff ") }}  ></FontAwesomeIcon>
           </div>
 
-
-
           <div className={`'menu-container'`} ref={menuRef}>
-            <div className={language === 'en' ? `dropdown-menu ${styles.userMenuList} ${open ? 'active' : 'inactive'}` : `dropdown-menuar ${open ? 'active' : 'inactive'}`}>
+            <div className={
+              language === 'en' ?
+                `dropdown-menu ${styles.userMenuListEn} ${open ? 'active' : 'inactive'}` :
+                `dropdown-menuar ${styles.userMenuListAr} ${open ? 'active' : 'inactive'}`}
+            >
 
               <h3>{language === 'en' ? 'MIM Admin' : 'المشرف MIM'}<br />
                 <span>info@mim.gov.sa</span>
                 {/* <span>{language === 'en' ? 'info@mim.gov.sa' : 'البريد الإلكتروني'}</span> */}
               </h3>
 
-              <DropdownItem img={userImg} text={language === 'en' ? "My Profile" : 'مظهر جانبي'} gotoPage={() => gotoPage("Profile", "Profile")} ></DropdownItem>
-              <DropdownItem img={logOutImg} text={language === 'en' ? "Logout" : 'تسجيل خروج'} gotoPage={() => gotoPage("/", "Home")} ></DropdownItem>
+              <DropdownItem img={userImg} text={language === 'en' ? "My Profile" : 'مظهر جانبي'} onClick={() => gotoPage("Profile", "Profile")} ></DropdownItem>
+              <DropdownItem img={logOutImg} text={language === 'en' ? "Logout" : 'تسجيل خروج'} onClick={() => setOpenDialog(true)} ></DropdownItem>
 
-              {/* <DropdownItem img={userImg} text={language === 'en' ? "My Profile" : 'مظهر جانبي'} onClick={() => props.changepage("Profile")} /> */}
-              {/* <ul>
-                  <li>
-                  </li>
-                  <li onClick={handleClickOpenDialog}>
-                    <DropdownItem img={logoutt} text={language === 'en' ? "Logout" : 'تسجيل خروج'}></DropdownItem>
-                  </li>
-                  <Dialog
-                    open={openDialog}
-                    onClose={handleCloseDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                  >
-                    <DialogTitle id="alert-dialog-title">
-                      {"Are you sure you want to logout?"}
-                    </DialogTitle>
-                    <DialogActions>
-                      <Button onClick={handleCloseDialog}>Disagree</Button>
-                      <Button onClick={handleCloseDialog} autoFocus>
-                        Agree
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-
-
-                </ul> */}
             </div>
           </div>
 
-
-
+          {/* User dropdown Menu end */}
         </Toolbar>
       </AppBar>
-    </Box>
+
+      {/* Dialog Starts */}
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialogWhenClickOutside}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          "Are you sure you want to logout?"
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Disagree</Button>
+          <Button onClick={handleCloseDialog} autoFocus>Agree</Button>
+        </DialogActions>
+      </Dialog>
+      {/* Dialog Ends */}
+
+
+    </Box >
   )
 }
 
