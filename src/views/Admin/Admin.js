@@ -1,14 +1,96 @@
+import React, { useState } from 'react'
 import { Box, Typography } from '@mui/material'
-import React from 'react'
+// import "./styles/administrationen.css";
+import { connect } from 'react-redux';
+import MuiToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-function Admin() {
+import { styled } from "@mui/material/styles";
+
+import styles from './Admin.module.css'
+import stylesDefault from './AdminDefault.module.css'
+import stylesLight from './AdminLight.module.css'
+import stylesDark from './AdminDark.module.css'
+import UserManagement from './UserManagement/UserManagement';
+
+function Admin(props) {
+    const [view, setView] = useState('User Management');
+    const [usertab, setUsertab] = useState('User Registration');
+
+
+    const handleMainTabs = (event, nextView) => {
+        setView(nextView);
+
+    };
+    const handleUsertab = (event, newUsertab) => {
+        console.log("newUserTab:",newUsertab);
+        setUsertab(newUsertab);
+    };
+    const ToggleButton = styled(MuiToggleButton)({
+        "&.Mui-selected, &.Mui-selected:hover": {
+            color: (props.theme === "default" ? `#ffff` : props.theme === 'light' ? '#6d7175' : "#ffff "),
+            backgroundColor: (props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#dee1e6' : "#063f45"),
+            // className: (props.theme === "default" ? "" : props.theme === 'light' ? '#6d7175' : "#ffff "),
+        }
+    });
     return (
-        <Box>
-            <Typography variant="h1">
-                Admin
-            </Typography>
-        </Box>
+        <Box className={`${styles.main} ${props.theme == "default" ? stylesDefault.main : props.theme == "light" ? stylesLight.main : stylesDark.main} `}>
+            <Box className={`${styles.leftPane} ${props.theme == "default" ? stylesDefault.leftPane : props.theme == "light" ? stylesLight.leftPane : stylesDark.leftPane}`}>
+                <ToggleButtonGroup
+                    orientation="vertical"
+                    value={view}
+                    exclusive
+                    onChange={handleMainTabs}
+                    className={styles.leftPaneTabsGroup}
+                >
+                    <ToggleButton value="User Management" aria-label="user Management">
+                        User Management
+                    </ToggleButton>
+                    <ToggleButton value="License Management" aria-label="license Management">
+                        License Management
+                    </ToggleButton>
+                    <ToggleButton value=" Repository Management" aria-label="repository Management">
+                        Repository Management
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            </Box>
+
+            <Box className={`${styles.rightPane} ${props.theme == "default" ? stylesDefault.rightPane : props.theme == "light" ? stylesLight.rightPane : stylesDark.rightPane}`}>
+                {
+                    (view === "User Management") &&
+                    <>
+                        <UserManagement usertab={usertab} theme={props.theme} handleUsertab={handleUsertab} language={props.language} />
+
+
+                        {/* {
+                            (usertab === "User Registration") ?
+                                <UserRegistration /> :
+                                <PasswordManagement />
+                        } */}
+
+                    </>
+                }
+            </Box>
+        </Box >
     )
 }
 
-export default Admin
+const mapStateToProps = state => {
+    return {
+        language: state.language,
+        theme: state.theme
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setLanguage: (lang) => {
+            return dispatch({
+                type: "TOGGLELANG",
+                value: (lang === 'en') ? 'ar' : "en"
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admin)

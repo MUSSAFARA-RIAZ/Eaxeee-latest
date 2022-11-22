@@ -1,0 +1,41 @@
+:root {
+    --headerHeight: 52px;
+}
+
+.main {
+    /* border: 2px solid black; */
+    height: calc(100vh - var(--headerHeight));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftPane {
+
+    height: 98%;
+    flex: 0.2;
+    padding: 5px;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+}
+
+.leftPaneTabsGroup {
+    /* border: 2px solid black; */
+    position: relative;
+    top: 5%;
+    height: max-content;
+    min-width: 14em;
+    max-width: 14em;
+}
+
+.rightPane {
+
+    flex: 1;
+    height: 98%;
+    padding: 5px;
+    margin: 2px;
+}
+
+
+
