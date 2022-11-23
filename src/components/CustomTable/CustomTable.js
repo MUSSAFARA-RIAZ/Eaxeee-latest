@@ -25,7 +25,7 @@ function CustomTable(props) {
                 columns={props.columns}
                 pageSize={props.rowsPerPage}
                 rowsPerPageOptions={[props.rowsPerPage]}
-                checkboxSelection={false}
+                checkboxSelection={props.checkBoxSelection}
                 disableSelectionOnClick
                 experimentalFeatures={{ newEditingApi: false }}
                 loading={false}

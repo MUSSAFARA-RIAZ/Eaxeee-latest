@@ -18,11 +18,14 @@ function Admin(props) {
     const [usertab, setUsertab] = useState('User Registration');
 
     const handleMainTabs = (event, nextView) => {
-        setView(nextView);
+        if (nextView) {
+            setView(nextView);
+        }
     };
     const handleUsertab = (event, newUsertab) => {
-        console.log("newUserTab:", newUsertab);
-        setUsertab(newUsertab);
+        if (newUsertab) {
+            setUsertab(newUsertab);
+        }
     };
     const ToggleButton = styled(MuiToggleButton)({
         "&.Mui-selected, &.Mui-selected:hover": {

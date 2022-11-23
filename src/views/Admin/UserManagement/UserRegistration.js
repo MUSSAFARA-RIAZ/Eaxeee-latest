@@ -227,7 +227,7 @@ const UserRegistration = (props) => {
             </Box >
 
             <Box className={`${styles.userRegistrationTableDiv}`}>
-                <CustomTable rows={tableRowData} columns={columns} rowsPerPage={10} pageSize={10} />
+                <CustomTable rows={tableRowData} columns={columns} rowsPerPage={10} pageSize={10} checkBoxSelection={false} />
             </Box>
 
         </Box >
