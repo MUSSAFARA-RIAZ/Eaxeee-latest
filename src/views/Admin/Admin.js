@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Typography } from '@mui/material'
-// import "./styles/administrationen.css";
+import { Box } from '@mui/material'
 import { connect } from 'react-redux';
 import MuiToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
@@ -14,16 +13,15 @@ import stylesDark from './AdminDark.module.css'
 import UserManagement from './UserManagement/UserManagement';
 
 function Admin(props) {
+
     const [view, setView] = useState('User Management');
     const [usertab, setUsertab] = useState('User Registration');
 
-
     const handleMainTabs = (event, nextView) => {
         setView(nextView);
-
     };
     const handleUsertab = (event, newUsertab) => {
-        console.log("newUserTab:",newUsertab);
+        console.log("newUserTab:", newUsertab);
         setUsertab(newUsertab);
     };
     const ToggleButton = styled(MuiToggleButton)({
@@ -43,13 +41,13 @@ function Admin(props) {
                     onChange={handleMainTabs}
                     className={styles.leftPaneTabsGroup}
                 >
-                    <ToggleButton value="User Management" aria-label="user Management">
+                    <ToggleButton value="User Management" aria-label="user Management" className={`${styles.userManagementTabs}`}>
                         User Management
                     </ToggleButton>
-                    <ToggleButton value="License Management" aria-label="license Management">
+                    <ToggleButton value="License Management" aria-label="license Management" className={`${styles.userManagementTabs}`}>
                         License Management
                     </ToggleButton>
-                    <ToggleButton value=" Repository Management" aria-label="repository Management">
+                    <ToggleButton value=" Repository Management" aria-label="repository Management" className={`${styles.userManagementTabs}`}>
                         Repository Management
                     </ToggleButton>
                 </ToggleButtonGroup>
@@ -57,18 +55,7 @@ function Admin(props) {
 
             <Box className={`${styles.rightPane} ${props.theme == "default" ? stylesDefault.rightPane : props.theme == "light" ? stylesLight.rightPane : stylesDark.rightPane}`}>
                 {
-                    (view === "User Management") &&
-                    <>
-                        <UserManagement usertab={usertab} theme={props.theme} handleUsertab={handleUsertab} language={props.language} />
-
-
-                        {/* {
-                            (usertab === "User Registration") ?
-                                <UserRegistration /> :
-                                <PasswordManagement />
-                        } */}
-
-                    </>
+                    (view === "User Management") && <UserManagement usertab={usertab} theme={props.theme} handleUsertab={handleUsertab} language={props.language} />
                 }
             </Box>
         </Box >

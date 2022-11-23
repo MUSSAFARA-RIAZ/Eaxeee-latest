@@ -3,9 +3,11 @@
 }
 
 .leftPane {
+    /* border-right: 2px solid #063f45; */
     border: 2px solid #063f45;
 }
 
 .rightPane {
+    /* border-left: 2px solid #063f45; */
     border: 2px solid #063f45;
 }

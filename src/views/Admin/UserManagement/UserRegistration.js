@@ -9,6 +9,7 @@ import SnackBar from '../../../components/SnackBar/SnackBar';
 // import MuiTable from '../../../../assets/muicomponents/components/MuiTable';
 
 import styles from './UserManagement.module.css'
+import CustomTable from '../../../components/CustomTable/CustomTable';
 
 
 
@@ -16,82 +17,102 @@ const UserRegistration = (props) => {
 
 
     let { theme } = props;
+    let snackBarMessage = ""
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data) => {
         console.log(data);
+        let { fullName, userName, email } = data
+
+        if (!fullName) {
+            snackBarMessage = "Full Name is required";
+            setSnackBarFlag(true)
+        } else if (!userName) {
+            snackBarMessage = "User Name is required";
+            setSnackBarFlag(true)
+        } else if (!email) {
+            snackBarMessage = "User Name is required";
+            setSnackBarFlag(true)
+        }
     };
-
-    // console.log(errors)
     const [snackBarFlag, setSnackBarFlag] = React.useState(false)
-
-    // const theme = useTheme();
-    // // console.log("useThemeIman", theme.palette)
 
     const handleUserSubmit = () => {
         setSnackBarFlag(true)
     }
 
-    const dummyRow = [
+    const tableRowData = [
         {
             name: 'abc',
             id: 'abcid1',
             email: 'test@gmail.com',
-            action: <Button className="activate-button" variant='outlined' sx={{
-                color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-            }}>Activate</Button>
         },
         {
             name: 'user',
             id: 'userid2',
             email: 'test@gmail.com',
-            action: <Button className="activate-button" variant='outlined' sx={{
-                color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-            }}>Activate</Button>
+
         },
         {
             name: 'sample',
             id: 'sample2',
             email: 'test@gmail.com',
-            action: <Button className="activate-button" variant='outlined' sx={{
-                color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-            }}>Activate</Button>
+
         },
         {
             name: 'test',
             id: 'testid7',
             email: 'test@gmail.com',
-            action: <Button className="activate-button" variant='outlined' sx={{
-                color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-            }}>Activate</Button>
+
         },
         {
             name: 'xyz',
-            id: 'xyzid7',
+            id: 'xyzid6',
             email: 'test@gmail.com',
-            action: <Button className="activate-button" variant='outlined' sx={{
-                color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-            }}>Activate</Button>
+
         },
         {
             name: 'nancy',
             id: 'xyzid7',
             email: 'test@gmail.com',
-            action: <Button className="activate-button" variant='outlined' sx={{
-                color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-            }}>Activate</Button>
+
+        }
+    ]
+
+    let activateButton = (item) => {
+        console.log(item)
+    }
+
+    const columns = [
+        { field: 'id', headerName: 'ID', flex: 1 },
+        { field: 'name', headerName: 'Name', flex: 1 },
+        { field: 'email', headerName: 'Email', flex: 1 },
+        {
+            field: 'action', headerName: 'Action', flex: 1,
+            renderCell: (params) => {
+                const onClick = (e) => {
+                    const currentRow = params.row;
+                    activateButton(currentRow)
+                    // return alert(JSON.stringify(currentRow, null, 4));
+                };
+
+                return (
+                    <Button className="activate-button" variant='outlined'
+                        sx={{
+                            color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
+                            borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
+                        }}
+                        onClick={onClick}
+                    >Activate</Button>
+                );
+            },
         }
     ]
 
     return (
         <Box className={styles.userRegistrationMain}>
+
             <Box className={`${styles.userRegistrationFormDiv}`}>
                 <form
                     className={`${styles.userRegistrationForm}`}
@@ -115,10 +136,10 @@ const UserRegistration = (props) => {
                         />
                         <Box className={`${styles.userRegistrationFormErrorDiv}`}>
                             {errors.fullName && errors.fullName.type === "required" && (
-                                <span className="error-message">This is a required field</span>
+                                <span>This is a required field</span>
                             )}
                             {errors.fullName && errors.fullName.type === "pattern" && (
-                                <span className="error-message" >
+                                <span>
                                     Special characters are not allowed
                                 </span>
                             )}
@@ -142,15 +163,15 @@ const UserRegistration = (props) => {
                         />
                         <Box className={`${styles.userRegistrationFormErrorDiv}`}>
                             {errors.userName && errors.userName.type === "required" && (
-                                <span className="error-message">This is a required field</span>
+                                <span>This is a required field</span>
                             )}
                             {errors.userName && errors.userName.type === "minLength" && (
-                                <span className="error-message">
+                                <span>
                                     Minimum 5 characters are required
                                 </span>
                             )}
                             {errors.userName && errors.userName.type === "pattern" && (
-                                <span className="error-message">
+                                <span>
                                     Special characters are not allowed
                                 </span>
                             )}
@@ -175,13 +196,13 @@ const UserRegistration = (props) => {
 
                             {errors.email && errors.email.type === "required" && (
                                 <div>
-                                    <span className="error-message">This is a required field</span>
-                                    <SnackBar open={snackBarFlag} setOpen={setSnackBarFlag}></SnackBar>
+                                    <span>This is a required field</span>
+                                    <SnackBar open={snackBarFlag} setOpen={setSnackBarFlag} message={snackBarMessage}></SnackBar>
                                 </div>
 
                             )}
                             {errors.email && errors.email.type === "pattern" && (
-                                <span className="error-message">Enter a valid email</span>
+                                <span>Enter a valid email</span>
                             )}
                         </Box>
                     </Box>
@@ -204,7 +225,11 @@ const UserRegistration = (props) => {
                     </Box>
                 </form>
             </Box >
-            <Box className={`${styles.userRegistrationTableDiv}`}></Box>
+
+            <Box className={`${styles.userRegistrationTableDiv}`}>
+                <CustomTable rows={tableRowData} columns={columns} rowsPerPage={10} pageSize={10} />
+            </Box>
+
         </Box >
 
     )

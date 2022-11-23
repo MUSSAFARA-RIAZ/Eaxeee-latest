@@ -1,11 +1,11 @@
-.main {
-
-}
+.main {}
 
 .leftPane {
     border: 2px solid #0d7e8a;
+    /* border-right: 2px solid #0d7e8a; */
+    
 }
-
 .rightPane {
     border: 2px solid #0d7e8a;
+    /* border-left: 2px solid #0d7e8a; */
 }
