@@ -11,8 +11,11 @@ import stylesDefault from './AdminDefault.module.css'
 import stylesLight from './AdminLight.module.css'
 import stylesDark from './AdminDark.module.css'
 import UserManagement from './UserManagement/UserManagement';
+import RepositoryManagement from './RepositoryManagement/RepositoryManagement';
 
 function Admin(props) {
+
+    let {language } = props;
 
     const [view, setView] = useState('User Management');
     const [usertab, setUsertab] = useState('User Registration');
@@ -35,8 +38,8 @@ function Admin(props) {
         }
     });
     return (
-        <Box className={`${styles.main} ${props.theme == "default" ? stylesDefault.main : props.theme == "light" ? stylesLight.main : stylesDark.main} `}>
-            <Box className={`${styles.leftPane} ${props.theme == "default" ? stylesDefault.leftPane : props.theme == "light" ? stylesLight.leftPane : stylesDark.leftPane}`}>
+        <Box className={`${styles.main} ${props.theme === "default" ? stylesDefault.main : props.theme === "light" ? stylesLight.main : stylesDark.main} `}>
+            <Box className={`${styles.leftPane} ${props.theme === "default" ? stylesDefault.leftPane : props.theme === "light" ? stylesLight.leftPane : stylesDark.leftPane}`}>
                 <ToggleButtonGroup
                     orientation="vertical"
                     value={view}
@@ -45,20 +48,22 @@ function Admin(props) {
                     className={styles.leftPaneTabsGroup}
                 >
                     <ToggleButton value="User Management" aria-label="user Management" className={`${styles.userManagementTabs}`}>
-                        User Management
+                    {language === 'en' ? 'User Management' : 'إدارةالمستخدم'}
                     </ToggleButton>
                     <ToggleButton value="License Management" aria-label="license Management" className={`${styles.userManagementTabs}`}>
-                        License Management
+                    {language === 'en' ? 'License Management' : '  إدارةالترخيص ' }
                     </ToggleButton>
                     <ToggleButton value=" Repository Management" aria-label="repository Management" className={`${styles.userManagementTabs}`}>
-                        Repository Management
+                    {language === 'en' ? 'Repository Management' : 'إدارة المستودعات'}
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Box>
 
-            <Box className={`${styles.rightPane} ${props.theme == "default" ? stylesDefault.rightPane : props.theme == "light" ? stylesLight.rightPane : stylesDark.rightPane}`}>
+            <Box className={`${styles.rightPane} ${props.theme === "default" ? stylesDefault.rightPane : props.theme === "light" ? stylesLight.rightPane : stylesDark.rightPane}`}>
                 {
-                    (view === "User Management") && <UserManagement usertab={usertab} theme={props.theme} handleUsertab={handleUsertab} language={props.language} />
+                    (view === "User Management") ? <UserManagement usertab={usertab} theme={props.theme} handleUsertab={handleUsertab} language={props.language} /> 
+                    : (view === "License Management") ? "License Page" 
+                    : <RepositoryManagement />
                 }
             </Box>
         </Box >

@@ -1,20 +1,22 @@
-import React, { useEffect } from 'react'
-import { Box, Button, ToggleButton, ToggleButtonGroup } from '@mui/material'
+import React from 'react'
+import { Box, ToggleButtonGroup } from '@mui/material'
 import MuiToggleButton from '@mui/material/ToggleButton';
 import { styled } from "@mui/material/styles";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import PasswordIcon from '@mui/icons-material/Password';
+import { connect } from 'react-redux';
 import LockIcon from '@mui/icons-material/Lock';
 import styles from "./UserManagement.module.css"
 import UserRegistration from './UserRegistration';
+import PasswordManagement from './PasswordManagement';
 
 function UserManagement(props) {
+
+    let {language } = props;
 
     const ToggleButton = styled(MuiToggleButton)({
         "&.Mui-selected, &.Mui-selected:hover": {
             color: (props.theme === "default" ? `#ffff` : props.theme === 'light' ? '#6d7175' : "#ffff "),
             backgroundColor: (props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#dee1e6' : "#063f45"),
-            // className: (props.theme === "default" ? "" : props.theme === 'light' ? '#6d7175' : "#ffff "),
         }
     });
 
@@ -25,30 +27,47 @@ function UserManagement(props) {
                 exclusive
                 onChange={props.handleUsertab}
                 className={`${styles.userManagementSubTabsGroup}`}
-            // sx={{ left: (props.language == "en") && '5%', right: (props.language == "ar") && '5%' }}
             >
                 <ToggleButton value="User Registration" aria-label="user registration" className={`${styles.userManagementSubTabs}`} >
                     <HowToRegIcon fontSize='small' />
                     <span className={`${styles.userManagementSubTabsTextSpan}`}>
-                        User Registration
+                    {language === 'en' ? 'User Registration' : 'المستخدم تسجيل'}
                     </span>
                 </ToggleButton>
                 <ToggleButton value="Password management" aria-label="password management" className={`${styles.userManagementSubTabs}`} >
                     <LockIcon fontSize='small' />
                     <span className={`${styles.userManagementSubTabsTextSpan}`}>
-                        Password management
+                    {language === 'en' ? 'Password management' : ' إدارة كلمة المرور'}
                     </span>
                 </ToggleButton>
 
             </ToggleButtonGroup>
 
             {
-                (props.usertab === "User Registration") &&
-                <UserRegistration />
-                // <PasswordManagement />
+                (props.usertab === "User Registration") ?
+                <UserRegistration /> :
+                <PasswordManagement/>
             }
         </Box>
     )
 }
 
-export default UserManagement
+const mapStateToProps = state => {
+    return {
+      language: state.language,
+      theme: state.theme
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+      setLanguage: (lang) => {
+        return dispatch({
+          type: "TOGGLELANG",
+          value: (lang === 'en') ? 'ar' : "en"
+        })
+      }
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserManagement)
