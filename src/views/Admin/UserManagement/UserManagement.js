@@ -8,6 +8,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import styles from "./UserManagement.module.css"
 import UserRegistration from './UserRegistration';
 import PasswordManagement from './PasswordManagement';
+import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
 
 function UserManagement(props) {
 
@@ -19,7 +20,7 @@ function UserManagement(props) {
             backgroundColor: (props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#dee1e6' : "#063f45"),
         }
     });
-
+ 
     return (
         <Box className={styles.main} >
             <ToggleButtonGroup
@@ -31,13 +32,13 @@ function UserManagement(props) {
                 <ToggleButton value="User Registration" aria-label="user registration" className={`${styles.userManagementSubTabs}`} >
                     <HowToRegIcon fontSize='small' />
                     <span className={`${styles.userManagementSubTabsTextSpan}`}>
-                    {language === 'en' ? 'User Registration' : 'المستخدم تسجيل'}
+                    {language === 'en' ? 'User Registration' : AdminTranslation["User Registration"]}
                     </span>
                 </ToggleButton>
                 <ToggleButton value="Password management" aria-label="password management" className={`${styles.userManagementSubTabs}`} >
                     <LockIcon fontSize='small' />
                     <span className={`${styles.userManagementSubTabsTextSpan}`}>
-                    {language === 'en' ? 'Password management' : ' إدارة كلمة المرور'}
+                    {language === 'en' ? 'Password management' : AdminTranslation["Password management"]}
                     </span>
                 </ToggleButton>
 

@@ -31,8 +31,24 @@
 
 }
 
+@media screen and (max-width: 1390px) {
+
+    .userManagementSubTabs {
+        /* border: 2px solid red !important; */
+        min-width: 5em !important;
+    }
+
+    .userManagementSubTabsTextSpan {
+        /* border: 2px solid black; */
+        font-size: 13px;
+
+    }
+
+}
 
 /* userManagement css ends */
+
+/* userRegistration css starts */
 
 .userRegistrationMain {
     /* border: 2px solid red; */
@@ -42,23 +58,7 @@
     display: flex;
 }
 
-.passwordManagementMain {
-    /* border: 2px solid red; */
-    position: relative;
-    top: 5%;
-    height: calc(100vh - 100px - 8%);
-    display: flex;
-}
-
 .userRegistrationFormDiv {
-    /* border: 1px solid black; */
-    /* flex: 0.53; */
-    margin: 5px;
-    min-width: 29.5em;
-    /* padding: 5px; */
-}
-
-.passwordManagementFormDiv {
     /* border: 1px solid black; */
     /* flex: 0.53; */
     margin: 5px;
@@ -77,6 +77,64 @@
     padding: 10px;
 }
 
+.userRegistrationFormInputParent {
+    /* border: 1px solid black; */
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    top: 1%;
+}
+
+
+/* .userRegistrationFormFullName {} */
+
+.userRegistrationFormErrorDiv {
+    height: 1em;
+    font-size: 12px;
+    padding: 10px;
+    color: red;
+}
+
+.userRegistrationTableDiv {
+    /* border: 1px solid black; */
+    flex: 1;
+    margin: 5px;
+    padding: 5px;
+}
+
+@media screen and (max-width: 1390px) {
+
+    .userRegistrationFormDiv {
+        /* border: 1px solid black; */
+        min-width: 24em;
+    }
+
+    .userRegistrationForm {
+        /* border: 2px solid green; */
+        flex: 0.5;
+    }
+}
+
+/* userRegistration css ends */
+
+/* passwordManagement css starts */
+
+.passwordManagementMain {
+    /* border: 2px solid red; */
+    position: relative;
+    top: 5%;
+    height: calc(100vh - 100px - 8%);
+    display: flex;
+}
+
+.passwordManagementFormDiv {
+    /* border: 1px solid black; */
+    /* flex: 0.53; */
+    margin: 5px;
+    min-width: 29.5em;
+    /* padding: 5px; */
+}
+
 .passwordManagementForm {
     /* border: 2px solid green; */
     height: 90%;
@@ -88,14 +146,6 @@
     padding: 10px;
 }
 
-.userRegistrationFormInputParent {
-    /* border: 1px solid black; */
-    display: inline-block;
-    width: 100%;
-    position: relative;
-    top: 1%;
-}
-
 .passwordManagementFormInputParent {
     /* border: 1px solid black; */
     display: inline-block;
@@ -104,16 +154,7 @@
     top: 1%;
 }
 
-/* .userRegistrationFormFullName {}
-
-.passwordManagementFormFullName {} */
-
-.userRegistrationFormErrorDiv {
-    height: 1em;
-    font-size: 12px;
-    padding: 10px;
-    color: red;
-}
+/* .passwordManagementFormFullName {} */
 
 .passwordManagementFormErrorDiv {
     height: 1em;
@@ -122,33 +163,18 @@
     color: red;
 }
 
+.passwordManagementTableDiv {
+    /* border: 1px solid black; */
+    flex: 1;
+    margin: 5px;
+    padding: 5px;
+}
 
 @media screen and (max-width: 1390px) {
-
-    .userManagementSubTabs {
-        /* border: 2px solid red !important; */
-        min-width: 5em !important;
-    }
-
-    .userManagementSubTabsTextSpan {
-        /* border: 2px solid black; */
-        font-size: 13px;
-
-    }
-
-    .userRegistrationFormDiv {
-        /* border: 1px solid black; */
-        min-width: 24em;
-    }
-
+    
     .passwordManagementFormDiv {
         /* border: 1px solid black; */
         min-width: 24em;
-    }
-
-    .userRegistrationForm {
-        /* border: 2px solid green; */
-        flex: 0.5;
     }
 
     .passwordManagementForm {
@@ -157,16 +183,5 @@
     }
 }
 
-.userRegistrationTableDiv {
-    /* border: 1px solid black; */
-    flex: 1;
-    margin: 5px;
-    padding: 5px;
-}
+/* passwordManagement css ends */
 
-.passwordManagementTableDiv {
-    /* border: 1px solid black; */
-    flex: 1;
-    margin: 5px;
-    padding: 5px;
-}

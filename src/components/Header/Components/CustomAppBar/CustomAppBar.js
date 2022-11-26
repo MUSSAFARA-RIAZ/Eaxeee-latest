@@ -5,7 +5,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Logo from "../../../../Assets/Images/no_bg_logo.png"
 import arabicLogo from "../../../../Assets/Images/arabic.png"
 import userImg from "../../../../Assets/Images/user.png"
@@ -17,7 +16,8 @@ import { connect } from 'react-redux';
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import CustomButton from '../../../CustomButton/CustomButton';
+import Button from '@mui/material/Button';
 import styles from './CustomAppBar.module.css'
 import "./Dropdown.css"
 
@@ -93,6 +93,7 @@ function CustomAppBar(props) {
           className={styles.toolbar}
         >
           {/* MenuIcon Button start */}
+
           <Button onClick={props.toggleDrawer('left', true)} >
             <MenuIcon
               style={{
@@ -101,7 +102,18 @@ function CustomAppBar(props) {
               className={styles.menuIcon}
             />
           </Button>
+          {/* <CustomButton
+          onClick={props.toggleDrawer('left', true)}>
+            <MenuIcon
+              style={{
+                fill: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
+              }}
+              className={styles.menuIcon}
+            />
+          </CustomButton> */}
+
           {/* MenuIcon Button end */}
+
 
           {/* Eaxee logo start */}
           <Box className={styles.logoParent}>
@@ -135,6 +147,7 @@ function CustomAppBar(props) {
 
 
           {/* Page View Switch start */}
+
           <Button className={styles.languageToggleButton}>
             <Box
               className={styles.languageToggleButtonChild}
@@ -145,6 +158,18 @@ function CustomAppBar(props) {
             >
             </Box>
           </Button >
+          {/* <CustomButton
+            className={styles.languageToggleButton}>
+            <Box
+              className={styles.languageToggleButtonChild}
+              component="img"
+              alt="Change Language"
+              src={arabicLogo}
+              onClick={changeLanguageAndView}
+            >
+            </Box>
+          </CustomButton> */}
+
           {/* Page View Switch end */}
 
 
@@ -200,11 +225,32 @@ function CustomAppBar(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          "Are you sure you want to logout?"
+          {language === 'en' ? 'Are you sure you want to logout?' : 'هل أنت متأكد أنك تريد تسجيل الخروج؟'}
         </DialogTitle>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Disagree</Button>
-          <Button onClick={handleCloseDialog} autoFocus>Agree</Button>
+          <CustomButton
+            
+            title={language === 'en' ? 'Disagree' : 'تعارض '}
+            onClick={handleCloseDialog}
+            loading={false}
+            disabled={false}
+            fullWidth={true}
+            loaderSize={25}
+            loaderColor="success"
+            loaderThickness={5}
+          />
+          <CustomButton
+            autoFocus
+            title={language === 'en' ? 'Agree' : 'يوافق على '}
+            onClick={handleCloseDialog}
+            loading={false}
+            disabled={false}
+            fullWidth={true}
+            loaderSize={25}
+            loaderColor="success"
+            loaderThickness={5}
+          />
+
         </DialogActions>
       </Dialog>
       {/* Dialog Ends */}

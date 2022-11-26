@@ -3,15 +3,14 @@ import { Box } from '@mui/material'
 import { connect } from 'react-redux';
 import MuiToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-
 import { styled } from "@mui/material/styles";
-
 import styles from './Admin.module.css'
 import stylesDefault from './AdminDefault.module.css'
 import stylesLight from './AdminLight.module.css'
 import stylesDark from './AdminDark.module.css'
 import UserManagement from './UserManagement/UserManagement';
 import RepositoryManagement from './RepositoryManagement/RepositoryManagement';
+import AdminTranslation from '../../Utils/AdminTranslation/AdminTranslation';
 
 function Admin(props) {
 
@@ -48,13 +47,13 @@ function Admin(props) {
                     className={styles.leftPaneTabsGroup}
                 >
                     <ToggleButton value="User Management" aria-label="user Management" className={`${styles.userManagementTabs}`}>
-                    {language === 'en' ? 'User Management' : 'إدارةالمستخدم'}
+                    {language === 'en' ? 'User Management' : AdminTranslation["User Management"]}
                     </ToggleButton>
                     <ToggleButton value="License Management" aria-label="license Management" className={`${styles.userManagementTabs}`}>
-                    {language === 'en' ? 'License Management' : '  إدارةالترخيص ' }
+                    {language === 'en' ? 'License Management' : AdminTranslation["License Management"] }
                     </ToggleButton>
                     <ToggleButton value=" Repository Management" aria-label="repository Management" className={`${styles.userManagementTabs}`}>
-                    {language === 'en' ? 'Repository Management' : 'إدارة المستودعات'}
+                    {language === 'en' ? 'Repository Management' :AdminTranslation["Repository Management"]}
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Box>

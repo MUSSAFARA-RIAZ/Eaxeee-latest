@@ -1,0 +1,17 @@
+:root {
+    --headerHeight: 52px;
+}
+
+.main {
+    /* border: 1px solid black; */
+    height: calc(100vh - var(--headerHeight));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    /* border: 2px solid red; */
+    width: 20%;
+    opacity: 0.6;
+}

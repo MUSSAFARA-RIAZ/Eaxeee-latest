@@ -1,17 +1,14 @@
 import React from 'react';
-// import "../../styles/administrationen.css";
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { connect } from 'react-redux';
 import { useForm } from "react-hook-form";
 import SnackBar from '../../../components/SnackBar/SnackBar';
-// import MuiTable from '../../../../assets/muicomponents/components/MuiTable';
 
 import styles from './UserManagement.module.css'
 import CustomTable from '../../../components/CustomTable/CustomTable';
 import CustomButton from '../../../components/CustomButton/CustomButton';
-
+import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
 
 
 const UserRegistration = (props) => {
@@ -45,38 +42,38 @@ const UserRegistration = (props) => {
 
     const tableRowData = [
         {
-            name: (language === 'en' ? 'abc' : 'الأولى'),
-            id: (language === 'en' ? 'abc12' : ' ١المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'abc' : AdminTranslation["abc"]),
+            id: (language === 'en' ? 'abc12' : AdminTranslation["abc12"]),
+            email: (language === 'en' ? 'test@gmail.com' : AdminTranslation["test@gmail.com"]),
         },
         {
-            name: (language === 'en' ? 'user' : 'الثانية'),
-            id: (language === 'en' ? 'user12' : ' ٢المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'user' :  AdminTranslation["user"]),
+            id: (language === 'en' ? 'user12' :  AdminTranslation["user12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'sample' : 'الثالثة'),
-            id: (language === 'en' ? 'sample12' : ' ٣المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'sample' : AdminTranslation["sample"]),
+            id: (language === 'en' ? 'sample12' : AdminTranslation["sample12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'test' : 'الرابعة'),
-            id: (language === 'en' ? 'test12' : ' ٤المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'test' : AdminTranslation["test"]),
+            id: (language === 'en' ? 'test12' : AdminTranslation["test12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'xyz' : 'خمسة'),
-            id: (language === 'en' ? 'xyz12' : ' ٥المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'xyz' : AdminTranslation["xyz"]),
+            id: (language === 'en' ? 'xyz12' : AdminTranslation["xyz12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'new' : 'ستة'),
-            id: (language === 'en' ? 'new12' : ' ٦المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'new' : AdminTranslation["new"]),
+            id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         }
     ]
@@ -86,9 +83,9 @@ const UserRegistration = (props) => {
     }
 
     const columns = [
-        { field: 'id', headerName: (language === 'en' ? 'ID' : 'هوية'), flex: 1 },
-        { field: 'name', headerName: (language === 'en' ? 'Name' : 'اسم'), flex: 1 },
-        { field: 'email', headerName: (language === 'en' ? 'Email' : 'البريد الإلكتروني'), flex: 1 },
+        { field: 'id', headerName: (language === 'en' ? 'ID' : AdminTranslation["ID"]), flex: 1 },
+        { field: 'name', headerName: (language === 'en' ? 'Name' : AdminTranslation["Name"]), flex: 1 },
+        { field: 'email', headerName: (language === 'en' ? 'Email' : AdminTranslation["Email"]), flex: 1 },
         {
             field: 'action', headerName: (language === 'en' ? 'Action' : 'عمل'), flex: 1,
             renderCell: (params) => {
@@ -99,13 +96,21 @@ const UserRegistration = (props) => {
                 };
 
                 return (
-                    <Button className="activate-button" variant='outlined'
-                        sx={{
-                            color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                            borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-                        }}
-                        onClick={onClick}
-                    >{language === 'en' ? 'Activate' : 'تفعيل '}</Button>
+                    <CustomButton
+                    className="activate-button"
+                    title={language === 'en' ? 'Activate' : AdminTranslation["Activate"]}
+                    variant="outlined"
+                    buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                    buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                    onClick={onClick}
+                    type="submit"
+                    loading={false}
+                    disabled={false}
+                    fullWidth={true}
+                    loaderSize={25}
+                    loaderColor="success"
+                    loaderThickness={5}
+                />
                 );
             },
         }
@@ -123,7 +128,7 @@ const UserRegistration = (props) => {
                         <TextField
                             name="text"
                             type="text"
-                            label={language === 'en' ? 'Full Name' : 'الاسم الكامل'}
+                            label={language === 'en' ? 'Full Name' : AdminTranslation["Full Name"]}
                             id="outlined"
                             autoComplete="off"
                             fullWidth={true}
@@ -137,11 +142,11 @@ const UserRegistration = (props) => {
                         />
                         <Box className={`${styles.userRegistrationFormErrorDiv}`}>
                             {errors.fullName && errors.fullName.type === "required" && (
-                                <span>{language === 'en' ? 'This is a required field' : 'هذا مجال مطلوب'}</span>
+                                <span>{language === 'en' ? 'This is a required field' : AdminTranslation["This is a required field"]}</span>
                             )}
                             {errors.fullName && errors.fullName.type === "pattern" && (
                                 <span>
-                                    {language === 'en' ? 'Special characters are not allowed' : 'الأحرف الخاصة غير مسموح بها'}
+                                    {language === 'en' ? 'Special characters are not allowed' : AdminTranslation["Special characters are not allowed"]}
                                 </span>
                             )}
                         </Box>
@@ -150,7 +155,7 @@ const UserRegistration = (props) => {
                         <TextField
                             name="text"
                             type="text"
-                            label={language === 'en' ? 'Username' : 'اسم االمستخدم'}
+                            label={language === 'en' ? 'Username' : AdminTranslation["Username"]}
                             id="outlined"
                             autoComplete="off"
                             fullWidth={true}
@@ -165,16 +170,16 @@ const UserRegistration = (props) => {
                         />
                         <Box className={`${styles.userRegistrationFormErrorDiv}`}>
                             {errors.userName && errors.userName.type === "required" && (
-                                <span>{language === 'en' ? 'This is a required field' : 'هذا مجال مطلوب'}</span>
+                                <span>{language === 'en' ? 'This is a required field' : AdminTranslation["This is a required field"]}</span>
                             )}
                             {errors.userName && errors.userName.type === "minLength" && (
                                 <span>
-                                    {language === 'en' ? 'Minimum 5 characters are required' : 'مطلوب 5 أحرف على الأقل'}
+                                    {language === 'en' ? 'Minimum 5 characters are required' : AdminTranslation["Minimum 5 characters are required"]}
                                 </span>
                             )}
                             {errors.userName && errors.userName.type === "pattern" && (
                                 <span>
-                                    {language === 'en' ? 'Special characters are not allowed' : 'الأحرف الخاصة غير مسموح بها'}
+                                    {language === 'en' ? 'Special characters are not allowed' : AdminTranslation["Special characters are not allowed"]}
                                 </span>
                             )}
                         </Box>
@@ -183,7 +188,7 @@ const UserRegistration = (props) => {
                         <TextField
                             name="email"
                             type="text"
-                            label={language === 'en' ? 'Email' : 'البريد الإلكتروني'}
+                            label={language === 'en' ? 'Email' : AdminTranslation["Email"]}
                             id="outlined"
                             autoComplete="off"
                             fullWidth={true}
@@ -198,27 +203,27 @@ const UserRegistration = (props) => {
 
                             {errors.email && errors.email.type === "required" && (
                                 <div>
-                                    <span>{language === 'en' ? 'This is a required field' : 'هذا مجال مطلوب'}</span>
+                                    <span>{language === 'en' ? 'This is a required field' : AdminTranslation["This is a required field"]}</span>
                                     <SnackBar open={snackBarFlag} setOpen={setSnackBarFlag} message={snackBarMessage}></SnackBar>
                                 </div>
 
                             )}
                             {errors.email && errors.email.type === "pattern" && (
-                                <span>{language === 'en' ? 'Enter a valid email' : 'أدخل بريدًا إلكترونيًا صالحًا'}</span>
+                                <span>{language === 'en' ? 'Enter a valid email' : AdminTranslation["Enter a valid email"]}</span>
                             )}
                         </Box>
                     </Box>
 
                     <Box className={`${styles.userRegistrationFormInputParent}`} >
                         <CustomButton
-                            title="Add"
+                            title={language==='en'? 'Add':AdminTranslation["Add"]}
                             variant="outlined"
                             buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
                             buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
                             onClick={handleUserSubmit}
                             type="submit"
                             loading={false}
-                            disabled={true}
+                            disabled={false}
                             fullWidth={true}
                             loaderSize={25}
                             loaderColor="success"

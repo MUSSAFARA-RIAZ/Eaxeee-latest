@@ -1,14 +1,13 @@
 import React, { useRef } from 'react';
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { connect } from 'react-redux';
 import { useForm } from "react-hook-form";
 import SnackBar from '../../../components/SnackBar/SnackBar';
 import styles from './UserManagement.module.css'
 import CustomTable from '../../../components/CustomTable/CustomTable';
-
-import Translation from '../../../Utils/AdminTranslation/TranslationArabic';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
 
 const PasswordManagement = (props) => {
 
@@ -24,38 +23,38 @@ const PasswordManagement = (props) => {
 
     const tableRowData = [
         {
-            name: (language === 'en' ? 'abc' : 'الأولى'),
-            id: (language === 'en' ? 'abc12' : ' ١المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'abc' : AdminTranslation["abc"]),
+            id: (language === 'en' ? 'abc12' : AdminTranslation["abc12"]),
+            email: (language === 'en' ? 'test@gmail.com' : AdminTranslation["test@gmail.com"]),
         },
         {
-            name: (language === 'en' ? 'user' : 'الثانية'),
-            id: (language === 'en' ? 'user12' : ' ٢المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'user' :  AdminTranslation["user"]),
+            id: (language === 'en' ? 'user12' :  AdminTranslation["user12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'sample' : 'الثالثة'),
-            id: (language === 'en' ? 'sample12' : ' ٣المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'sample' : AdminTranslation["sample"]),
+            id: (language === 'en' ? 'sample12' : AdminTranslation["sample12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'test' : 'الرابعة'),
-            id: (language === 'en' ? 'test12' : ' ٤المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'test' : AdminTranslation["test"]),
+            id: (language === 'en' ? 'test12' : AdminTranslation["test12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'xyz' : 'خمسة'),
-            id: (language === 'en' ? 'xyz12' : ' ٥المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'xyz' : AdminTranslation["xyz"]),
+            id: (language === 'en' ? 'xyz12' : AdminTranslation["xyz12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         },
         {
-            name: (language === 'en' ? 'new' : 'ستة'),
-            id: (language === 'en' ? 'new12' : ' ٦المستعمل'),
-            email: (language === 'en' ? 'test@gmail.com' : 'خالد@الدوحة.قطر'),
+            name: (language === 'en' ? 'new' : AdminTranslation["new"]),
+            id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
         }
     ]
@@ -65,11 +64,11 @@ const PasswordManagement = (props) => {
     }
 
     const columns = [
-        { field: 'id', headerName: (language === 'en' ? 'ID' : 'هوية'), flex: 1 },
-        { field: 'name', headerName: (language === 'en' ? 'Name' : 'اسم'), flex: 1 },
-        { field: 'email', headerName: (language === 'en' ? 'Email' : 'البريد الإلكتروني'), flex: 1 },
+        { field: 'id', headerName: (language === 'en' ? 'ID' : AdminTranslation["ID"]), flex: 1 },
+        { field: 'name', headerName: (language === 'en' ? 'Name' : AdminTranslation["Name"]), flex: 1 },
+        { field: 'email', headerName: (language === 'en' ? 'Email' : AdminTranslation["Email"]), flex: 1 },
         {
-            field: 'action', headerName: (language === 'en' ? 'Action' : 'عمل'), flex: 1,
+            field: 'action', headerName: (language === 'en' ? 'Action' : AdminTranslation["Action"]), flex: 1,
             renderCell: (params) => {
                 const onClick = (e) => {
                     const currentRow = params.row;
@@ -77,13 +76,21 @@ const PasswordManagement = (props) => {
                 };
 
                 return (
-                    <Button className="change-button" variant='outlined'
-                        sx={{
-                            color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                            borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-                        }}
+                    <CustomButton
+                        className="change-button"
+                        title={language === 'en' ? 'Change' : AdminTranslation["Change"]}
+                        variant="outlined"
+                        buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                        buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
                         onClick={onClick}
-                    >{language === 'en' ? 'Change' : 'يتغيرون '}</Button>
+                        type="submit"
+                        loading={false}
+                        disabled={false}
+                        fullWidth={true}
+                        loaderSize={25}
+                        loaderColor="success"
+                        loaderThickness={5}
+                    />
                 );
             },
         }
@@ -99,16 +106,16 @@ const PasswordManagement = (props) => {
                         <TextField
                             name="password"
                             type="password"
-                            label={language === 'en' ? 'Password' : ' كلمه السر'}
+                            label={language === 'en' ? 'Password' : AdminTranslation["Password"]}
                             autoComplete="off"
                             fullWidth={true}
                             size="small"
                             className={`${styles.passwordManagementFormFullName}`}
                             {...register('password', {
-                                required: (language === 'en' ? 'You must specify a password' : 'يجب عليك تحديد كلمة مرور'),
+                                required: (language === 'en' ? 'You must specify a password' :  AdminTranslation["You must specify a password"]),
                                 minLength: {
                                     value: 5,
-                                    message: (language === 'en' ? 'Password must have at least 5 characters' : 'يجب أن تحتوي كلمة المرور على 5 أحرف على الأقل')
+                                    message: (language === 'en' ? 'Password must have at least 5 characters' :AdminTranslation["Password must have at least 5 characters"])
                                 }
                             })}
                         />
@@ -121,14 +128,14 @@ const PasswordManagement = (props) => {
                         <TextField
                             name="confirmpassword"
                             type="password"
-                            label={language === 'en' ? 'Confirm Password' : Translation["Confirm Password"]}
+                            label={language === 'en' ? 'Confirm Password' : AdminTranslation["Confirm Password"]}
                             autoComplete="off"
                             fullWidth={true}
                             size="small"
                             className="input-field"
                             {...register('confirmpassword', {
                                 validate: value =>
-                                    value === password.current || (language === 'en' ? 'The passwords do not match' : 'كلمات السر لا تتطابق')
+                                    value === password.current || (language === 'en' ? 'The passwords do not match' : AdminTranslation["The passwords do not match"])
                             })}
                         />
                         <Box className={`${styles.passwordManagementFormErrorDiv}`}>
@@ -137,20 +144,21 @@ const PasswordManagement = (props) => {
                         </Box>
                     </Box>
                     <Box className={`${styles.passwordManagementFormInputParent}`} >
-                        <Button
-                            color="primary"
-                            type="submit"
-                            variant="outlined"
+                        <CustomButton
                             className="submit-button"
-                            fullWidth={true}
+                            title={language === 'en' ? 'Update' :AdminTranslation["Update"]}
+                            variant="outlined"
+                            buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                            buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
                             onClick={handleSubmit(onSubmit)}
-                            sx={{
-                                color: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "),
-                                borderColor: (theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a ")
-                            }}
-                        >
-                            {language === 'en' ? 'Update' : 'تحديث'}
-                        </Button>
+                            type="submit"
+                            loading={false}
+                            disabled={false}
+                            fullWidth={true}
+                            loaderSize={25}
+                            loaderColor="success"
+                            loaderThickness={5}
+                        />
                     </Box>
                 </form>
             </Box >

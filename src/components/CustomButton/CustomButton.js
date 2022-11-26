@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 
 function CustomButton(props) {
-    const { title, buttonTitleColor, buttonBorderColor, variant, onClick, loading, type, disabled, fullWidth, loaderSize, loaderColor, loaderThickness } = props;
+    const { title, buttonTitleColor, buttonBorderColor, variant, onClick, loading, type, disabled, fullWidth, loaderSize, loaderColor, loaderThickness, startIcon } = props;
     return (
         <Box>
             <Button
@@ -16,8 +16,9 @@ function CustomButton(props) {
                 fullWidth={fullWidth}
                 sx={{
                     color: buttonTitleColor,
-                    borderColor: buttonBorderColor
+                    borderColor: buttonBorderColor,
                 }}
+                startIcon={startIcon}
             >
                 {loading ? <CircularProgress size={loaderSize} color={loaderColor} thickness={loaderThickness} /> : title}
             </Button>

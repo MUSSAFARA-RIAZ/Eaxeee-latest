@@ -1,3 +1,5 @@
+/* repositoryManagement css starts */
+
 .main {
     /* border: 2px solid black; */
     height: 100%;
@@ -9,16 +11,64 @@
     top: 5%;
 }
 
-.repositoryManagementSubButtonsGroup {
+.repositoryManagementSubTabsGroup {
     /* border: 2px solid red; */
     position: relative;
+    top: 5%;
+}
+
+.repositoryManagementSubTabs {
+    /* border: 2px solid blue !important; */
+    min-width: 17em !important;
+    /* max-width: 17em !important; */
+    /* height: 45px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: flex-start !important;
+    text-align: center;
+}
+
+.repositoryManagementSubTabsTextSpan {
+    /* border: 2px solid yellow; */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+}
+
+.repositoryManagementSubButtonsGroup {
+    /* border: 2px solid red; */
+    position: relative; 
     top: 8%;
     display: flex;
     gap: 10px;
     width: 100%;
 }
 
+.repositoryManagementSubButtonsParentBox{
+    /* border: 2px solid green; */
+    min-width: 15%;
+}
+
 .repositoryManagementSubButtons {
     border: 2px solid blue;
     /* margin-left: 5px !important; */
 }
+
+@media screen and (max-width: 1390px) {
+
+    .repositoryManagementSubTabs {
+        /* border: 2px solid red !important; */
+        min-width: 5em !important;
+    }
+
+    .repositoryManagementSubTabsTextSpan {
+        /* border: 2px solid black; */
+        font-size: 13px;
+
+    }
+
+}
+
+/* repositoryManagement css ends */

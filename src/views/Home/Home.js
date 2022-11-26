@@ -1,12 +1,18 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
+import styles from "./Home.module.css"
 
-function Home() {
+import Logo from "../../Assets/Images/no_bg_logo.png"
+
+function Home(prpos) {
     return (
-        <Box>
-            <Typography variant="h1">
-                Home
-            </Typography>
+        <Box className={styles.main} >
+                <Box
+                  component="img"
+                  className={styles.logo}
+                  alt="Eaxee logo."
+                  src={Logo}
+                />
         </Box>
     )
 }
