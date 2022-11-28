@@ -1,24 +1,23 @@
-/* repositoryManagement css starts */
+/* licenseManagement css starts */
 
 .main {
     /* border: 2px solid black; */
     height: 100%;
 }
 
-.repositoryManagementMainButton {
+.licenseManagementMainButton {
     /* border: 2px solid black; */
     position: relative;
     top: 5%;
 }
 
-.repositoryManagementSubTabsGroup {
+.licenseManagementSubTabsGroup {
     /* border: 2px solid red; */
     position: relative;
     top: 5%;
 }
 
-
-.repositoryManagementSubTabs {
+.licenseManagementSubTabs {
     /* border: 2px solid blue !important; */
     min-width: 17em !important;
     /* max-width: 17em !important; */
@@ -33,7 +32,7 @@
     border-left: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 
-.repositoryManagementSubTabsTextSpan {
+.licenseManagementSubTabsTextSpan {
     /* border: 2px solid yellow; */
     display: flex !important;
     justify-content: center !important;
@@ -41,7 +40,7 @@
 
 }
 
-.repositoryManagementSubButtonsGroup {
+.licenseManagementSubButtonsGroup {
     /* border: 2px solid red; */
     position: relative; 
     top: 8%;
@@ -50,13 +49,13 @@
     width: 100%;
 }
 
-.repositoryManagementSubButtonsParentBox{
+.licenseManagementSubButtonsParentBox{
     /* border: 2px solid green; */
     min-width: 15%;
   
 }
 
-.repositoryManagementSubButtons {
+.licenseManagementSubButtons {
     border: 2px solid blue;
     /* margin-left: 5px !important; */
     
@@ -64,12 +63,12 @@
 
 @media screen and (max-width: 1390px) {
 
-    .repositoryManagementSubTabs {
+    .licenseManagementSubTabs {
         /* border: 2px solid red !important; */
         min-width: 5em !important;
     }
 
-    .repositoryManagementSubTabsTextSpan {
+    .licenseManagementSubTabsTextSpan {
         /* border: 2px solid black; */
         font-size: 13px;
 
@@ -77,4 +76,4 @@
 
 }
 
-/* repositoryManagement css ends */
+/* licenseManagement css ends */

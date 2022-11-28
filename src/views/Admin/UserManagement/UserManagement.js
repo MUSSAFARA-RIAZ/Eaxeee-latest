@@ -28,6 +28,7 @@ function UserManagement(props) {
                 exclusive
                 onChange={props.handleUsertab}
                 className={`${styles.userManagementSubTabsGroup}`}
+                
             >
                 <ToggleButton value="User Registration" aria-label="user registration" className={`${styles.userManagementSubTabs}`} >
                     <HowToRegIcon fontSize='small' />

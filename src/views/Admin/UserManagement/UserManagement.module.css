@@ -21,6 +21,9 @@
     align-items: center;
     align-items: flex-start !important;
     text-align: center;
+    gap: 10px;
+    border-radius: 4px !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 
 .userManagementSubTabsTextSpan {
@@ -171,7 +174,7 @@
 }
 
 @media screen and (max-width: 1390px) {
-    
+
     .passwordManagementFormDiv {
         /* border: 1px solid black; */
         min-width: 24em;
@@ -184,4 +187,3 @@
 }
 
 /* passwordManagement css ends */
-

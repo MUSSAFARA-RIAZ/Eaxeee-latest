@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Header from './components/Header/Header';
+// import rtlPlugin from "stylis-plugin-rtl";
+// import { CacheProvider } from "@emotion/react";
+// import createCache from "@emotion/cache";
 
 function App(props) {
   let { theme } = props
@@ -12,6 +15,7 @@ function App(props) {
   const [userLoggedIn, setUserLoggedIn] = useState(true);
 
   const darkTheme = createTheme({
+    // direction: "rtl",
     palette: {
       mode: 'dark',
     },
@@ -21,6 +25,7 @@ function App(props) {
   });
 
   const defaultTheme = createTheme({
+    // direction: "rtl",
     pallete: {
       primary: {
         main: '#0D7E8A',
@@ -30,15 +35,21 @@ function App(props) {
   })
 
   const lightTheme = createTheme({
+    // direction: "rtl",
     pallete: {
       mode: 'light'
     }
   })
 
+  // const cacheRtl = createCache({
+  //   key: "muirtl",
+  //   stylisPlugins: [rtlPlugin]
+  // });
+
   const appTheme = (theme === "default") ? defaultTheme : (theme === "dark") ? darkTheme : lightTheme;
 
   return (
-
+    // <CacheProvider value={cacheRtl}>
     <ThemeProvider theme={appTheme}>
       {
         (userLoggedIn) ?
@@ -50,6 +61,7 @@ function App(props) {
           <AuthRouter />
       }
     </ThemeProvider>
+    // </CacheProvider> 
   );
 }
 

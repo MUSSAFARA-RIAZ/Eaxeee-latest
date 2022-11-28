@@ -17,6 +17,9 @@ function CustomButton(props) {
                 sx={{
                     color: buttonTitleColor,
                     borderColor: buttonBorderColor,
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'center',
                 }}
                 startIcon={startIcon}
             >

@@ -60,7 +60,6 @@ const RepositoryManagement = (props) => {
                             {language === 'en' ? 'Restore' : AdminTranslation["Restore"]}
                         </span>
                     </ToggleButton>
-
                 </ToggleButtonGroup>
 
                 {

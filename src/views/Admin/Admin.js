@@ -11,6 +11,7 @@ import stylesDark from './AdminDark.module.css'
 import UserManagement from './UserManagement/UserManagement';
 import RepositoryManagement from './RepositoryManagement/RepositoryManagement';
 import AdminTranslation from '../../Utils/AdminTranslation/AdminTranslation';
+import LicenseManagement from './LicenseManagement/LicenseManagement';
 
 function Admin(props) {
 
@@ -61,7 +62,7 @@ function Admin(props) {
             <Box className={`${styles.rightPane} ${props.theme === "default" ? stylesDefault.rightPane : props.theme === "light" ? stylesLight.rightPane : stylesDark.rightPane}`}>
                 {
                     (view === "User Management") ? <UserManagement usertab={usertab} theme={props.theme} handleUsertab={handleUsertab} language={props.language} /> 
-                    : (view === "License Management") ? "License Page" 
+                    : (view === "License Management") ? <LicenseManagement />
                     : <RepositoryManagement />
                 }
             </Box>

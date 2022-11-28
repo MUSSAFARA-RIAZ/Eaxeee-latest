@@ -43,6 +43,8 @@ let AdminTranslation = {
     "Dashboard":"لوحة القيادة",
     "Backup":"النسخ الاحتياطي ",
     "Restore":"يعيد",
+    "Named User":"مستخدم مسمى",
+    "Concurrent User":"مستخدم متزامن"
 }
 
 export default AdminTranslation

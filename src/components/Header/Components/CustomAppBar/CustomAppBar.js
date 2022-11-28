@@ -94,23 +94,17 @@ function CustomAppBar(props) {
         >
           {/* MenuIcon Button start */}
 
-          <Button onClick={props.toggleDrawer('left', true)} >
-            <MenuIcon
-              style={{
-                fill: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
-              }}
-              className={styles.menuIcon}
-            />
-          </Button>
-          {/* <CustomButton
+          <CustomButton
+          startIcon={ <MenuIcon
+            style={{
+              fill: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
+            }}
+            className={styles.menuIcon}
+          />}
+         
           onClick={props.toggleDrawer('left', true)}>
-            <MenuIcon
-              style={{
-                fill: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
-              }}
-              className={styles.menuIcon}
-            />
-          </CustomButton> */}
+            
+          </CustomButton>
 
           {/* MenuIcon Button end */}
 
@@ -160,7 +154,7 @@ function CustomAppBar(props) {
           </Button >
           {/* <CustomButton
             className={styles.languageToggleButton}>
-            <Box
+              <Box
               className={styles.languageToggleButtonChild}
               component="img"
               alt="Change Language"
@@ -168,6 +162,7 @@ function CustomAppBar(props) {
               onClick={changeLanguageAndView}
             >
             </Box>
+            
           </CustomButton> */}
 
           {/* Page View Switch end */}

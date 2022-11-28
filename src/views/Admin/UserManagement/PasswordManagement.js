@@ -11,6 +11,19 @@ import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
 
 const PasswordManagement = (props) => {
 
+    const textfieldstyling = {
+        "& label": {
+            marginLeft: '65%',
+            width: 100,
+            "&.Mui-focused":{
+                marginLeft: '70%',
+            }
+        },
+        " & legend":{
+            textAlign : "right",
+            width: "20%"
+        }
+    }
 
     let { language, theme } = props;
 
@@ -118,6 +131,8 @@ const PasswordManagement = (props) => {
                                     message: (language === 'en' ? 'Password must have at least 5 characters' :AdminTranslation["Password must have at least 5 characters"])
                                 }
                             })}
+                           sx= { language === 'en' ? '' : {...textfieldstyling}}
+                            
                         />
                         <Box className={`${styles.passwordManagementFormErrorDiv}`}>
                             {errors.password && <span>{errors.password.message}</span>}
@@ -137,6 +152,7 @@ const PasswordManagement = (props) => {
                                 validate: value =>
                                     value === password.current || (language === 'en' ? 'The passwords do not match' : AdminTranslation["The passwords do not match"])
                             })}
+                            
                         />
                         <Box className={`${styles.passwordManagementFormErrorDiv}`}>
 

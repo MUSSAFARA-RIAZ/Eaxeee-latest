@@ -3,7 +3,6 @@ import { DataGrid } from '@mui/x-data-grid';
 import { connect } from 'react-redux';
 import { Box } from '@mui/system';
 
-
 function CustomTable(props) {
 
     return (
@@ -19,7 +18,8 @@ function CustomTable(props) {
                     },
                     // border:'1px solid gray',
                     border: 'none',
-                    width: '100%'
+                    width: '100%',
+
                 }}
                 rows={props.rows}
                 columns={props.columns}
@@ -34,7 +34,6 @@ function CustomTable(props) {
                 disableColumnMenu={false}
                 disableExtendRowFullWidth={true}
                 AutoGenerateColumns={true}
-
             />
         </Box>
     )
