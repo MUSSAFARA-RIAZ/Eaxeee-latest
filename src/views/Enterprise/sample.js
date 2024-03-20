@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,23 +15,18 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { connect } from "react-redux";
 import CloseIcon from '@mui/icons-material/Close'; // Import CloseIcon
 
 const drawerWidth = 240;
 
-const Main = ({ open, children ,language }) => {
-  const isLanguageRTL = language === 'ar';
+const Main = ({ open, children }) => {
   return (
     <main
       style={{
         flexGrow: 1,
-        padding: 20, 
-        transition: 'margin .3s ease', 
-        marginLeft: language === 'en' ? (open ? drawerWidth : 0) : 'auto', 
-        marginRight: language === 'ar' ? (open ? drawerWidth : 0) : 'auto', 
-        direction: isLanguageRTL ? 'rtl' : 'ltr', 
-     
+        padding: 20,
+        transition: 'margin .3s ease',
+        marginLeft: open ? drawerWidth : 0,
       }}
     >
       {children}
@@ -39,7 +34,7 @@ const Main = ({ open, children ,language }) => {
   );
 };
 
-const DrawerHeader = ({ onClose }) => {
+const DrawerHeader = ({ onDragStart, onDragEnd, onClose }) => {
   return (
     <div
       style={{
@@ -47,16 +42,22 @@ const DrawerHeader = ({ onClose }) => {
         alignItems: 'center',
         justifyContent: 'flex-end',
         minHeight: 64,
+        cursor: 'ew-resize', // Set cursor to east-west resize
       }}
+      draggable="true"
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
     >
-      <IconButton onClick={onClose}><CloseIcon /></IconButton> 
+      <IconButton onClick={onClose}><CloseIcon /></IconButton> {/* Close button */}
     </div>
   );
 };
 
-function Enterprise(props) {
-  console.log("Enterprise Props", props);
+export default function Enterprise() {
   const [open, setOpen] = useState(false);
+  const [drawerWidth, setDrawerWidth] = useState(250);
+  const startXRef = useRef(null);
+  const startWidthRef = useRef(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -64,6 +65,20 @@ function Enterprise(props) {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleDragStart = (e) => {
+    startXRef.current = e.clientX;
+    startWidthRef.current = drawerWidth;
+  };
+
+  const handleDragEnd = (e) => {
+    if (!startXRef.current || !startWidthRef.current) return;
+
+    const newWidth = startWidthRef.current + e.clientX - startXRef.current;
+    setDrawerWidth(newWidth);
+    startXRef.current = null;
+    startWidthRef.current = null;
   };
 
   return (
@@ -89,16 +104,10 @@ function Enterprise(props) {
           },
         }}
         variant="persistent"
-        
-        anchor={props.language === "en" ? "left" : "right"}
-
-        
-      
-
-
+        anchor="left"
         open={open}
       >
-        <DrawerHeader onClose={handleDrawerClose} />
+        <DrawerHeader onDragStart={handleDragStart} onDragEnd={handleDragEnd} onClose={handleDrawerClose} />
         <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -126,9 +135,8 @@ function Enterprise(props) {
           ))}
         </List>
       </Drawer>
-      <Main open={open} language={props.language}>
+      <Main open={open}>
         <Typography paragraph>
-          <h1>Mussafara</h1>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
           enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
@@ -159,28 +167,3 @@ function Enterprise(props) {
     </Box>
   );
 }
-const mapStateToProps = (state) => {
-  return {
-    language: state.language,
-    theme: state.theme,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setLanguage: (lang) => {
-      return dispatch({
-        type: "TOGGLELANG",
-        value: lang === "en" ? "ar" : "en",
-      });
-    },
-    setTheme: (theme) => {
-      return dispatch({
-        type: "UPDATETHEME",
-        value: theme,
-      });
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Enterprise);

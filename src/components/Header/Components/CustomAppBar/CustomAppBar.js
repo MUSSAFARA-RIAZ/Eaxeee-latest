@@ -27,6 +27,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 function CustomAppBar(props) {
+  console.log("CustomAppBar Props", props);
   let { setLanguage, language, theme } = props
   const navigate = useNavigate();
   const appTheme = useTheme();
@@ -89,7 +90,7 @@ function CustomAppBar(props) {
       <AppBar position="static" className={styles.appBar} >
 
         <Toolbar
-          sx={{ background: (theme === "default" ? `${appTheme.pallete.primary.main}` : theme === 'light' ? '#dee1e6' : "#063f45") }}
+          sx={{ background: (theme === "default" ? `${appTheme?.pallete?.primary?.main}` : theme === 'light' ? '#dee1e6' : "#063f45") }}
           className={styles.toolbar}
         >
           {/* MenuIcon Button start */}
@@ -168,10 +169,19 @@ function CustomAppBar(props) {
           {/* Page View Switch end */}
 
 
+          {/* Testing buttons for theme */}
+          <Button variant="contained" color="primary" onClick={() => props.setTheme("dark")}>dark</Button>
+          <Button variant="contained" color="primary" onClick={() => props.setTheme("default")}>default</Button>
+          <Button variant="contained" color="primary" onClick={() => props.setTheme("light")}>light</Button>
+
+          {/* Testing buttons for theme */}
+
+
+
           {/* home icon start */}
-          <div className={language === 'en' ? styles.faHomeEn : styles.faHomeAr}>
+          {/* <div className={language === 'en' ? styles.faHomeEn : styles.faHomeAr}>
             <FontAwesomeIcon icon={faHome} style={{ color: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff ") }} cursor="pointer" />
-          </div>
+          </div> */}
           {/* home icon end */}
 
 
@@ -269,7 +279,13 @@ const mapDispatchToProps = dispatch => {
         type: "TOGGLELANG",
         value: (lang === 'en') ? 'ar' : "en"
       })
-    }
+    },
+    setTheme: (theme) => {
+      return dispatch({
+        type: "UPDATETHEME",
+        value: theme,
+      });
+    },
   }
 }
 

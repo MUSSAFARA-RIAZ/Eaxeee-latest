@@ -14,6 +14,7 @@ import AdminTranslation from '../../Utils/AdminTranslation/AdminTranslation';
 import LicenseManagement from './LicenseManagement/LicenseManagement';
 
 function Admin(props) {
+    console.log("Admin Props", props);
 
     let {language } = props;
 
@@ -23,6 +24,7 @@ function Admin(props) {
     const handleMainTabs = (event, nextView) => {
         if (nextView) {
             setView(nextView);
+            
         }
     };
     const handleUsertab = (event, newUsertab) => {

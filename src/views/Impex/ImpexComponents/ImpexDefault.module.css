@@ -1,0 +1,38 @@
+.Impex_parentBox {
+ 
+    /* display: flex;
+    flex-direction: "row";
+    padding: 80px 20px 40px 20px;
+    justify-content: space-between; */
+    background-color: #cceaed;
+    /* height: calc(100vh - 50px); */
+}
+
+.Impex_leftpane{
+    /* display: "flex";
+    flex-direction: "column";
+    margin-right: 10px; */
+}
+.Impex_exportBox{
+   
+    /* padding: 10px; */
+    border: 1px solid #6bb6be;
+    /* border-radius:10px; */
+    background-color: #dff7fa;
+   
+}
+.Impex_importBox{
+    /* padding: 10px; */
+    border: 1px solid #6bb6be;
+    /* border-radius:10px; */
+    background-color: #dff7fa;
+    /* margin-top:10px; */
+  
+   
+ 
+}
+.Impex_rightpane{
+    /* border-radius: 10px; */
+    /* width: "100%"; */
+    background-color: #dff7fa;
+}

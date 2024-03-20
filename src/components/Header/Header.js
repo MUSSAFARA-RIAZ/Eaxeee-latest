@@ -43,7 +43,7 @@ function Header(props) {
                     }
                 </style>
             </Helmet>
-            <CustomAppBar text={Page} toggleDrawer={toggleDrawer} changepage={changePageTitle} />
+            <CustomAppBar  toggleDrawer={toggleDrawer} changepage={changePageTitle} />
             <Sidebar lang={language} changePageTitle={changePageTitle} state={drawer} toggleDrawer={toggleDrawer} />
         </div>
     )

@@ -7,6 +7,12 @@ function OrganizationalPortal() {
             <Typography variant="h1">
                 OrganizationalPortal
             </Typography>
+            <Box>
+            <Typography variant="h1">
+                OrganizationalPortal
+            </Typography>
+                
+            </Box>
         </Box>
     )
 }

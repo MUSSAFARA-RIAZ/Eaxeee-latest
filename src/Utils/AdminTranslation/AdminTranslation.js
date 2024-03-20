@@ -44,7 +44,9 @@ let AdminTranslation = {
     "Backup":"النسخ الاحتياطي ",
     "Restore":"يعيد",
     "Named User":"مستخدم مسمى",
-    "Concurrent User":"مستخدم متزامن"
+    "Concurrent User":"مستخدم متزامن",
+    
+    "Export":"مستخدم مسمى",
 }
 
 export default AdminTranslation
