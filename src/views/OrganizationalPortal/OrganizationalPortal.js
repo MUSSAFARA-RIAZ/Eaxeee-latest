@@ -1,20 +1,8 @@
-import { Box, Typography } from '@mui/material'
 import React from 'react'
+import Drawer from './Components/Drawer'
 
-function OrganizationalPortal() {
-    return (
-        <Box>
-            <Typography variant="h1">
-                OrganizationalPortal
-            </Typography>
-            <Box>
-            <Typography variant="h1">
-                OrganizationalPortal
-            </Typography>
-                
-            </Box>
-        </Box>
-    )
+export default function OrganizationalPortal() {
+  return (
+    <Drawer/>
+  )
 }
-
-export default OrganizationalPortal

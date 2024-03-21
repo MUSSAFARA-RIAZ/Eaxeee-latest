@@ -54,7 +54,7 @@ const DrawerHeader = ({ onClose }) => {
   );
 };
 
-function Enterprise(props) {
+function DrawerMain(props) {
   console.log("Enterprise Props", props);
   const [open, setOpen] = useState(false);
 
@@ -83,14 +83,11 @@ function Enterprise(props) {
       <Drawer
         sx={{
           width: drawerWidth,
-       
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
-            // here we can set background color for drawer
             color:props.theme === "default" ? "black" : props.theme === "light" ? "black" : "#b4b4b4",
             backgroundColor:props.theme === "default" ? "#dff7fa" : props.theme === "light" ? "#eff3f7" : "#181818",
-           
           },
         }}
         variant="persistent"
@@ -106,6 +103,9 @@ function Enterprise(props) {
         <DrawerHeader onClose={handleDrawerClose} />
         <Divider />
         <List>
+            <Typography variant="h6" component="div" style={{ padding: '10px 10px'}}>
+                left pane
+            </Typography>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
@@ -133,7 +133,7 @@ function Enterprise(props) {
       </Drawer>
       <Main open={open} language={props.language}>
         <Typography paragraph>
-          <h1>Enterprise</h1>
+          <h1>OrganizationalPortal</h1>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
           enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
@@ -188,4 +188,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Enterprise);
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerMain);

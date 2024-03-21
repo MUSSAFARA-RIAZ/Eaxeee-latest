@@ -25,7 +25,7 @@ function Impex(props) {
           display: "flex",
     flexDirection: "column",
   // padding: "10px 0px 0px 0px",
-  backgroundColor:"#cceaed",
+ // backgroundColor:"#cceaed",
     maxHeight: "100%",
     boxSizing:"border-box",
 
@@ -65,7 +65,7 @@ function Impex(props) {
                 : ImpexDarkTheme.Impex_leftpane
             }`}
           >
-            {/* <button onClick={() => props.setTheme("dark")}>change theme</button> */}
+            
             <div
               className={`${styles.Impex_exportBox} ${
                 props.theme === "default"

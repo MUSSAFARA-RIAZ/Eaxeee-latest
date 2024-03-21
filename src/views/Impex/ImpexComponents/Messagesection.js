@@ -14,7 +14,7 @@ export default function Messagesection() {
         style={{
           display: "flex",
           flexDirection: "row",
-          backgroundColor: "#0D7E8A",
+          backgroundColor: "#0d7e8a",
           // border:"1px solid yellow",
           borderTopLeftRadius:"10px",
           borderTopRightRadius:"10px"
@@ -66,18 +66,23 @@ export default function Messagesection() {
           // maxHeight:"calc(50px-20px)",
           //   maxHeight: "200px",
          // border: "1px solid ",
-
+        //  white: #ffffff
+        //  grey: eff3f7
+     
+        //  charcoal grey: #36454f OR Medium charcoal: #656e6b  OR Medium 2 
+        //  Charcoal: #525858 or Light Charcoal: #757E7D
+       //  grey: #e8ecef 
           scrollbarWidth: "thin",
-          scrollbarColor: "#0D7E8A #cceaed",
+          scrollbarColor: "#36454f #eff3f7",
           scrollbarTrackColor: "#cceaed",
 
           "&::-webkit-scrollbar": {
             width: "8px",
-            backgroundColor: "#cceaed",
+            backgroundColor: "#eff3f7",
             borderRadius: "30px",
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#0D7E8A",
+            backgroundColor: "#36454f",
             borderRadius: "30px",
           },
         }}

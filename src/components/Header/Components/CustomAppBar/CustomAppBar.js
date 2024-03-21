@@ -90,7 +90,9 @@ function CustomAppBar(props) {
       <AppBar position="static" className={styles.appBar} >
 
         <Toolbar
-          sx={{ background: (theme === "default" ? `${appTheme?.pallete?.primary?.main}` : theme === 'light' ? '#dee1e6' : "#063f45") }}
+
+        // this oen is for header 
+          sx={{ background: (theme === "default" ? `${appTheme?.pallete?.primary?.main}` : theme === 'light' ? '#eff3f7' : "#181818") }}
           className={styles.toolbar}
         >
           {/* MenuIcon Button start */}
