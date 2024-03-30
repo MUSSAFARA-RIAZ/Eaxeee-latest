@@ -36,7 +36,7 @@ function Header(props) {
                 <style>
                     {
                         (theme === 'default') ?
-                            'body { background-color: #cceaed; }' :
+                            'body { background-color: #ffffff; }' :
                             (theme === 'dark') ?
                                 'body { background-color: #212121; }' :
                                 'body { background-color: #ffffff; }'

@@ -14,7 +14,7 @@ import AdminTranslation from '../../Utils/AdminTranslation/AdminTranslation';
 import LicenseManagement from './LicenseManagement/LicenseManagement';
 
 function Admin(props) {
-    console.log("Admin Props", props);
+    console.log("Admin Props", props)``;
 
     let {language } = props;
 
