@@ -1,21 +1,20 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
-import Button from "@mui/material/Button";
 
 export default function Messagesection(props) {
   return (
     <div
       style={{
-        height: props.adjustHeight, // Optionally set maxHeight for limiting height
-        overflowY: "auto", // Add this line to enable scrollbar when content exceeds height
+        height: props.adjustHeight,
+        overflowY: "auto",
       }}
     >
       <Box
         style={{
           display: "flex",
           flexDirection: "row",
-          backgroundColor:"#0d7e8a",
+          backgroundColor: "#0d7e8a",
         }}
       >
         <Box
@@ -43,26 +42,31 @@ export default function Messagesection(props) {
           padding: "10px 10px",
           textAlign: "justify",
           overflowY: "auto",
-          border: "2px solid blue",
-          height:"calc(100vh - 200px)",
+       //   border: "2px solid blue",
+          height: "calc(100vh - 200px)",
           backgroundColor: "#cceaed",
-          position:"fixed",
+          
           scrollbarWidth: "thin",
-          scrollbarColor: "#36454f #eff3f7",
+          scrollbarColor: "#0d7e8a white",
           scrollbarTrackColor: "#cceaed",
-          "&::-webkit-scrollbar": {
-            width: "8px",
-            backgroundColor: "#eff3f7",
-            borderRadius: "30px",
-          },
+
+          // Change border radius of the thumb
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#36454f",
-            borderRadius: "30px",
+            borderRadius: "50px",
           },
+          "&::-moz-scrollbar-thumb": {
+            borderRadius: "50px",
+          },
+          "&::-ms-scrollbar-thumb": {
+            borderRadius: "50px",
+          },
+          "::-webkit-scrollbar-track": {
+          
+            borderRadius:"10px",
+          }
         }}
       >
         Your content goes here
-        {/* Your content */}
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac felis ut dui fringilla rutrum. Sed ut bibendum nibh. Integer facilisis nibh in ex luctus, vitae sollicitudin justo congue. Quisque quis arcu ligula. Nunc tincidunt metus eget est bibendum, nec efficitur ligula varius. Integer auctor ante nec dolor hendrerit, vel laoreet ligula laoreet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras dapibus odio nec turpis efficitur tempus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam at vestibulum velit.
 
 Donec interdum velit nec metus scelerisque, quis congue velit tempor. Vivamus efficitur ligula sit amet sapien varius faucibus. Proin vehicula magna a lorem molestie, eu eleifend magna volutpat. Vivamus auctor leo velit, id mattis odio dapibus in. Nam tincidunt interdum nisi, id varius ex tristique eget. Fusce vestibulum lacus id urna mattis, eu sodales nulla feugiat. Sed eget sodales mauris. Fusce placerat orci eu nisl eleifend, sit amet venenatis mi volutpat.
@@ -76,8 +80,8 @@ Sed condimentum nisl eu lacus gravida, ac gravida nibh sodales. Curabitur tincid
 Fusce nec ipsum in nisi suscipit hendrerit. Suspendisse sed tortor et neque dictum ullamcorper. Curabitur id luctus metus. Nullam et vehicula nunc, id fermentum magna. Proin interdum justo magna, eget feugiat libero rutrum et. Nam consequat justo eu magna scelerisque dictum. Mauris consequat quam ac nisi feugiat condimentum. Vivamus accumsan purus ut eros posuere, non tincidunt turpis volutpat. Nullam finibus dui at dapibus feugiat. Cras fermentum magna nec diam ullamcorper commodo. Vivamus sodales sagittis aliquet. Nam sit amet felis ligula. Sed commodo justo quis feugiat volutpat. Vivamus eget massa nec tortor facilisis vehicula. Integer sodales augue vel massa fermentum ullamcorper. Phasellus ut diam a nunc lacinia ultricies. Sed in ligula metus.
 
 Morbi fringilla scelerisque risus, non scelerisque lorem congue in. Nam sed velit quis est luctus tincidunt. Pellentesque sollicitudin lacus sit amet augue ultricies, eget vehicula risus placerat. Aenean consequat ullamcorper urna id blandit. Mauris nec diam vitae dolor vestibulum accumsan. Vivamus ut velit
-
-      </div> 
+        ...
+      </div>
     </div>
   );
 }
