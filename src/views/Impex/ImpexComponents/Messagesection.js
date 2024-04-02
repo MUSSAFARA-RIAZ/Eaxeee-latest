@@ -49,24 +49,28 @@ export default function Messagesection(props) {
           scrollbarWidth: "thin",
           scrollbarColor: "#0d7e8a white",
           scrollbarTrackColor: "#cceaed",
-
+          
           // Change border radius of the thumb
-          "&::-webkit-scrollbar-thumb": {
-            borderRadius: "50px",
-          },
-          "&::-moz-scrollbar-thumb": {
-            borderRadius: "50px",
-          },
-          "&::-ms-scrollbar-thumb": {
-            borderRadius: "50px",
-          },
+          // "&::-webkit-scrollbar-thumb": {
+          //   borderRadius: "50px",
+          // },
+          // "&::-moz-scrollbar-thumb": {
+          //   borderRadius: "50px",
+          // },
+          // "&::-ms-scrollbar-thumb": {
+          //   borderRadius: "50px",
+          // },
           "::-webkit-scrollbar-track": {
           
-            borderRadius:"10px",
+            borderRadius:"50px",
+            // border:"2px solid red"
           }
+
+          
         }}
       >
-        Your content goes here
+        <p className="scroll-demo">
+
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac felis ut dui fringilla rutrum. Sed ut bibendum nibh. Integer facilisis nibh in ex luctus, vitae sollicitudin justo congue. Quisque quis arcu ligula. Nunc tincidunt metus eget est bibendum, nec efficitur ligula varius. Integer auctor ante nec dolor hendrerit, vel laoreet ligula laoreet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Cras dapibus odio nec turpis efficitur tempus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam at vestibulum velit.
 
 Donec interdum velit nec metus scelerisque, quis congue velit tempor. Vivamus efficitur ligula sit amet sapien varius faucibus. Proin vehicula magna a lorem molestie, eu eleifend magna volutpat. Vivamus auctor leo velit, id mattis odio dapibus in. Nam tincidunt interdum nisi, id varius ex tristique eget. Fusce vestibulum lacus id urna mattis, eu sodales nulla feugiat. Sed eget sodales mauris. Fusce placerat orci eu nisl eleifend, sit amet venenatis mi volutpat.
@@ -81,6 +85,8 @@ Fusce nec ipsum in nisi suscipit hendrerit. Suspendisse sed tortor et neque dict
 
 Morbi fringilla scelerisque risus, non scelerisque lorem congue in. Nam sed velit quis est luctus tincidunt. Pellentesque sollicitudin lacus sit amet augue ultricies, eget vehicula risus placerat. Aenean consequat ullamcorper urna id blandit. Mauris nec diam vitae dolor vestibulum accumsan. Vivamus ut velit
         ...
+
+        </p>
       </div>
     </div>
   );

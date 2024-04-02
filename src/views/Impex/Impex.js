@@ -20,6 +20,7 @@ const Main = ({ open, children, language }) => {
         height: open ? "calc(100% - 50px)" : "calc(100vh - 50px)",
         marginLeft: language === "en" ? (open ? drawerWidth : 0) : "auto",
         direction: isLanguageRTL ? "rtl" : "ltr",
+
       }}
     >
       {children}
@@ -62,6 +63,7 @@ function DrawerMain(props) {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
+          zIndex:12,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             marginTop: "50px",
@@ -121,7 +123,7 @@ function DrawerMain(props) {
             </IconButton>
           </div>
         </div>
-        <div>
+        <div style={{borderRadius:"20px"}}> 
           <Messagesection
             adjustHeight={open ? `calc(100vh - 96px)` : "calc(100vh - 103px)"}
           />
