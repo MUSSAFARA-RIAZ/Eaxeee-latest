@@ -45,6 +45,7 @@ export default function Messagesection(props) {
        //   border: "2px solid blue",
           height: "calc(100vh - 200px)",
           backgroundColor: "#cceaed",
+          borderRadius:"20px",
           
           scrollbarWidth: "thin",
           scrollbarColor: "#0d7e8a white",
