@@ -92,7 +92,7 @@ function CustomAppBar(props) {
         <Toolbar
 
         // this oen is for header 
-          sx={{ background: (theme === "default" ? `${appTheme?.pallete?.primary?.main}` : theme === 'light' ? '#eff3f7' : "#181818") }}
+          sx={{ background: (theme === "default" ? "#0d7e8a" : theme === 'light' ? '#cbd0d7' : "#181818") }}
           className={styles.toolbar}
         >
           {/* MenuIcon Button start */}
@@ -133,7 +133,7 @@ function CustomAppBar(props) {
           <Box className={styles.pageTitle}>
             <Typography
               sx={{
-                color: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
+                color: (theme === "default" ? `#ffff` : theme === 'light' ? '#4A4A4A  ' : "#ffff "),
               }}
               className={styles.pageTitleText}
             >

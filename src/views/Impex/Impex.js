@@ -1,26 +1,87 @@
+// import React, { useState } from "react";
+// import Box from "@mui/material/Box";
+// import CssBaseline from "@mui/material/CssBaseline";
+// import { connect } from "react-redux";
+// import LeftPane from "../../components/MainStructure/Leftpane";
+// import RightPane from "../../components/MainStructure/Rightpane";
+// import Leftpane from "../../components/MainStructure/Leftpane";
+
+// const drawerWidth = 310;
+// const Impex = (props) => {
+//   console.log("Impexxxx", props)
+//   const [open, setOpen] = useState(false);
+
+//   const handleDrawerOpen = () => {
+//     setOpen(true);
+//   };
+
+//   const handleDrawerClose = () => {
+//     setOpen(false);
+//   };
+
+//   return (
+//     <Box sx={{ display: "flex", flexDirection: "column" }}>
+//       <CssBaseline />
+     
+     
+//         <LeftPane  open={open} onClose={handleDrawerClose} props={props} />
+    
+//       <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} />
+//     </Box>
+//   );
+// };
+
+// const mapStateToProps = (state) => {
+//   return {
+//     language: state.language,
+//     theme: state.theme,
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     setLanguage: (lang) => {
+//       return dispatch({
+//         type: "TOGGLELANG",
+//         value: lang === "en" ? "ar" : "en",
+//       });
+//     },
+//     setTheme: (theme) => {
+//       return dispatch({
+//         type: "UPDATETHEME",
+//         value: theme,
+//       });
+//     },
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Impex);
+
+
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import ArrowCircleRightRoundedIcon from "@mui/icons-material/ArrowCircleRightRounded";
-import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
-import IconButton from "@mui/material/IconButton";
-import Messagesection from "./ImpexComponents/Messagesection";
 import { connect } from "react-redux";
-import ArrowCircleLeftRoundedIcon from "@mui/icons-material/ArrowCircleLeftRounded";
-import ImportExportBox from "./ImpexComponents/Import_exportBox";
+import LeftPane from "../../components/MainStructure/Leftpane";
+import RightPane from "../../components/MainStructure/Rightpane";
+
 const drawerWidth = 310;
-const Main = ({ open, children, language }) => {
+
+const Main = ({ open, children, language, handleDrawerOpen }) => {
   const isLanguageRTL = language === "ar";
+  const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%"; // Calculate main width
+
   return (
     <main
       style={{
         flexGrow: 1,
-        backgroundColor: "#cceaed",
-        width: open ? "calc(100% - 310px)" : "100%",
+      
+        width: mainWidth,
         height: open ? "calc(100% - 50px)" : "calc(100vh - 50px)",
-        marginLeft: language === "en" ? (open ? drawerWidth : 0) : "auto",
+        marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
+        marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
         direction: isLanguageRTL ? "rtl" : "ltr",
-
+        overflowX: open ? "hidden" : "auto", // Hide overflow when drawer is open
       }}
     >
       {children}
@@ -28,23 +89,9 @@ const Main = ({ open, children, language }) => {
   );
 };
 
-const DrawerHeader = ({ onClose }) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        height: "45px",
-        justifyContent: "flex-end",
-      }}
-    >
-      <IconButton sx={{ color: "#0d7e8a" }} onClick={onClose}>
-        <ArrowCircleLeftRoundedIcon sx={{ fontSize: "2rem" }} />
-      </IconButton>
-    </div>
-  );
-};
 
-function DrawerMain(props) {
+const Impex = (props) => {
+  console.log("Impexxxx", props)
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -59,79 +106,19 @@ function DrawerMain(props) {
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <CssBaseline />
 
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          zIndex:12,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            marginTop: "50px",
-            border: "none",
-            height: "92vh",
-            backgroundColor: "#dff7fa",
-            color:
-              props.theme === "default"
-                ? "black"
-                : props.theme === "light"
-                ? "black"
-                : "#b4b4b4",
-          },
-        }}
-        variant="persistent"
-        anchor={props.language === "en" ? "left" : "right"}
-        open={open}
-      >
-        <DrawerHeader sx={{ height: "10px" }} onClose={handleDrawerClose} />
-        <ImportExportBox />
-      </Drawer>
+      <LeftPane open={open} onClose={handleDrawerClose} props={props} />
 
-      <Main open={open} language={props.language}>
-        <div
-          style={{
-            display: "flex",
-            height: "45px",
-            alignItems: "center",
-            backgroundColor: "#dff7fa",
-          }}
-        >
-          <div
-            style={{
-              ...(open && { display: "none" }),
-              borderTopRightRadius: "60%",
-              borderBottomRightRadius: "60%",
-              width: "max-content",
-              paddingRight: 10,
-            }}
-          >
-            <IconButton
-              color="red"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-            >
-              <ArrowCircleRightRoundedIcon
-                sx={{
-                  color: "#0d7e8a",
-                  fontSize: "2rem",
-                  borderTopRightRadius: "50%",
-                  borderBottomRightRadius: "50%",
-                  position: "relative",
-                  left: 10,
-                }}
-              />
-            </IconButton>
-          </div>
-        </div>
-        <div style={{borderRadius:"20px"}}> 
-          <Messagesection
-            adjustHeight={open ? `calc(100vh - 96px)` : "calc(100vh - 103px)"}
-          />
-        </div>
+      <Main
+        open={open}
+        language={props.language}
+        handleDrawerOpen={handleDrawerOpen}
+      >
+        <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} />
       </Main>
     </Box>
   );
-}
+};
+
 const mapStateToProps = (state) => {
   return {
     language: state.language,
@@ -156,4 +143,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DrawerMain);
+export default connect(mapStateToProps, mapDispatchToProps)(Impex);

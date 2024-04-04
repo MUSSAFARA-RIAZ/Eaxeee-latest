@@ -1,93 +1,86 @@
-import React, { useState } from 'react'
-import { Box } from '@mui/material'
-import { connect } from 'react-redux';
-import MuiToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { styled } from "@mui/material/styles";
-import styles from './Admin.module.css'
-import stylesDefault from './AdminDefault.module.css'
-import stylesLight from './AdminLight.module.css'
-import stylesDark from './AdminDark.module.css'
-import UserManagement from './UserManagement/UserManagement';
-import RepositoryManagement from './RepositoryManagement/RepositoryManagement';
-import AdminTranslation from '../../Utils/AdminTranslation/AdminTranslation';
-import LicenseManagement from './LicenseManagement/LicenseManagement';
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import { connect } from "react-redux";
+import LeftPane from "../../components/MainStructure/Leftpane";
+import RightPane from "../../components/MainStructure/Rightpane";
 
-function Admin(props) {
-    console.log("Admin Props", props)``;
+const drawerWidth = 310;
 
-    let {language } = props;
+const Main = ({ open, children, language, handleDrawerOpen }) => {
+  const isLanguageRTL = language === "ar";
+  const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%"; // Calculate main width
 
-    const [view, setView] = useState('User Management');
-    const [usertab, setUsertab] = useState('User Registration');
+  return (
+    <main
+      style={{
+        flexGrow: 1,
+      
+        width: mainWidth,
+        height: open ? "calc(100% - 50px)" : "calc(100vh - 50px)",
+        marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
+        marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
+        direction: isLanguageRTL ? "rtl" : "ltr",
+        overflowX: open ? "hidden" : "auto", // Hide overflow when drawer is open
+      }}
+    >
+      {children}
+    </main>
+  );
+};
 
-    const handleMainTabs = (event, nextView) => {
-        if (nextView) {
-            setView(nextView);
-            
-        }
-    };
-    const handleUsertab = (event, newUsertab) => {
-        if (newUsertab) {
-            setUsertab(newUsertab);
-        }
-    };
-    const ToggleButton = styled(MuiToggleButton)({
-        "&.Mui-selected, &.Mui-selected:hover": {
-            color: (props.theme === "default" ? `#ffff` : props.theme === 'light' ? '#6d7175' : "#ffff "),
-            backgroundColor: (props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#dee1e6' : "#063f45"),
-            // className: (props.theme === "default" ? "" : props.theme === 'light' ? '#6d7175' : "#ffff "),
-        }
-    });
-    return (
-        <Box className={`${styles.main} ${props.theme === "default" ? stylesDefault.main : props.theme === "light" ? stylesLight.main : stylesDark.main} `}>
-            <Box className={`${styles.leftPane} ${props.theme === "default" ? stylesDefault.leftPane : props.theme === "light" ? stylesLight.leftPane : stylesDark.leftPane}`}>
-                <ToggleButtonGroup
-                    orientation="vertical"
-                    value={view}
-                    exclusive
-                    onChange={handleMainTabs}
-                    className={styles.leftPaneTabsGroup}
-                >
-                    <ToggleButton value="User Management" aria-label="user Management" className={`${styles.userManagementTabs}`}>
-                    {language === 'en' ? 'User Management' : AdminTranslation["User Management"]}
-                    </ToggleButton>
-                    <ToggleButton value="License Management" aria-label="license Management" className={`${styles.userManagementTabs}`}>
-                    {language === 'en' ? 'License Management' : AdminTranslation["License Management"] }
-                    </ToggleButton>
-                    <ToggleButton value=" Repository Management" aria-label="repository Management" className={`${styles.userManagementTabs}`}>
-                    {language === 'en' ? 'Repository Management' :AdminTranslation["Repository Management"]}
-                    </ToggleButton>
-                </ToggleButtonGroup>
-            </Box>
 
-            <Box className={`${styles.rightPane} ${props.theme === "default" ? stylesDefault.rightPane : props.theme === "light" ? stylesLight.rightPane : stylesDark.rightPane}`}>
-                {
-                    (view === "User Management") ? <UserManagement usertab={usertab} theme={props.theme} handleUsertab={handleUsertab} language={props.language} /> 
-                    : (view === "License Management") ? <LicenseManagement />
-                    : <RepositoryManagement />
-                }
-            </Box>
-        </Box >
-    )
-}
+const Admin = (props) => {
+  console.log("Adminxxx", props)
+  const [open, setOpen] = useState(false);
 
-const mapStateToProps = state => {
-    return {
-        language: state.language,
-        theme: state.theme
-    }
-}
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        setLanguage: (lang) => {
-            return dispatch({
-                type: "TOGGLELANG",
-                value: (lang === 'en') ? 'ar' : "en"
-            })
-        }
-    }
-}
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin)
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <CssBaseline />
+
+      <LeftPane open={open} onClose={handleDrawerClose} props={props} />
+
+      <Main
+        open={open}
+        language={props.language}
+        handleDrawerOpen={handleDrawerOpen}
+      >
+        <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} />
+      </Main>
+    </Box>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    language: state.language,
+    theme: state.theme,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLanguage: (lang) => {
+      return dispatch({
+        type: "TOGGLELANG",
+        value: lang === "en" ? "ar" : "en",
+      });
+    },
+    setTheme: (theme) => {
+      return dispatch({
+        type: "UPDATETHEME",
+        value: theme,
+      });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admin);
