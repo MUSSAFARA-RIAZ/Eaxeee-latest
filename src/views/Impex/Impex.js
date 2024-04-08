@@ -10,21 +10,41 @@ import RightPane from "../../components/MainStructure/Rightpane";
 
 const drawerWidth = 310;
 
-const Main = ({ open, children, language, handleDrawerOpen }) => {
+// const Main = ({ open, children, language, handleDrawerOpen }) => {
+//   const isLanguageRTL = language === "ar";
+//   const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%"; // Calculate main width
+
+//   return (
+//     <main
+//       style={{
+//         flexGrow: 1,
+      
+//         width: mainWidth,
+//         height: open ? "calc(100% - 50px)" : "calc(100vh - 50px)",
+//         marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
+//         marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
+//         direction: isLanguageRTL ? "rtl" : "ltr",
+//         overflowX: open ? "hidden" : "auto", // Hide overflow when drawer is open
+//       }}
+//     >
+//       {children}
+//     </main>
+//   );
+// };
+const Main = ({ open, children, language }) => {
   const isLanguageRTL = language === "ar";
-  const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%"; // Calculate main width
+  const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%";
 
   return (
     <main
       style={{
         flexGrow: 1,
-      
         width: mainWidth,
         height: open ? "calc(100% - 50px)" : "calc(100vh - 50px)",
         marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
         marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
         direction: isLanguageRTL ? "rtl" : "ltr",
-        overflowX: open ? "hidden" : "auto", // Hide overflow when drawer is open
+        overflowX: open ? "hidden" : "auto",
       }}
     >
       {children}
