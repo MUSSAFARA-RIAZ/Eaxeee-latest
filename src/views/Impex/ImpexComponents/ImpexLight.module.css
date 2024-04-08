@@ -4,7 +4,11 @@
     flex-direction: "row";
     padding: 80px 20px 40px 20px;
     justify-content: space-between; */
+<<<<<<< HEAD
     /* background-color: red; */
+=======
+    background-color: red;
+>>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
     /* height: calc(100vh - 50px); */
 }
 
@@ -16,16 +20,28 @@
 .Impex_exportBox{
    
     /* padding: 10px; */
+<<<<<<< HEAD
     /* border: 1px solid yellow; */
     /* border-radius:10px; */
     background-color:#eff3f7;
+=======
+    border: 1px solid yellow;
+    /* border-radius:10px; */
+    background-color:blue
+>>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
    
 }
 .Impex_importBox{
     /* padding: 10px; */
+<<<<<<< HEAD
     /* border: 1px solid yellow; */
     /* border-radius:10px; */
     background-color:#eff3f7;
+=======
+    border: 1px solid yellow;
+    /* border-radius:10px; */
+    background-color:blue
+>>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
     /* margin-top:10px; */
   
    
@@ -34,5 +50,9 @@
 .Impex_rightpane{
     /* border-radius: 10px; */
     /* width: "100%"; */
+<<<<<<< HEAD
     background-color:#eff3f7;
+=======
+    background-color:blue
+>>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
 }

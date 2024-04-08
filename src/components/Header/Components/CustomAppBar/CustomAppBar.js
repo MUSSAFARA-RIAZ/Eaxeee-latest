@@ -91,8 +91,10 @@ function CustomAppBar(props) {
 
         <Toolbar
 
+
         // this oen is for header 
           sx={{ background: (theme === "default" ? "#0d7e8a" : theme === 'light' ? '#cbd0d7' : "#181818") }}
+       
           className={styles.toolbar}
         >
           {/* MenuIcon Button start */}
