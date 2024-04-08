@@ -112,14 +112,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
         }}
       >
         {children}
-        <div
-          style={{
-           // border: "3px solid purple",
-            width: open ? "calc(100% - 307px)" : "100%",
-            height: `calc(100vh - 103px)`,
-            marginLeft: open ? "307px" : 0,
-          }}
-        ></div>
+   
       </div>
     </>
   );
