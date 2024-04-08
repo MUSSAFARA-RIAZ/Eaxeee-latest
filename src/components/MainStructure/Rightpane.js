@@ -13,7 +13,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
           display: "flex",
           height: "45px",
           alignItems: "center",
-          // border: "3px solid yellow",
+          border: "3px solid yellow",
 
           // backgroundColor:
           //   props.theme === "default"
@@ -98,7 +98,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
      
         borderRadius:"20px",
         //  boxShadow: "0px 0px 10px 0px #dff7fa",
-          // border: "3px solid black",
+          border: "3px solid black",
 
           // backgroundColor:"red",
 
@@ -112,14 +112,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
         }}
       >
         {children}
-        <div
-          style={{
-           // border: "3px solid purple",
-            width: open ? "calc(100% - 307px)" : "100%",
-            height: `calc(100vh - 103px)`,
-            marginLeft: open ? "307px" : 0,
-          }}
-        ></div>
+   
       </div>
     </>
   );
