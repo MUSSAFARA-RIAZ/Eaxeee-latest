@@ -5,11 +5,9 @@ import { connect } from "react-redux";
 import LeftPane from "../../components/MainStructure/Leftpane";
 import RightPane from "../../components/MainStructure/Rightpane";
 
-// Define drawerWidth
-const drawerWidth = 240;
+const drawerWidth = 310;
 
-const Main = (props) => {
-  const { open, children, language } = props;
+const Main = ({ open, children, language, handleDrawerOpen , props}) => {
   const isLanguageRTL = language === "ar";
   const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%"; // Calculate main width
 
@@ -17,12 +15,20 @@ const Main = (props) => {
     <main
       style={{
         flexGrow: 1,
+
         width: mainWidth,
+        backgroundColor:props.theme === "default"
+        ? "#cceaed "
+        : props.theme === "light"
+        ? "#eff3f7"
+        : "#212121",
+        // border:"2px solid red",
         height: open ? "calc(100% - 50px)" : "calc(100vh - 50px)",
         marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
         marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
         direction: isLanguageRTL ? "rtl" : "ltr",
         overflowX: open ? "hidden" : "auto", // Hide overflow when drawer is open
+        transition: !open ? "all .5s ease-out" : "all .5s ease-in",
       }}
     >
       {children}
@@ -31,7 +37,7 @@ const Main = (props) => {
 };
 
 const OrganizationalPortal = (props) => {
-  console.log("OrganizationalPortalxxx", props)
+  console.log("OrganizationalPortalxxx", props);
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -52,8 +58,13 @@ const OrganizationalPortal = (props) => {
         open={open}
         language={props.language}
         handleDrawerOpen={handleDrawerOpen}
+        props={props}
       >
-        <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} />
+        <RightPane
+          open={open}
+          props={props}
+          handleDrawerOpen={handleDrawerOpen}
+        />
       </Main>
     </Box>
   );

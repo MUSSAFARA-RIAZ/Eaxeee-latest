@@ -5,7 +5,6 @@ import ArrowCircleLeftRoundedIcon from "@mui/icons-material/ArrowCircleLeftRound
 import { connect } from "react-redux";
 
 const RightPane = ({ open, handleDrawerOpen, props, children }) => {
- 
   return (
     <>
       <div
@@ -13,7 +12,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
           display: "flex",
           height: "45px",
           alignItems: "center",
-          border: "3px solid yellow",
+          // border: "3px solid yellow",
 
           // backgroundColor:
           //   props.theme === "default"
@@ -22,18 +21,17 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
           //     ? "#ffffff"
           //     : "#2b2b2b",
           backgroundColor:
-          props.theme === "default"
-            ? "#cceaed "
-            : props.theme === "light"
-            ? "#eff3f7"
-            : "#212121",
-       
+            props.theme === "default"
+              ? "#cceaed "
+              : props.theme === "light"
+              ? "#eff3f7"
+              : "#212121",
         }}
       >
         <div
           style={{
             ...(open && { display: "none" }),
-          
+
             width: "max-content",
             paddingRight: 10,
 
@@ -41,7 +39,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
           }}
         >
           <IconButton
-            color="red"
+            // color="red"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -55,8 +53,14 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
                       : props.theme === "light"
                       ? "black"
                       : "#b4b4b4",
+                  // color: "red",
                   fontSize: "2rem",
-                  position: "relative",
+                  position: "fixed",
+                  // opacity: open ? 0 : 1,
+                  // transition: "all 2s ease",
+                  transition:"none",
+
+                  // transition: "all .5s ease-out" ,
 
                   left: 10,
                 }}
@@ -71,9 +75,11 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
                       ? "black"
                       : "#b4b4b4",
                   fontSize: "2rem",
-                  position: "relative",
+                  position: "fixed",
+                  transition:"none",
 
-                  left: 10,
+
+                  right: 10,
                 }}
               />
             )}
@@ -85,20 +91,20 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
         style={{
           height: `calc(100vh - 96px)`,
           overflowY: "auto",
-          
-         // borderRadius:"100px",
-         borderStyle:"solid",
-         borderWidth:"1px",
-         borderColor:  props.theme === "default"
-         ? "#cceaed "
-         : props.theme === "light"
-         ? "#eff3f7"
-         : "#212121",
-    
-     
-        borderRadius:"20px",
-        //  boxShadow: "0px 0px 10px 0px #dff7fa",
-          border: "3px solid black",
+
+          // borderRadius:"100px",
+          borderStyle: "solid",
+          borderWidth: "1px",
+          borderColor:
+            props.theme === "default"
+              ? "#cceaed "
+              : props.theme === "light"
+              ? "#eff3f7"
+              : "#212121",
+
+          borderRadius: "20px",
+          //  boxShadow: "0px 0px 10px 0px #dff7fa",
+          // border: "3px solid black",
 
           // backgroundColor:"red",
 
@@ -108,11 +114,9 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
               : props.theme === "light"
               ? "#ffffff"
               : "#2b2b2b",
-         
         }}
       >
         {children}
-   
       </div>
     </>
   );

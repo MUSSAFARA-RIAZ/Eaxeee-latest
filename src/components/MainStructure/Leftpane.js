@@ -11,6 +11,7 @@ const LeftPane = ({ props, open, onClose }) => {
 
   return (
     <Drawer
+      transitionDuration={{ enter: 500, exit: 500 }}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -24,16 +25,12 @@ const LeftPane = ({ props, open, onClose }) => {
           height: "92vh",
           // border: "3px solid pink",
 
-          
           backgroundColor:
-          props.theme === "default"
-            ? "#cceaed "
-            : props.theme === "light"
-            ? "#eff3f7"
-            : "#212121",
-       
-      
-         
+            props.theme === "default"
+              ? "#cceaed "
+              : props.theme === "light"
+              ? "#eff3f7"
+              : "#212121",
         },
       }}
       variant="persistent"

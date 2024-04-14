@@ -19,9 +19,13 @@
 
 .menuIcon {
     font-weight: bolder;
-    font-size: 28px;
+    font-size: 18px;
     box-shadow: none !important;
     border: none;
+    position: relative;
+    left: -21px;
+    
+
 }
 
 .logoParent {
@@ -34,15 +38,19 @@
 .logoLink {
     height: 100%;
 }
+/* **************************LOGO CSS  */
 
 .logoToolTip {
     position: relative;
-    top: -4px;
+    top:5px;
+    left:-50px;
+    /* top: -4px; */
     height: 100%
 }
 
 .logo {
-    height: 100%;
+    height: 80%;
+  width:100%;
 }
 
 .pageTitle {

@@ -20,6 +20,9 @@ import CustomButton from '../../../CustomButton/CustomButton';
 import Button from '@mui/material/Button';
 import styles from './CustomAppBar.module.css'
 import "./Dropdown.css"
+import GreenXlogo from "../../../../Assets/Images/MainLogo.png"
+import BlackXlogo from "../../../../Assets/Images/eaxeeXblack.svg"
+import WhiteXLogo from "../../../../Assets/Images/eaxeeXwhite.svg"
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -87,7 +90,7 @@ function CustomAppBar(props) {
 
   return (
     <Box>
-      <AppBar position="static" className={styles.appBar} >
+      <AppBar position="static" className={styles.appBar}  >
 
         <Toolbar
 
@@ -122,7 +125,9 @@ function CustomAppBar(props) {
                   component="img"
                   className={styles.logo}
                   alt="Eaxee logo."
-                  src={Logo}
+                  src={theme === "default" ? GreenXlogo : theme === 'light' ? BlackXlogo : WhiteXLogo}
+                                    
+                  
                   onClick={() => props.changepage("Home")}
                 />
               </Tooltip>
