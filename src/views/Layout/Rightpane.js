@@ -50,7 +50,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
       // }}
 
       >
-      {children[0]}
+   
     
         <div>
           <IconButton
@@ -127,7 +127,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
           //     : "#2b2b2b",
         }}
       >
-        {children.slice(1)}
+        {children}
       </div>
     </div>
   );

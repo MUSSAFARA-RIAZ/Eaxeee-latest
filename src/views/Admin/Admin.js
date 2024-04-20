@@ -6,16 +6,16 @@ import LeftPane from "../Layout/Leftpane";
 import RightPane from "../Layout/Rightpane";
 import AdminTranslation from '../../Utils/AdminTranslation/AdminTranslation';
 import CustomTabs from "../../components/CustomTabs/CustomTabs";
-// import UserManagement from "../Admin/UserManagement/UserManagement";
+
 import { UserTabs } from "../Admin/UserManagement/UserManagement";
 import { UserContent } from "../Admin/UserManagement/UserManagement";
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import LockIcon from '@mui/icons-material/Lock';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-// import HowToRegIcon from '@mui/icons-material/HowToReg';
+
 import BackupIcon from '@mui/icons-material/Backup';
 import RestoreIcon from '@mui/icons-material/Restore';
-// import  { UserManagementContent, UserManagementTabs } from "../Admin/UserManagement/UserManagement";
+
 import { LicenseManagementContent, LicenseManagementTabs } from "../Admin/LicenseManagement/LicenseManagement";
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 
@@ -75,11 +75,7 @@ const Admin = (props) => {
     { label: language === 'en' ? 'Restore' : AdminTranslation["Restore"], icon: <RestoreIcon /> }
   ];
 
-  // const [repositorytab, setRepositorytab] = useState(0);
 
-  // const handleRepositorytab = (event, newRepositorytab) => {
-  //   setRepositorytab(newRepositorytab);
-  // };
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <CssBaseline />
@@ -97,26 +93,24 @@ const Admin = (props) => {
         handleDrawerOpen={handleDrawerOpen}
 
 
-        
+
       >
 
-        {/* <CustomTabs value={view} onChange={handleMainTabs} tabs={tabs} /> */}
         {view === 0 ? <UserTabs value={value} handleChange={handleMainChange} tabs={usertabs} /> : view === 1 ? <LicenseManagementTabs value={value} handleChange={handleMainChange} language={props.language} tabs={licensedtabs} /> :
-         
-            <RepositoryTabs tabs={repositorytabs} value={value} handleChange={handleMainChange} />
 
-       
-         }
+          <RepositoryTabs tabs={repositorytabs} value={value} handleChange={handleMainChange} />
 
 
+        }
 
 
 
 
-        {/* {view ===1 && <LicenseManagementTabs value={value} handleChange={handleMainChange} language={props.language} tabs={licensedtabs} />} */}
+
+
         {view === 0 && <UserContent value={value} language={props.language} />}
         {view === 1 && <LicenseManagementContent value={value} language={props.language} />}
-        {view === 2 && <RepositoryContent value={value}  language={props.language} />}
+        {view === 2 && <RepositoryContent value={value} language={props.language} />}
       </RightPane>
     </Box>
   );

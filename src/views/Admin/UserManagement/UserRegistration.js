@@ -222,6 +222,7 @@ const UserRegistration = (props) => {
                             buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
                             onClick={handleUserSubmit}
                             type="submit"
+                            
                             loading={false}
                             disabled={false}
                             fullWidth={true}

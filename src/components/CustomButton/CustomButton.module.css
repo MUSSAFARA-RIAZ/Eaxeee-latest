@@ -1,0 +1,5 @@
+.css-h0q0iv-MuiButtonBase-root-MuiTab-root {
+    /* Remove the minimum height property */
+    min-height: unset !important;
+  }
+  

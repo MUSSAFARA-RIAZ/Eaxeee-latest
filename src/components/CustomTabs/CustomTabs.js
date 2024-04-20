@@ -3,19 +3,25 @@ import { Tab, Tabs } from '@mui/material';
 import { connect } from 'react-redux';
 
 
-function CustomTabs({ value, onChange, tabs, orientation }) {
+function CustomTabs({ value, onChange, tabs, orientation, indicatorcolor }) {
   return (
     <Tabs
       value={value}
       onChange={onChange}
       aria-label="Custom Tabs"
-      orientation={orientation}      
-    >
+      orientation={orientation} 
+      indicatorColor={indicatorcolor}
+     
+     
+      
+     
+
+    > 
       {tabs.map((tab, index) => (
         <Tab key={index} label={tab.label} icon={tab.icon} iconPosition='start'
-          sx={{    
-            "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.1)" } // Adjust the color as needed            
-          }}
+        sx={{ minHeight:"0px"}}
+       
+       
         />
       ))}
     </Tabs>

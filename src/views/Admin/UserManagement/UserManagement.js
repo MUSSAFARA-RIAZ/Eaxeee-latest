@@ -23,7 +23,9 @@ function UserTabs(props) {
   const { value, handleChange, tabs } = props; // Destructure props
 
   return (
-    <CustomTabs value={value} onChange={handleChange} tabs={tabs} /> // Render CustomTabs component with props
+   
+    <CustomTabs value={value} onChange={handleChange} tabs={tabs}    />
+  
   );
 }
 
@@ -31,7 +33,7 @@ function UserContent(props) {
   const { value, language } = props; // Destructure props
 
   return (
-    <div className={styles.tabContent}> {/* Container div */}
+    <div > {/* Container div */}
       {value === 0 && <UserRegistration />} {/* Render UserRegistration component if value is 0 */}
       {value === 1 && <PasswordManagement />} {/* Render PasswordManagement component if value is 1 */}
       {value === 2 && <ActiveDirectoryUser language={language} />} {/* Render ActiveDirectoryUser component if value is 2 */}

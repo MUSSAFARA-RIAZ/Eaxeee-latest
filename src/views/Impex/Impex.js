@@ -21,7 +21,10 @@ const Impex = (props) => {
       <CssBaseline />
 
       <LeftPane open={open} onClose={handleDrawerClose} props={props} />
-      <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} />
+      <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} >
+        <h1>Impex</h1>
+        
+      </RightPane>
     </Box>
   );
 };
