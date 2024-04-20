@@ -30,7 +30,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 
 function CustomAppBar(props) {
-  console.log("CustomAppBar Props", props);
   let { setLanguage, language, theme } = props
   const navigate = useNavigate();
   const appTheme = useTheme();
@@ -41,7 +40,7 @@ function CustomAppBar(props) {
 
   const [openDialog, setOpenDialog] = useState(false);
   const handleCloseDialog = () => {
-    console.log("hussain");
+    // console.log("hussain");
     setOpenDialog(false);
   };
   const handleCloseDialogWhenClickOutside = () => {
@@ -95,23 +94,24 @@ function CustomAppBar(props) {
         <Toolbar
 
 
-        // this oen is for header 
+          // this oen is for header 
           sx={{ background: (theme === "default" ? "#0d7e8a" : theme === 'light' ? '#cbd0d7' : "#181818") }}
-       
+
           className={styles.toolbar}
         >
           {/* MenuIcon Button start */}
 
           <CustomButton
-          startIcon={ <MenuIcon
-            style={{
-              fill: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
-            }}
-            className={styles.menuIcon}
-          />}
-         
-          onClick={props.toggleDrawer('left', true)}>
-            
+            startIcon={<MenuIcon
+              style={{
+                fill: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
+              }}
+              className={styles.menuIcon}
+            />}
+            // variant="outlined"
+
+            onClick={props.toggleDrawer('left', true)}>
+
           </CustomButton>
 
           {/* MenuIcon Button end */}
@@ -126,8 +126,8 @@ function CustomAppBar(props) {
                   className={styles.logo}
                   alt="Eaxee logo."
                   src={theme === "default" ? GreenXlogo : theme === 'light' ? BlackXlogo : WhiteXLogo}
-                                    
-                  
+
+
                   onClick={() => props.changepage("Home")}
                 />
               </Tooltip>
@@ -243,7 +243,7 @@ function CustomAppBar(props) {
         </DialogTitle>
         <DialogActions>
           <CustomButton
-            
+
             title={language === 'en' ? 'Disagree' : 'تعارض '}
             onClick={handleCloseDialog}
             loading={false}

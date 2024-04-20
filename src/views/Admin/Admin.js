@@ -2,43 +2,64 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { connect } from "react-redux";
-import LeftPane from "../../components/MainStructure/Leftpane";
-import RightPane from "../../components/MainStructure/Rightpane";
+import LeftPane from "../Layout/Leftpane";
+import RightPane from "../Layout/Rightpane";
+import AdminTranslation from '../../Utils/AdminTranslation/AdminTranslation';
+import CustomTabs from "../../components/CustomTabs/CustomTabs";
+// import UserManagement from "../Admin/UserManagement/UserManagement";
+import { UserTabs } from "../Admin/UserManagement/UserManagement";
+import { UserContent } from "../Admin/UserManagement/UserManagement";
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import LockIcon from '@mui/icons-material/Lock';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// import HowToRegIcon from '@mui/icons-material/HowToReg';
+import BackupIcon from '@mui/icons-material/Backup';
+import RestoreIcon from '@mui/icons-material/Restore';
+// import  { UserManagementContent, UserManagementTabs } from "../Admin/UserManagement/UserManagement";
+import { LicenseManagementContent, LicenseManagementTabs } from "../Admin/LicenseManagement/LicenseManagement";
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 
-const drawerWidth = 310;
+import { RepositoryTabs, RepositoryContent } from "../Admin/RepositoryManagement/RepositoryManagement";
 
-const Main = ({ open, children, language, handleDrawerOpen , props}) => {
-  const isLanguageRTL = language === "ar";
-  const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%"; // Calculate main width
 
-  return (
-    <main
-      style={{
-        flexGrow: 1,
-
-        width: mainWidth,
-        backgroundColor:props.theme === "default"
-        ? "#cceaed "
-        : props.theme === "light"
-        ? "#eff3f7"
-        : "#212121",
-        // border:"2px solid red",
-        height: open ? "calc(100% - 50px)" : "calc(100vh - 50px)",
-        marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
-        marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
-        direction: isLanguageRTL ? "rtl" : "ltr",
-        overflowX: open ? "hidden" : "auto", // Hide overflow when drawer is open
-        transition: !open ? "all .5s ease-out" : "all .5s ease-in",
-      }}
-    >
-      {children}
-    </main>
-  );
-};
 
 const Admin = (props) => {
-  console.log("Adminxxx", props);
-  const [open, setOpen] = useState(false);
+  const { language } = props;
+
+  const [view, setView] = useState(0);
+
+  const handleMainTabs = (event, newValue) => {
+    setView(newValue);
+    console.log(newValue);
+
+  };
+  const [value, setValue] = useState(0);
+
+  const tabs = [
+    { label: language === 'en' ? 'User Management' : AdminTranslation["User Management"] },
+    { label: language === 'en' ? 'License Management' : AdminTranslation["License Management"] },
+    { label: language === 'en' ? 'Repository Management' : AdminTranslation["Repository Management"] }
+  ];
+  const usertabs = [
+    { label: language === 'en' ? 'User Registration' : AdminTranslation["User Registration"], icon: <HowToRegIcon /> },
+    { label: language === 'en' ? 'Password Management' : AdminTranslation["Password Management"], icon: <LockIcon /> },
+    { label: language === 'en' ? 'Active Directory User' : AdminTranslation["Active Directory User"], icon: <AccountCircleIcon /> }
+
+  ];
+  const licensedtabs = [
+    { label: language === 'en' ? 'Named User' : AdminTranslation["Named User"], icon: <AccountCircleIcon fontSize='small' /> },
+    { label: language === 'en' ? 'Concurrent User' : AdminTranslation["Concurrent User"], icon: <SupervisedUserCircleIcon fontSize='small' /> }
+  ];
+
+
+  const handleMainChange = (event, newValue) => {
+    setValue(newValue);
+    console.log("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm", newValue);
+  };
+
+
+
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -48,24 +69,52 @@ const Admin = (props) => {
     setOpen(false);
   };
 
+  const repositorytabs = [
+    { label: language === 'en' ? 'Clear' : AdminTranslation["Clear"], icon: <HowToRegIcon /> },
+    { label: language === 'en' ? 'Backup' : AdminTranslation["Backup"], icon: <BackupIcon /> },
+    { label: language === 'en' ? 'Restore' : AdminTranslation["Restore"], icon: <RestoreIcon /> }
+  ];
+
+  // const [repositorytab, setRepositorytab] = useState(0);
+
+  // const handleRepositorytab = (event, newRepositorytab) => {
+  //   setRepositorytab(newRepositorytab);
+  // };
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <CssBaseline />
 
-      <LeftPane open={open} onClose={handleDrawerClose} props={props} />
+      <LeftPane open={open} onClose={handleDrawerClose} props={props}>
+        <CustomTabs value={view} onChange={handleMainTabs} tabs={tabs} orientation="vertical" />
 
-      <Main
+
+      </LeftPane>
+
+
+      <RightPane
         open={open}
-        language={props.language}
-        handleDrawerOpen={handleDrawerOpen}
         props={props}
+        handleDrawerOpen={handleDrawerOpen}
       >
-        <RightPane
-          open={open}
-          props={props}
-          handleDrawerOpen={handleDrawerOpen}
-        />
-      </Main>
+
+        {/* <CustomTabs value={view} onChange={handleMainTabs} tabs={tabs} /> */}
+        {view === 0 ? <UserTabs value={value} handleChange={handleMainChange} tabs={usertabs} /> : view === 1 ? <LicenseManagementTabs value={value} handleChange={handleMainChange} language={props.language} tabs={licensedtabs} /> :
+         
+            <RepositoryTabs tabs={repositorytabs} value={value} handleChange={handleMainChange} />
+
+       
+         }
+
+
+
+
+
+
+        {/* {view ===1 && <LicenseManagementTabs value={value} handleChange={handleMainChange} language={props.language} tabs={licensedtabs} />} */}
+        {view === 0 && <UserContent value={value} language={props.language} />}
+        {view === 1 && <LicenseManagementContent value={value} language={props.language} />}
+        {view === 2 && <RepositoryContent value={value}  language={props.language} />}
+      </RightPane>
     </Box>
   );
 };

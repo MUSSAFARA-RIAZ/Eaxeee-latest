@@ -1,0 +1,19 @@
+.light_bgcolor{
+    background-color: #eff3f7;
+}
+.light_bordercolor{
+    border-color: #eff3f7;
+}
+.light_iconcolor{
+    color: black;
+
+}
+
+.light_secondcontainer{
+    background-color: #ffffff ;
+}
+/*    props.theme === "default"
+              ? "#dff7fa"
+              : props.theme === "light"
+                ? "#ffffff"
+                : "#2b2b2b", */

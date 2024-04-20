@@ -1,0 +1,31 @@
+
+
+.rightpane_firstcontainer{
+    display: flex;
+    height: 45px;
+    align-items: center;
+            
+}
+.rightpane_rightRoundediconenglish{
+   
+    position: fixed;
+    transition: none;
+    left: 10px;
+
+   
+}
+.rightpane_secondcontainer {
+    height: calc(100vh - 96px);
+    overflow-y: auto;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 20px;
+}
+.rightpane_rightRoundediconarabic{
+   
+    position: fixed;
+    transition: none;
+    right: 10px;
+
+    
+}

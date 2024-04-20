@@ -1,75 +1,77 @@
-import React from 'react'
-import { Box, ToggleButtonGroup } from '@mui/material'
-import MuiToggleButton from '@mui/material/ToggleButton';
-import { styled } from "@mui/material/styles";
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { connect } from 'react-redux';
-import LockIcon from '@mui/icons-material/Lock';
-import styles from "./UserManagement.module.css"
+import React, { useState } from 'react';
+// import { Box } from '@mui/material';
+// import { connect } from 'react-redux';
+// import HowToRegIcon from '@mui/icons-material/HowToReg';
+// import LockIcon from '@mui/icons-material/Lock';
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import styles from "./UserManagement.module.css";
 import UserRegistration from './UserRegistration';
 import PasswordManagement from './PasswordManagement';
-import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
+import ActiveDirectoryUser from './ActiveDirectoryUser';
+// import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
+import CustomTabs from '../../../components/CustomTabs/CustomTabs';
 
-function UserManagement(props) {
+//   const [value, setValue] = useState(0);
+//   const { language } = props;
 
-    let {language } = props;
+//   const handleChange = (event, newValue) => {
+//     setValue(newValue);
+//   };
 
-    const ToggleButton = styled(MuiToggleButton)({
-        "&.Mui-selected, &.Mui-selected:hover": {
-            color: (props.theme === "default" ? `#ffff` : props.theme === 'light' ? '#6d7175' : "#ffff "),
-            backgroundColor: (props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#dee1e6' : "#063f45"),
-        }
-    });
- 
-    return (
-        <Box className={styles.main} >
-            <ToggleButtonGroup
-                value={props.usertab}
-                exclusive
-                onChange={props.handleUsertab}
-                className={`${styles.userManagementSubTabsGroup}`}
-                
-            >
-                <ToggleButton value="User Registration" aria-label="user registration" className={`${styles.userManagementSubTabs}`} >
-                    <HowToRegIcon fontSize='small' />
-                    <span className={`${styles.userManagementSubTabsTextSpan}`}>
-                    {language === 'en' ? 'User Registration' : AdminTranslation["User Registration"]}
-                    </span>
-                </ToggleButton>
-                <ToggleButton value="Password management" aria-label="password management" className={`${styles.userManagementSubTabs}`} >
-                    <LockIcon fontSize='small' />
-                    <span className={`${styles.userManagementSubTabsTextSpan}`}>
-                    {language === 'en' ? 'Password management' : AdminTranslation["Password management"]}
-                    </span>
-                </ToggleButton>
+function UserTabs(props) {
+  
+  const { value, handleChange, tabs } = props; // Destructure props
 
-            </ToggleButtonGroup>
-
-            {
-                (props.usertab === "User Registration") ?
-                <UserRegistration /> :
-                <PasswordManagement/>
-            }
-        </Box>
-    )
+  return (
+    <CustomTabs value={value} onChange={handleChange} tabs={tabs} /> // Render CustomTabs component with props
+  );
 }
 
-const mapStateToProps = state => {
-    return {
-      language: state.language,
-      theme: state.theme
-    }
-  }
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-      setLanguage: (lang) => {
-        return dispatch({
-          type: "TOGGLELANG",
-          value: (lang === 'en') ? 'ar' : "en"
-        })
-      }
-    }
-  }
+function UserContent(props) {
+  const { value, language } = props; // Destructure props
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserManagement)
+  return (
+    <div className={styles.tabContent}> {/* Container div */}
+      {value === 0 && <UserRegistration />} {/* Render UserRegistration component if value is 0 */}
+      {value === 1 && <PasswordManagement />} {/* Render PasswordManagement component if value is 1 */}
+      {value === 2 && <ActiveDirectoryUser language={language} />} {/* Render ActiveDirectoryUser component if value is 2 */}
+    </div>
+  );
+}
+
+// function UserManagement(props) {
+//   const [value, setValue] = useState(0);
+//   const { language } = props;
+
+//   const handleChange = (event, newValue) => {
+//     setValue(newValue);
+//   };
+
+//   const tabs = [
+//     { label: language === 'en' ? 'User Registration' : AdminTranslation["User Registration"], icon: <HowToRegIcon /> },
+//     { label: language === 'en' ? 'Password Management' : AdminTranslation["Password Management"], icon: <LockIcon /> },
+//     { label: language === 'en' ? 'Active Directory User' : AdminTranslation["Active Directory User"], icon: <AccountCircleIcon /> }
+//   ];
+
+//   return (
+//     <Box className={styles.main}>
+//       <UserTabs value={value} handleChange={handleChange} tabs={tabs} /> {/* Render UserTabs component */}
+//       <UserContent value={value} language={language} /> {/* Render UserContent component */}
+//     </Box>
+//   );
+// }
+
+// const mapStateToProps = state => ({
+//   language: state.language,
+//   theme: state.theme
+// });
+
+// const mapDispatchToProps = dispatch => ({
+//   setLanguage: lang => dispatch({
+//     type: "TOGGLELANG",
+//     value: lang === 'en' ? 'ar' : 'en'
+//   })
+// });
+
+// export default connect(mapStateToProps, mapDispatchToProps)(UserManagement);
+export {UserTabs,UserContent}
