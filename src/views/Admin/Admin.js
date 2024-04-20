@@ -95,6 +95,9 @@ const Admin = (props) => {
         open={open}
         props={props}
         handleDrawerOpen={handleDrawerOpen}
+
+
+        
       >
 
         {/* <CustomTabs value={view} onChange={handleMainTabs} tabs={tabs} /> */}
