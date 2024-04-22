@@ -2,7 +2,7 @@
 
 .rightpane_firstcontainer{
     display: flex;
-    /* height: 57px; */
+    height: 50px;
     /* min-height: 50px; */
   
     /* border: 2px solid purple; */
@@ -12,8 +12,10 @@
 .rightpane_rightRoundediconenglish{
    
     position: fixed;
+    left: 5px;
+  
     transition: none;
-    left: 10px;
+    
 
    
 }

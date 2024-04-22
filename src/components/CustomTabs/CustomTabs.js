@@ -10,20 +10,31 @@ function CustomTabs({ value, onChange, tabs, orientation, indicatorcolor }) {
       onChange={onChange}
       aria-label="Custom Tabs"
       orientation={orientation} 
-      indicatorColor={indicatorcolor}
+      // sx={{border:"2px solid red"}}
+      
      
      
       
      
 
     > 
-      {tabs.map((tab, index) => (
-        <Tab key={index} label={tab.label} icon={tab.icon} iconPosition='start'
-        sx={{ minHeight:"0px"}}
-       
-       
-        />
-      ))}
+     {tabs.map((tab, index) => (
+  <Tab
+    key={index}
+    label={tab.label}
+    icon={tab.icon}
+    iconPosition="start"
+    sx={{
+      minHeight: "0px",
+      // border:"1px solid yellow",
+     
+      "&:hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.1)",
+      },
+    }}
+  />
+))}
+
     </Tabs>
   );
 }

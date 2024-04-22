@@ -75,6 +75,37 @@ const UserRegistration = (props) => {
             id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
             email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
 
+        },
+        {
+            name: (language === 'en' ? 'new' : AdminTranslation["new"]),
+            id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
+
+        },
+        {
+            name: (language === 'en' ? 'new' : AdminTranslation["new"]),
+            id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
+
+        }
+        ,
+        {
+            name: (language === 'en' ? 'new' : AdminTranslation["new"]),
+            id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
+
+        },
+        {
+            name: (language === 'en' ? 'new' : AdminTranslation["new"]),
+            id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
+
+        },
+        {
+            name: (language === 'en' ? 'new' : AdminTranslation["new"]),
+            id: (language === 'en' ? 'new12' : AdminTranslation["new12"]),
+            email: (language === 'en' ? 'test@gmail.com' :  AdminTranslation["test@gmail.com"]),
+
         }
     ]
 
@@ -235,7 +266,7 @@ const UserRegistration = (props) => {
             </Box >
 
             <Box className={`${styles.userRegistrationTableDiv}`}>
-                <CustomTable rows={tableRowData} columns={columns} rowsPerPage={10} pageSize={10} checkBoxSelection={false} />
+                <CustomTable rows={tableRowData} columns={columns} rowsPerPage={10} pageSize={100} theme={theme} checkBoxSelection={false} />
             </Box>
 
         </Box >

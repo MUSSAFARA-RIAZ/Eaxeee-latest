@@ -21,14 +21,18 @@ const LeftPane = ({ props, open, onClose, children }) => {
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           marginTop: "50px",
-          border: "none",
+          // border: "none",
+          // border:"2px solid red",
+          // position:"relative",
 
           backgroundColor:
             props.theme === "default"
-              ? "#cceaed "
+              ? "#cceaed"
               : props.theme === "light"
                 ? "#eff3f7"
                 : "#212121",
+
+          
         },
       }}
       variant="persistent"

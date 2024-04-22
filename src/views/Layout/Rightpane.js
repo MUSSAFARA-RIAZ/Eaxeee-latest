@@ -24,6 +24,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
         }`}
       style={{
         width: mainWidth,
+        // border:"2px solid green",
 
         marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
         marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
@@ -40,6 +41,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
               ? lightthemestyles.light_bgcolor
               : darkthemestyles.dark_bgcolor
           }`}
+          // style={{border:"2px solid yellow"}}
       // style={{
       //   backgroundColor:
       //     props.theme === "default"
@@ -50,12 +52,14 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
       // }}
 
       >
-   
+      
     
-        <div>
+  
+        <div style={{display:"flex"}}>
           <IconButton
             aria-label="open drawer"
             onClick={handleDrawerOpen}
+            
             edge="start"
           >
             {props.language === "en" ? (
@@ -68,12 +72,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
                   }`}
                 sx={{
                   fontSize: "2rem",
-                  // color:
-                  //   props.theme === "default"
-                  //     ? "#0d7e8a"
-                  //     : props.theme === "light"
-                  //       ? "black"
-                  //       : "#b4b4b4",
+                 
                 }}
               />
             ) : (
@@ -95,8 +94,16 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
                 }}
               />
             )}
+            
           </IconButton>
+          <div style={{position:"relative", left:"30px"}}>
+
+        
+          {children[0]}
+          </div>
         </div>
+      
+      
       </div>
 
       <div
@@ -111,23 +118,10 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
               ? lightthemestyles.light_secondcontainer
               : darkthemestyles.dark_secondcontainer
           } `}
-        style={{
-          // borderColor:
-          //   props.theme === "default"
-          //     ? "#cceaed "
-          //     : props.theme === "light"
-          //       ? "#eff3f7"
-          //       : "#212121",
-
-          // backgroundColor:
-          //   props.theme === "default"
-          //     ? "#dff7fa"
-          //     : props.theme === "light"
-          //     ? "#ffffff"
-          //     : "#2b2b2b",
-        }}
+          // style={{border:"2px solid red"}}
+       
       >
-        {children}
+        {children.slice(1)}
       </div>
     </div>
   );

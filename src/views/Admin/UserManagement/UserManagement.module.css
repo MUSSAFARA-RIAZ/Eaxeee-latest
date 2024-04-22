@@ -81,7 +81,7 @@
 }
 
 .userRegistrationFormInputParent {
-    /* border: 1px solid black; */
+  
     display: inline-block;
     width: 100%;
     position: relative;
@@ -110,6 +110,7 @@
     .userRegistrationFormDiv {
         /* border: 1px solid black; */
         min-width: 24em;
+        
     }
 
     .userRegistrationForm {

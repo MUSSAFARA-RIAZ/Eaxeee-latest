@@ -4,22 +4,36 @@ import { connect } from 'react-redux';
 import { Box } from '@mui/system';
 
 function CustomTable(props) {
+    
 
     return (
-        <Box sx={{ height: '100%', width: '100%' }}>
+        <Box 
+            sx={{
+                height: '80vh',
+                width: '100%',
+                overflowY: 'auto',
+                '& ::-webkit-scrollbar': {
+                    width: '10px',
+                },
+                '& ::-webkit-scrollbar-track': {
+                    background:props.theme==="default"?"#cceaed":props.theme==="light"?"#eff3f7":"#212121",
+                    borderRadius: '10px',
+                },
+                '& ::-webkit-scrollbar-thumb': {
+                    background: props.theme==="default"?"#0d7e8a":props.theme==="light"?"#cbd0d7":"#181818",
+                    borderRadius: '10px',
+                },
+              
+           
+            }}
+        >
             <DataGrid
                 sx={{
-                    borderColor: 'primary.light',
-                    '& .MuiDataGrid-cell:hover': {
-                        // color: 'primary.main',
-                    },
-                    '& .MuiDataGrid-cell:focus-within': {
-                        outline: 'none !important'
-                    },
-                    // border:'1px solid gray',
-                    border: 'none',
                     width: '100%',
-
+                    height: '100%',
+                     '& .MuiDataGrid-row:hover': {
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                }, 
                 }}
                 rows={props.rows}
                 columns={props.columns}
@@ -29,32 +43,32 @@ function CustomTable(props) {
                 disableSelectionOnClick
                 experimentalFeatures={{ newEditingApi: false }}
                 loading={false}
-                density="standard" //"comfortable" //"compact"
+                density="standard" // "comfortable" // "compact"
                 disableColumnSelector={true}
                 disableColumnMenu={false}
                 disableExtendRowFullWidth={true}
                 AutoGenerateColumns={true}
             />
         </Box>
-    )
+    );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         language: state.language,
-        theme: state.theme
-    }
-}
+        theme: state.theme,
+    };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
         setLanguage: (lang) => {
             return dispatch({
-                type: "TOGGLELANG",
-                value: (lang === 'en') ? 'ar' : "en"
-            })
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(CustomTable);
+                type: 'TOGGLELANG',
+                value: lang === 'en' ? 'ar' : 'en',
+            });
+        },
+    };
+};
 
+export default connect(mapStateToProps, mapDispatchToProps)(CustomTable);

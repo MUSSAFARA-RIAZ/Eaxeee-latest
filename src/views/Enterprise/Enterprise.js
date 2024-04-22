@@ -30,7 +30,16 @@ const Enterprise = (props) => {
           open={open}
           props={props}
           handleDrawerOpen={handleDrawerOpen}
-        />
+        >
+
+<div></div>
+        <div>
+
+          
+            
+          </div>
+        
+        </RightPane>
     </Box>
   );
 };
