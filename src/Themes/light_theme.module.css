@@ -1,16 +1,22 @@
-.light_bgcolor{
-    background-color: #eff3f7;
+.light_bgcolor {
+  background-color: #eff3f7;
 }
-.light_bordercolor{
-    border-color: #eff3f7;
+.light_bordercolor {
+  border-color: #eff3f7;
 }
-.light_iconcolor{
-    color: black;
+.light_iconcolor {
+  color: black;
+}
 
+.light_secondcontainer {
+  background-color: #ffffff;
 }
 
-.light_secondcontainer{
-    background-color: #ffffff ;
+.light_themebtntextcolor {
+  color: black !important;
+}
+.light_themebtnbordercolor {
+  border: 1px solid  gray !important;
 }
 /*    props.theme === "default"
               ? "#dff7fa"

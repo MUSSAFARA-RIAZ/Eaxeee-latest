@@ -8,7 +8,7 @@ import lightthemestyles from "../../Themes/light_theme.module.css";
 import darkthemestyles from "../../Themes/dark_theme.module.css";
 import defaultthemestyles from "../../Themes/default_theme.module.css";
 
-const drawerWidth = 310;
+const drawerWidth = 380;
 const RightPane = ({ open, handleDrawerOpen, props, children }) => {
   const isLanguageRTL = props.language === "ar";
   const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%";

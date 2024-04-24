@@ -2,4 +2,24 @@
     /* Remove the minimum height property */
     min-height: unset !important;
   }
-  
+/* .light_themebtntextcolor{
+  color: black;
+
+} */
+/* .light_themebtnbordercolor:{
+  color: gray;
+
+}
+.default_themebtntextcolor:{
+  color:#0D7E8A;
+}
+.default_themebtnbordercolor:{
+  color: #0D7E8A;
+}
+.dark_themebtntextcolor:{
+  color: white;
+
+}
+.dark_themebtnbordercolor:{
+  color: aliceblue;
+} */

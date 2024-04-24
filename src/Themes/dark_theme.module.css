@@ -1,19 +1,24 @@
-.dark_bgcolor{
-    background-color: #212121;
+.dark_bgcolor {
+  background-color: #212121;
 }
-.dark_bordercolor{
-    border-color: #212121;
-
+.dark_bordercolor {
+  border-color: #212121;
 }
-.dark_iconcolor{
-    color: #b4b4b4;
-
+.dark_iconcolor {
+  color: #b4b4b4;
 }
-.dark_secondcontainer{
-    background-color: #2b2b2b ;
+.dark_secondcontainer {
+  background-color: #2b2b2b;
 }
 /*    props.theme === "default"
               ? "#dff7fa"
               : props.theme === "light"
                 ? "#ffffff"
                 : "#2b2b2b", */
+
+.dark_themebtntextcolor {
+  color: white !important;
+}
+.dark_themebtnbordercolor {
+  border: 1px solid  aliceblue !important;
+}

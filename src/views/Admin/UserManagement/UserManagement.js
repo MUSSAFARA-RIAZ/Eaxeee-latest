@@ -42,39 +42,5 @@ function UserContent(props) {
   );
 }
 
-// function UserManagement(props) {
-//   const [value, setValue] = useState(0);
-//   const { language } = props;
 
-//   const handleChange = (event, newValue) => {
-//     setValue(newValue);
-//   };
-
-//   const tabs = [
-//     { label: language === 'en' ? 'User Registration' : AdminTranslation["User Registration"], icon: <HowToRegIcon /> },
-//     { label: language === 'en' ? 'Password Management' : AdminTranslation["Password Management"], icon: <LockIcon /> },
-//     { label: language === 'en' ? 'Active Directory User' : AdminTranslation["Active Directory User"], icon: <AccountCircleIcon /> }
-//   ];
-
-//   return (
-//     <Box className={styles.main}>
-//       <UserTabs value={value} handleChange={handleChange} tabs={tabs} /> {/* Render UserTabs component */}
-//       <UserContent value={value} language={language} /> {/* Render UserContent component */}
-//     </Box>
-//   );
-// }
-
-// const mapStateToProps = state => ({
-//   language: state.language,
-//   theme: state.theme
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   setLanguage: lang => dispatch({
-//     type: "TOGGLELANG",
-//     value: lang === 'en' ? 'ar' : 'en'
-//   })
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(UserManagement);
 export {UserTabs,UserContent}

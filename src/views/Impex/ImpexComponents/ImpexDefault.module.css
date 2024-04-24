@@ -4,12 +4,12 @@
     flex-direction: "row";
     padding: 80px 20px 40px 20px;
     justify-content: space-between; */
-<<<<<<< HEAD
+
     /* background-color: #cceaed; */
     /* background-color: red; */
-=======
+
     background-color: #cceaed;
->>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
+
     /* height: calc(100vh - 50px); */
 }
 
@@ -18,42 +18,34 @@
     flex-direction: "column";
     margin-right: 10px; */
 }
-.Impex_exportBox{
-   
+
+.Impex_importBox, .Impex_exportBox{
     /* padding: 10px; */
-<<<<<<< HEAD
+
     /* border: 1px solid #6bb6be; */
     /* border-radius:10px; */
     /* background-color: #dff7fa; */
-=======
+
     border: 1px solid #6bb6be;
     /* border-radius:10px; */
     background-color: #dff7fa;
->>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
-   
-}
-.Impex_importBox{
-    /* padding: 10px; */
-<<<<<<< HEAD
-    /* border: 1px solid #6bb6be; */
-    /* border-radius:10px; */
-    /* background-color: #dff7fa; */
-=======
-    border: 1px solid #6bb6be;
-    /* border-radius:10px; */
-    background-color: #dff7fa;
->>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
+
     /* margin-top:10px; */
   
    
  
 }
-<<<<<<< HEAD
 
-=======
+
+
 .Impex_rightpane{
     /* border-radius: 10px; */
     /* width: "100%"; */
     background-color: #dff7fa;
 }
->>>>>>> d3fbcf5cafed5cb1e025a98ef1e240b08fd1d022
+.Impex_Messagesection{
+    background-color: #0d7e8a;
+
+
+}
+

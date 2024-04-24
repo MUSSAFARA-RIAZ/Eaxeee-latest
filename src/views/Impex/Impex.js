@@ -4,6 +4,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { connect } from "react-redux";
 import LeftPane from "../Layout/Leftpane";
 import RightPane from "../Layout/Rightpane";
+import ImportExportBox from "./ImpexComponents/Import_exportBox";
+import Messagesection from "./ImpexComponents/Messagesection";
 
 const Impex = (props) => {
   const [open, setOpen] = useState(true); // Set open to true initially
@@ -20,12 +22,15 @@ const Impex = (props) => {
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <CssBaseline />
 
-      <LeftPane open={open} onClose={handleDrawerClose} props={props} />
+      <LeftPane open={open} onClose={handleDrawerClose} props={props}>
+        <ImportExportBox props={props}/>
+      </LeftPane>
       <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} >
         <div>
     
         </div>
         <div>
+        <Messagesection props={props}/>
 
           
         </div>
