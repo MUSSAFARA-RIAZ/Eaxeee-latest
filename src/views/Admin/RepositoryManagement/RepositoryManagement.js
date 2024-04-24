@@ -260,9 +260,9 @@
 // export {RepositoryTabs, RepositoryContent}
 
 import React from 'react';
-import CustomButton from '../../../components/CustomButton/CustomButton';
+// import CustomButton from '../../../components/CustomButton/CustomButton';
 import { Box } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+
 // import { connect } from 'react-redux';
 // import HowToRegIcon from '@mui/icons-material/HowToReg';
 // import LockIcon from '@mui/icons-material/Lock';

@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { connect } from 'react-redux';
 import { useForm } from "react-hook-form";
-import SnackBar from '../../../components/SnackBar/SnackBar';
+// import SnackBar from '../../../components/SnackBar/SnackBar';
 import styles from './UserManagement.module.css'
 import CustomTable from '../../../components/CustomTable/CustomTable';
 import CustomButton from '../../../components/CustomButton/CustomButton';

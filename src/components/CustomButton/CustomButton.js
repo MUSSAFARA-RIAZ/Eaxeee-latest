@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -26,7 +26,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 const CustomButton = React.forwardRef((props, ref) => {
     const {
         title,
-        buttonBorderColor,
+       
         Theme,
         tooltipTitle,
         variant,

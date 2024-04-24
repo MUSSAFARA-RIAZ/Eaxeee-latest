@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import styles from "./Home.module.css"
 
 import Logo from "../../Assets/Images/no_bg_logo.png"

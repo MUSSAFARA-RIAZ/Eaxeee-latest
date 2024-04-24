@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Logo from "../../../../Assets/Images/no_bg_logo.png"
+// import Logo from "../../../../Assets/Images/no_bg_logo.png"
 import arabicLogo from "../../../../Assets/Images/arabic.png"
 import userImg from "../../../../Assets/Images/user.png"
 import logOutImg from "../../../../Assets/Images/log-out.png"
@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import { connect } from 'react-redux';
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+// import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CustomButton from '../../../CustomButton/CustomButton';
@@ -32,7 +32,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 function CustomAppBar(props) {
   let { setLanguage, language, theme } = props
   const navigate = useNavigate();
-  const appTheme = useTheme();
+  // const appTheme = useTheme();
 
   let menuRef = useRef();
   let menuParentRef = useRef();
@@ -80,8 +80,8 @@ function CustomAppBar(props) {
   }
 
   let gotoPage = (route, title) => {
-    title = (title == "Profile") ? "الملف الشخصي" :
-      (title == "Home") ? "مسكن" : ""
+    title = (title === "Profile") ? "الملف الشخصي" :
+      (title === "Home") ? "مسكن" : ""
     props.changepage(title)
     navigate(route)
   }
