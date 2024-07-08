@@ -24,6 +24,7 @@
     border: none;
     position: relative;
     left: -21px;
+    /* border: 2px solid red; */
     
 
 }
@@ -33,6 +34,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    /* border: 2px solid yellow; */
 }
 
 .logoLink {
@@ -44,14 +46,24 @@
     position: relative;
     top:5px;
     left:-50px;
+    border: none;
     /* top: -4px; */
     height: 100%
 }
+.logoToolTipArabic {
+    position: relative;
+    top:5px;
+    left:0px;
+    /* top: -4px; */
+    height: 100%
+}
+
 
 .logo {
     height: 80%;
   width:100%;
 }
+
 
 .pageTitle {
     /* border: 2px solid red; */

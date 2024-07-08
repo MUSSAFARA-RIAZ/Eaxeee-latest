@@ -10,7 +10,7 @@
     /* border-radius:10px; */
     /* background-color: #dff7fa; */
 
-    border: 1px solid #181818;
+    /* border: 1px solid #181818; */
     /* border-radius:10px; */
     background-color: #2b2b2b;
 
@@ -18,4 +18,10 @@
   
    
  
+}
+.Import_Export_Head{
+    color:#ffffff;
+
+
+    
 }

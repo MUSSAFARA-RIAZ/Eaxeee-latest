@@ -6,8 +6,8 @@ import Sidebar from './Components/SideBar/Sidebar';
 
 function Header(props) {
     let { language, theme } = props
+    const setPage="Home";
 
-    const [Page, setPage] = useState("Home");
     const [drawer, setDrawer] = useState({
         top: false,
         left: false,
@@ -43,7 +43,7 @@ function Header(props) {
                     }
                 </style>
             </Helmet>
-            <CustomAppBar  toggleDrawer={toggleDrawer} changepage={changePageTitle} />
+            <CustomAppBar toggleDrawer={toggleDrawer} changepage={changePageTitle} />
             <Sidebar lang={language} changePageTitle={changePageTitle} state={drawer} toggleDrawer={toggleDrawer} />
         </div>
     )
@@ -52,7 +52,9 @@ function Header(props) {
 const mapStateToProps = state => {
     return {
         language: state.language,
-        theme: state.theme
+        theme: state.theme,
+        route: state.route,
+        activeTree: state.activeTree,
     }
 }
 
@@ -63,7 +65,28 @@ const mapDispatchToProps = dispatch => {
                 type: "TOGGLELANG",
                 value: (lang === 'en') ? 'ar' : "en"
             })
-        }
+
+
+
+        },
+        setTheme: (theme) => {
+            return dispatch({
+                type: "UPDATETHEME",
+                value: theme,
+            });
+        },
+        setRoute: (route) => {
+            return dispatch({
+                type: "UPDATEROUTE",
+                value: route,
+            });
+        },
+        
+  setTree: (tree) =>
+    dispatch({
+      type: "ACTIVETREE",
+      value: tree,
+    }),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

@@ -20,7 +20,7 @@
    
 }
 .rightpane_secondcontainer {
-    height: calc(100vh - 96px);
+    height: calc(100vh - 100px);
     overflow-y: auto;
     border-width: 1px;
     border-style: solid;

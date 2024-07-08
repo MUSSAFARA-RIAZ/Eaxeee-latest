@@ -16,7 +16,7 @@
   color: black !important;
 }
 .light_themebtnbordercolor {
-  border: 1px solid  gray !important;
+  border-color:  gray !important;
 }
 /*    props.theme === "default"
               ? "#dff7fa"

@@ -29,15 +29,20 @@ const ImportExportBox = ({ props }) => {
         }`}
       >
         <FontAwesomeIcon icon="fa-regular fa-file-export" />
-        <h1>Export</h1>
+        <h1 className={`${
+          props.theme === "default"
+            ? ImpexDefaultTheme.Import_Export_Head
+            : props.theme === "light"
+            ? ImpexLightTheme.Import_Export_Head
+            : ImpexDarkTheme.Import_Export_Head
+        }`}>Export</h1>
         <div>
         <div style={{marginTop:"20px"}} >
         <CustomButton 
         
          title={props.language==='en'? 'Export Template':AdminTranslation["Add"]}
                             variant="outlined"
-                            // buttonTitleColor={props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                            buttonBorderColor={props.theme === "default" ? "#0d7e8a" : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                           
                            
                             type="submit"
                             Theme={props.theme}
@@ -60,8 +65,8 @@ const ImportExportBox = ({ props }) => {
        
         title={props.language==='en'? 'Export Data':AdminTranslation["Add"]}
                            variant="outlined"
-                           buttonTitleColor={props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                           buttonBorderColor={props.theme === "default" ? "#0d7e8a" : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                           buttonTitleColor={props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#6d7175' : "#ffffff"}
+                           buttonBorderColor={props.theme === "default" ? "#0d7e8a" : props.theme === 'light' ? '#6d7175' : "#6d7175"}
                           
                            type="submit"
                            Theme={props.theme}
@@ -94,9 +99,16 @@ const ImportExportBox = ({ props }) => {
             : ImpexDarkTheme.Impex_importBox
         }`}
       >
-        <h1>Import</h1>
+        <h1 className={`${
+          props.theme === "default"
+            ? ImpexDefaultTheme.Import_Export_Head
+            : props.theme === "light"
+            ? ImpexLightTheme.Import_Export_Head
+            : ImpexDarkTheme.Import_Export_Head
+        }`}>Import</h1>
         {/* DropDown Component */}
-        <DropDown/>
+        <div  style={{marginTop:"20px"}}>
+        <DropDown props={props}/>
        
         {/* <Impexbtn
             btntitle="Select File"
@@ -147,6 +159,7 @@ const ImportExportBox = ({ props }) => {
 
 
                             />
+                            </div>
                             </div>
       </div>
     </>

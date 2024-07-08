@@ -1,16 +1,4 @@
-.Impex_parentBox {
- 
-    /* display: flex;
-    flex-direction: "row";
-    padding: 80px 20px 40px 20px;
-    justify-content: space-between; */
 
-    /* background-color: red; */
-
-    background-color: red;
-
-    /* height: calc(100vh - 50px); */
-}
 
 .Impex_leftpane{
     /* display: "flex";
@@ -56,4 +44,9 @@
 .Impex_Messagesection{
     background-color: #cbd0d7;
 
+}
+.Import_Export_Head{
+    color:#212121;
+
+    
 }

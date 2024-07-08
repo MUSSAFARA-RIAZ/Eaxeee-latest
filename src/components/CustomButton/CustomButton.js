@@ -38,57 +38,41 @@ const CustomButton = React.forwardRef((props, ref) => {
         loaderSize,
         loaderColor,
         loaderThickness,
-        startIcon
+        bgcolor,
+        buttonTitleColor,
+        startIcon,
+        buttonBorderColor
     } = props;
-    console.log("mussafaraaaaaa", props.Theme);
 
-
-    // console.log("defaulttheme.default_themebtntextcolor:", defaulttheme.default_themebtntextcolor);
 
     return (
         <Box>
             <LightTooltip title={tooltipTitle}>
                 <Button
-                    variant={variant} // Pass variant to the Button component
+                    variant={variant} 
                     onClick={onClick}
                     type={type}
                     disabled={loading || disabled}
                     fullWidth={fullWidth}
-//                     className={
-    // (Theme === "default") ? defaulttheme.default_themebtnbordercolor :
-    //     (Theme === "light") ? lighttheme.light_themebtnbordercolor :
-    //         darktheme.dark_themebtnbordercolor,
-
-//     (Theme === "default") ? defaulttheme.default_themebtntextcolor :
-//         (Theme === "dark") ? darktheme.dark_themebtntextcolor :
-//             (Theme === "light") && lighttheme.light_themebtntextcolor
-// }
+ref={ref}
 className={`${(Theme === "default") ? defaulttheme.default_themebtntextcolor :
     (Theme === "dark") ? darktheme.dark_themebtntextcolor :
-    lighttheme.light_themebtntextcolor} ${(Theme === "default") ? defaulttheme.default_themebtnbordercolor :
+    lighttheme.light_themebtntextcolor} ${(Theme === "default") ?  defaulttheme.default_themebtnbordercolor :
     (Theme === "light") ? lighttheme.light_themebtnbordercolor :
     darktheme.dark_themebtnbordercolor}`}
 
 
                     sx={{
-                        // color: Theme === "default"
-                        //     ? defaulttheme.default_themebtntextcolor // red
-                        //     : Theme === "dark"
-                        //         ? darktheme.dark_themebtntextcolor // white
-                        //         : lighttheme.light_themebtntextcolor // black
-                        // ,
-                        // color:
-                        //     Theme === "default"
-                        //         ? "red"
-                        //         : Theme === "dark"
-                        //             ? "green"
-                        //             : "white"
-                        // ,
-                        // borderColor: buttonBorderColor,
+                      
+                       
+                        borderColor:buttonBorderColor,
+                        color:buttonTitleColor,
+
                         display: 'flex',
                         gap: '10px',
                         alignItems: 'center',
                         minHeight: 'unset',
+                        backgroundColor:bgcolor,
                         "&:hover": {
                             backgroundColor: "rgba(0, 0, 0, 0.1)",
                         },

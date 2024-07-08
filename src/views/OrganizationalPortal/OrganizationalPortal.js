@@ -23,7 +23,10 @@ const OrganizationalPortal = (props) => {
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <CssBaseline />
 
-      <LeftPane open={open} onClose={handleDrawerClose} props={props} />
+      <LeftPane open={open} onClose={handleDrawerClose} props={props}>
+        <div></div>
+        <div></div>
+      </LeftPane>
 
      
         <RightPane
@@ -31,6 +34,7 @@ const OrganizationalPortal = (props) => {
           props={props}
           handleDrawerOpen={handleDrawerOpen}
         >
+          <div></div>
           <div></div>
         <div>
 

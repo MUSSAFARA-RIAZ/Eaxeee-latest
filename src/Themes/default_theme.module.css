@@ -13,6 +13,7 @@
 .default_themebtntextcolor {
   color:#0d7e8a !important;
 }
+
 .default_themebtnbordercolor {
-  border: 1px solid #0d7e8a !important;
+  border-color: #0d7e8a !important;
 }

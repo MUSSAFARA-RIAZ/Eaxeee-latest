@@ -13,14 +13,15 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
   const isLanguageRTL = props.language === "ar";
   const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%";
 
+
   return (
     <div
 
       className={`${props.theme === "default"
-          ? defaultthemestyles.default_bgcolor
-          : props.theme === "light"
-            ? lightthemestyles.light_bgcolor
-            : darkthemestyles.dark_bgcolor
+        ? defaultthemestyles.default_bgcolor
+        : props.theme === "light"
+          ? lightthemestyles.light_bgcolor
+          : darkthemestyles.dark_bgcolor
         }`}
       style={{
         width: mainWidth,
@@ -33,93 +34,94 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
         transition: !open ? "all .5s ease-out" : "all .5s ease-in",
       }}
     >
-  
+
       <div
         className={`${styles.rightpane_firstcontainer} ${props.theme === "default"
-            ? defaultthemestyles.default_bgcolor
-            : props.theme === "light"
-              ? lightthemestyles.light_bgcolor
-              : darkthemestyles.dark_bgcolor
+          ? defaultthemestyles.default_bgcolor
+          : props.theme === "light"
+            ? lightthemestyles.light_bgcolor
+            : darkthemestyles.dark_bgcolor
           }`}
-          // style={{border:"2px solid yellow"}}
-      // style={{
-      //   backgroundColor:
-      //     props.theme === "default"
-      //       ? "#cceaed "
-      //       : props.theme === "light"
-      //         ? "#eff3f7"
-      //         : "#212121",
-      // }}
+
 
       >
-      
-    
-  
-        <div style={{display:"flex"}}>
+
+
+
+
+        <div style={{ display: "flex" }}>
           <IconButton
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            
+
             edge="start"
           >
             {props.language === "en" ? (
               <ArrowCircleRightRoundedIcon
+
                 className={`${styles.rightpane_rightRoundediconenglish} ${props.theme === "default"
-                    ? defaultthemestyles.default_iconcolor
-                    : props.theme === "light"
-                      ? lightthemestyles.light_iconcolor
-                      : darkthemestyles.dark_iconcolor
+                  ? defaultthemestyles.default_iconcolor
+                  : props.theme === "light"
+                    ? lightthemestyles.light_iconcolor
+                    : darkthemestyles.dark_iconcolor
                   }`}
                 sx={{
                   fontSize: "2rem",
-                 
+
+
+                  display: (open && drawerWidth !== 0) ? "none" : "block",
+
+
+                  // transition: opacity 0.5s ease-in-out 1s, transform 0.5s ease-in-out 1s;
+
+
                 }}
               />
             ) : (
               <ArrowCircleLeftRoundedIcon
                 className={`${styles.rightpane_rightRoundediconarabic} ${props.theme === "default"
-                    ? defaultthemestyles.default_iconcolor
-                    : props.theme === "light"
-                      ? lightthemestyles.light_iconcolor
-                      : darkthemestyles.dark_iconcolor
+                  ? defaultthemestyles.default_iconcolor
+                  : props.theme === "light"
+                    ? lightthemestyles.light_iconcolor
+                    : darkthemestyles.dark_iconcolor
                   }`}
                 sx={{
                   fontSize: "2rem",
-                  // color:
-                  //   props.theme === "default"
-                  //     ? "#0d7e8a"
-                  //     : props.theme === "light"
-                  //       ? "black"
-                  //       : "#b4b4b4",
+                  // border:"3px solid yellow",
+                  display: (open && drawerWidth !== 0) ? "none" : "block",
+
+
+
                 }}
               />
             )}
-            
-          </IconButton>
-          <div style={{position:"relative", left:"30px"}}>
 
-        
-          {children[0]}
+          </IconButton>
+
+          <div style={{ position: "relative", left: "30px" }}>
+
+
+            {children[0]}
           </div>
         </div>
-      
-      
+
+
       </div>
 
       <div
         className={`${styles.rightpane_secondcontainer}  ${props.theme === "default"
-            ? defaultthemestyles.default_bordercolor
-            : props.theme === "light"
-              ? lightthemestyles.light_bordercolor
-              : darkthemestyles.dark_bordercolor
+          ? defaultthemestyles.default_bordercolor
+          : props.theme === "light"
+            ? lightthemestyles.light_bordercolor
+            : darkthemestyles.dark_bordercolor
           } ${props.theme === "default"
             ? defaultthemestyles.default_secondcontainer
             : props.theme === "light"
               ? lightthemestyles.light_secondcontainer
               : darkthemestyles.dark_secondcontainer
           } `}
-          // style={{border:"2px solid red"}}
-       
+      // style={{border:"2px solid red"}}
+
       >
         {children.slice(1)}
       </div>

@@ -20,12 +20,12 @@ import CustomTabs from '../../../components/CustomTabs/CustomTabs';
 
 function UserTabs(props) {
   
-  const { value, handleChange, tabs } = props; // Destructure props
+  const { value, handleChange, tabs, language } = props; // Destructure props
 
   return (
     // <h1>Mussafara Riaz </h1>
    
-    <CustomTabs value={value} onChange={handleChange} tabs={tabs}    />
+    <CustomTabs value={value} onChange={handleChange} tabs={tabs} language={language}  />
   
   );
 }
@@ -44,3 +44,4 @@ function UserContent(props) {
 
 
 export {UserTabs,UserContent}
+

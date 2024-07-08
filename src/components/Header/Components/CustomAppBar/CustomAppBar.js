@@ -1,38 +1,49 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 // import Logo from "../../../../Assets/Images/no_bg_logo.png"
-import arabicLogo from "../../../../Assets/Images/arabic.png"
-import userImg from "../../../../Assets/Images/user.png"
-import logOutImg from "../../../../Assets/Images/log-out.png"
-import Tooltip from '@mui/material/Tooltip';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useTheme } from '@mui/material/styles';
-import { connect } from 'react-redux';
-// import { faHome } from "@fortawesome/free-solid-svg-icons";
+import arabicLogo from "../../../../Assets/Images/arabic.png";
+import userImg from "../../../../Assets/Images/user.png";
+import logOutImg from "../../../../Assets/Images/log-out.png";
+import Tooltip from "@mui/material/Tooltip";
+import MenuIcon from "@mui/icons-material/Menu";
+
+import { connect } from "react-redux";
+
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CustomButton from '../../../CustomButton/CustomButton';
-import Button from '@mui/material/Button';
-import styles from './CustomAppBar.module.css'
-import "./Dropdown.css"
-import GreenXlogo from "../../../../Assets/Images/MainLogo.png"
-import BlackXlogo from "../../../../Assets/Images/eaxeeXblack.svg"
-import WhiteXLogo from "../../../../Assets/Images/eaxeeXwhite.svg"
+import CustomButton from "../../../CustomButton/CustomButton";
+import Button from "@mui/material/Button";
+import styles from "./CustomAppBar.module.css";
+import "./Dropdown.css";
+import GreenXlogo from "../../../../Assets/Images/MainLogo.png";
+import BlackXlogo from "../../../../Assets/Images/eaxeeXblack.svg";
+import WhiteXLogo from "../../../../Assets/Images/eaxeeXwhite.svg";
 
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useLocation } from "react-router-dom";
+import CustomTabs from "../../../CustomTabs/CustomTabs";
+// import CustomButton from '../../../CustomButton/CustomButton';
 
+// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 function CustomAppBar(props) {
-  let { setLanguage, language, theme } = props
+  let { setLanguage, language, theme, activepage } = props;
+
+  console.log("propsssss subpage ", props.subpage);
+
   const navigate = useNavigate();
-  // const appTheme = useTheme();
+
+  const location = useLocation();
+  console.log("currrent location", location.pathname);
+
+
 
   let menuRef = useRef();
   let menuParentRef = useRef();
@@ -40,7 +51,6 @@ function CustomAppBar(props) {
 
   const [openDialog, setOpenDialog] = useState(false);
   const handleCloseDialog = () => {
-    // console.log("hussain");
     setOpenDialog(false);
   };
   const handleCloseDialogWhenClickOutside = () => {
@@ -48,11 +58,10 @@ function CustomAppBar(props) {
     setOpenDialog(false);
   };
 
-
   useEffect(() => {
     let handler = (e) => {
       if (menuParentRef.current.contains(e.target)) {
-        return
+        return;
       } else if (!menuRef.current.contains(e.target)) {
         setOpen(false);
       }
@@ -61,14 +70,15 @@ function CustomAppBar(props) {
 
     return () => {
       document.removeEventListener("mousedown", handler);
-    }
-
+    };
   });
-
 
   function DropdownItem(props) {
     return (
-      <li className={language === 'en' ? 'dropdownItem' : 'dropdownItemar'} onClick={props.onClick}>
+      <li
+        className={language === "en" ? "dropdownItem" : "dropdownItemar"}
+        onClick={props.onClick}
+      >
         <img src={props.img} alt=""></img>
         <div> {props.text} </div>
       </li>
@@ -76,79 +86,116 @@ function CustomAppBar(props) {
   }
 
   let changeLanguageAndView = () => {
-    setLanguage(language)
-  }
-
+    setLanguage(language);
+  };
   let gotoPage = (route, title) => {
-    title = (title === "Profile") ? "الملف الشخصي" :
-      (title === "Home") ? "مسكن" : ""
-    props.changepage(title)
-    navigate(route)
-  }
-
-
+    title =
+      title === "Profile" ? "الملف الشخصي" : title === "Home" ? "مسكن" : "";
+    props.changepage(title);
+    navigate(route);
+  };
+  const tabs = [
+    { label: "Architecture" },
+    { label: "Quick Access" }
+  ];
+  const [value, setValue] = useState(0);
+  const handleMainChange = (event, newValue) => {
+    console.log("value", value)
+    setValue(newValue);
+  };
   return (
     <Box>
-      <AppBar position="static" className={styles.appBar}  >
-
+      <AppBar position="static" className={styles.appBar}>
         <Toolbar
-
-
-          // this oen is for header 
-          sx={{ background: (theme === "default" ? "#0d7e8a" : theme === 'light' ? '#cbd0d7' : "#181818") }}
-
+          // this oen is for header
+          sx={{
+            background:
+              theme === "default"
+                ? "#0d7e8a"
+                : theme === "light"
+                  ? "#cbd0d7"
+                  : "#181818",
+          }}
           className={styles.toolbar}
         >
-          {/* MenuIcon Button start */}
+       
 
           <CustomButton
-            startIcon={<MenuIcon
-              style={{
-                fill: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
-              }}
-              className={styles.menuIcon}
-            />}
-            // variant="outlined"
+            startIcon={
+              <MenuIcon
+                style={{
+                  fill:
+                    theme === "default"
+                      ? `#ffff`
+                      : theme === "light"
+                        ? "#6d7175"
+                        : "#ffff ",
+                }}
+                className={styles.menuIcon}
+              />
+            }
+            onClick={props.toggleDrawer("left", true)}
+          ></CustomButton>
 
-            onClick={props.toggleDrawer('left', true)}>
-
-          </CustomButton>
-
-          {/* MenuIcon Button end */}
-
-
-          {/* Eaxee logo start */}
           <Box className={styles.logoParent}>
             <Link to="/" className={styles.logoLink}>
-              <Tooltip title="Home" placement="right" className={styles.logoToolTip}>
+              <Tooltip
+                title="Home"
+                placement="right"
+                className={
+                  language === "en"
+                    ? `${styles.logoToolTip}`
+                    : `${styles.logoToolTipArabic}`
+                }
+              >
                 <Box
                   component="img"
                   className={styles.logo}
                   alt="Eaxee logo."
-                  src={theme === "default" ? GreenXlogo : theme === 'light' ? BlackXlogo : WhiteXLogo}
-
-
+                  src={
+                    theme === "default"
+                      ? GreenXlogo
+                      : theme === "light"
+                        ? BlackXlogo
+                        : WhiteXLogo
+                  }
                   onClick={() => props.changepage("Home")}
                 />
               </Tooltip>
             </Link>
           </Box>
           {/* Eaxee logo end */}
+          {console.log("active pageeeee", activepage)}
 
 
-          {/* Page title start */}
+          {(location.pathname === "/enterprise") ? (
+<>
+              {value === 0 && <CustomTabs bgcolor={theme === "default" ? "#cceaed" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("quickaccess") }} tabs={tabs} language={props.language} theme={props.theme} />
+              }
+              {
+                value === 1 && <CustomTabs bgcolor={theme === "default" ? "#cceaed" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("architecture") }} tabs={tabs} language={props.language} theme={props.theme} />
+              }
+              </>
+
+           
+          ) : ""}
           <Box className={styles.pageTitle}>
             <Typography
               sx={{
-                color: (theme === "default" ? `#ffff` : theme === 'light' ? '#4A4A4A  ' : "#ffff "),
+                color:
+                  theme === "default"
+                    ? `#ffff`
+                    : theme === "light"
+                      ? "#4A4A4A  "
+                      : "#ffff ",
               }}
               className={styles.pageTitleText}
             >
               {props.text}
             </Typography>
           </Box>
-          {/* Page title start */}
 
+          {/* Page title start */}
 
           {/* Page View Switch start */}
 
@@ -159,33 +206,32 @@ function CustomAppBar(props) {
               alt="Change Language"
               src={arabicLogo}
               onClick={changeLanguageAndView}
-            >
-            </Box>
-          </Button >
-          {/* <CustomButton
-            className={styles.languageToggleButton}>
-              <Box
-              className={styles.languageToggleButtonChild}
-              component="img"
-              alt="Change Language"
-              src={arabicLogo}
-              onClick={changeLanguageAndView}
-            >
-            </Box>
-            
-          </CustomButton> */}
+            ></Box>
+          </Button>
 
-          {/* Page View Switch end */}
-
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => props.setTheme("dark")}
+          >
+            dark
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => props.setTheme("default")}
+          >
+            default
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => props.setTheme("light")}
+          >
+            light
+          </Button>
 
           {/* Testing buttons for theme */}
-          <Button variant="contained" color="primary" onClick={() => props.setTheme("dark")}>dark</Button>
-          <Button variant="contained" color="primary" onClick={() => props.setTheme("default")}>default</Button>
-          <Button variant="contained" color="primary" onClick={() => props.setTheme("light")}>light</Button>
-
-          {/* Testing buttons for theme */}
-
-
 
           {/* home icon start */}
           {/* <div className={language === 'en' ? styles.faHomeEn : styles.faHomeAr}>
@@ -193,37 +239,72 @@ function CustomAppBar(props) {
           </div> */}
           {/* home icon end */}
 
-
           {/* User dropdown Menu start */}
-          <div ref={menuParentRef} className={language === 'en' ? ` ${styles.userMenuEn} 'menu-trigger' ` : `${styles.userMenuEn} 'userMenuAr' `} onClick={() => setOpen(!open)}>
+          <div
+            ref={menuParentRef}
+            className={
+              language === "en"
+                ? ` ${styles.userMenuEn} 'menu-trigger' `
+                : `${styles.userMenuEn} 'userMenuAr' `
+            }
+            onClick={() => setOpen(!open)}
+          >
             <Typography
               sx={{
-                color: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff "),
-                fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+                color:
+                  theme === "default"
+                    ? `#ffff`
+                    : theme === "light"
+                      ? "#6d7175"
+                      : "#ffff ",
+                fontFamily:
+                  "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
               }}
               className={styles.userMenuTextEn}
             >
-              {language === 'en' ? "MIM Admin " : 'المشرف MIM'}
+              {language === "en" ? "MIM Admin " : "المشرف MIM"}
             </Typography>
 
-            <FontAwesomeIcon icon={faCaretDown} style={{ color: (theme === "default" ? `#ffff` : theme === 'light' ? '#6d7175' : "#ffff ") }}  ></FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faCaretDown}
+              style={{
+                color:
+                  theme === "default"
+                    ? `#ffff`
+                    : theme === "light"
+                      ? "#6d7175"
+                      : "#ffff ",
+              }}
+            ></FontAwesomeIcon>
           </div>
 
           <div className={`'menu-container'`} ref={menuRef}>
-            <div className={
-              language === 'en' ?
-                `dropdown-menu ${styles.userMenuListEn} ${open ? 'active' : 'inactive'}` :
-                `dropdown-menuar ${styles.userMenuListAr} ${open ? 'active' : 'inactive'}`}
+            <div
+              className={
+                language === "en"
+                  ? `dropdown-menu ${styles.userMenuListEn} ${open ? "active" : "inactive"
+                  }`
+                  : `dropdown-menuar ${styles.userMenuListAr} ${open ? "active" : "inactive"
+                  }`
+              }
             >
-
-              <h3>{language === 'en' ? 'MIM Admin' : 'المشرف MIM'}<br />
+              <h3>
+                {language === "en" ? "MIM Admin" : "المشرف MIM"}
+                <br />
                 <span>info@mim.gov.sa</span>
                 {/* <span>{language === 'en' ? 'info@mim.gov.sa' : 'البريد الإلكتروني'}</span> */}
               </h3>
 
-              <DropdownItem img={userImg} text={language === 'en' ? "My Profile" : 'مظهر جانبي'} onClick={() => gotoPage("Profile", "Profile")} ></DropdownItem>
-              <DropdownItem img={logOutImg} text={language === 'en' ? "Logout" : 'تسجيل خروج'} onClick={() => setOpenDialog(true)} ></DropdownItem>
-
+              <DropdownItem
+                img={userImg}
+                text={language === "en" ? "My Profile" : "مظهر جانبي"}
+                onClick={() => gotoPage("Profile", "Profile")}
+              ></DropdownItem>
+              <DropdownItem
+                img={logOutImg}
+                text={language === "en" ? "Logout" : "تسجيل خروج"}
+                onClick={() => setOpenDialog(true)}
+              ></DropdownItem>
             </div>
           </div>
 
@@ -239,12 +320,13 @@ function CustomAppBar(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {language === 'en' ? 'Are you sure you want to logout?' : 'هل أنت متأكد أنك تريد تسجيل الخروج؟'}
+          {language === "en"
+            ? "Are you sure you want to logout?"
+            : "هل أنت متأكد أنك تريد تسجيل الخروج؟"}
         </DialogTitle>
         <DialogActions>
           <CustomButton
-
-            title={language === 'en' ? 'Disagree' : 'تعارض '}
+            title={language === "en" ? "Disagree" : "تعارض "}
             onClick={handleCloseDialog}
             loading={false}
             disabled={false}
@@ -255,7 +337,7 @@ function CustomAppBar(props) {
           />
           <CustomButton
             autoFocus
-            title={language === 'en' ? 'Agree' : 'يوافق على '}
+            title={language === "en" ? "Agree" : "يوافق على "}
             onClick={handleCloseDialog}
             loading={false}
             disabled={false}
@@ -264,30 +346,30 @@ function CustomAppBar(props) {
             loaderColor="success"
             loaderThickness={5}
           />
-
         </DialogActions>
       </Dialog>
       {/* Dialog Ends */}
-
-
-    </Box >
-  )
+    </Box>
+  );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     language: state.language,
-    theme: state.theme
-  }
-}
+    theme: state.theme,
+    route: state.route,
+    activepage: state.activepage,
+    subpage: state.subpage,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     setLanguage: (lang) => {
       return dispatch({
         type: "TOGGLELANG",
-        value: (lang === 'en') ? 'ar' : "en"
-      })
+        value: lang === "en" ? "ar" : "en",
+      });
     },
     setTheme: (theme) => {
       return dispatch({
@@ -295,7 +377,25 @@ const mapDispatchToProps = dispatch => {
         value: theme,
       });
     },
-  }
-}
+    setRoute: (route) => {
+      return dispatch({
+        type: "UPDATEROUTE",
+        value: route,
+      });
+    },
+    setActivePage: (pageName) => {
+      return dispatch({
+        type: "SETACTIVEPAGE",
+        value: pageName,
+      });
+    },
+    setSubPage: (subpage) => {
+      return dispatch({
+        type: "SETSUBPAGE",
+        value: subpage,
+      })
+    }
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomAppBar)
+export default connect(mapStateToProps, mapDispatchToProps)(CustomAppBar);

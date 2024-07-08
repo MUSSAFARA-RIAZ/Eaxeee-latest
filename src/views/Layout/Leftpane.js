@@ -20,8 +20,9 @@ const LeftPane = ({ props, open, onClose, children }) => {
       sx={{
         "& .MuiDrawer-paper": {
           width: drawerWidth,
+          zIndex:0,
           marginTop: "50px",
-          // border: "none",
+          border: "none",
           // border:"2px solid red",
           // position:"relative",
 
@@ -39,13 +40,17 @@ const LeftPane = ({ props, open, onClose, children }) => {
       anchor={props.language === "ar" ? "right" : "left"}
       open={open}
     >
+      
  
-      <div className={`${styles.Leftpane_iconbutton}  ${props.theme === "default"
+      <div className={`${styles.Leftpane_firstcontainer}  ${props.theme === "default"
           ? defaultthemestyles.default_iconcolor
           : props.theme === "light"
             ? lightthemestyles.light_iconcolor
             : darkthemestyles.dark_iconcolor
         }`}>
+       
+       <div style={{width:"90%"}}>{children[0]}</div>
+       <div className={`${styles.LeftPane_iconbutton}`}>
         <IconButton
 
           onClick={onClose}
@@ -78,9 +83,11 @@ const LeftPane = ({ props, open, onClose, children }) => {
             />
           )}
         </IconButton>
+        </div>
+       
       </div>
-      <div style={{  height:"86%" }}>
-      {children}
+      <div style={{  height:"86%"  }}>
+      {children.slice(1)}
 
       </div>
     </Drawer>

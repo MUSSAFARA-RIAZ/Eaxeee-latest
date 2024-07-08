@@ -26,7 +26,7 @@
     /* border-radius:10px; */
     /* background-color: #dff7fa; */
 
-    border: 1px solid #6bb6be;
+    /* border: 1px solid #6bb6be; */
     /* border-radius:10px; */
     background-color: #dff7fa;
 
@@ -46,6 +46,10 @@
 .Impex_Messagesection{
     background-color: #0d7e8a;
 
+
+}
+.Import_Export_Head{
+    color: #0d7e8a;
 
 }
 

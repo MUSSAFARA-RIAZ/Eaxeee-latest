@@ -81,7 +81,10 @@ const Admin = (props) => {
       <CssBaseline />
 
       <LeftPane open={open} onClose={handleDrawerClose} props={props}>
+      <div></div>
+      <div>
         <CustomTabs value={view} onChange={handleMainTabs} tabs={tabs} orientation="vertical" />
+        </div>
 
 
       </LeftPane>

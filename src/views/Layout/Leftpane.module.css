@@ -1,7 +1,13 @@
 
-.Leftpane_iconbutton{
+
+.Leftpane_firstcontainer{
+    display: flex;
+
+    /* display: flex;
+    align-self: flex-end; */
+    /* border: 1px solid green; */
+
+}
+.LeftPane_iconbutton{
     align-self: flex-end;
-
-
-
 }
