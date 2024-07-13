@@ -1,5 +1,4 @@
 import React from "react";
-
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,12 +10,10 @@ import ImpexLightTheme from "../ImpexComponents/ImpexLight.module.css";
 import DropDown from "../ImpexComponents/DropDown.js";
 import CustomButton from "../../../components/CustomButton/CustomButton.js";
 import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation.js";
-
-import {connect} from 'react-redux';
-
+import { connect } from "react-redux";
 
 const ImportExportBox = ({ props }) => {
-  console.log("In import export box",props.theme)
+  console.log("In import export box", props.theme);
   return (
     <>
       <div
@@ -29,65 +26,71 @@ const ImportExportBox = ({ props }) => {
         }`}
       >
         <FontAwesomeIcon icon="fa-regular fa-file-export" />
-        <h1 className={`${
-          props.theme === "default"
-            ? ImpexDefaultTheme.Import_Export_Head
-            : props.theme === "light"
-            ? ImpexLightTheme.Import_Export_Head
-            : ImpexDarkTheme.Import_Export_Head
-        }`}>Export</h1>
+        <h1
+          className={`${
+            props.theme === "default"
+              ? ImpexDefaultTheme.Import_Export_Head
+              : props.theme === "light"
+              ? ImpexLightTheme.Import_Export_Head
+              : ImpexDarkTheme.Import_Export_Head
+          }`}
+        >
+          Export
+        </h1>
         <div>
-        <div style={{marginTop:"20px"}} >
-        <CustomButton 
-        
-         title={props.language==='en'? 'Export Template':AdminTranslation["Add"]}
-                            variant="outlined"
-                           
-                           
-                            type="submit"
-                            Theme={props.theme}
-                            // Theme={"asdasda"}
-                            
-                            loading={false}
-                            disabled={false}
-                            fullWidth={true}
-                            loaderSize={25}
-                            loaderColor="success"
-                            loaderThickness={5} 
-                            startIcon={<CloudUploadIcon/>}
-
-
-
-                            />
-                            </div>
-<div style={{marginTop:"20px"}}>
-<CustomButton 
-       
-        title={props.language==='en'? 'Export Data':AdminTranslation["Add"]}
-                           variant="outlined"
-                           buttonTitleColor={props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#6d7175' : "#ffffff"}
-                           buttonBorderColor={props.theme === "default" ? "#0d7e8a" : props.theme === 'light' ? '#6d7175' : "#6d7175"}
-                          
-                           type="submit"
-                           Theme={props.theme}
-
-                           
-                           loading={false}
-                           disabled={false}
-                           fullWidth={true}
-                           loaderSize={25}
-                           loaderColor="success"
-                           loaderThickness={5} 
-                           startIcon={<CloudUploadIcon/>}
-
-
-
-                           />
-    
-        
-      </div>
-      </div>
-
+          <div style={{ marginTop: "20px" }}>
+            <CustomButton
+              title={
+                props.language === "en"
+                  ? "Export Template"
+                  : AdminTranslation["Add"]
+              }
+              variant="outlined"
+              type="submit"
+              Theme={props.theme}
+              loading={false}
+              disabled={false}
+              fullWidth={true}
+              loaderSize={25}
+              loaderColor="success"
+              loaderThickness={5}
+              startIcon={<CloudUploadIcon />}
+            />
+          </div>
+          <div style={{ marginTop: "20px" }}>
+            <CustomButton
+              title={
+                props.language === "en"
+                  ? "Export Data"
+                  : AdminTranslation["Add"]
+              }
+              variant="outlined"
+              // buttonTitleColor={
+              //   props.theme === "default"
+              //     ? `#2158a4`
+              //     : props.theme === "light"
+              //     ? "#6d7175"
+              //     : "#cecece"
+              // }
+              // buttonBorderColor={
+              //   props.theme === "default"
+              //     ? "#2158a4"
+              //     : props.theme === "light"
+              //     ? "#6d7175"
+              //     : "#cecece"
+              // }
+              type="submit"
+              Theme={props.theme}
+              loading={false}
+              disabled={false}
+              fullWidth={true}
+              loaderSize={25}
+              loaderColor="success"
+              loaderThickness={5}
+              startIcon={<CloudUploadIcon />}
+            />
+          </div>
+        </div>
       </div>
 
       <div
@@ -99,73 +102,91 @@ const ImportExportBox = ({ props }) => {
             : ImpexDarkTheme.Impex_importBox
         }`}
       >
-        <h1 className={`${
-          props.theme === "default"
-            ? ImpexDefaultTheme.Import_Export_Head
-            : props.theme === "light"
-            ? ImpexLightTheme.Import_Export_Head
-            : ImpexDarkTheme.Import_Export_Head
-        }`}>Import</h1>
+        <h1
+          className={`${
+            props.theme === "default"
+              ? ImpexDefaultTheme.Import_Export_Head
+              : props.theme === "light"
+              ? ImpexLightTheme.Import_Export_Head
+              : ImpexDarkTheme.Import_Export_Head
+          }`}
+        >
+          Import
+        </h1>
         {/* DropDown Component */}
-        <div  style={{marginTop:"20px"}}>
-        <DropDown props={props}/>
-       
-        {/* <Impexbtn
-            btntitle="Select File"
-            starticon={<AddIcon />}
+        <div style={{ marginTop: "20px" }}>
+          <DropDown props={props} />
+
+          <CustomButton
+            title={
+              props.language === "en" ? "Select File" : AdminTranslation["Add"]
+            }
+            variant="outlined"
+            // buttonTitleColor={
+            //   props.theme === "default"
+            //     ? `#2158a4`
+            //     : props.theme === "light"
+            //     ? "#6d7175"
+            //     : "#2158a4 "
+            // }
+            // buttonBorderColor={
+            //   props.theme === "default"
+            //     ? "#2158a4"
+            //     : props.theme === "light"
+            //     ? "#6d7175"
+            //     : "#2158a4 "
+            // }
+            Theme={props.theme}
+            type="submit"
+            loading={false}
+            disabled={false}
+            fullWidth={true}
+            loaderSize={25}
+            loaderColor="success"
+            loaderThickness={5}
+            // ref={buttonRef}
             tooltipTitle="The file must have all the sheets"
-            // ref={buttonRef}  // Not sure what this ref is used for
-          /> */}
+            startIcon={<AddIcon />}
+          />
 
-
-          <CustomButton   title={props.language==='en'? 'Select File':AdminTranslation["Add"]}
-                            variant="outlined"
-                            buttonTitleColor={props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                            buttonBorderColor={props.theme === "default" ? "#0d7e8a" : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                           
-                            Theme={props.theme}
-                            type="submit"
-                            
-                            loading={false}
-                            disabled={false}
-                            fullWidth={true}
-                            loaderSize={25}
-                            loaderColor="success"
-                            loaderThickness={5} 
-                            // ref={buttonRef} 
-                            tooltipTitle="The file must have all the sheets"
-                            startIcon={<AddIcon/>} />
-                         
-        <div style={{marginTop:"20px"}} >
-        <CustomButton 
-        
-         title={props.language==='en'? 'Import Data':AdminTranslation["Add"]}
-                            variant="outlined"
-                            buttonTitleColor={props.theme === "default" ? `#0d7e8a` : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                            buttonBorderColor={props.theme === "default" ? "#0d7e8a" : props.theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                           
-                            type="submit"
-                            
-                            loading={false}
-                            Theme={props.theme}
-
-                            disabled={false}
-                            fullWidth={true}
-                            loaderSize={25}
-                            loaderColor="success"
-                            loaderThickness={5} 
-                            startIcon={<CloudDownloadIcon/>}
-
-
-
-                            />
-                            </div>
-                            </div>
+          <div style={{ marginTop: "20px" }}>
+            <CustomButton
+              title={
+                props.language === "en"
+                  ? "Import Data"
+                  : AdminTranslation["Add"]
+              }
+              variant="outlined"
+              // buttonTitleColor={
+              //   props.theme === "default"
+              //     ? `#2158a4`
+              //     : props.theme === "light"
+              //     ? "#6d7175"
+              //     : "#2158a4 "
+              // }
+              // buttonBorderColor={
+              //   props.theme === "default"
+              //     ? "#2158a4"
+              //     : props.theme === "light"
+              //     ? "#6d7175"
+              //     : "#2158a4 "
+              // }
+              type="submit"
+              loading={false}
+              Theme={props.theme}
+              disabled={false}
+              fullWidth={true}
+              loaderSize={25}
+              loaderColor="success"
+              loaderThickness={5}
+              startIcon={<CloudDownloadIcon />}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
 };
-
 
 const mapStateToProps = (state) => {
   return {

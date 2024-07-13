@@ -7,88 +7,133 @@ import styles from "../Layout/Leftpane.module.css";
 import lightthemestyles from "../../Themes/light_theme.module.css";
 import darkthemestyles from "../../Themes/dark_theme.module.css";
 import defaultthemestyles from "../../Themes/default_theme.module.css";
+import Sidebar from "../../components/Header/Components/SideBar/Sidebar";
+import React, { useState } from 'react'
 
 const drawerWidth = 380;
 
 const LeftPane = ({ props, open, onClose, children }) => {
-
   console.log("LeftPane", props);
+  const [drawer, setDrawer] = useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+});
+const [isSidebarVisible, setSidebarVisible] = useState(false);
+const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        return;
+    }
+    setDrawer({ ...drawer, [anchor]: open });
+};
+const setPage="Home";
+const changePageTitle = (screenName) => {
+  setPage(screenName)
+};
 
+const handleMouseEnter = () => {
+  setSidebarVisible(true);
+  setDrawer({ ...drawer, left: true });
+};
+
+const handleMouseLeave = () => {
+  setSidebarVisible(false);
+  setDrawer({ ...drawer, left: false });
+};
   return (
     <Drawer
       transitionDuration={{ enter: 500, exit: 500 }}
       sx={{
         "& .MuiDrawer-paper": {
           width: drawerWidth,
-          zIndex:0,
+          zIndex: 0,
           marginTop: "50px",
           border: "none",
-          // border:"2px solid red",
-          // position:"relative",
-
           backgroundColor:
             props.theme === "default"
-              ? "#cceaed"
+              ? "#cecece"
               : props.theme === "light"
-                ? "#eff3f7"
-                : "#212121",
-
-          
+              ? "#eff3f7"
+              : "#181818",
         },
       }}
       variant="persistent"
       anchor={props.language === "ar" ? "right" : "left"}
       open={open}
     >
-      
- 
-      <div className={`${styles.Leftpane_firstcontainer}  ${props.theme === "default"
-          ? defaultthemestyles.default_iconcolor
-          : props.theme === "light"
+      <div
+        className={`${styles.Leftpane_firstcontainer}  ${
+          props.theme === "default"
+            ? defaultthemestyles.default_drawer_arrowcolor
+            : props.theme === "light"
             ? lightthemestyles.light_iconcolor
-            : darkthemestyles.dark_iconcolor
-        }`}>
-       
-       <div style={{width:"90%"}}>{children[0]}</div>
-       <div className={`${styles.LeftPane_iconbutton}`}>
-        <IconButton
-
-          onClick={onClose}
-        >
-
-          {props.language === "en" ? (
-            <ArrowCircleLeftRoundedIcon
-
-              className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${props.theme === "default"
-                  ? defaultthemestyles.default_iconcolor
-                  : props.theme === "light"
+            : darkthemestyles.dark_drawer_arrowcolor
+        }`}
+      >
+        <div style={{ width: "90%" }}>{children[0]}</div>
+        <div className={`${styles.LeftPane_iconbutton}`}>
+          <IconButton
+            onClick={onClose}
+            sx={{
+              "&:hover": {
+                backgroundColor:
+                  props.theme === "dark"
+                    ? "rgba(165,209, 73, 0.5)"
+                    : "rgba(33,88, 164, 0.2)",
+              },
+            }}
+          >
+            {props.language === "en" ? (
+              <ArrowCircleLeftRoundedIcon
+                className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${
+                  props.theme === "default"
+                    ? defaultthemestyles.default_drawer_arrowcolor
+                    : props.theme === "light"
                     ? lightthemestyles.light_iconcolor
-                    : darkthemestyles.dark_iconcolor
+                    : darkthemestyles.dark_drawer_arrowcolor
                 }`}
-              sx={{
-                fontSize: "2rem"
-              }}
-            />
-          ) : (
-            <ArrowCircleRightRoundedIcon
-              className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${props.theme === "default"
-                  ? defaultthemestyles.default_iconcolor
-                  : props.theme === "light"
+                sx={{
+                  fontSize: "2rem",
+                }}
+              />
+            ) : (
+              <ArrowCircleRightRoundedIcon
+                className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${
+                  props.theme === "default"
+                    ? defaultthemestyles.default_drawer_arrowcolor
+                    : props.theme === "light"
                     ? lightthemestyles.light_iconcolor
-                    : darkthemestyles.dark_iconcolor
+                    : darkthemestyles.dark_drawer_arrowcolor
                 }`}
-              sx={{
-                fontSize: "2rem"
-              }}
-            />
-          )}
-        </IconButton>
+                sx={{
+                  fontSize: "2rem",
+                }}
+              />
+            )}
+          </IconButton>
         </div>
-       
       </div>
-      <div style={{  height:"86%"  }}>
-      {children.slice(1)}
-
+      <div style={{ height: "86%" }}>
+        {children.slice(1)}
+        <div 
+          className={styles.iconContainer} 
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <ArrowCircleRightRoundedIcon
+            className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${
+              props.theme === "default"
+                ? defaultthemestyles.default_drawer_arrowcolor
+                : props.theme === "light"
+                ? lightthemestyles.light_iconcolor
+                : darkthemestyles.dark_drawer_arrowcolor
+            }`}
+          />
+          <div className={isSidebarVisible ? styles.visibleSidebar : styles.hiddenSidebar}>
+            <Sidebar lang={props.language} changePageTitle={changePageTitle} state={drawer} toggleDrawer={toggleDrawer} />
+          </div>
+        </div>
       </div>
     </Drawer>
   );

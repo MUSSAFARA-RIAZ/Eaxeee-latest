@@ -8,7 +8,7 @@ import ImportExportBox from "./ImpexComponents/Import_exportBox";
 import Messagesection from "./ImpexComponents/Messagesection";
 
 const Impex = (props) => {
-  const [open, setOpen] = useState(true); // Set open to true initially
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -22,23 +22,26 @@ const Impex = (props) => {
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <CssBaseline />
 
-      <LeftPane open={open} onClose={handleDrawerClose} props={props}>
-      <div></div>
-      <div>
-        <ImportExportBox props={props}/>
+      <LeftPane
+        open={open}
+        onClose={handleDrawerClose}
+        props={props}
+      >
+        <div></div>
+        <div>
+          <ImportExportBox props={props} />
         </div>
       </LeftPane>
-      
-      <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen} >
-        <div>
-    
-        </div>
-        <div>
-        <Messagesection props={props}/>
 
-          
+      <RightPane
+        open={open}
+        props={props}
+        handleDrawerOpen={handleDrawerOpen}
+      >
+        <div></div>
+        <div>
+          <Messagesection props={props} />
         </div>
-
       </RightPane>
     </Box>
   );

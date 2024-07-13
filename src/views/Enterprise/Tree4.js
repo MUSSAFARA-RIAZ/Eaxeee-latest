@@ -1,6 +1,6 @@
 // import React from 'react';
-import TreeStructure from "./Components/TreeStructure";
-import {getTreeNodes4} from "./NodeService/Data";
+import TreeStructure from "../../components/TreeStructure/TreeStructure";
+import {getTreeNodes4} from "../../components/TreeStructure/NodeService/Data";
 import {connect} from "react-redux"
 
 function Tree4(props) {

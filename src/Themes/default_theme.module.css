@@ -1,19 +1,22 @@
 .default_bgcolor {
-  background-color: #cceaed;
+  background-color: #cecece;
 }
 .default_bordercolor {
-  border-color: #cceaed;
+  border-color: #cecece;
 }
-.default_iconcolor {
-  color: #0d7e8a;
+.default_drawer_arrowcolor {
+  color: #2158a4;
+}
+.default_iconcolor{
+  color:#393a3a
 }
 .default_secondcontainer {
-  background-color: #dff7fa;
+  background-color: #e0e0e0;
 }
 .default_themebtntextcolor {
-  color:#0d7e8a !important;
+  color:#2158a4 !important;
 }
 
 .default_themebtnbordercolor {
-  border-color: #0d7e8a !important;
+  border-color: #2158a4 !important;
 }

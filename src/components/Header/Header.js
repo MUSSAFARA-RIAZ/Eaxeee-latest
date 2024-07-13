@@ -36,10 +36,10 @@ function Header(props) {
                 <style>
                     {
                         (theme === 'default') ?
-                            'body { background-color: #dff7fa; }' :
+                            'body { background-color: #cecece; }' :
                             (theme === 'dark') ?
                                 'body { background-color: #212121; }' :
-                                'body { background-color: #ffffff; }'
+                                'body { background-color: #cecece; }'
                     }
                 </style>
             </Helmet>

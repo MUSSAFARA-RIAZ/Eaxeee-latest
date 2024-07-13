@@ -1,0 +1,19 @@
+.Organization_FloatingWidget {
+  /* background-color: #a5cfd3 !important; */
+  background-color: #cecece !important;
+}
+
+.Organization_MinimizedFloatingWidget {
+  /* background-color: #a5cfd3 !important; */
+  background-color: #cecece !important;
+}
+
+.Organization_ArtifactDialogTitle {
+  background-color: #2158a4 !important;
+  color: white !important;
+}
+
+.Organization_ArtifactDialogContent {
+  background-color: #cecece !important;
+}
+

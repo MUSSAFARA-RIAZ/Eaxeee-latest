@@ -66,8 +66,8 @@
 //                             className={styles.repositoryManagementSubButtons}
 //                             title={language === 'en' ? 'Object' : AdminTranslation["Object"]}
 //                             variant="outlined"
-//                             buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-//                             buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+//                             buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+//                             buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
 //                             loading={false}
 //                             disabled={false}
 //                             fullWidth={true}
@@ -103,8 +103,8 @@
 //                                     className={styles.repositoryManagementSubButtons}
 //                                     title={language === 'en' ? 'Object' : AdminTranslation["Object"]}
 //                                     variant="outlined"
-//                                     buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-//                                     buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+//                                     buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+//                                     buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
 //                                     loading={false}
 //                                     disabled={false}
 //                                     fullWidth={true}
@@ -119,8 +119,8 @@
 //                                     className={styles.repositoryManagementSubButtons}
 //                                     title={language === 'en' ? 'Model' : AdminTranslation["Model"]}
 //                                     variant="outlined"
-//                                     buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-//                                     buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+//                                     buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+//                                     buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
 //                                     loading={false}
 //                                     disabled={false}
 //                                     fullWidth={true}
@@ -135,8 +135,8 @@
 //                                     className={styles.repositoryManagementSubButtons}
 //                                     title={language === 'en' ? 'Attachment' : AdminTranslation["Attachment"]}
 //                                     variant="outlined"
-//                                     buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-//                                     buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+//                                     buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+//                                     buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
 //                                     loading={false}
 //                                     disabled={false}
 //                                     fullWidth={true}
@@ -151,8 +151,8 @@
 //                                     className={styles.repositoryManagementSubButtons}
 //                                     title={language === 'en' ? 'Dashboard' : AdminTranslation["Dashboard"]}
 //                                     variant="outlined"
-//                                     buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-//                                     buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+//                                     buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+//                                     buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
 //                                     loading={false}
 //                                     disabled={false}
 //                                     fullWidth={true}
@@ -229,8 +229,8 @@
 //                                 className={styles.repositoryManagementSubButtons}
 //                                 title={language === 'en' ? 'Object' : AdminTranslation["Object"]}
 //                                 variant="outlined"
-//                                 buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-//                                 buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+//                                 buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+//                                 buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
 //                                 loading={false}
 //                                 disabled={false}
 //                                 fullWidth={true}

@@ -20,9 +20,9 @@ import CustomButton from "../../../CustomButton/CustomButton";
 import Button from "@mui/material/Button";
 import styles from "./CustomAppBar.module.css";
 import "./Dropdown.css";
-import GreenXlogo from "../../../../Assets/Images/MainLogo.png";
+import GreenXlogo from "../../../../Assets/Images/PaleGrayText.png";
 import BlackXlogo from "../../../../Assets/Images/eaxeeXblack.svg";
-import WhiteXLogo from "../../../../Assets/Images/eaxeeXwhite.svg";
+import WhiteXLogo from "../../../../Assets/Images/Green&PaleGrayText.png";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -98,11 +98,14 @@ function CustomAppBar(props) {
     { label: "Architecture" },
     { label: "Quick Access" }
   ];
+
   const [value, setValue] = useState(0);
   const handleMainChange = (event, newValue) => {
-    console.log("value", value)
+    console.log("prevvalue", value)
     setValue(newValue);
+    console.log("newvalue",value)
   };
+
   return (
     <Box>
       <AppBar position="static" className={styles.appBar}>
@@ -111,10 +114,11 @@ function CustomAppBar(props) {
           sx={{
             background:
               theme === "default"
-                ? "#0d7e8a"
+                ? "#2158a4"
                 : theme === "light"
                   ? "#cbd0d7"
                   : "#181818",
+                  //header ka colour
           }}
           className={styles.toolbar}
         >
@@ -154,7 +158,7 @@ function CustomAppBar(props) {
                   alt="Eaxee logo."
                   src={
                     theme === "default"
-                      ? GreenXlogo
+                      ? WhiteXLogo
                       : theme === "light"
                         ? BlackXlogo
                         : WhiteXLogo
@@ -165,15 +169,20 @@ function CustomAppBar(props) {
             </Link>
           </Box>
           {/* Eaxee logo end */}
-          {console.log("active pageeeee", activepage)}
+          {console.log("active page", activepage)}
 
 
           {(location.pathname === "/enterprise") ? (
 <>
-              {value === 0 && <CustomTabs bgcolor={theme === "default" ? "#cceaed" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("quickaccess") }} tabs={tabs} language={props.language} theme={props.theme} />
+              {/* {value === 0 && <CustomTabs bgcolor={theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("quickaccess") }} tabs={tabs} language={props.language} theme={props.theme} />
               }
               {
-                value === 1 && <CustomTabs bgcolor={theme === "default" ? "#cceaed" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("architecture") }} tabs={tabs} language={props.language} theme={props.theme} />
+                value === 1 && <CustomTabs bgcolor={theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("architecture") }} tabs={tabs} language={props.language} theme={props.theme} />
+              } */}
+              {value === 0 && <CustomTabs value={value} headertabindicator={true} textcolor={"#cecece"} onChange={handleMainChange} onClick={() => { props.setSubPage("quickaccess") }} tabs={tabs} language={props.language} theme={props.theme} />
+              }
+              {
+                value === 1 && <CustomTabs value={value} headertabindicator={true} textcolor={"#cecece"} onChange={handleMainChange} onClick={() => { props.setSubPage("architecture") }} tabs={tabs} language={props.language} theme={props.theme} />
               }
               </>
 
@@ -227,6 +236,7 @@ function CustomAppBar(props) {
             variant="contained"
             color="primary"
             onClick={() => props.setTheme("light")}
+            disabled
           >
             light
           </Button>

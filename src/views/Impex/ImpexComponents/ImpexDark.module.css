@@ -1,27 +1,14 @@
-.Impex_Messagesection{
-    background-color: #181818;
-
+.Impex_Messagesection_Header {
+  background-color: #39383a;
+  color: #cecece;
 }
-/* #2b2b2b; */
-.Impex_importBox, .Impex_exportBox{
-    /* padding: 10px; */
-
-    /* border: 1px solid #6bb6be; */
-    /* border-radius:10px; */
-    /* background-color: #dff7fa; */
-
-    /* border: 1px solid #181818; */
-    /* border-radius:10px; */
-    background-color: #2b2b2b;
-
-    /* margin-top:10px; */
-  
-   
- 
+.Impex_importBox,
+.Impex_exportBox {
 }
-.Import_Export_Head{
-    color:#ffffff;
+.Import_Export_Head {
+  color: #cecece;
+}
 
-
-    
+.Impex_Messagesection_Body {
+  color: #cecece;
 }

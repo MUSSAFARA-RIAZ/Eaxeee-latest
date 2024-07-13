@@ -28,7 +28,7 @@ function App(props) {
     // direction: "rtl",
     pallete: {
       primary: {
-        main: '#0D7E8A',
+        main: '#2158a4',
         drawer_icon: '#000000'
       },
     },

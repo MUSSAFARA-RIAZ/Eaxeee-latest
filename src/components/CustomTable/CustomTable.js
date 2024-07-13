@@ -16,11 +16,11 @@ function CustomTable(props) {
                     width: '10px',
                 },
                 '& ::-webkit-scrollbar-track': {
-                    background:props.theme==="default"?"#cceaed":props.theme==="light"?"#eff3f7":"#212121",
+                    background:props.theme==="default"?"#cecece":props.theme==="light"?"#eff3f7":"#212121",
                     borderRadius: '10px',
                 },
                 '& ::-webkit-scrollbar-thumb': {
-                    background: props.theme==="default"?"#0d7e8a":props.theme==="light"?"#cbd0d7":"#181818",
+                    background: props.theme==="default"?"#2158a4":props.theme==="light"?"#cbd0d7":"#39383a",
                     borderRadius: '10px',
                 },
               

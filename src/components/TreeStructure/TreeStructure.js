@@ -36,7 +36,7 @@ function TreeStructure({ getTreeNodes, language, theme, setSelectedNodeData }) {
 
     const nodeTemplate = (node) => {
         const nodeStyle = {
-            color: theme === "default" ? "" : theme === "dark" ? "white" : "black",
+            color: theme === "default" ? "#393a3a" : theme === "dark" ? "#cecece" : "black",
             direction: language === "ar" ? "rtl" : "ltr",
         };
 
@@ -52,19 +52,30 @@ function TreeStructure({ getTreeNodes, language, theme, setSelectedNodeData }) {
             <Toast ref={toast} />
             <ContextMenu model={contextMenu} ref={cm} />
             <style>
-                {`
-                    .p-tree-toggler:hover {
-                        background-color: transparent;
-                    }
-                    .p-treenode-content:hover {
-                        background-color: rgba(0, 0, 0, 0.1);
-                    }
-                    .p-tree .p-tree-container .p-treenode:focus > .p-treenode-content {
-                        outline: 0 none;
-                        box-shadow: none;
-                    }
+        {`
+              
+              .p-tree-toggler:hover{
+                background-color:transparent
+              }
+                   
+    .p-treenode-content:hover{
+        background-color:${theme === 'dark' ? 'rgba(165,209, 73, 0.5)' : 'rgba(33,88, 164, 0.2)'}; 
+
+    }
+    .p-tree .p-tree-container .p-treenode:focus > .p-treenode-content {
+    outline: 0 none;
+   
+    box-shadow:none;}
+ 
+    .p-tree-toggler-icon {
+        color: ${theme === 'dark' ? '#cecece' : '#393a3a'};
+      }
+
+    .p-tree-toggler:hover .p-tree-toggler-icon {
+        color: ${theme === 'dark' ? '#a5d149' : '#2158a4'};
+      }
                 `}
-            </style>
+      </style>
             <div>
                 <Tree
                     value={nodes}
@@ -75,8 +86,12 @@ function TreeStructure({ getTreeNodes, language, theme, setSelectedNodeData }) {
                     onContextMenuSelectionChange={(e) => setSelectedNodeKey(e.value)}
                     onContextMenu={(e) => handleContextMenu(e)}
                     nodeTemplate={nodeTemplate}
-                    collapseIcon={PrimeIcons.MINUS}
-                    expandIcon={PrimeIcons.PLUS}
+                    // collapseIcon={PrimeIcons.MINUS}
+                    expandIcon={
+                        language === "en"
+                          ? PrimeIcons.CHEVRON_RIGHT
+                          : PrimeIcons.CHEVRON_LEFT
+                      }
                     onNodeClick={(e) => setSelectedNodeData(e.node.key)} 
                     style={{ width: "380px", backgroundColor: 'transparent', border: "none" }}
                 />

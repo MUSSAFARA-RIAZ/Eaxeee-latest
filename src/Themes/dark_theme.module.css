@@ -1,24 +1,33 @@
 .dark_bgcolor {
-  background-color: #212121;
+  /* background-color: #212121; */
+  background-color: #181818;
 }
 .dark_bordercolor {
-  border-color: #212121;
+  /* border-color: #212121; */
+  border-color: #181818;
 }
-.dark_iconcolor {
-  color: #b4b4b4;
+.dark_drawer_arrowcolor {
+  /* color: #b4b4b4; */
+  /* color : #a5d149 */
+  color: #cecece;
+}
+
+.dark_iconcolor{
+  color: #cecece;
 }
 .dark_secondcontainer {
-  background-color: #2b2b2b;
+  /* background-color: #2b2b2b; */
+  background-color: #212121;
 }
 /*    props.theme === "default"
               ? "#dff7fa"
               : props.theme === "light"
-                ? "#ffffff"
+                ? "#cecece"
                 : "#2b2b2b", */
 
 .dark_themebtntextcolor {
-  color: white !important;
+  color: #cecece !important;
 }
 .dark_themebtnbordercolor {
-  border-color: white !important;
+  border-color: #cecece !important;
 }

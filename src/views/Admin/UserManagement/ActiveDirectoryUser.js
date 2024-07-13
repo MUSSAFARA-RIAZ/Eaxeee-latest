@@ -11,13 +11,14 @@ import Switch from '@mui/material/Switch';
 import InputLabel from '@mui/material/InputLabel';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import styles from './UserManagement.module.css';
+import { connect } from 'react-redux';
 
 const ActiveDirectoryUser = (props) => {
     
     const [openModal, setOpenModal] = useState(false);
-    // let { language, theme } = props;
-    let { language } = props;
-    
+    let { language, theme } = props;
+    // let { language } = props;
+    console.log("themeee",theme);
     const openModalToImportUsersFromActiveDirectory = () => {
         setOpenModal(true);
     }
@@ -99,7 +100,9 @@ const ActiveDirectoryUser = (props) => {
                     <CustomButton
                         className="deactivate-button"
                         title={language === 'en' ? 'Deactivate' : AdminTranslation["Change"]}
-                        variant="outlined"                        
+                        variant="outlined"
+                        // buttonTitleColor={theme === "default" ? '#2158a4' : theme === 'dark' ? '#a5d149' : ""}
+                        // buttonBorderColor={theme === "default" ? '#2158a4' : theme === 'dark'? '#a5d149' : ""}                        
                         onClick={onClick}
                         type="submit"
                         loading={false}
@@ -108,6 +111,7 @@ const ActiveDirectoryUser = (props) => {
                         loaderSize={25}
                         loaderColor="success"
                         loaderThickness={5}
+                        Theme={theme}
                     />
                 );
             },
@@ -131,6 +135,7 @@ const ActiveDirectoryUser = (props) => {
                     loaderSize={25}
                     loaderColor="success"
                     loaderThickness={5}
+                    Theme={theme}
                 />
             </Box>
             <Box className={styles.activeDirTableDiv}>
@@ -164,7 +169,7 @@ const ActiveDirectoryUser = (props) => {
                             <TextField label="Username" fullWidth margin="normal" size="small"/>
                             <TextField label="Password" type="password" fullWidth margin="normal" size="small"/>
                             <FormControlLabel
-                                control={<Checkbox style={{ color: "#0d7e8a" }}/>}
+                                control={<Checkbox style={{ color: "#2158a4" }}/>}
                                 label="Save Password"
                             />
                         </Box>
@@ -184,6 +189,7 @@ const ActiveDirectoryUser = (props) => {
                                 loaderSize={25}
                                 loaderColor="success"
                                 loaderThickness={5}
+                                
                             />
                         </Box>
 
@@ -220,7 +226,7 @@ const ActiveDirectoryUser = (props) => {
                             <Box style={{ display: 'flex', flexDirection: 'column' }}>
                                 <FormControlLabel
                                     control={<Switch />}
-                                    // control={<Switch style={{ color: ('checked' ? '#0d7e8a' : 'primary') }} />}
+                                    // control={<Switch style={{ color: ('checked' ? '#2158a4' : 'primary') }} />}
                                     label="Select All"
                                 />
                             </Box>
@@ -265,4 +271,22 @@ const ActiveDirectoryUser = (props) => {
     );
 }
 
-export default ActiveDirectoryUser;
+const mapStateToProps = state => {
+    return {
+        language: state.language,
+        theme: state.theme
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setLanguage: (lang) => {
+            return dispatch({
+                type: "TOGGLELANG",
+                value: (lang === 'en') ? 'ar' : "en"
+            })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActiveDirectoryUser); 

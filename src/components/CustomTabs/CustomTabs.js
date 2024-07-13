@@ -2,10 +2,7 @@ import React from 'react';
 import { Tab, Tabs } from '@mui/material';
 import { connect } from 'react-redux';
 
-function CustomTabs({ value, onChange, tabs, language, theme , onClick,bgcolor}) {
-  console.log("themeeeeee", theme)
-
-
+function CustomTabs({ value, onChange, tabs, language, theme , onClick,textcolor,headertabindicator}) {
   return (
     <Tabs
       value={value}
@@ -13,11 +10,16 @@ function CustomTabs({ value, onChange, tabs, language, theme , onClick,bgcolor})
       onClick={onClick}
       aria-label="Custom Tabs"
       orientation="horizontal"
-      
+      indicatorColor='primary'
+      TabIndicatorProps={{
+        style: {
+          // backgroundColor: '#2158a4',
+          backgroundColor: headertabindicator===true? (theme === "default" ? "#cecece" : "#a5d149") :(theme === "default" ? "#2158a4" : "#a5d149"),
+        }
+      }}
       sx={{
        
         direction: "ltr",
-        backgroundColor:bgcolor,
 
       }}
       variant="scrollable"
@@ -36,11 +38,14 @@ function CustomTabs({ value, onChange, tabs, language, theme , onClick,bgcolor})
           sx={{
             minHeight: "0px",
             minWidth: "0px",
-            
-            
-            color: theme === "default" ? "#0d7e8a" : theme === "dark" ? "white" : "",
+            color:textcolor,
+            // color:"#cecece",
+            // color: theme === "default" ? "#cecece" : theme === "dark" ? "#cecece":"black",
             "&:hover": {
               backgroundColor: "rgba(0, 0, 0, 0.1)",
+            },
+            "&.Mui-selected": {
+              color: headertabindicator===true? (theme === "default" ? "#cecece" : "#a5d149") : (theme === "default" ? "#2158a4" : "#a5d149") , // Adjust the selected text color based on the theme
             },
           }}
         />

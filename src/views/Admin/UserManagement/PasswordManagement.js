@@ -26,7 +26,7 @@ const PasswordManagement = (props) => {
     }
 
     let { language, theme } = props;
-
+    console.log("themeee",theme);
     const { register, formState: { errors }, handleSubmit, watch } = useForm({});
     const password = useRef({});
     password.current = watch("password", "");
@@ -93,8 +93,8 @@ const PasswordManagement = (props) => {
                         className="change-button"
                         title={language === 'en' ? 'Change' : AdminTranslation["Change"]}
                         variant="outlined"
-                        buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                        buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                        // buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+                        // buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
                         onClick={onClick}
                         type="submit"
                         loading={false}
@@ -103,6 +103,7 @@ const PasswordManagement = (props) => {
                         loaderSize={25}
                         loaderColor="success"
                         loaderThickness={5}
+                        Theme={theme}
                     />
                 );
             },
@@ -164,8 +165,8 @@ const PasswordManagement = (props) => {
                             className="submit-button"
                             title={language === 'en' ? 'Update' :AdminTranslation["Update"]}
                             variant="outlined"
-                            buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                            buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                            // buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+                            // buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
                             onClick={handleSubmit(onSubmit)}
                             type="submit"
                             loading={false}
@@ -174,6 +175,7 @@ const PasswordManagement = (props) => {
                             loaderSize={25}
                             loaderColor="success"
                             loaderThickness={5}
+                            Theme={theme}
                         />
                     </Box>
                 </form>

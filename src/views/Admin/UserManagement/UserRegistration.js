@@ -131,8 +131,8 @@ const UserRegistration = (props) => {
                     className="activate-button"
                     title={language === 'en' ? 'Activate' : AdminTranslation["Activate"]}
                     variant="outlined"
-                    buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                    buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                    // buttonTitleColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
+                    // buttonBorderColor={theme === "default" ? `#2158a4` : theme === 'light' ? '#6d7175' : "#2158a4 "}
                     onClick={onClick}
                     type="submit"
                     loading={false}
@@ -141,6 +141,7 @@ const UserRegistration = (props) => {
                     loaderSize={25}
                     loaderColor="success"
                     loaderThickness={5}
+                    Theme={theme}
                 />
                 );
             },
@@ -249,8 +250,7 @@ const UserRegistration = (props) => {
                         <CustomButton
                             title={language==='en'? 'Add':AdminTranslation["Add"]}
                             variant="outlined"
-                            buttonTitleColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
-                            buttonBorderColor={theme === "default" ? `#0d7e8a` : theme === 'light' ? '#6d7175' : "#0d7e8a "}
+                            buttonTitleColor={null}
                             onClick={handleUserSubmit}
                             type="submit"
                             
@@ -260,6 +260,7 @@ const UserRegistration = (props) => {
                             loaderSize={25}
                             loaderColor="success"
                             loaderThickness={5}
+                            Theme={theme}
                         />
                     </Box>
                 </form>
