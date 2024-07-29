@@ -1,33 +1,47 @@
-import React from 'react';
-import { Tab, Tabs } from '@mui/material';
-import { connect } from 'react-redux';
+import React from "react";
+import { Tab, Tabs } from "@mui/material";
+import { connect } from "react-redux";
 
-function CustomTabs({ value, onChange, tabs, language, theme , onClick,textcolor,headertabindicator}) {
+function CustomTabs({
+  value,
+  onChange,
+  tabs,
+  orientation,
+  language,
+  theme,
+  onClick,
+  textcolor,
+  headertabindicator,
+  noindicator
+}) {
   return (
     <Tabs
       value={value}
       onChange={onChange}
       onClick={onClick}
       aria-label="Custom Tabs"
-      orientation="horizontal"
-      indicatorColor='primary'
+      orientation={orientation}
+      indicatorColor="primary"
       TabIndicatorProps={{
         style: {
-          // backgroundColor: '#2158a4',
-          backgroundColor: headertabindicator===true? (theme === "default" ? "#cecece" : "#a5d149") :(theme === "default" ? "#2158a4" : "#a5d149"),
-        }
+          // Conditionally set the background color based on the orientation and headertabindicator prop
+          backgroundColor:
+            noindicator === true
+              ? "transparent"
+              : headertabindicator
+              ? theme === "default"
+                ? "#cecece"
+                : "#a5d149"
+              : theme === "default"
+              ? "#2158a4"
+              : "#a5d149",
+        },
       }}
       sx={{
-       
         direction: "ltr",
-
       }}
       variant="scrollable"
-
       scrollButtons="auto"
-     
-
-
     >
       {tabs.map((tab, index) => (
         <Tab
@@ -38,14 +52,22 @@ function CustomTabs({ value, onChange, tabs, language, theme , onClick,textcolor
           sx={{
             minHeight: "0px",
             minWidth: "0px",
-            color:textcolor,
-            // color:"#cecece",
-            // color: theme === "default" ? "#cecece" : theme === "dark" ? "#cecece":"black",
+            color: textcolor,
             "&:hover": {
-              backgroundColor: "rgba(0, 0, 0, 0.1)",
+              backgroundColor:
+                theme === "dark"
+                  ? "rgba(165,209, 73, 0.5)"
+                  : "rgba(33,88, 164, 0.2)",
             },
             "&.Mui-selected": {
-              color: headertabindicator===true? (theme === "default" ? "#cecece" : "#a5d149") : (theme === "default" ? "#2158a4" : "#a5d149") , // Adjust the selected text color based on the theme
+              color:
+                headertabindicator === true
+                  ? theme === "default"
+                    ? "#cecece"
+                    : "#a5d149"
+                  : theme === "default"
+                  ? "#2158a4"
+                  : "#a5d149", // Adjust the selected text color based on the theme
             },
           }}
         />

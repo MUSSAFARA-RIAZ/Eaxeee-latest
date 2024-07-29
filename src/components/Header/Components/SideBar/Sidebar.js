@@ -25,7 +25,7 @@ function Sidebar(props) {
       <List>
         <ListItem disablePadding>
           <Tooltip title="Eaxee Administration" placement="right">
-            <Link to="admin">
+            <Link to="/admin">
               <ListItemButton
                 className={styles.sidebarItemsButton}
                 onClick={() => {
@@ -49,10 +49,10 @@ function Sidebar(props) {
         <Divider />
         <ListItem onClick={() => props.changePageTitle("Impex")} disablePadding>
           <Tooltip title="Eaxee Impex" placement="right">
-            <Link to="impex">
+            <Link to="/impex">
               <ListItemButton
                 className={styles.sidebarItemsButton}
-                onclick={() => {
+                onClick={() => {
                   props.changePageTitle("Impex");
                   props.setActivePage("impex");
                 }}
@@ -74,7 +74,7 @@ function Sidebar(props) {
 
         <ListItem disablePadding>
           <Tooltip title="Eaxee Enterprise Architecture" placement="right">
-            <Link to="enterprise">
+            <Link to="/enterprise">
               <ListItemButton
                 className={styles.sidebarItemsButton}
                 onClick={() => {
@@ -99,7 +99,7 @@ function Sidebar(props) {
         <Divider />
         <ListItem disablePadding>
           <Tooltip title="Eaxee Organization Portal" placement="right">
-            <Link to="organizational-portal">
+            <Link to="/organizational-portal">
               <ListItemButton
                 className={styles.sidebarItemsButton}
                 onClick={() => {
@@ -122,7 +122,7 @@ function Sidebar(props) {
         </ListItem>
         <ListItem disablePadding>
           <Tooltip title="Meta Model" placement="right">
-            <Link to="organizational-portal">
+            <Link to="/organizational-portal">
               <ListItemButton
                 className={styles.sidebarItemsButton}
                 onClick={() => {

@@ -23,6 +23,7 @@ import "./Dropdown.css";
 import GreenXlogo from "../../../../Assets/Images/PaleGrayText.png";
 import BlackXlogo from "../../../../Assets/Images/eaxeeXblack.svg";
 import WhiteXLogo from "../../../../Assets/Images/Green&PaleGrayText.png";
+import logg from "../../../../Assets/Images/Green&CharcoalGrayText.png"
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";

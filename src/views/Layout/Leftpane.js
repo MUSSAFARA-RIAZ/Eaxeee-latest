@@ -8,39 +8,42 @@ import lightthemestyles from "../../Themes/light_theme.module.css";
 import darkthemestyles from "../../Themes/dark_theme.module.css";
 import defaultthemestyles from "../../Themes/default_theme.module.css";
 import Sidebar from "../../components/Header/Components/SideBar/Sidebar";
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const drawerWidth = 380;
 
 const LeftPane = ({ props, open, onClose, children }) => {
-  console.log("LeftPane", props);
+  const navigate = useNavigate(); // Use useNavigate
   const [drawer, setDrawer] = useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
-});
-const [isSidebarVisible, setSidebarVisible] = useState(false);
-const toggleDrawer = (anchor, open) => (event) => {
+  });
+  const [isSidebarVisible, setSidebarVisible] = useState(false);
+
+  const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-        return;
+      return;
     }
     setDrawer({ ...drawer, [anchor]: open });
-};
-const setPage="Home";
-const changePageTitle = (screenName) => {
-  setPage(screenName)
-};
+  };
 
-const handleMouseEnter = () => {
-  setSidebarVisible(true);
-  setDrawer({ ...drawer, left: true });
-};
+  const changePageTitle = (screenName) => {
+    navigate(`/${screenName}`); // Navigate to the new path
+  };
 
-const handleMouseLeave = () => {
-  setSidebarVisible(false);
-  setDrawer({ ...drawer, left: false });
-};
+  const handleMouseEnter = () => {
+    setSidebarVisible(true);
+    setDrawer({ ...drawer, left: true });
+  };
+
+  const handleMouseLeave = () => {
+    setSidebarVisible(false);
+    setDrawer({ ...drawer, left: false });
+  };
+
   return (
     <Drawer
       transitionDuration={{ enter: 500, exit: 500 }}
@@ -129,6 +132,7 @@ const handleMouseLeave = () => {
                 ? lightthemestyles.light_iconcolor
                 : darkthemestyles.dark_drawer_arrowcolor
             }`}
+            fontSize="large"
           />
           <div className={isSidebarVisible ? styles.visibleSidebar : styles.hiddenSidebar}>
             <Sidebar lang={props.language} changePageTitle={changePageTitle} state={drawer} toggleDrawer={toggleDrawer} />

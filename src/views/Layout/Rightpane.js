@@ -7,7 +7,7 @@ import styles from "../Layout/Rightpane.module.css";
 import lightthemestyles from "../../Themes/light_theme.module.css";
 import darkthemestyles from "../../Themes/dark_theme.module.css";
 import defaultthemestyles from "../../Themes/default_theme.module.css";
-
+import { useLocation } from "react-router-dom";
 const drawerWidth = 380;
 const RightPane = ({ open, handleDrawerOpen, props, children }) => {
   const isLanguageRTL = props.language === "ar";
@@ -24,7 +24,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
     }
     return () => clearTimeout(timer);
   }, [open]);
-
+  const location = useLocation();
   return (
     <div
       className={`${
@@ -95,8 +95,10 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
               />
             )}
           </IconButton>
-          {children[0]}
-          <div style={{ position: "relative", left: "30px" }}></div>
+          {location.pathname === "/admin" ? null : children[0]}
+          <div style={{ position: "relative", left: "30px" }}>
+            {location.pathname === "/admin" ? children[0] : null}
+          </div>
         </div>
       </div>
 
@@ -114,7 +116,6 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
             ? lightthemestyles.light_secondcontainer
             : darkthemestyles.dark_secondcontainer
         } `}
-        // style={{border:"2px solid red"}}
       >
         {children.slice(1)}
       </div>

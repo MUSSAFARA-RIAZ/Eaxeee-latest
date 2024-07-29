@@ -2,26 +2,17 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { connect } from "react-redux";
+import styles from "./Admin.module.css";
 import LeftPane from "../Layout/Leftpane";
 import RightPane from "../Layout/Rightpane";
 import AdminTranslation from "../../Utils/AdminTranslation/AdminTranslation";
 import CustomTabs from "../../components/CustomTabs/CustomTabs";
-
 import { UserTabs } from "../Admin/UserManagement/UserManagement";
 import { UserContent } from "../Admin/UserManagement/UserManagement";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
-import LockIcon from "@mui/icons-material/Lock";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
-import BackupIcon from "@mui/icons-material/Backup";
-import RestoreIcon from "@mui/icons-material/Restore";
-
 import {
   LicenseManagementContent,
   LicenseManagementTabs,
 } from "../Admin/LicenseManagement/LicenseManagement";
-import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
-
 import {
   RepositoryTabs,
   RepositoryContent,
@@ -31,12 +22,12 @@ const Admin = (props) => {
   const { language } = props;
 
   const [view, setView] = useState(0);
+  const [value, setValue] = useState(0);
 
   const handleMainTabs = (event, newValue) => {
     setView(newValue);
     console.log(newValue);
   };
-  const [value, setValue] = useState(0);
 
   const tabs = [
     {
@@ -64,41 +55,41 @@ const Admin = (props) => {
         language === "en"
           ? "User Registration"
           : AdminTranslation["User Registration"],
-      icon: <HowToRegIcon />,
     },
     {
       label:
         language === "en"
           ? "Password Management"
           : AdminTranslation["Password Management"],
-      icon: <LockIcon />,
     },
     {
       label:
         language === "en"
-          ? "Active Directory User"
-          : AdminTranslation["Active Directory User"],
-      icon: <AccountCircleIcon />,
+          ? "Directory User"
+          : AdminTranslation["Directory User"],
     },
   ];
   const licensedtabs = [
     {
       label: language === "en" ? "Named User" : AdminTranslation["Named User"],
-      icon: <AccountCircleIcon fontSize="small" />,
     },
     {
       label:
         language === "en"
           ? "Concurrent User"
           : AdminTranslation["Concurrent User"],
-      icon: <SupervisedUserCircleIcon fontSize="small" />,
     },
   ];
 
+  const repositorytabs = [
+    
+    { label: language === "en" ? 'Architecture' : AdminTranslation["Architecture"] },
+    { label: language === "en" ? 'Document' : AdminTranslation["Document"] },
+    { label: language === "en" ? 'Process' : AdminTranslation["Process"] },
+  ];
+
   const handleMainChange = (event, newValue) => {
-    console.log("prevvalue", value);
     setValue(newValue);
-    console.log("newvalue", value);
   };
 
   const [open, setOpen] = useState(true);
@@ -111,66 +102,51 @@ const Admin = (props) => {
     setOpen(false);
   };
 
-  const repositorytabs = [
-    {
-      label: language === "en" ? "Clear" : AdminTranslation["Clear"],
-      icon: <HowToRegIcon />,
-    },
-    {
-      label: language === "en" ? "Backup" : AdminTranslation["Backup"],
-      icon: <BackupIcon />,
-    },
-    {
-      label: language === "en" ? "Restore" : AdminTranslation["Restore"],
-      icon: <RestoreIcon />,
-    },
-  ];
-
   return (
     <Box sx={{ display: "flex", flexDirection: "column" }}>
       <CssBaseline />
 
       <LeftPane open={open} onClose={handleDrawerClose} props={props}>
         <div></div>
-        <div>
-          <CustomTabs
-            value={view}
-            onChange={handleMainTabs}
-            tabs={tabs}
-            orientation="vertical"
-          />
-        </div>
+        <CustomTabs
+          className={styles.adminCustomTabs}
+          value={view}
+          onChange={handleMainTabs}
+          tabs={tabs}
+          orientation="vertical"
+          noindicator={true}
+        />
       </LeftPane>
 
       <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen}>
-        {view === 0 ? (
-          <UserTabs
-            value={value}
-            handleChange={handleMainChange}
-            tabs={usertabs}
-          />
-        ) : view === 1 ? (
-          <LicenseManagementTabs
-            value={value}
-            handleChange={handleMainChange}
-            language={props.language}
-            tabs={licensedtabs}
-          />
-        ) : (
-          <RepositoryTabs
-            tabs={repositorytabs}
-            value={value}
-            handleChange={handleMainChange}
-          />
-        )}
-
-        {view === 0 && <UserContent value={value} language={props.language} />}
-        {view === 1 && (
-          <LicenseManagementContent value={value} language={props.language} />
-        )}
-        {view === 2 && (
-          <RepositoryContent value={value} language={props.language} />
-        )}
+        <div>
+          {view === 0 ? (
+            <UserTabs
+              value={value}
+              handleChange={handleMainChange}
+              tabs={usertabs}
+            />
+          ) : view === 1 ? (
+            <LicenseManagementTabs
+              value={value}
+              handleChange={handleMainChange}
+              tabs={licensedtabs}
+            />
+          ) : (
+            <RepositoryTabs
+              tabs={repositorytabs}
+              value={value}
+              handleChange={handleMainChange}
+            />
+          )}
+        </div>
+        <div>
+          {view === 0 && <UserContent value={value} />}
+          {view === 1 && <LicenseManagementContent value={value} />}
+          {view === 2 && (
+            <RepositoryContent value={value} tabs={repositorytabs} />
+          )}
+        </div>
       </RightPane>
     </Box>
   );

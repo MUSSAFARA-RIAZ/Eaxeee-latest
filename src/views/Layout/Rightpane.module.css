@@ -1,9 +1,6 @@
 .rightpane_firstcontainer {
   display: flex;
   height: 50px;
-  /* min-height: 50px; */
-
-  /* border: 2px solid purple; */
   padding: 0px;
 }
 .rightpane_rightRoundediconenglish {

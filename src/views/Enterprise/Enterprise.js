@@ -13,9 +13,10 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import { EnterpriseContent } from "./Components/Enterprise_iconsTab";
 import DropDownInputField from "./Components/DropDownInputField";
-import SpeedIcons from "./Components/SpeedIcons";
-import defaultstyle from "./EnterpriseDefault.module.css";
-import darkstyle from "./EnterpriseDark.module.css"
+import SpeedIcons from "./Components/Messenger";
+// import defaultstyle from "./EnterpriseDefault.module.css";
+// import darkstyle from "./EnterpriseDark.module.css";
+import Iconbox from "./Components/Iconbox";
 
 const Enterprise = (props) => {
   console.log("props in enterprise", props);
@@ -47,9 +48,8 @@ const Enterprise = (props) => {
     setValue(newValue);
   };
 
-  // console.log("props enterprise ", props.subpage);
-
   useEffect(() => {}, [props.subpage]);
+
   return (
     <Box
       sx={{
@@ -88,24 +88,20 @@ const Enterprise = (props) => {
             handleDrawerOpen={handleDrawerOpen}
           >
             <div style={{ display: "flex", width: "100%" }}>
-          <div
-            style={{
-              width: "40%",
-              display: "flex",
-              alignItems: "center",
-              marginLeft: open ? "25px" : "50px",
-            }}
-          >
-            Architecture 1 : Diagram 2
-          </div>
-          <div style={{ width: "60%" }}>
-          </div>
-        </div>
-            <div >
-            <div className={defaultstyle.speedIconsContainer}>
-        <SpeedIcons />
-      </div>
+              <div
+                style={{
+                  width: "40%",
+                  display: "flex",
+                  alignItems: "center",
+                  marginLeft: open ? "25px" : "50px",
+                }}
+              >
+                Architecture 1 : Diagram 2
+              </div>
+              <div style={{ width: "60%" }}></div>
             </div>
+              <Iconbox theme={props.theme} />
+              <SpeedIcons props={props} />
           </RightPane>
         </>
       ) : (

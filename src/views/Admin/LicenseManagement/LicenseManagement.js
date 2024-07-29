@@ -1,59 +1,80 @@
-import React from 'react';
-// import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Box } from '@mui/material';
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import AddIcon from '@mui/icons-material/Add';
 import CustomTabs from '../../../components/CustomTabs/CustomTabs';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import NamedUser from './NamedUser';
+import ConcurrentUser from './Concurrentnew';
 import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
 import styles from './LicenseManagement.module.css';
+import ModalAddLicense from './Modals/ModalAddLicense';
 
 
 
 function LicenseManagementTabs(props){
-    const { value, handleChange, tabs } = props; // Destructure props
+    const { language, theme, value, handleChange, tabs } = props; // Destructure props
+
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    }
+
+    const handleAddLicenseClick = () => {
+      setOpenModal(true);
+    }
+
 
   return (
-    <CustomTabs value={value} onChange={handleChange} tabs={tabs} /> // Render CustomTabs component with props
+    <Box className={`${styles.licenseManagementMainDiv}`}>
+      {/* Render CustomTabs component with props */}
+      <CustomTabs value={value} onChange={handleChange} tabs={tabs} /> 
+      <Box className={`${styles.addLicenseButtonDiv}`}>
+        <ModalAddLicense open={openModal} handleClose={handleCloseModal} /> 
+        <CustomButton
+          className="addLicense-button"
+          title={language === 'en' ? 'Add License' : AdminTranslation["Add License"]}
+          variant="outlined"
+          Theme={props.theme}
+          onClick={handleAddLicenseClick}
+          type="submit"
+          loading={false}
+          disabled={false}
+          fullWidth={true}
+          loaderSize={25}
+          loaderColor="success"
+          loaderThickness={5}
+          startIcon={<AddIcon />} 
+          />
+      </Box>
+    </Box>
   );
 }
 function  LicenseManagementContent(props){
     const { language, value  } = props;
     return (
         <Box className={styles.licenseManagementSubButtonsGroup}>
-        {value === 0 && (language === 'en' ? 'Named Usersss' : AdminTranslation["Named User"])}
-        {value === 1 && (language === 'en' ? 'Concurrent User' : AdminTranslation["Concurrent User"])}                
-    </Box>
+          {value === 0 && <NamedUser />}
+          {value === 1 && <ConcurrentUser />}                
+        </Box>
     )
-    // const [value, setValue] = useState(0);
-
-    // const handleLicensetab = (event, newValue) => {
-    //     if (newValue) {
-    //         setValue(newValue);
-    //     }
-    // };
-
-    // const tabs = [
-    //     { label: language === 'en' ? 'Named User' : AdminTranslation["Named User"], icon: <AccountCircleIcon fontSize='small' /> },
-    //     { label: language === 'en' ? 'Concurrent User' : AdminTranslation["Concurrent User"], icon: <SupervisedUserCircleIcon fontSize='small' /> }
-    // ];
-
-   
 }
 
-// const mapStateToProps = state => ({
-//     language: state.language,
-//     theme: state.theme
-// });
+const mapStateToProps = state => ({
+    language: state.language,
+    theme: state.theme
+});
 
 
-// const mapDispatchToProps = dispatch => ({
-//     setLanguage: (lang) => dispatch({
-//         type: "TOGGLELANG",
-//         value: lang === 'en' ? 'ar' : 'en'
-//     })
-// });
-export {LicenseManagementTabs,LicenseManagementContent}
+const mapDispatchToProps = dispatch => ({
+    setLanguage: (lang) => dispatch({
+        type: "TOGGLELANG",
+        value: lang === 'en' ? 'ar' : 'en'
+    })
+});
 
+const LicenseManagementTabsConnected = connect(mapStateToProps, mapDispatchToProps)(LicenseManagementTabs);
+const LicenseManagementContentConnected = connect(mapStateToProps, mapDispatchToProps)(LicenseManagementContent);
 
-// export default connect(mapStateToProps, mapDispatchToProps)(LicenseManagement);
-
+export { LicenseManagementTabsConnected as LicenseManagementTabs, LicenseManagementContentConnected as LicenseManagementContent };

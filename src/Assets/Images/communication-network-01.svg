@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg height="30px" width="30px" version="1.1" id="SvgjsSvg1097" xmlns:svgjs="http://svgjs.com/svgjs"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 469.5 469.5"
+	 style="enable-background:new 0 0 469.5 469.5;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#008000;}
+	.st1{fill:none;}
+</style>
+<g id="SvgjsG1099">
+	<g>
+		<circle class="st0" cx="216.3" cy="234.4" r="51.7"/>
+		<circle class="st0" cx="51.7" cy="257" r="51.7"/>
+		<circle class="st0" cx="233.6" cy="407.4" r="51.7"/>
+		<ellipse class="st0" cx="417.8" cy="262.7" rx="51.7" ry="51.7"/>
+		<circle class="st0" cx="385.7" cy="65" r="51.7"/>
+		<circle class="st0" cx="164.6" cy="65" r="51.7"/>
+		<line class="st1" x1="216.3" y1="234.4" x2="361.3" y2="89.4"/>
+		
+			<rect x="186.3" y="157.3" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -29.8846 251.6142)" class="st0" width="205" height="9.1"/>
+		<line class="st1" x1="216.3" y1="236.3" x2="172.6" y2="87.5"/>
+		
+			<rect x="190" y="84.3" transform="matrix(0.9596 -0.2815 0.2815 0.9596 -37.7073 61.3106)" class="st0" width="9.1" height="155.2"/>
+		<line class="st1" x1="74.2" y1="251.1" x2="194.5" y2="236.3"/>
+		
+			<rect x="73.7" y="239.2" transform="matrix(0.9926 -0.1212 0.1212 0.9926 -28.5521 18.0809)" class="st0" width="121.3" height="9.1"/>
+		<line class="st1" x1="216.3" y1="236.3" x2="228.2" y2="359.3"/>
+		
+			<rect x="217.7" y="236" transform="matrix(0.9954 -9.618963e-02 9.618963e-02 0.9954 -27.6158 22.7596)" class="st0" width="9.1" height="123.6"/>
+		<line class="st1" x1="216.3" y1="239.5" x2="385.7" y2="262.7"/>
+		
+			<rect x="297.8" y="167.2" transform="matrix(0.1392 -0.9903 0.9903 0.1392 10.0256 516.8672)" class="st0" width="9.1" height="171"/>
+		<path class="st0" d="M233.4,413.2L46.4,258L162.3,60.7l227.6-15.9l33.2,219.8L233.4,413.2z M57.7,256l175.9,145.6l179.3-141
+			l-31-206.2L167.4,68.9L57.7,256z"/>
+	</g>
+</g>
+</svg>

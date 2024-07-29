@@ -35,6 +35,10 @@
     margin: 2px;
 }
 
+.adminCustomTabs {    
+    margin-top: 23px;
+}
+
 @media screen and (max-width: 1390px) {
     .leftPane {
         height: 96%;
