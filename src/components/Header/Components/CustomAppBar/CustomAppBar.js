@@ -1,50 +1,37 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-// import Logo from "../../../../Assets/Images/no_bg_logo.png"
 import arabicLogo from "../../../../Assets/Images/arabic.png";
 import userImg from "../../../../Assets/Images/user.png";
 import logOutImg from "../../../../Assets/Images/log-out.png";
 import Tooltip from "@mui/material/Tooltip";
 import MenuIcon from "@mui/icons-material/Menu";
-
 import { connect } from "react-redux";
-
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CustomButton from "../../../CustomButton/CustomButton";
 import Button from "@mui/material/Button";
 import styles from "./CustomAppBar.module.css";
 import "./Dropdown.css";
-import GreenXlogo from "../../../../Assets/Images/PaleGrayText.png";
 import BlackXlogo from "../../../../Assets/Images/eaxeeXblack.svg";
 import WhiteXLogo from "../../../../Assets/Images/Green&PaleGrayText.png";
-import logg from "../../../../Assets/Images/Green&CharcoalGrayText.png"
-
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useLocation } from "react-router-dom";
 import CustomTabs from "../../../CustomTabs/CustomTabs";
-// import CustomButton from '../../../CustomButton/CustomButton';
-
-// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 function CustomAppBar(props) {
   let { setLanguage, language, theme, activepage } = props;
 
   console.log("propsssss subpage ", props.subpage);
-
   const navigate = useNavigate();
 
   const location = useLocation();
   console.log("currrent location", location.pathname);
-
-
 
   let menuRef = useRef();
   let menuParentRef = useRef();
@@ -95,16 +82,13 @@ function CustomAppBar(props) {
     props.changepage(title);
     navigate(route);
   };
-  const tabs = [
-    { label: "Architecture" },
-    { label: "Quick Access" }
-  ];
+  const tabs = [{ label: "Architecture" }, { label: "Quick Access" }];
 
   const [value, setValue] = useState(0);
   const handleMainChange = (event, newValue) => {
-    console.log("prevvalue", value)
+    console.log("prevvalue", value);
     setValue(newValue);
-    console.log("newvalue",value)
+    console.log("newvalue", value);
   };
 
   return (
@@ -117,14 +101,12 @@ function CustomAppBar(props) {
               theme === "default"
                 ? "#2158a4"
                 : theme === "light"
-                  ? "#cbd0d7"
-                  : "#181818",
-                  //header ka colour
+                ? "#cbd0d7"
+                : "#181818",
+            //header ka colour
           }}
           className={styles.toolbar}
         >
-       
-
           <CustomButton
             startIcon={
               <MenuIcon
@@ -133,8 +115,8 @@ function CustomAppBar(props) {
                     theme === "default"
                       ? `#ffff`
                       : theme === "light"
-                        ? "#6d7175"
-                        : "#ffff ",
+                      ? "#6d7175"
+                      : "#ffff ",
                 }}
                 className={styles.menuIcon}
               />
@@ -161,8 +143,8 @@ function CustomAppBar(props) {
                     theme === "default"
                       ? WhiteXLogo
                       : theme === "light"
-                        ? BlackXlogo
-                        : WhiteXLogo
+                      ? BlackXlogo
+                      : WhiteXLogo
                   }
                   onClick={() => props.changepage("Home")}
                 />
@@ -172,23 +154,27 @@ function CustomAppBar(props) {
           {/* Eaxee logo end */}
           {console.log("active page", activepage)}
 
-
-          {(location.pathname === "/enterprise") ? (
-<>
-              {/* {value === 0 && <CustomTabs bgcolor={theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("quickaccess") }} tabs={tabs} language={props.language} theme={props.theme} />
-              }
-              {
-                value === 1 && <CustomTabs bgcolor={theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#eff3f7"} value={value} onChange={handleMainChange} onClick={() => { props.setSubPage("architecture") }} tabs={tabs} language={props.language} theme={props.theme} />
-              } */}
-              {value === 0 && <CustomTabs value={value} headertabindicator={true} textcolor={"#cecece"} onChange={handleMainChange} onClick={() => { props.setSubPage("quickaccess") }} tabs={tabs} language={props.language} theme={props.theme} />
-              }
-              {
-                value === 1 && <CustomTabs value={value} headertabindicator={true} textcolor={"#cecece"} onChange={handleMainChange} onClick={() => { props.setSubPage("architecture") }} tabs={tabs} language={props.language} theme={props.theme} />
-              }
-              </>
-
-           
-          ) : ""}
+          {location.pathname === "/enterprise" ? (
+                <CustomTabs
+                  value={value}
+                  headertabindicator={true}
+                  textcolor={"rgb(206,206,206,0.7)"}
+                  onChange={handleMainChange}
+                  onClick={() => {
+                    if (value === 1) {
+                      props.setSubPage("architecture");
+                    } else {
+                      props.setSubPage("quickaccess");
+                    }
+                  }}
+                  tabs={tabs}
+                  language={props.language}
+                  theme={props.theme}
+                  orientation="horizontal"
+                />
+          ) : (
+            ""
+          )}
           <Box className={styles.pageTitle}>
             <Typography
               sx={{
@@ -196,8 +182,8 @@ function CustomAppBar(props) {
                   theme === "default"
                     ? `#ffff`
                     : theme === "light"
-                      ? "#4A4A4A  "
-                      : "#ffff ",
+                    ? "#4A4A4A  "
+                    : "#ffff ",
               }}
               className={styles.pageTitleText}
             >
@@ -266,8 +252,8 @@ function CustomAppBar(props) {
                   theme === "default"
                     ? `#ffff`
                     : theme === "light"
-                      ? "#6d7175"
-                      : "#ffff ",
+                    ? "#6d7175"
+                    : "#ffff ",
                 fontFamily:
                   "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
               }}
@@ -283,8 +269,8 @@ function CustomAppBar(props) {
                   theme === "default"
                     ? `#ffff`
                     : theme === "light"
-                      ? "#6d7175"
-                      : "#ffff ",
+                    ? "#6d7175"
+                    : "#ffff ",
               }}
             ></FontAwesomeIcon>
           </div>
@@ -293,10 +279,12 @@ function CustomAppBar(props) {
             <div
               className={
                 language === "en"
-                  ? `dropdown-menu ${styles.userMenuListEn} ${open ? "active" : "inactive"
-                  }`
-                  : `dropdown-menuar ${styles.userMenuListAr} ${open ? "active" : "inactive"
-                  }`
+                  ? `dropdown-menu ${styles.userMenuListEn} ${
+                      open ? "active" : "inactive"
+                    }`
+                  : `dropdown-menuar ${styles.userMenuListAr} ${
+                      open ? "active" : "inactive"
+                    }`
               }
             >
               <h3>
@@ -404,8 +392,8 @@ const mapDispatchToProps = (dispatch) => {
       return dispatch({
         type: "SETSUBPAGE",
         value: subpage,
-      })
-    }
+      });
+    },
   };
 };
 

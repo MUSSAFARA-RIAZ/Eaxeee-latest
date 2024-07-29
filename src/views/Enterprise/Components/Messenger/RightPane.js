@@ -59,7 +59,7 @@ export default function RightPane({ props,selectedChat}) {
                 <Typography
                   variant="body2"
                   sx={{
-                    bgcolor: msg.isFromCurrentUser ? "rgba(33,88, 164, 0.2)" : "#cecece",
+                    bgcolor: msg.isFromCurrentUser ? (props.theme === "default" ?"rgba(33,88, 164, 0.2)":"rgba(165,209, 73, 0.7)") : "#cecece",
                     color: "#000",
                     p: 1,
                     borderRadius: msg.isFromCurrentUser ?'10px 0px 10px 10px':'0px 10px 10px 10px',

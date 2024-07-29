@@ -8,15 +8,21 @@ import { UserTabs } from "./Components/Enterprise_iconsTab";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import { EnterpriseContent } from "./Components/Enterprise_iconsTab";
 import DropDownInputField from "./Components/DropDownInputField";
 import SpeedIcons from "./Components/Messenger";
 // import defaultstyle from "./EnterpriseDefault.module.css";
 // import darkstyle from "./EnterpriseDark.module.css";
+import Tooltip from '@mui/material/Tooltip';
 import Iconbox from "./Components/Iconbox";
+import objectdefault from "../../Assets/Images/objectcharcoal.png";
+import objectdark from "../../Assets/Images/objectpale.png";
+import processdefault from "../../Assets/Images/processcharcoal.png";
+import processdark from "../../Assets/Images/processpale.png";
+import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
+import blueprintdark from "../../Assets/Images/blueprintpale.png";
+import { display } from "@mui/system";
 
 const Enterprise = (props) => {
   console.log("props in enterprise", props);
@@ -33,16 +39,19 @@ const Enterprise = (props) => {
   const [value, setValue] = useState(0);
 
   const view = 0;
+  const objectsrc = props.theme === "dark" ? objectdark : objectdefault;
+  const processsrc = props.theme === "dark" ? processdark : processdefault;
+  const artifactsrc = props.theme === "dark" ? blueprintdark : blueprintdefault;
 
   const tabs = [
-    { icon: <ViewInArOutlinedIcon /> },
-    { icon: <DescriptionOutlinedIcon /> },
-    { icon: <ShareOutlinedIcon /> },
-    { icon: <DescriptionOutlinedIcon /> },
-    { icon: <ViewInArOutlinedIcon /> },
-    { icon: <ShareOutlinedIcon /> },
-    { icon: <DescriptionOutlinedIcon /> },
-    { icon: <ShareOutlinedIcon /> },
+    { icon: (
+      <Tooltip title="Object">
+        <img src={objectsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} />
+      </Tooltip>
+    ) },
+    { icon:(<Tooltip title="Artifacts"><img src={artifactsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>)},
+    { icon: (<Tooltip title="Process"><img src={processsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
+    { icon: (<Tooltip title="Documents"><DescriptionOutlinedIcon /></Tooltip>) },
   ];
   const handleMainChange = (event, newValue) => {
     setValue(newValue);
@@ -62,7 +71,7 @@ const Enterprise = (props) => {
       {props.subPage === "architecture" ? (
         <>
           <LeftPane open={open} onClose={handleDrawerClose} props={props}>
-            <div>
+            <div style={{display:"flex", justifyContent:"center"}}>
               <UserTabs
                 value={value}
                 handleChange={handleMainChange}
