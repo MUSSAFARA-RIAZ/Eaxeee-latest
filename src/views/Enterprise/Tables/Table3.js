@@ -1,12 +1,12 @@
 // import React from 'react';
-import TreeStructure from "../../components/TreeStructure/TreeStructure";
-import {getTreeNodes4} from "../../components/TreeStructure/NodeService/Data";
-import {connect} from "react-redux"
+import TreeStructure from "../../../components/TreeStructure/TreeStructure";
+import {getTreeNodes3} from "../../../components/TreeStructure/NodeService/Data";
+import { connect } from "react-redux";
 
-function Tree4(props) {
+function Table3(props) {
   return (
     <div className="MainComponent">
-      <TreeStructure getTreeNodes={getTreeNodes4} props={props}/>
+       <h1>Table3</h1>
     </div>
   );
 }
@@ -14,7 +14,9 @@ function Tree4(props) {
 const mapStateToProps = (state) => ({
   language: state.language,
   theme: state.theme,
-  activeTree:state.activeTree,
+
+  activeTable:state.activeTable,
+
   
 });
 
@@ -35,6 +37,12 @@ const mapDispatchToProps = (dispatch) => ({
           type: "ACTIVETREE",
           value: tree,
       }),
+  setTable:(table)=>
+      dispatch({
+          type: "ACTIVETABLE",
+          value: table,
+          }),
+
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tree4);
+export default connect(mapStateToProps, mapDispatchToProps)(Table3);

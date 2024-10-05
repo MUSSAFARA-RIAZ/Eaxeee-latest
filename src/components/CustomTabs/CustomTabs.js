@@ -53,6 +53,7 @@ function CustomTabs({
             minHeight: "0px",
             minWidth: "0px",
             color: textcolor,
+            maxWidth:"initial",
             "&:hover": {
               backgroundColor:
                 theme === "dark"

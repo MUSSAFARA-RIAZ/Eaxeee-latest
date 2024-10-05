@@ -46,7 +46,7 @@ const CustomButton = React.forwardRef((props, ref) => {
     <Box>
       <LightTooltip title={tooltipTitle}>
         <Button
-          variant={variant}
+          variant="outlined"
           onClick={onClick}
           type={type}
           disabled={loading || disabled}
@@ -74,6 +74,8 @@ const CustomButton = React.forwardRef((props, ref) => {
             alignItems: "center",
             minHeight: "unset",
             backgroundColor: bgcolor,
+            
+            
             "&:hover": {
                 backgroundColor:
                   Theme === "dark"

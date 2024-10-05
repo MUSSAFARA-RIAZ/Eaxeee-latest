@@ -7,6 +7,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 
 function CustomTable(props) {
+  console.log("customtable in eaxee", props.language);
+  const currentLang=props.language;
   const [searchText, setSearchText] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -23,6 +25,9 @@ function CustomTable(props) {
   };
 
   const handleSelectionChange = (newSelection) => {
+    console.log("newselection in new ", newSelection);
+    console.log("selectedrows", selectedRows);
+
     setSelectedRows(newSelection);
     if (props.onSelectionChange) {
       props.onSelectionChange(newSelection);
@@ -85,10 +90,10 @@ function CustomTable(props) {
                       selectedRows.length === 0
                         ? "#a5b7b9"
                         : props.theme === "default"
-                        ? "#2158a4"
-                        : props.theme === "light"
-                        ? "#4A4A4A"
-                        : "#a5d149",
+                          ? "#2158a4"
+                          : props.theme === "light"
+                            ? "#4A4A4A"
+                            : "#a5d149",
                   }}
                 />
               </IconButton>
@@ -111,10 +116,10 @@ function CustomTable(props) {
                         selectedRows.length === 0
                           ? "#a5b7b9"
                           : props.theme === "default"
-                          ? "#2158a4"
-                          : props.theme === "light"
-                          ? "#4A4A4A"
-                          : "#a5d149",
+                            ? "#2158a4"
+                            : props.theme === "light"
+                              ? "#4A4A4A"
+                              : "#a5d149",
                     }}
                   />
                 </Tooltip>
@@ -136,8 +141,8 @@ function CustomTable(props) {
               props.theme === "default"
                 ? "#cecece"
                 : props.theme === "light"
-                ? "#eff3f7"
-                : "#212121",
+                  ? "#eff3f7"
+                  : "#212121",
             borderRadius: "10px",
           },
           "& ::-webkit-scrollbar-thumb": {
@@ -145,8 +150,8 @@ function CustomTable(props) {
               props.theme === "default"
                 ? "#2158a4"
                 : props.theme === "light"
-                ? "#cbd0d7"
-                : "#a5d149",
+                  ? "#cbd0d7"
+                  : "#a5d149",
             borderRadius: "10px",
           },
           ...props.DataGridDivHeight, // Merge custom styles
@@ -171,12 +176,65 @@ function CustomTable(props) {
           pagination={!props.disablePagination}
           pageSize={props.disablePagination ? props.rows.length : 10} // Show all rows if pagination is disabled
           sx={{
+
+            "& .MuiDataGrid-overlay": {
+              backgroundColor: 'transparent',
+            },
+            "& .MuiDataGrid-columnHeaderTitle": {
+              fontWeight: "bold",
+            },
+            "& .MuiDataGrid-footerContainer": {
+              display: props.disablePagination ? "none" : "flex",
+              direction: currentLang === 'ar' ? 'rtl' : 'ltr',
+            },
             "& .MuiDataGrid-cell:focus": {
               outline: "none",
             },
-            "& .MuiDataGrid-footerContainer": {
-              display: props.disablePagination ? 'none' : 'flex', 
+            "& .MuiDataGrid-cell": {
+
+              color : props.theme ==='default'? "000000DE":"#FFFFFF",
+              // color: theme.palette.tableTextColor.main,
+              // border: "2px solid blue",
+              textAlign: currentLang === 'ar' ? 'right' : 'left',
+
             },
+            "& .MuiDataGrid-columnHeaders": {
+       
+           
+              zIndex: 2,
+              direction: currentLang === 'ar' ? 'rtl' : 'ltr',
+            },
+            "& .MuiDataGrid-container--top [role='row']": {
+              border:"2px solid red",
+              backgroundColor: props.theme==='default'?"#e0e0e0":"#00000000",
+              color: props.theme==='default'?'#000000DE':'#FFFFFF',
+              // backgroundColor: theme.palette.columnHeaderColor.main,
+              // color: theme.palette.tableTextColor.main,
+            },
+            "& .MuiTablePagination-root": {
+              color:props.theme==='default'?'#000000DE':'#FFFFFF',
+              // color: theme.palette.paginationaction.main,
+              direction: currentLang === 'ar' ? 'rtl' : 'ltr',
+            },
+            "& .MuiButtonBase-root .css-i4bv87-MuiSvgIcon-root": {
+              rotate: currentLang === 'ar' ? "180deg" : "0deg",
+            },
+            "& .MuiCheckbox-root": {
+              color:props.theme==='default'?'#2158a4':'#a5d149',
+              // color: theme.palette.checkboxColormain.main,
+              rotate: currentLang === 'ar' ? "0deg" : "0deg",
+
+            },
+            "& .MuiCheckbox-root.Mui-checked": {
+              color:props.theme==='default'?'#2158a4':'#a5d149',
+              // color: theme.palette.checkboxCheckedColor.main,
+              rotate: currentLang === 'ar' ? "0deg" : "0deg",
+
+
+            },
+
+
+
           }}
         />
       </Box>

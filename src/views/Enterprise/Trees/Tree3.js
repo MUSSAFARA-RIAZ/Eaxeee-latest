@@ -1,15 +1,15 @@
-import TreeStructure from "../../components/TreeStructure/TreeStructure";
-import {getTreeNodes2} from "../../components/TreeStructure/NodeService/Data";
+// import React from 'react';
+import TreeStructure from "../../../components/TreeStructure/TreeStructure";
+import {getTreeNodes3} from "../../../components/TreeStructure/NodeService/Data";
 import { connect } from "react-redux";
 
-function Tree2(props) {
+function Tree3(props) {
   return (
     <div className="MainComponent">
-      <TreeStructure getTreeNodes={getTreeNodes2} props={props} />
+      <TreeStructure getTreeNodes={getTreeNodes3} props={props} />
     </div>
   );
 }
-
 
 const mapStateToProps = (state) => ({
   language: state.language,
@@ -37,4 +37,4 @@ const mapDispatchToProps = (dispatch) => ({
       }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Tree2);
+export default connect(mapStateToProps, mapDispatchToProps)(Tree3);

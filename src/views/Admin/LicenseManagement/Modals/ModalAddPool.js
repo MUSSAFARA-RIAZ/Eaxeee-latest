@@ -119,15 +119,23 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                                 {language === 'en' ? 'This is a required field' : AdminTranslation["This is a required field"]}
                             </Box>
                         )}
-                    </form>
-                </DialogContent>
-
-                <DialogActions
-                    sx={{
-                        backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
-                        mt: -3,
-                    }}
-                >
+                
+                
+                 <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap:"10px",
+               
+                
+                
+                margin:"0px",
+                position:"relative",
+                top:"10px",
+             
+                
+              }}
+            >
                     <CustomButton
                         title={language === 'en' ? 'Add' : AdminTranslation["Add"]}
                         type="submit"
@@ -140,19 +148,13 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                         Theme={theme}
                         onClick={handleClose}
                     />
-                </DialogActions>
-            </Dialog>
-            <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                open={snackBarFlag}
-                autoHideDuration={1500}
-                onClose={handleSnackBarClose}
-            >
-                <Alert severity="success">
-                    Pool added successfully!
-                </Alert>
-            </Snackbar>
-        </Box>
+                    </Box>
+                    </form>
+                </DialogContent>
+                </Dialog>
+                </Box>
+
+           
     );
 };
 

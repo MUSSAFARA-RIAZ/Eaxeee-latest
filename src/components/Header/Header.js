@@ -55,6 +55,7 @@ const mapStateToProps = state => {
         theme: state.theme,
         route: state.route,
         activeTree: state.activeTree,
+        activeTable:state.activeTable,
     }
 }
 
@@ -87,6 +88,12 @@ const mapDispatchToProps = dispatch => {
       type: "ACTIVETREE",
       value: tree,
     }),
+    setTable: (table) =>
+        dispatch({
+            type:"ACTIVETABLE",
+            value: table,
+            
+        })
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

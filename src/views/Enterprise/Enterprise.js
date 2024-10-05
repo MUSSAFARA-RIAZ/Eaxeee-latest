@@ -23,6 +23,8 @@ import processdark from "../../Assets/Images/processpale.png";
 import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
 import blueprintdark from "../../Assets/Images/blueprintpale.png";
 import { display } from "@mui/system";
+import Architecture from "./Architecture";
+import QuickAccess from "./QuickAccess";
 
 const Enterprise = (props) => {
   console.log("props in enterprise", props);
@@ -36,6 +38,8 @@ const Enterprise = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  
+  
   const [value, setValue] = useState(0);
 
   const view = 0;
@@ -70,51 +74,10 @@ const Enterprise = (props) => {
 
       {props.subPage === "architecture" ? (
         <>
-          <LeftPane open={open} onClose={handleDrawerClose} props={props}>
-            <div style={{display:"flex", justifyContent:"center"}}>
-              <UserTabs
-                value={value}
-                handleChange={handleMainChange}
-                tabs={tabs}
-                language={props.language}
-                theme={props.theme}
-                onClick={() => props.settree("tree1")}
-              />
-            </div>
-
-            <div>
-              <DropDownInputField props={props} />
-            </div>
-            <div>
-              {view === 0 && (
-                <EnterpriseContent value={value} language={props.language} />
-              )}
-            </div>
-          </LeftPane>
-          <RightPane
-            open={open}
-            props={props}
-            handleDrawerOpen={handleDrawerOpen}
-          >
-            <div style={{ display: "flex", width: "100%" }}>
-              <div
-                style={{
-                  width: "40%",
-                  display: "flex",
-                  alignItems: "center",
-                  marginLeft: open ? "25px" : "50px",
-                }}
-              >
-                Architecture 1 : Diagram 2
-              </div>
-              <div style={{ width: "60%" }}></div>
-            </div>
-              <Iconbox theme={props.theme} />
-              <SpeedIcons props={props} />
-          </RightPane>
+          <Architecture props={props}/>
         </>
       ) : (
-        <>QuickAccess module</>
+        <QuickAccess props={props}/>
       )}
     </Box>
   );

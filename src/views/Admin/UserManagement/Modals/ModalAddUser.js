@@ -258,14 +258,22 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-                padding: "10px",
-                mb: -1.5,
+                gap:"10px",
+               
+                
+                
+                margin:"0px",
+                position:"relative",
+                top:"10px",
+             
+                
               }}
             >
               <CustomButton
                 title={language === "en" ? "Add" : AdminTranslation["Add"]}
                 type="submit"
                 onClick={handleUserSubmit}
+                
                 Theme={theme}
                 sx={{ width: "50%" }}
               />

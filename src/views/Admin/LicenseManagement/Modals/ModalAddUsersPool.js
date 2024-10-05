@@ -43,11 +43,11 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
 
     return (
         <Box>
-            <Dialog 
+            <Dialog
                 open={open}
                 onClose={handleDialogClose}
                 PaperProps={{
-                    sx: { 
+                    sx: {
                         width: "500px", // Adjust the width here
                         maxWidth: "90%", // Ensure it doesn't exceed the viewport
                     },
@@ -56,10 +56,10 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
                 <DialogTitle
                     sx={{
                         backgroundColor: theme === "default"
-                        ? "#2158a4"
-                        : theme === "light"
-                        ? "#cbd0d7"
-                        : "#393a3a",
+                            ? "#2158a4"
+                            : theme === "light"
+                                ? "#cbd0d7"
+                                : "#393a3a",
                         color: "#cecece",
                         padding: "6px",
                         paddingLeft: "35px",
@@ -85,11 +85,11 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
                         backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
                         color: theme === 'default' ? '#414849' : theme === 'light' ? '#414849' : '#cecece',
                     }}
-                > 
+                >
                     <div style={{ paddingTop: "23px" }}>
-                        <CustomTable 
-                            rows={updatedRows} 
-                            columns={columns} 
+                        <CustomTable
+                            rows={updatedRows}
+                            columns={columns}
                             showDeleteButton={true}
                             Theme={theme}
                             checkboxSelection={true}

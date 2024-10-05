@@ -5,6 +5,8 @@ const INITIAL_STATE = {
     activepage: 'enterprise',
     subPage: "architecture",
     activeTree: "Tree1",
+    activeTable: "Table1",
+
 };
 
 
@@ -42,6 +44,12 @@ const reducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 activeTree: action.value
             }
+        case "ACTIVETABLE":
+            return {
+                ...state,
+                activeTable: action.value
+                
+            }    
         default:
             return state;
     }
