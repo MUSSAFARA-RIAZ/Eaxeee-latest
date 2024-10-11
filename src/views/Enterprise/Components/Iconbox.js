@@ -7,7 +7,7 @@ import CustomTabs from '../../../components/CustomTabs/CustomTabs';
 import { Home, Settings, Info } from '@mui/icons-material';
 
 // Import the additional components for Settings and Info
-import Bpmn from './Bpmn'; 
+import Bpmn from './Bpmn';
 
 import SimpleDrawingTool from './SimpleDrawingTool';
 // Assuming Bpmn component is located here
@@ -32,9 +32,9 @@ import BusinessRoleIcon from '../../../Assets/Images/business-role-01.svg';
 
 const Iconbox = ({ onSelectImage, props }) => {
   const [hovered, setHovered] = useState(false);
-  const [tabValue, setTabValue] = useState(0); // State for selected tab
+  const [tabValue, setTabValue] = useState(0);
 
-  // Image data with src and title
+
   const images = [
     { src: ApplicationInteractionIcon, title: 'Application Interaction' },
     { src: ApplicationInterfaceIcon, title: 'Application Interface' },
@@ -51,6 +51,8 @@ const Iconbox = ({ onSelectImage, props }) => {
     { src: BusinessObjectIcon, title: 'Business Object' },
     { src: BusinessProcessIcon, title: 'Business Process' },
     { src: BusinessRoleIcon, title: 'Business Role' },
+    
+
   ];
 
   const imageColors = {
@@ -62,7 +64,7 @@ const Iconbox = ({ onSelectImage, props }) => {
     [AssessmentIcon]: '#cd9cff',
     [BusinessActorIcon]: '#f5e29d',
     [BusinessCollaborationIcon]: '#f5e29d',
-    [BusinessEventIcon]: 'orange',
+    [BusinessEventIcon]: '#f5e29d',
     [BusinessFunctionIcon]: '#f5e29d',
     [BusinessInteractionIcon]: '#f5e29d',
     [BusinessInterfaceIcon]: '#f5e29d',
@@ -72,25 +74,25 @@ const Iconbox = ({ onSelectImage, props }) => {
   };
 
   const handleImageClick = (imageSrc, title) => (event) => {
-    if (event.button === 0) { // Left click only
-      const backgroundColor = imageColors[imageSrc] || 'grey'; // Default to grey if no color found
-      onSelectImage(imageSrc, backgroundColor, title); // Pass the title too
+    if (event.button === 0) {
+      const backgroundColor = imageColors[imageSrc];
+      onSelectImage(imageSrc, backgroundColor, title);
     }
   };
 
-  // Handle tab change
+
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  // Define your tabs
+
   const tabs = [
-    {  label: 'Eaxee' },
-    {  label: 'Bpmn' },
-    {label: 'Simple' },
+    { label: 'Eaxee' },
+    { label: 'Bpmn' },
+    { label: 'Simple' },
   ];
 
-  // Conditionally render the component based on the selected tab
+
   const renderTabContent = () => {
     switch (tabValue) {
       case 0:
@@ -103,7 +105,35 @@ const Iconbox = ({ onSelectImage, props }) => {
               alignItems: 'center',
               height: '100%',
               overflowY: 'auto',
-              width: "100%"
+              marginTop: "50px",
+
+              // border: "2px solid blue",
+
+              width: "100%",
+              '&::-webkit-scrollbar': {
+                width: '20px',
+              },
+
+              '&::-webkit-scrollbar-thumb': {
+                // backgroundColor: 'yellow',
+                borderRadius: '10px',
+                backgroundColor:
+              props.theme === "default"
+                ? "#2158a4"
+                : props.theme === "light"
+                  ? "#cbd0d7"
+                  : "#a5d149",
+              },
+
+              '&::-webkit-scrollbar-track': {
+                // backgroundColor: 'red',
+                background:
+              props.theme === "default"
+                ? "#cecece"
+                : props.theme === "light"
+                  ? "#eff3f7"
+                  : "#212121",
+              },
             }}
           >
             {images.map(({ src, title }) => (
@@ -176,8 +206,10 @@ const Iconbox = ({ onSelectImage, props }) => {
         />
       </div>
 
-      {/* Render the content based on selected tab */}
+
       {renderTabContent()}
+
+
     </Box>
   );
 };

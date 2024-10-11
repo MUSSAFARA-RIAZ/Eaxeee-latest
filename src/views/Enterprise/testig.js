@@ -18,7 +18,6 @@ import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import darktheme from "../../Themes/dark_theme.module.css";
 import lighttheme from "../../Themes/light_theme.module.css";
 import defaulttheme from "../../Themes/default_theme.module.css";
-import ReactFlow, { addEdge, Handle, ReactFlowProvider, useEdgesState, useNodesState, Controls, Background } from 'react-flow-renderer';
 import { fontSize } from "@mui/system";
 import { Rnd } from "react-rnd"
 // import SaveIcon from '@mui/icons-material/Save';
@@ -218,27 +217,57 @@ const Architecture = (props) => {
     setIsBackgroundHidden((prev) => prev.map((hidden) => !hidden));
   };
 
-  const handleMouseDown = (event, index) => {
-    event.stopPropagation();
-    setIsDragging(true);
-    setDraggingIndex(index);
-    const canvasRect = document.getElementById("canvas").getBoundingClientRect();
-    setOffset({ x: event.clientX - canvasRect.left - droppedImages[index].x, y: event.clientY - canvasRect.top - droppedImages[index].y });
+
+ 
+  console.log("isbackground hidden", isBackgroundHidden);
+  const [fullScreen, setfullScreen]=useState(false);
+  const [isDraggingLine, setIsDraggingLine] = useState(false);
+  const [lineStart, setLineStart] = useState({ x: 0, y: 0 });
+  const [lineEnd, setLineEnd] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (e, rectIndex) => {
+    // Start dragging from the center of the rectangle
+    const rect = droppedImages[rectIndex];
+    const centerX = rect.x + rect.width / 2;
+    const centerY = rect.y + rect.height / 2;
+
+    setLineStart({ x: centerX+500, y: centerY+500 });
+    setLineEnd({ x: centerX, y: centerY });
+    setIsDraggingLine(true);
+  };
+
+  console.log("linend",lineEnd);
+  
+
+  const handleMouseMove = (e) => {
+    if (isDraggingLine) {
+      // Update the line end position while dragging
+      setLineEnd({ x: e.clientX+100, y: e.clientY+100 });
+    }
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
-    setDraggingIndex(null);
+    // Stop drawing the line on mouse up
+    setIsDraggingLine(false);
   };
-  console.log("isbackground hidden", isBackgroundHidden);
-  const [fullScreen, setfullScreen] = useState(false);
 
+  useEffect(() => {
+    // Add event listeners for mouse movement and mouse up
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    // Clean up event listeners when component unmounts
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDraggingLine]);
 
 
   return (
 
-    !fullScreen ? (
-      <div>
+      !fullScreen ? (
+        <div>
 
         <LeftPane open={open} onClose={() => setOpen(false)} props={props}>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -255,16 +284,16 @@ const Architecture = (props) => {
             <DropDownInputField props={props} />
           </div>
         </LeftPane>
-
+  
         <RightPane open={open} props={props} handleDrawerOpen={() => setOpen(true)}>
           <div style={{ display: "flex", width: "100%" }}>
             <div style={{ width: "40%", display: "flex", alignItems: "center", marginLeft: open ? "25px" : "50px" }}>
               Architecture 1 : Diagram 2
             </div>
-
+  
             <div style={{ width: "60%", display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
-
-
+  
+  
               <LoopIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
                 : props.theme === "dark"
@@ -275,7 +304,7 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} />
               <FilterAltIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
@@ -287,7 +316,7 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} />
               <ImageIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
@@ -299,7 +328,7 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} onClick={handleHideBackground} />
               <ZoomOutMapIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
@@ -311,7 +340,7 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} />
               <ZoomInIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
@@ -323,7 +352,7 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} />
               <ZoomOutIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
@@ -335,9 +364,9 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} />
-
+  
               <ToggleOnIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
                 : props.theme === "dark"
@@ -348,7 +377,7 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} />
               <SaveIcon className={`${props.theme === "default"
                 ? defaulttheme.default_themebtntextcolor
@@ -360,15 +389,15 @@ const Architecture = (props) => {
                   : props.theme === "dark"
                     ? darktheme.dark_themebtnbordercolor
                     : lighttheme.light_themebtnbordercolor
-
+  
                 }`} sx={{ fontSize: "30px" }} />
-
-
-
-
+  
+  
+  
+  
             </div>
           </div>
-
+  
           <div style={{ display: "flex", flex: 1 }}>
             <Iconbox onSelectImage={handleSelectImage} props={props} />
             <div
@@ -385,115 +414,114 @@ const Architecture = (props) => {
               onMouseLeave={handleMouseLeaveDropZone}
               onMouseUp={handleMouseUp}
             >
-              <button onClick={() => setfullScreen(false)}>Minimize</button>
-              <button onClick={() => setfullScreen(true)}>Full Screen</button>
+            <button onClick={()=>setfullScreen(false)}>Minimize</button>
+            <button onClick={()=>setfullScreen(true)}>Full Screen</button>
               {order.map((index) => {
                 const image = droppedImages[index];
                 return (
                   <Rnd
-                    key={index}
-                    size={{ width: image.width || 140, height: image.height || 60 }} // Set default width and height
-                    position={{ x: image.x, y: image.y }}
-                    onDragStop={(e, d) => {
-                      setDroppedImages((prev) =>
-                        prev.map((img, idx) =>
-                          idx === index ? { ...img, x: d.x, y: d.y } : img
-                        )
-                      );
-                    }}
-                    onResizeStop={(e, direction, ref, delta, position) => {
-                      setDroppedImages((prev) =>
-                        prev.map((img, idx) =>
-                          idx === index
-                            ? {
-                              ...img,
-                              width: ref.style.width,
-                              height: ref.style.height,
-                              ...position,
-                            }
-                            : img
-                        )
-                      );
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: isBackgroundHidden[index]
-                          ? "transparent"
-                          : image.backgroundColor,
-                        border: isBackgroundHidden[index] ? "none" : image.backgroundColor,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: "10px",
-                        padding: "5px",
-                        cursor: 'move',
-                        position: 'relative', // Ensure that the inner elements are positioned relative to this container
-                      }}
-                      onContextMenu={(e) => handleRectangleRightClick(e, index)}
-
-                    >
-                      {/* Center Marker */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          width: '10px',  // Width of the center marker
-                          height: '10px', // Height of the center marker
-                          // backgroundColor: 'red', // Color of the center marker
-                          borderRadius: '50%', // Makes it a circle
-                          transform: 'translate(-50%, -50%)', // Center the marker
-                          zIndex: 10 // Ensure it's on top of other elements
-                        }}
-                      />
-
-                      {isBackgroundHidden[index] ? (
-                        <>
-                          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                            <img
-                              src={image.src}
-                              alt={`Dropped ${index}`}
-                              style={{
-                                position: isBackgroundHidden[index] ? "relative" : "absolute",
-                                width: "29px",
-                                height: "24px",
-                                margin: "auto",
-                                top: 0,
-                                right: 0,
-                              }}
-                            />
-                            <div style={{ fontSize: "12px", color: "black", textAlign: "center", display: "flex" }}>
-                              {image.title}
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div style={{ fontSize: "12px", color: "black", textAlign: "center" }}>
-                            {image.title}
-                          </div>
-                          <img
-                            src={image.src}
-                            alt={`Dropped ${index}`}
-                            style={{
-                              position: "absolute",
-                              width: "29px",
-                              height: "24px",
-                              top: 4,
-                              right: 0,
-                            }}
-                          />
-                        </>
-                      )}
-                    </div>
-                  </Rnd>
-
+    key={index}
+    size={{ width: image.width || 140, height: image.height || 60 }} // Set default width and height
+    position={{ x: image.x, y: image.y }}
+    onDragStop={(e, d) => {
+      setDroppedImages((prev) =>
+        prev.map((img, idx) =>
+          idx === index ? { ...img, x: d.x, y: d.y } : img
+        )
+      );
+    }}
+    onResizeStop={(e, direction, ref, delta, position) => {
+      setDroppedImages((prev) =>
+        prev.map((img, idx) =>
+          idx === index
+            ? {
+                ...img,
+                width: ref.style.width,
+                height: ref.style.height,
+                ...position,
+              }
+            : img
+        )
+      );
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: isBackgroundHidden[index]
+          ? "transparent"
+          : image.backgroundColor,
+        border: isBackgroundHidden[index] ? "none" : image.backgroundColor,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: "10px",
+        padding: "5px",
+        cursor: 'move',
+        position: 'relative', // Ensure that the inner elements are positioned relative to this container
+      }}
+      onContextMenu={(e) => handleRectangleRightClick(e, index)}
+    >
+      {/* Center Marker */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          width: '10px',  // Width of the center marker
+          height: '10px', // Height of the center marker
+          // backgroundColor: 'red', // Color of the center marker
+          borderRadius: '50%', // Makes it a circle
+          transform: 'translate(-50%, -50%)', // Center the marker
+          zIndex: 10 // Ensure it's on top of other elements
+        }}
+      />
+  
+      {isBackgroundHidden[index] ? (
+        <>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            <img
+              src={image.src}
+              alt={`Dropped ${index}`}
+              style={{
+                position: isBackgroundHidden[index] ? "relative" : "absolute",
+                width: "29px",
+                height: "24px",
+                margin: "auto",
+                top: 0,
+                right: 0,
+              }}
+            />
+            <div style={{ fontSize: "12px", color: "black", textAlign: "center", display: "flex" }}>
+              {image.title}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div style={{ fontSize: "12px", color: "black", textAlign: "center" }}>
+            {image.title}
+          </div>
+          <img
+            src={image.src}
+            alt={`Dropped ${index}`}
+            style={{
+              position: "absolute",
+              width: "29px",
+              height: "24px",
+              top: 4,
+              right: 0,
+            }}
+          />
+        </>
+      )}
+    </div>
+  </Rnd>
+  
                 );
               })}
-
+  
               {selectedImage && isDroppable && (
                 <img
                   src={selectedImage}
@@ -509,7 +537,7 @@ const Architecture = (props) => {
                   }}
                 />
               )}
-
+  
               {contextMenu && (
                 <div
                   style={{
@@ -537,15 +565,15 @@ const Architecture = (props) => {
                         backgroundColor: getBackgroundColor("delete"),
                         color: "#4b5563",
                         marginBottom: "5px",
-
+  
                       }}
                     >
                       Delete
                     </li>
                     <li
                       onClick={() => handleMenuClick("sendBack")}
-
-
+  
+  
                       onMouseEnter={() => handleMouseEnter("sendBack")}
                       onMouseLeave={handleMouseLeave}
                       style={{
@@ -570,7 +598,7 @@ const Architecture = (props) => {
                     >
                       Bring to Front
                     </li>
-
+  
                     <li
                       onClick={() => handleMenuClick("changeColor")}
                       onMouseEnter={() => handleMouseEnter("changeColor")}
@@ -584,11 +612,11 @@ const Architecture = (props) => {
                     >
                       Change Color
                     </li>
-
+  
                   </ul>
                 </div>
               )}
-
+  
               {isColorModalOpen && (
                 <ModalChangeColor
                   open={isColorModalOpen}
@@ -599,149 +627,26 @@ const Architecture = (props) => {
                 />
               )}
             </div>
-
+  
           </div>
         </RightPane>
       </div>
-    ) : (
-      <>
-      <div style={{ display: "flex", width: "100%", padding:"10px" }}>
-            <div style={{ width: "40%", display: "flex", alignItems: "center", marginLeft: open ? "25px" : "50px" }}>
-              Architecture 1 : Diagram 2
-            </div>
-
-            <div style={{ width: "60%",  display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
-
-
-              <LoopIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <FilterAltIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ImageIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} onClick={handleHideBackground} />
-              <ZoomOutMapIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ZoomInIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ZoomOutIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-
-              <ToggleOnIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <SaveIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-
-
-
-
-            </div>
-          </div>
-          <div style={{ display: "flex", flex: 1 }}>
-          <Iconbox onSelectImage={handleSelectImage} props={props} />
-      <div
+      ):(
+        <div
         id="canvas"
         style={{
           width: "100%",
-          // border:"2px solid red",
-          backgroundColor:"#e0e0e0",
           height: "100vh",
           position: "relative",
           overflow: "auto",
         }}
-        onClick={handleCanvasClick}
-        onContextMenu={handleRightClick}
-        onMouseEnter={handleMouseEnterDropZone}
-        onMouseLeave={handleMouseLeaveDropZone}
-        onMouseUp={handleMouseUp}
       >
-        <button onClick={() => setfullScreen(false)}>Minimize</button>
-        <button onClick={() => setfullScreen(true)}>Full Screen</button>
         {order.map((index) => {
           const image = droppedImages[index];
           return (
             <Rnd
               key={index}
-              size={{ width: image.width || 140, height: image.height || 60 }} // Set default width and height
+              size={{ width: image.width, height: image.height }}
               position={{ x: image.x, y: image.y }}
               onDragStop={(e, d) => {
                 setDroppedImages((prev) =>
@@ -755,11 +660,11 @@ const Architecture = (props) => {
                   prev.map((img, idx) =>
                     idx === index
                       ? {
-                        ...img,
-                        width: ref.style.width,
-                        height: ref.style.height,
-                        ...position,
-                      }
+                          ...img,
+                          width: ref.style.width,
+                          height: ref.style.height,
+                          ...position,
+                        }
                       : img
                   )
                 );
@@ -769,189 +674,67 @@ const Architecture = (props) => {
                 style={{
                   width: "100%",
                   height: "100%",
-                  backgroundColor: isBackgroundHidden[index]
-                    ? "transparent"
-                    : image.backgroundColor,
-                  border: isBackgroundHidden[index] ? "none" : image.backgroundColor,
+                  backgroundColor: image.backgroundColor,
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   borderRadius: "10px",
-                  padding: "5px",
-                  cursor: 'move',
-                  position: 'relative', // Ensure that the inner elements are positioned relative to this container
+                  position: "relative",
+                  cursor: "move",
                 }}
-                onContextMenu={(e) => handleRectangleRightClick(e, index)}
+                onMouseDown={(e) => handleMouseDown(e, index)} // Start line on mouse down
               >
                 {/* Center Marker */}
                 <div
                   style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    width: '10px',  // Width of the center marker
-                    height: '10px', // Height of the center marker
-                    // backgroundColor: 'red', // Color of the center marker
-                    borderRadius: '50%', // Makes it a circle
-                    transform: 'translate(-50%, -50%)', // Center the marker
-                    zIndex: 10 // Ensure it's on top of other elements
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    width: "10px",
+                    height: "10px",
+                    backgroundColor: "red",
+                    borderRadius: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 10,
                   }}
                 />
-
-                {isBackgroundHidden[index] ? (
-                  <>
-                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                      <img
-                        src={image.src}
-                        alt={`Dropped ${index}`}
-                        style={{
-                          position: isBackgroundHidden[index] ? "relative" : "absolute",
-                          width: "29px",
-                          height: "24px",
-                          margin: "auto",
-                          top: 0,
-                          right: 0,
-                        }}
-                      />
-                      <div style={{ fontSize: "12px", color: "black", textAlign: "center", display: "flex" }}>
-                        {image.title}
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ fontSize: "12px", color: "black", textAlign: "center" }}>
-                      {image.title}
-                    </div>
-                    <img
-                      src={image.src}
-                      alt={`Dropped ${index}`}
-                      style={{
-                        position: "absolute",
-                        width: "29px",
-                        height: "24px",
-                        top: 4,
-                        right: 0,
-                      }}
-                    />
-                  </>
-                )}
+                {/* Content inside rectangle */}
+                <div style={{ fontSize: "12px", color: "black" }}>
+                  Rectangle {index + 1}
+                </div>
               </div>
             </Rnd>
-
           );
         })}
-
-        {selectedImage && isDroppable && (
-          <img
-            src={selectedImage}
-            alt="Moving"
-            style={{
-              position: "fixed",
-              left: mousePos.x,
-              top: mousePos.y,
-              width: "30px",
-              height: "30px",
-              pointerEvents: "none",
-              transform: "translate(-50%, -50%)",
-            }}
-          />
-        )}
-
-        {contextMenu && (
+  
+        {/* Dotted line rendering */}
+        {isDraggingLine && (
           <div
             style={{
-              position: "absolute",
-              left: contextMenu.x + 360,
-              top: contextMenu.y + 50,
-              backgroundColor: "#ffffff",
-              boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)",
-              // padding: "20px",
-              borderRadius: "6px",
-              //  background-color:${
-              //   props.theme === "dark"
-              //     ? "rgba(165,209, 73, 0.5)"
-              //     : "rgba(33,88, 164, 0.2)"
-              // }; 
+              position: "fixed",
+              left: 0,
+              top: 0,
+              pointerEvents: "none", // Prevent interference with other elements
+              zIndex: 9999,
             }}
           >
-            <ul style={{ listStyle: "none", padding: 10, margin: 0 }}>
-              <li
-                onClick={() => handleMenuClick("delete")}
-                onMouseEnter={() => handleMouseEnter("delete")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor: getBackgroundColor("delete"),
-                  color: "#4b5563",
-                  marginBottom: "5px",
-
-                }}
-              >
-                Delete
-              </li>
-              <li
-                onClick={() => handleMenuClick("sendBack")}
-
-
-                onMouseEnter={() => handleMouseEnter("sendBack")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  backgroundColor: getBackgroundColor("sendBack"),
-                  cursor: "pointer",
-                  color: "#4b5563",
-                  marginBottom: "5px",
-                }}
-              >
-                Send to Back
-              </li>
-              <li
-                onClick={() => handleMenuClick("bringFront")}
-                onMouseEnter={() => handleMouseEnter("bringFront")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  backgroundColor: getBackgroundColor("bringFront"),
-                  cursor: "pointer",
-                  color: "#4b5563",
-                  marginBottom: "5px",
-                }}
-              >
-                Bring to Front
-              </li>
-
-              <li
-                onClick={() => handleMenuClick("changeColor")}
-                onMouseEnter={() => handleMouseEnter("changeColor")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  backgroundColor: getBackgroundColor("changeColor"),
-                  cursor: "pointer",
-                  color: "#4b5563",
-                  marginBottom: "5px",
-                }}
-              >
-                Change Color
-              </li>
-
-            </ul>
+            <svg width="100%" height="100%">
+              <line
+                x1={lineStart.x}
+                y1={lineStart.y}
+                x2={lineEnd.x}
+                y2={lineEnd.y}
+                stroke="black"
+                strokeDasharray="5,5"
+                strokeWidth="2"
+              />
+            </svg>
           </div>
         )}
-
-        {isColorModalOpen && (
-          <ModalChangeColor
-            open={isColorModalOpen}
-            handleClose={() => setIsColorModalOpen(false)}
-            onChangeColor={handleChangeColor}
-            language={props.language}
-            theme={props.theme}
-          />
-        )}
       </div>
-      </div>
-      </>
-    )
-
-
+      )
+    
+  
   );
 };
 
