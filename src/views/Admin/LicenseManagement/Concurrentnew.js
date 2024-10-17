@@ -134,8 +134,8 @@ function ConcurrentUser(props) {
           <CustomTable
             rows={poolRowData}
             columns={poolColumns}
-            rowsPerPage={10}
-            pageSize={10}
+            //rowsPerPage={10}
+           // pageSize={10}
             checkBoxSelection={false}
             showAddPoolButton={true}
             onRowClick={handleRowClick}
@@ -160,8 +160,8 @@ function ConcurrentUser(props) {
             },
             { field: "users", headerName: renderUsersHeader(), flex: 1, sortable: false },
           ]}
-          rowsPerPage={10}
-          pageSize={10}
+          //rowsPerPage={10}
+         // pageSize={10}
           checkBoxSelection={false}
           onRowClick={() => {}}
           nosearch={true}

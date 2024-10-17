@@ -132,8 +132,8 @@ const DirectoryUser = (props) => {
         <CustomTable
           rows={updatedRows}
           columns={columns}
-          rowsPerPage={10}
-          pageSize={10}
+          //rowsPerPage={10}
+         // pageSize={10}
           theme={theme}
           showDeleteButton={true}
           checkboxSelection={true}
@@ -342,7 +342,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(DirectoryUser);
 //                 />
 //             </Box>
 //             <Box className={styles.activeDirTableDiv}>
-//                 <CustomTable rows={tableRowData} columns={columns} rowsPerPage={10} pageSize={10} checkBoxSelection={false} showImportButton={true}/>
+//                 <CustomTable rows={tableRowData} columns={columns} //rowsPerPage={10}// pageSize={10} checkBoxSelection={false} showImportButton={true}/>
 //             </Box>
 
 //             <Modal

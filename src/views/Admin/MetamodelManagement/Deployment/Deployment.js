@@ -8,46 +8,34 @@ import ModalAddBackup from "../Modals/ModalAddBackup";
 import ModalDelete from "../Modals/ModalDelete";
 // import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslation";
 
-function Architecture(props) {
+function Deployment(props) {
   const [openModal, setOpenModal] = useState(false);
   const [opendeleteModal, setdeleteOpenModal] = useState(false);
   const [tableRowData, setTableRowData] = useState([
     {
       id: "1",
-      backupName: "Eaxee backup",
-      backupDateAndTime: "2024/02/15 05:04:19",
-      architectureName: "Eaxee",
-      backupBy: "Mahnoor",
+      metamodelId: "EAXEEMM_ARC_01",
+      metamodelName: "archimate_metamodel",
+      publishedBy: "Framework",
+      publishedOn: "2024-10-02 13:39:28",
+      deployedBy: "admin@eaxee.com",
+      deployedOn: "2024-10-05 12:42:37",
+      status: "UNDEPLOYED",
+      version: "v1",
     },
     {
       id: "2",
-      backupName: "Eaxee backup 1",
-      backupDateAndTime: "2024/02/16 05:04:19",
-      architectureName: "Eaxee",
-      backupBy: "Iman",
-    },
-    {
-      id: "3",
-      backupName: "Eaxee backup 2",
-      backupDateAndTime: "2024/02/17 05:04:19",
-      architectureName: "Eaxee",
-      backupBy: "Musaffara",
-    },
-    {
-      id: "4",
-      backupName: "Eaxee backup 3",
-      backupDateAndTime: "2024/02/18 05:04:19",
-      architectureName: "Eaxee",
-      backupBy: "Mahnoor",
-    },
-    {
-      id: "5",
-      backupName: "Eaxee backup 4",
-      backupDateAndTime: "2024/02/20 05:04:19",
-      architectureName: "Eaxee",
-      backupBy: "Maheen",
+      metamodelId: "EAXEEMM_TOG_01",
+      metamodelName: "togaf_metamodel",
+      publishedBy: "Framework",
+      publishedOn: "2024-10-08 08:37:58",
+      deployedBy: "admin@eaxee.com",
+      deployedOn: "2024-10-08 08:38:56",
+      status: "DEPLOYED",
+      version: "v1",
     },
   ]);
+  
 
   const handleAddBackupClick = () => {
     setOpenModal(true);
@@ -82,6 +70,18 @@ function Architecture(props) {
   const handledeleteCloseModal = () => {
     setdeleteOpenModal(false);
   };
+  const columns = [
+    { field: "id", headerName: "ID", flex: 1, hide: true },
+    { field: "metamodelId", headerName: "Metamodel Id", flex: 1 },
+    { field: "metamodelName", headerName: "Metamodel Name", flex: 1 },
+    { field: "publishedBy", headerName: "Published By", flex: 1 },
+    { field: "publishedOn", headerName: "Published On", flex: 1 },
+    { field: "deployedBy", headerName: "Deployed By", flex: 1 },
+    { field: "deployedOn", headerName: "Deployed On", flex: 1 },
+    { field: "status", headerName: "Status", flex: 1 },
+    { field: "version", headerName: "Version", flex: 1 },
+  ];
+  
 
   return (
     <Box
@@ -92,47 +92,17 @@ function Architecture(props) {
         // className={styles.retoreTableDiv}
         sx={{ margin: "5px", padding: "5px" }}
       >
-        <ModalAddBackup
-          open={openModal}
-          handleClose={handleCloseModal}
-          onAddBackup={handleAddBackup}
-        />
-        <ModalDelete open={opendeleteModal} handleClose={handledeleteCloseModal} />
+       
         <CustomTable
           rows={tableRowData}
-          columns={[
-            { field: "id", headerName: "ID", flex: 1, hide: true },
-            { field: "backupName", headerName: "Backup Name", flex: 1 },
-            {
-              field: "backupDateAndTime",
-              headerName: "Backup Date and Time",
-              flex: 1,
-            },
-            {
-              field: "architectureName",
-              headerName: "Architecture Name",
-              flex: 1,
-            },
-            { field: "backupBy", headerName: "Backup By", flex: 1 },
-          ]}
-          //rowsPerPage={10}
-         // pageSize={100}
+          columns={columns}
+         
+          //rowsPerPage={5}
+         // pageSize={25}
           checkBoxSelection={false}
-          showDeleteButton={true}
-          showRestoreButton={true}
+        
         >
-          <CustomButton
-            title="Create Backup"
-            variant="outlined"
-            Theme={props.theme}
-            onClick={handleAddBackupClick}
-          />
-          <CustomButton
-            title="Delete"
-            variant="outlined"
-            Theme={props.theme}
-            onClick={handleDeleteClick}
-          />
+         
         </CustomTable>
       </Box>
     </Box>
@@ -146,4 +116,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Architecture);
+export default connect(mapStateToProps)(Deployment);

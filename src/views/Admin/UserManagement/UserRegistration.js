@@ -78,8 +78,8 @@ const UserRegistration = (props) => {
                 <CustomTable 
                     rows={updatedRows} 
                     columns={columns} 
-                    rowsPerPage={10} 
-                    pageSize={100}
+                    //rowsPerPage={10} 
+                   // pageSize={100}
                     showDeleteButton={true}
                     onSelectionChange={setSelectedRows}
                     Theme={theme}

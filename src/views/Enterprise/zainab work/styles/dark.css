@@ -1,0 +1,8 @@
+.dark_bgcolor {
+  background-color: #212121;
+}
+
+
+.hide-node-borders .react-flow__resize-control.handle {
+  display: none;
+}

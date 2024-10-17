@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Iconbox from './Components/Iconbox'; // Assuming you have the Iconbox component
+import Iconbox from '../Components/Iconbox'; // Assuming you have the Iconbox component
 import { Box } from '@mui/material';
 
 const Canvas = (props) => {

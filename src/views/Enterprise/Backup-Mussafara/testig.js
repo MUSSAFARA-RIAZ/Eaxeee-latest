@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import { connect } from "react-redux";
-import LeftPane from "../Layout/Leftpane";
-import RightPane from "../Layout/Rightpane";
-import { UserTabs } from "./Components/Enterprise_iconsTab";
-import DropDownInputField from "./Components/DropDownInputField";
-import Iconbox from "./Components/Iconbox";
-import ModalChangeColor from "./Components/Modals/ModalChangeColor";
+import LeftPane from "../../Layout/Leftpane";
+import RightPane from "../../Layout/Rightpane";
+import { UserTabs } from "../Components/Enterprise_iconsTab";
+import DropDownInputField from "../Components/DropDownInputField";
+import Iconbox from "../Components/Iconbox";
+import ModalChangeColor from "../Components/Modals/ModalChangeColor";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';

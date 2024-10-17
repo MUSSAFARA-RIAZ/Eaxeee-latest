@@ -13,12 +13,12 @@ const CustomNameInput = () => {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', }}>
       <input
         type="number"
         value={days}
         onChange={handleChange}
-        style={{ textAlign: 'center', height: '40.6px', width:"100px", background: 'transparent', border: '1px solid grey', borderRadius: '4px' }}
+        style={{ textAlign: 'center', height: '34px', width:"100px", background: 'transparent', border: '1px solid grey', borderRadius: '4px' }}
         min="0" // This sets the minimum value for the input field
       />
     </div>

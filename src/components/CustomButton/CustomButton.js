@@ -70,8 +70,11 @@ const CustomButton = React.forwardRef((props, ref) => {
             borderColor: buttonBorderColor,
             color: buttonTitleColor,
             display: "flex",
-            gap: "10px",
-            alignItems: "center",
+            // flexDirection:"column",
+            justifyContent:"center",
+            alignItems:"center",
+            // gap: "10px",
+            // alignItems: "center",
             minHeight: "unset",
             backgroundColor: bgcolor,
             

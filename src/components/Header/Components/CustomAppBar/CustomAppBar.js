@@ -122,7 +122,7 @@ function CustomAppBar(props) {
               />
             }
             onClick={props.toggleDrawer("left", true)}
-          ></CustomButton>
+          />
 
           <Box className={styles.logoParent}>
             <Link to="/" className={styles.logoLink}>

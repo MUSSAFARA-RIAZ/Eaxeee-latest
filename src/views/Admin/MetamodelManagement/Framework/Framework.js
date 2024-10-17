@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Box, Snackbar, Alert } from "@mui/material";
 import CustomTable from "../../../../components/CustomTable/CustomTable";
 import CustomButton from "../../../../components/CustomButton/CustomButton";
+import DropDown from "../../../Enterprise/Components/DropDown";
 
 function Document(props) {
   const [tableRowData, setTableRowData] = useState([
@@ -48,41 +49,35 @@ function Document(props) {
     setSnackBarMessage('Documents deleted successfully!');
     setSnackBarOpen(true);
   };
+  const firstdropdownitems = [
+    { value: 10, label: 'Select Framework' },
+    { value: 20, label: 'Archimate MetaModel' },
+    { value: 30, label: 'Togaf MetaModel' },
+  ];
+  const [selectedValue, setSelectedValue] = React.useState(10); // Default to 10 ("None")
+
+  // Handle value change in DropDown
+
+  const handleValueChange = (newValue) => {
+    setSelectedValue(newValue);
+  };
 
   return (
     <Box sx={{ height: "calc(100vh - 100px - 8%)" }}>
-      <Box sx={{ margin: "5px", padding: "5px" }}>
-        <CustomTable
-          rows={tableRowData}
-          columns={[
-            { field: "id", headerName: "ID", flex: 1, hide: true },
-            { field: "backupName", headerName: "Backup Name", flex: 1 },
-            {
-              field: "backupDateAndTime",
-              headerName: "Backup Date and Time",
-              flex: 1,
-            },
-            { field: "backupBy", headerName: "Backup By", flex: 1 },
-          ]}
-          //rowsPerPage={10}
-         // pageSize={100}
-          checkBoxSelection={false}
-          showDeleteButton={true}
-          showRestoreButton={true}
-        >
+      <Box sx={{ margin: "5px", padding: "5px", display: "flex", }}>
+        <DropDown menuItems={firstdropdownitems} selectedValue={selectedValue} // Pass the current selected value
+          onValueChange={handleValueChange} />
+        <Box sx={{ position: "relative", left: "5px" }}>
           <CustomButton
-            title="Create Backup"
+            title="Extract"
             variant="outlined"
             Theme={props.theme}
             onClick={handleBackupClick}
           />
-          <CustomButton
-            title="Delete"
-            variant="outlined"
-            Theme={props.theme}
-            onClick={handleDeleteClick}
-          />
-        </CustomTable>
+        </Box>
+
+
+
       </Box>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}

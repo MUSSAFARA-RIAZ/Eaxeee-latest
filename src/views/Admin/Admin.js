@@ -17,6 +17,7 @@ import {
   RepositoryTabs,
   RepositoryContent,
 } from "../Admin/RepositoryManagement/RepositoryManagement";
+import { MetaModelContent } from "./MetamodelManagement/MetamodelManagement";
 
 const Admin = (props) => {
   const { language } = props;
@@ -47,6 +48,12 @@ const Admin = (props) => {
         language === "en"
           ? "Repository Management"
           : AdminTranslation["Repository Management"],
+    },
+    {
+      label:
+        language === "en"
+          ? "MetaModel Management"
+          : AdminTranslation["Metamodel  Management"],
     },
   ];
   const usertabs = [
@@ -82,10 +89,18 @@ const Admin = (props) => {
   ];
 
   const repositorytabs = [
-    
+
     { label: language === "en" ? 'Architecture' : AdminTranslation["Architecture"] },
     { label: language === "en" ? 'Document' : AdminTranslation["Document"] },
     { label: language === "en" ? 'Process' : AdminTranslation["Process"] },
+  ];
+  const metamodeltabs = [
+    {
+      label: language === "en" ? "Deployment" : AdminTranslation["Deployment"],
+    },
+    {
+      label: language === "en" ? "Framework" : AdminTranslation["Framework"],
+    },
   ];
 
   const handleMainChange = (event, newValue) => {
@@ -132,20 +147,31 @@ const Admin = (props) => {
               handleChange={handleMainChange}
               tabs={licensedtabs}
             />
-          ) : (
+          ) : view === 2 ? (
             <RepositoryTabs
               tabs={repositorytabs}
               value={value}
               handleChange={handleMainChange}
             />
-          )}
+          ) : view === 3 ? (
+            <RepositoryTabs
+              tabs={metamodeltabs}
+              value={value}
+              handleChange={handleMainChange}
+            />
+          ) : null}
         </div>
+
         <div>
           {view === 0 && <UserContent value={value} />}
           {view === 1 && <LicenseManagementContent value={value} />}
           {view === 2 && (
             <RepositoryContent value={value} tabs={repositorytabs} />
           )}
+          {view === 3 && (
+            <MetaModelContent value={value} tabs={metamodeltabs} />
+          )}
+
         </div>
       </RightPane>
     </Box>

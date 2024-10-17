@@ -9,7 +9,7 @@ function Table1({ language, theme, setLanguage, setTheme }) {
 
     return (
         <div className="MainComponent">
-            <h1>table1</h1>
+            <h1></h1>
         </div>
     );
 }

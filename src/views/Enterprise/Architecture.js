@@ -1,27 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Box from "@mui/material/Box";
 import { connect } from "react-redux";
 import LeftPane from "../Layout/Leftpane";
 import RightPane from "../Layout/Rightpane";
-import { UserTabs } from "./Components/Enterprise_iconsTab";
+import { EnterpriseContent, UserTabs } from "./Components/Enterprise_iconsTab";
 import DropDownInputField from "./Components/DropDownInputField";
 import Iconbox from "./Components/Iconbox";
 import ModalChangeColor from "./Components/Modals/ModalChangeColor";
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import ZoomOutIcon from '@mui/icons-material/ZoomOut';
-import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
-import ImageIcon from '@mui/icons-material/Image';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import LoopIcon from '@mui/icons-material/Loop';
-import SaveIcon from '@mui/icons-material/Save';
-import ToggleOnIcon from '@mui/icons-material/ToggleOn';
-import darktheme from "../../Themes/dark_theme.module.css";
-import lighttheme from "../../Themes/light_theme.module.css";
-import defaulttheme from "../../Themes/default_theme.module.css";
-import ReactFlow, { addEdge, Handle, ReactFlowProvider, useEdgesState, useNodesState, Controls, Background } from 'react-flow-renderer';
-import { fontSize } from "@mui/system";
-import { Rnd } from "react-rnd"
-// import SaveIcon from '@mui/icons-material/Save';
+import { Rnd } from "react-rnd";
+import IconToolbar from "./Components/IconToolbar";
+
+import objectdefault from "../../Assets/Images/objectcharcoal.png";
+import objectdark from "../../Assets/Images/objectpale.png";
+import processdefault from "../../Assets/Images/processcharcoal.png";
+import processdark from "../../Assets/Images/processpale.png";
+import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
+import blueprintdark from "../../Assets/Images/blueprintpale.png";
+import ContextMenu from "./ContextMenu";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import ReactFlow, {
+  addEdge,
+  MiniMap,
+  Controls,
+  Background,
+  applyNodeChanges,
+  applyEdgeChanges,
+} from "reactflow";
+import "reactflow/dist/style.css";
+import { getStraightPath } from "@xyflow/react";
+import { Tooltip } from "@mui/material";
+import ArchitectureButton from "../../components/CustomButton/ArchitectureButton";
+import { Image } from "@mui/icons-material";
+
+const CustomConnectionLine = ({ fromX, fromY, toX, toY, connectionLineStyle }) => {
+  const [edgePath] = getStraightPath({
+    sourceX: fromX,
+    sourceY: fromY,
+    targetX: toX,
+    targetY: toY,
+  });
+
+  return (
+    <g>
+      <path style={connectionLineStyle} fill="none" d={edgePath} />
+      <marker
+        id="arrow"
+        viewBox="0 0 10 10"
+        refX="5"
+        refY="5"
+        markerWidth="6"
+        markerHeight="6"
+        orient="auto-start-reverse"
+      >
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="black" stroke="black" strokeWidth="1.5" />
+      </marker>
+      <path
+        d={edgePath}
+        fill="red"
+        stroke="black"
+        strokeWidth="2.5"
+        markerEnd="url(#arrow)"
+      />
+    </g>
+  );
+};
 
 const Architecture = (props) => {
   const [open, setOpen] = useState(true);
@@ -32,52 +74,37 @@ const Architecture = (props) => {
   const [selectedImageTitle, setSelectedImageTitle] = useState("");
   const [isDroppable, setIsDroppable] = useState(false);
   const [contextMenu, setContextMenu] = useState(null);
-  const [clickedImageIndex, setClickedImageIndex] = useState(null);
-  const [isColorModalOpen, setIsColorModalOpen] = useState(false);
-  const [activeColor, setActiveColor] = useState('');
+  const [colorModalOpen, setColorModalOpen] = useState(false);
+  const [selectedNodeId, setSelectedNodeId] = useState(null);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
+  const [fullScreen, setfullScreen] = useState(false);
 
-  // New state for dragging
-  const [isDragging, setIsDragging] = useState(false);
-  const [draggingIndex, setDraggingIndex] = useState(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-
-  // New state for background visibility
-  const [isBackgroundHidden, setIsBackgroundHidden] = useState(Array(droppedImages.length).fill(false));
-
-  // New state for order
-  const [order, setOrder] = useState([]);
-
-  useEffect(() => {
-    // Initialize order on droppedImages change
-    setOrder(droppedImages.map((_, index) => index));
-  }, [droppedImages]);
-
+  // Track mouse movement to move the image with the pointer
   useEffect(() => {
     const handleMouseMove = (event) => {
       if (selectedImage) {
         setMousePos({ x: event.clientX, y: event.clientY });
       }
-      if (isDragging && draggingIndex !== null) {
-        const canvasRect = document.getElementById("canvas").getBoundingClientRect();
-        const x = event.clientX - canvasRect.left - offset.x;
-        const y = event.clientY - canvasRect.top - offset.y;
-
-        setDroppedImages((prev) =>
-          prev.map((img, index) =>
-            index === draggingIndex ? { ...img, x, y } : img
-          )
-        );
-      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [selectedImage, isDragging, draggingIndex, offset]);
+  }, [selectedImage]);
 
+  // Handle image selection
   const handleSelectImage = (imageSrc, backgroundColor, title) => {
     setSelectedImage(imageSrc);
     setSelectedImageColor(backgroundColor);
     setSelectedImageTitle(title);
+  };
+
+  // Paste the image node on left click, continue selection until right click
+  // Handle left-click to paste and right-click to deselect image
+  const [isBackgroundVisible, setIsBackgroundVisible] = useState(true); // New state for background visibility
+
+  const handleHideBackground = (visible) => {
+    setIsBackgroundVisible(visible);
   };
 
   const handleCanvasClick = (event) => {
@@ -87,872 +114,423 @@ const Architecture = (props) => {
       const x = event.clientX - canvasRect.left;
       const y = event.clientY - canvasRect.top;
 
-      setDroppedImages((prev) => [
-        ...prev,
-        {
-          src: selectedImage,
-          x,
-          y,
-          backgroundColor: selectedImageColor,
-          title: selectedImageTitle,
+      const newNode = {
+        id: `${nodes.length + 1}`,
+        type: "default",
+        position: { x, y },
+        data: {
+          label: (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src={selectedImage}
+                alt="Dropped"
+                style={{
+                  position: "absolute",
+                  width: "29px",
+                  height: "24px",
+                  margin: "auto",
+                  top: 0,
+                  right: 0,
+                }}
+              />
+              <span style={{ fontSize: "12px", color: "black", textAlign: "center", display: "flex" }}>
+                {selectedImageTitle}
+              </span>
+            </div>
+          ),
         },
-      ]);
-      // Update background hidden state
-      setIsBackgroundHidden((prev) => [...prev, false]); // Initially, the background is not hidden
+        style: {
+          backgroundColor: isBackgroundVisible ? selectedImageColor : "transparent", // Conditional background color
+          padding: "10px",
+          borderRadius: "5px",
+        },
+      };
+
+      setNodes((prevNodes) => [...prevNodes, newNode]);
     }
-    setContextMenu(null); // Hide context menu
+
+    if (event.button === 2) {
+      setSelectedImage(null);
+    }
+
+    setContextMenu(null);
   };
 
-  const handleRightClick = (event) => {
+
+  // Add a right-click handler on the canvas to also clear selected image
+  useEffect(() => {
+    const handleRightClickOnCanvas = (event) => {
+      if (event.button === 2) {
+        setSelectedImage(null); // Deselect image on right-click anywhere on the canvas
+        event.preventDefault(); // Prevent the default right-click context menu
+      }
+    };
+
+    const canvas = document.getElementById("canvas");
+    canvas.addEventListener("contextmenu", handleRightClickOnCanvas);
+
+    return () => {
+      canvas.removeEventListener("contextmenu", handleRightClickOnCanvas);
+    };
+  }, []);
+
+
+  const handleRightClick = (event, nodeId) => {
     event.preventDefault();
-    setSelectedImage(null); // Unselect image on right-clicking canvas
+    setSelectedNodeId(nodeId);
+    setContextMenu({ x: event.clientX, y: event.clientY });
+
+    // Clear the selected image on right-click
+    setSelectedImage(null);
   };
 
-  const handleRectangleRightClick = (event, index) => {
-    event.preventDefault();
-    setContextMenu({
-      visible: true,
-      x: event.clientX - 400,
-      y: event.clientY - 100,
+
+  const bringToFront = (nodeId) => {
+    setNodes((prevNodes) => {
+      const maxZIndex = Math.max(...prevNodes.map((node) => node.style?.zIndex || 0)) + 1; // Get the maximum zIndex
+      return prevNodes.map((node) => {
+        if (node.id === nodeId) {
+          return { ...node, style: { ...node.style, zIndex: maxZIndex } }; // Assign the new max zIndex to the node
+        }
+        return node; // Return the node unchanged
+      });
     });
-    setClickedImageIndex(index);
   };
+
+  const sendToBack = (nodeId) => {
+    setNodes((prevNodes) => {
+      const minZIndex = Math.min(...prevNodes.map((node) => node.style?.zIndex || 0)) - 1; // Get the minimum zIndex
+      return prevNodes.map((node) => {
+        if (node.id === nodeId) {
+          return { ...node, style: { ...node.style, zIndex: minZIndex } }; // Assign the new min zIndex to the node
+        }
+        return node; // Return the node unchanged
+      });
+    });
+  };
+
 
   const handleMenuClick = (action) => {
     switch (action) {
       case "delete":
-        if (clickedImageIndex !== null) {
-          // Remove the image from droppedImages
-          setDroppedImages((prev) => {
-            const newDroppedImages = prev.filter((_, i) => i !== clickedImageIndex);
-            return newDroppedImages;
-          });
-
-          // Remove the corresponding entry from isBackgroundHidden
-          setIsBackgroundHidden((prev) => prev.filter((_, i) => i !== clickedImageIndex));
-
-          // Update order by filtering out the deleted index
-          setOrder((prev) => prev.filter((index) => index !== clickedImageIndex));
-
-          // Adjust the indices in order
-          setOrder((prev) => prev.map((index) => index > clickedImageIndex ? index - 1 : index));
-        }
+        setNodes((prevNodes) => prevNodes.filter((node) => node.id !== selectedNodeId));
         break;
       case "sendBack":
-        if (clickedImageIndex !== null) {
-          setOrder((prev) => {
-            const newOrder = [...prev];
-            const currentIndex = newOrder.indexOf(clickedImageIndex);
-            if (currentIndex > 0) {
-              // Move to back by swapping with previous index
-              [newOrder[currentIndex - 1], newOrder[currentIndex]] = [newOrder[currentIndex], newOrder[currentIndex - 1]];
-            }
-            return newOrder;
-          });
-        }
+        sendToBack(selectedNodeId);
         break;
       case "bringFront":
-        if (clickedImageIndex !== null) {
-          setOrder((prev) => {
-            const newOrder = [...prev];
-            const currentIndex = newOrder.indexOf(clickedImageIndex);
-            if (currentIndex < newOrder.length - 1) {
-              // Move to front by swapping with next index
-              [newOrder[currentIndex + 1], newOrder[currentIndex]] = [newOrder[currentIndex], newOrder[currentIndex + 1]];
-            }
-            return newOrder;
-          });
-        }
+        bringToFront(selectedNodeId);
         break;
       case "changeColor":
-        setIsColorModalOpen(true);
+        setColorModalOpen(true); // Open the color change modal
         break;
       default:
         break;
     }
-    setContextMenu(null);
   };
-  const [hoveredItem, setHoveredItem] = useState(null);
+
+  const handleColorChange = (newColor) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) =>
+        node.id === selectedNodeId
+          ? { ...node, style: { ...node.style, backgroundColor: newColor } }
+          : node
+      )
+    );
+    setColorModalOpen(false); // Close modal after color change
+  };
+
+  const getBackgroundColor = (action) => {
+    return contextMenu && contextMenu.hoveredItem === action ? "#f0f0f0" : "#ffffff";
+  };
 
   const handleMouseEnter = (item) => {
-    setHoveredItem(item);
+    setContextMenu((prev) => ({ ...prev, hoveredItem: item }));
   };
 
   const handleMouseLeave = () => {
-    setHoveredItem(null);
+    setContextMenu((prev) => ({ ...prev, hoveredItem: null }));
   };
 
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
 
-  const getBackgroundColor = (item) => {
-    return hoveredItem === item
-      ? props.theme === "dark"
-        ? "rgba(165, 209, 73, 0.5)"
-        : "rgba(33, 88, 164, 0.2)"
-      : "transparent";
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    []
+  );
+  const handleHideRectangle = () => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) => ({
+        ...node,
+        style: {
+          ...node.style,
+          backgroundColor: null, // Set the background color to null
+        },
+      }))
+    );
   };
 
-
-  const handleMouseEnterDropZone = () => {
-    setIsDroppable(true);
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge({ ...params, markerEnd: { type: "arrowclosed" } }, eds)),
+    []
+  );
+  const [value, setValue] = useState(0);
+  console.log("colormodal open", colorModalOpen);
+  const objectsrc = props.theme === "dark" ? objectdark : objectdefault;
+  const processsrc = props.theme === "dark" ? processdark : processdefault;
+  const artifactsrc = props.theme === "dark" ? blueprintdark : blueprintdefault;
+  const tabs = [
+    {
+      icon: (
+        <Tooltip title="Object">
+          <img src={objectsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} />
+        </Tooltip>
+      )
+    },
+    { icon: (<Tooltip title="Artifacts"><img src={artifactsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
+    { icon: (<Tooltip title="Process"><img src={processsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
+    { icon: (<Tooltip title="Documents"><DescriptionOutlinedIcon /></Tooltip>) },
+  ];
+  const handleMainChange = (event, newValue) => {
+    setValue(newValue);
   };
 
-  const handleMouseLeaveDropZone = () => {
-    setIsDroppable(false);
-  };
-
-  const handleChangeColor = (newColor) => {
-    if (clickedImageIndex !== null && newColor) {
-      setDroppedImages((prev) =>
-        prev.map((image, index) =>
-          index === clickedImageIndex
-            ? { ...image, backgroundColor: newColor }
-            : image
-        )
-      );
-    }
-    setIsColorModalOpen(false);
-  };
-
-  const handleHideBackground = () => {
-    // Toggle visibility for all rectangles
-    setIsBackgroundHidden((prev) => prev.map((hidden) => !hidden));
-  };
-
-  const handleMouseDown = (event, index) => {
-    event.stopPropagation();
-    setIsDragging(true);
-    setDraggingIndex(index);
-    const canvasRect = document.getElementById("canvas").getBoundingClientRect();
-    setOffset({ x: event.clientX - canvasRect.left - droppedImages[index].x, y: event.clientY - canvasRect.top - droppedImages[index].y });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    setDraggingIndex(null);
-  };
-  console.log("isbackground hidden", isBackgroundHidden);
-  const [fullScreen, setfullScreen] = useState(false);
-
-
-
-  return (
-
-    !fullScreen ? (
-      <div>
-
-        <LeftPane open={open} onClose={() => setOpen(false)} props={props}>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <UserTabs
-              value={0}
-              handleChange={() => { }}
-              tabs={[]}
-              language={props.language}
-              theme={props.theme}
-              onClick={() => props.settree("tree1")}
-            />
-          </div>
-          <div>
-            <DropDownInputField props={props} />
-          </div>
-        </LeftPane>
-
-        <RightPane open={open} props={props} handleDrawerOpen={() => setOpen(true)}>
-          <div style={{ display: "flex", width: "100%" }}>
-            <div style={{ width: "40%", display: "flex", alignItems: "center", marginLeft: open ? "25px" : "50px" }}>
-              Architecture 1 : Diagram 2
-            </div>
-
-            <div style={{ width: "60%", display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
-
-
-              <LoopIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <FilterAltIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ImageIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} onClick={handleHideBackground} />
-              <ZoomOutMapIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ZoomInIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ZoomOutIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-
-              <ToggleOnIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <SaveIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-
-
-
-
-            </div>
-          </div>
-
-          <div style={{ display: "flex", flex: 1 }}>
-            <Iconbox onSelectImage={handleSelectImage} props={props} />
-            <div
-              id="canvas"
-              style={{
-                width: "100%",
-                minHeight: "400px",
-                position: "relative",
-                overflow: "auto",
-              }}
-              onClick={handleCanvasClick}
-              onContextMenu={handleRightClick}
-              onMouseEnter={handleMouseEnterDropZone}
-              onMouseLeave={handleMouseLeaveDropZone}
-              onMouseUp={handleMouseUp}
-            >
-              <button onClick={() => setfullScreen(false)}>Minimize</button>
-              <button onClick={() => setfullScreen(true)}>Full Screen</button>
-              {order.map((index) => {
-                const image = droppedImages[index];
-                return (
-                  <Rnd
-                    key={index}
-                    size={{ width: image.width || 140, height: image.height || 60 }} // Set default width and height
-                    position={{ x: image.x, y: image.y }}
-                    onDragStop={(e, d) => {
-                      setDroppedImages((prev) =>
-                        prev.map((img, idx) =>
-                          idx === index ? { ...img, x: d.x, y: d.y } : img
-                        )
-                      );
-                    }}
-                    onResizeStop={(e, direction, ref, delta, position) => {
-                      setDroppedImages((prev) =>
-                        prev.map((img, idx) =>
-                          idx === index
-                            ? {
-                              ...img,
-                              width: ref.style.width,
-                              height: ref.style.height,
-                              ...position,
-                            }
-                            : img
-                        )
-                      );
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: isBackgroundHidden[index]
-                          ? "transparent"
-                          : image.backgroundColor,
-                        border: isBackgroundHidden[index] ? "none" : image.backgroundColor,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        borderRadius: "10px",
-                        padding: "5px",
-                        cursor: 'move',
-                        position: 'relative', // Ensure that the inner elements are positioned relative to this container
-                      }}
-                      onContextMenu={(e) => handleRectangleRightClick(e, index)}
-
-                    >
-                      {/* Center Marker */}
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          width: '10px',  // Width of the center marker
-                          height: '10px', // Height of the center marker
-                          // backgroundColor: 'red', // Color of the center marker
-                          borderRadius: '50%', // Makes it a circle
-                          transform: 'translate(-50%, -50%)', // Center the marker
-                          zIndex: 10 // Ensure it's on top of other elements
-                        }}
-                      />
-
-                      {isBackgroundHidden[index] ? (
-                        <>
-                          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                            <img
-                              src={image.src}
-                              alt={`Dropped ${index}`}
-                              style={{
-                                position: isBackgroundHidden[index] ? "relative" : "absolute",
-                                width: "29px",
-                                height: "24px",
-                                margin: "auto",
-                                top: 0,
-                                right: 0,
-                              }}
-                            />
-                            <div style={{ fontSize: "12px", color: "black", textAlign: "center", display: "flex" }}>
-                              {image.title}
-                            </div>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div style={{ fontSize: "12px", color: "black", textAlign: "center" }}>
-                            {image.title}
-                          </div>
-                          <img
-                            src={image.src}
-                            alt={`Dropped ${index}`}
-                            style={{
-                              position: "absolute",
-                              width: "29px",
-                              height: "24px",
-                              top: 4,
-                              right: 0,
-                            }}
-                          />
-                        </>
-                      )}
-                    </div>
-                  </Rnd>
-
-                );
-              })}
-
-              {selectedImage && isDroppable && (
-                <img
-                  src={selectedImage}
-                  alt="Moving"
-                  style={{
-                    position: "fixed",
-                    left: mousePos.x,
-                    top: mousePos.y,
-                    width: "30px",
-                    height: "30px",
-                    pointerEvents: "none",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                />
-              )}
-
-              {contextMenu && (
-                <div
-                  style={{
-                    position: "absolute",
-                    left: contextMenu.x,
-                    top: contextMenu.y,
-                    backgroundColor: "#ffffff",
-                    boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)",
-                    // padding: "20px",
-                    borderRadius: "6px",
-                    //  background-color:${
-                    //   props.theme === "dark"
-                    //     ? "rgba(165,209, 73, 0.5)"
-                    //     : "rgba(33,88, 164, 0.2)"
-                    // }; 
-                  }}
-                >
-                  <ul style={{ listStyle: "none", padding: 10, margin: 0 }}>
-                    <li
-                      onClick={() => handleMenuClick("delete")}
-                      onMouseEnter={() => handleMouseEnter("delete")}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        cursor: "pointer",
-                        backgroundColor: getBackgroundColor("delete"),
-                        color: "#4b5563",
-                        marginBottom: "5px",
-
-                      }}
-                    >
-                      Delete
-                    </li>
-                    <li
-                      onClick={() => handleMenuClick("sendBack")}
-
-
-                      onMouseEnter={() => handleMouseEnter("sendBack")}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        backgroundColor: getBackgroundColor("sendBack"),
-                        cursor: "pointer",
-                        color: "#4b5563",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      Send to Back
-                    </li>
-                    <li
-                      onClick={() => handleMenuClick("bringFront")}
-                      onMouseEnter={() => handleMouseEnter("bringFront")}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        backgroundColor: getBackgroundColor("bringFront"),
-                        cursor: "pointer",
-                        color: "#4b5563",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      Bring to Front
-                    </li>
-
-                    <li
-                      onClick={() => handleMenuClick("changeColor")}
-                      onMouseEnter={() => handleMouseEnter("changeColor")}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        backgroundColor: getBackgroundColor("changeColor"),
-                        cursor: "pointer",
-                        color: "#4b5563",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      Change Color
-                    </li>
-
-                  </ul>
-                </div>
-              )}
-
-              {isColorModalOpen && (
-                <ModalChangeColor
-                  open={isColorModalOpen}
-                  handleClose={() => setIsColorModalOpen(false)}
-                  onChangeColor={handleChangeColor}
-                  language={props.language}
-                  theme={props.theme}
-                />
-              )}
-            </div>
-
-          </div>
-        </RightPane>
-      </div>
-    ) : (
-      <>
-      <div style={{ display: "flex", width: "100%", padding:"10px" }}>
-            <div style={{ width: "40%", display: "flex", alignItems: "center", marginLeft: open ? "25px" : "50px" }}>
-              Architecture 1 : Diagram 2
-            </div>
-
-            <div style={{ width: "60%",  display: "flex", justifyContent: "space-evenly", alignItems: "center" }}>
-
-
-              <LoopIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <FilterAltIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ImageIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} onClick={handleHideBackground} />
-              <ZoomOutMapIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ZoomInIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <ZoomOutIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-
-              <ToggleOnIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-              <SaveIcon className={`${props.theme === "default"
-                ? defaulttheme.default_themebtntextcolor
-                : props.theme === "dark"
-                  ? darktheme.dark_themebtntextcolor
-                  : lighttheme.light_themebtntextcolor
-                } ${props.theme === "default"
-                  ? defaulttheme.default_themebtnbordercolor
-                  : props.theme === "dark"
-                    ? darktheme.dark_themebtnbordercolor
-                    : lighttheme.light_themebtnbordercolor
-
-                }`} sx={{ fontSize: "30px" }} />
-
-
-
-
-            </div>
-          </div>
-          <div style={{ display: "flex", flex: 1 }}>
-          <Iconbox onSelectImage={handleSelectImage} props={props} />
-      <div
-        id="canvas"
-        style={{
-          width: "100%",
-          // border:"2px solid red",
-          backgroundColor:"#e0e0e0",
-          height: "100vh",
-          position: "relative",
-          overflow: "auto",
-        }}
-        onClick={handleCanvasClick}
-        onContextMenu={handleRightClick}
-        onMouseEnter={handleMouseEnterDropZone}
-        onMouseLeave={handleMouseLeaveDropZone}
-        onMouseUp={handleMouseUp}
-      >
-        <button onClick={() => setfullScreen(false)}>Minimize</button>
-        <button onClick={() => setfullScreen(true)}>Full Screen</button>
-        {order.map((index) => {
-          const image = droppedImages[index];
-          return (
-            <Rnd
-              key={index}
-              size={{ width: image.width || 140, height: image.height || 60 }} // Set default width and height
-              position={{ x: image.x, y: image.y }}
-              onDragStop={(e, d) => {
-                setDroppedImages((prev) =>
-                  prev.map((img, idx) =>
-                    idx === index ? { ...img, x: d.x, y: d.y } : img
-                  )
-                );
-              }}
-              onResizeStop={(e, direction, ref, delta, position) => {
-                setDroppedImages((prev) =>
-                  prev.map((img, idx) =>
-                    idx === index
-                      ? {
-                        ...img,
-                        width: ref.style.width,
-                        height: ref.style.height,
-                        ...position,
-                      }
-                      : img
-                  )
-                );
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: isBackgroundHidden[index]
-                    ? "transparent"
-                    : image.backgroundColor,
-                  border: isBackgroundHidden[index] ? "none" : image.backgroundColor,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "10px",
-                  padding: "5px",
-                  cursor: 'move',
-                  position: 'relative', // Ensure that the inner elements are positioned relative to this container
-                }}
-                onContextMenu={(e) => handleRectangleRightClick(e, index)}
-              >
-                {/* Center Marker */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    width: '10px',  // Width of the center marker
-                    height: '10px', // Height of the center marker
-                    // backgroundColor: 'red', // Color of the center marker
-                    borderRadius: '50%', // Makes it a circle
-                    transform: 'translate(-50%, -50%)', // Center the marker
-                    zIndex: 10 // Ensure it's on top of other elements
-                  }}
-                />
-
-                {isBackgroundHidden[index] ? (
-                  <>
-                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                      <img
-                        src={image.src}
-                        alt={`Dropped ${index}`}
-                        style={{
-                          position: isBackgroundHidden[index] ? "relative" : "absolute",
-                          width: "29px",
-                          height: "24px",
-                          margin: "auto",
-                          top: 0,
-                          right: 0,
-                        }}
-                      />
-                      <div style={{ fontSize: "12px", color: "black", textAlign: "center", display: "flex" }}>
-                        {image.title}
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ fontSize: "12px", color: "black", textAlign: "center" }}>
-                      {image.title}
-                    </div>
-                    <img
-                      src={image.src}
-                      alt={`Dropped ${index}`}
-                      style={{
-                        position: "absolute",
-                        width: "29px",
-                        height: "24px",
-                        top: 4,
-                        right: 0,
-                      }}
-                    />
-                  </>
-                )}
-              </div>
-            </Rnd>
-
-          );
-        })}
-
-        {selectedImage && isDroppable && (
-          <img
-            src={selectedImage}
-            alt="Moving"
-            style={{
-              position: "fixed",
-              left: mousePos.x,
-              top: mousePos.y,
-              width: "30px",
-              height: "30px",
-              pointerEvents: "none",
-              transform: "translate(-50%, -50%)",
-            }}
-          />
-        )}
-
-        {contextMenu && (
-          <div
-            style={{
-              position: "absolute",
-              left: contextMenu.x + 360,
-              top: contextMenu.y + 50,
-              backgroundColor: "#ffffff",
-              boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.1)",
-              // padding: "20px",
-              borderRadius: "6px",
-              //  background-color:${
-              //   props.theme === "dark"
-              //     ? "rgba(165,209, 73, 0.5)"
-              //     : "rgba(33,88, 164, 0.2)"
-              // }; 
-            }}
-          >
-            <ul style={{ listStyle: "none", padding: 10, margin: 0 }}>
-              <li
-                onClick={() => handleMenuClick("delete")}
-                onMouseEnter={() => handleMouseEnter("delete")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor: getBackgroundColor("delete"),
-                  color: "#4b5563",
-                  marginBottom: "5px",
-
-                }}
-              >
-                Delete
-              </li>
-              <li
-                onClick={() => handleMenuClick("sendBack")}
-
-
-                onMouseEnter={() => handleMouseEnter("sendBack")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  backgroundColor: getBackgroundColor("sendBack"),
-                  cursor: "pointer",
-                  color: "#4b5563",
-                  marginBottom: "5px",
-                }}
-              >
-                Send to Back
-              </li>
-              <li
-                onClick={() => handleMenuClick("bringFront")}
-                onMouseEnter={() => handleMouseEnter("bringFront")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  backgroundColor: getBackgroundColor("bringFront"),
-                  cursor: "pointer",
-                  color: "#4b5563",
-                  marginBottom: "5px",
-                }}
-              >
-                Bring to Front
-              </li>
-
-              <li
-                onClick={() => handleMenuClick("changeColor")}
-                onMouseEnter={() => handleMouseEnter("changeColor")}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  backgroundColor: getBackgroundColor("changeColor"),
-                  cursor: "pointer",
-                  color: "#4b5563",
-                  marginBottom: "5px",
-                }}
-              >
-                Change Color
-              </li>
-
-            </ul>
-          </div>
-        )}
-
-        {isColorModalOpen && (
-          <ModalChangeColor
-            open={isColorModalOpen}
-            handleClose={() => setIsColorModalOpen(false)}
-            onChangeColor={handleChangeColor}
+  const view = 0;
+
+  return !fullScreen ? (
+    <div>
+      <LeftPane open={open} onClose={() => setOpen(false)} props={props}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <UserTabs
+            value={value}
+            handleChange={handleMainChange}
+            tabs={tabs}
             language={props.language}
             theme={props.theme}
+            onClick={() => props.settree("tree1")}
           />
-        )}
-      </div>
-      </div>
-      </>
-    )
+        </div>
+        <div>
+          <DropDownInputField props={props} />
+        </div>
+        <div>
+          {view === 0 && (
+            <EnterpriseContent value={value} language={props.language} />
+          )}
+        </div>
+      </LeftPane>
+      <RightPane open={open} props={props} handleDrawerOpen={() => setOpen(true)}>
+        <div style={{ display: "flex", width: "100%", }}>
+          <div
+            style={{
+              width: "25%",
+              display: "flex",
+              alignItems: "center",
+              marginLeft: open ? "25px" : "50px",
+            }}
+          >
+            Architecture 1 : Diagram 2
+          </div>
+
+          <div
+            style={{
+              width: "90%",
+              marginLeft: "2%",
+
+              display: "flex",
+              justifyContent: "center",
 
 
-  );
+            }}
+          >
+            {/* <ArchitectureButton
+              title="Hide Rectangle "
+              startIcon={<Image />}
+              Theme={props.theme}
+              onClick={handleHideRectangle}
+
+            /> */}
+            <IconToolbar   theme={props.theme}/>
+
+          </div>
+        </div>
+        <div style={{ display: "flex", flex: 1 }}>
+          <Iconbox onSelectImage={handleSelectImage} props={props} />
+
+          <div
+            id="canvas"
+            style={{
+              width: "100%",
+              minHeight: "400px",
+              position: "relative",
+              overflow: "auto",
+            }}
+            onClick={handleCanvasClick}
+            onMouseEnter={() => setIsDroppable(true)}
+            onMouseLeave={() => setIsDroppable(false)}
+          >
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              connectionMode="loose"
+              onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
+              style={{ width: "100%", height: "400px" }}
+              connectionLineComponent={CustomConnectionLine}
+            >
+              {/* <MiniMap /> */}
+              <Controls />
+              <Background />
+            </ReactFlow>
+            <Rnd
+              default={{
+                x: open ? 850 : 1240,
+                y: 20,
+
+              }}
+              bounds="parent"
+              position={{ x: open ? 850 : 1240, y: 20 }}
+            >
+              <button onClick={() => setfullScreen(false)} >Minimize</button>
+              <button onClick={() => setfullScreen(true)} >Full Screen</button>
+
+            </Rnd>
+
+            <ContextMenu
+              contextMenu={contextMenu}
+              fullScreen={fullScreen}
+              handleMenuClick={handleMenuClick}
+              getBackgroundColor={getBackgroundColor}
+              handleMouseEnter={handleMouseEnter}
+              handleMouseLeave={handleMouseLeave}
+              theme={props.theme}
+            />
+            {colorModalOpen && (
+              <ModalChangeColor
+                open={colorModalOpen}  // Add the open prop here
+                onClose={() => setColorModalOpen(false)}
+                onChangeColor={handleColorChange}
+                theme={props.theme}
+                language={props.language}
+              // initialColor={nodes.find(node => node.id === selectedNodeId)?.style?.backgroundColor}
+              />
+            )}
+
+
+          </div>
+        </div>
+      </RightPane>
+    </div>
+  ) : (
+    <>
+
+
+      <div style={{ display: "flex", width: "100%", }}>
+        <div
+          style={{
+            width: "25%",
+            display: "flex",
+            alignItems: "center",
+            marginLeft: open ? "25px" : "50px",
+          }}
+        >
+          Architecture 1 : Diagram 2
+        </div>
+
+        <div
+          style={{
+            width: "90%",
+            marginLeft: "2%",
+
+            display: "flex",          // Make the container a flexbox
+
+            justifyContent: "center",
+            // border: "2px solid red",
+
+          }}
+        >
+          <IconToolbar
+            theme={props.theme}
+            handleHideBackground={handleHideBackground}
+          />
+
+        </div>
+      </div>
+      <div style={{ display: "flex", flex: 1 }}>
+        <Iconbox onSelectImage={handleSelectImage} props={props} />
+
+        <div
+          id="canvas"
+          style={{
+            width: "100%",
+            minHeight: "400px",
+            position: "relative",
+            overflow: "auto",
+          }}
+          onClick={handleCanvasClick}
+          onMouseEnter={() => setIsDroppable(true)}
+          onMouseLeave={() => setIsDroppable(false)}
+        >
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            connectionMode="loose"
+            onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
+            style={{ width: "100%", height: "400px" }}
+            connectionLineComponent={CustomConnectionLine}
+          >
+            {/* <MiniMap /> */}
+            <Controls />
+            <Background />
+          </ReactFlow>
+          <Rnd
+            default={{
+              x: open ? 850 : 1240,
+              y: 20,
+
+            }}
+            bounds="parent"
+            position={{ x: open ? 850 : 1240, y: 20 }}
+          >
+            <button onClick={() => setfullScreen(false)} >Minimize</button>
+            <button onClick={() => setfullScreen(true)} >Full Screen</button>
+
+          </Rnd>
+
+          <ContextMenu
+            contextMenu={contextMenu}
+            fullScreen={fullScreen}
+            handleMenuClick={handleMenuClick}
+            getBackgroundColor={getBackgroundColor}
+            handleMouseEnter={handleMouseEnter}
+            handleMouseLeave={handleMouseLeave}
+            theme={props.theme}
+          />
+          {colorModalOpen && (
+            <ModalChangeColor
+              open={colorModalOpen}  // Add the open prop here
+              onClose={() => setColorModalOpen(false)}
+              onChangeColor={handleColorChange}
+              theme={props.theme}
+              language={props.language}
+            // initialColor={nodes.find(node => node.id === selectedNodeId)?.style?.backgroundColor}
+            />
+          )}
+
+
+        </div>
+      </div>
+
+    </>
+  )
 };
 
 const mapStateToProps = (state) => ({

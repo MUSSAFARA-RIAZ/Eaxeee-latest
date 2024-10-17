@@ -1,0 +1,12 @@
+.center-plus {
+    display: none; 
+  }
+  
+  .Rnd:hover .center-plus {
+    display: block; 
+  }
+  
+  .center-plus:hover .draggable-plus {
+    display: flex; /* Show the "+" when hovering over the blue center */
+  }
+  

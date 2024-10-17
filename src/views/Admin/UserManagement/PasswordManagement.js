@@ -101,7 +101,9 @@ const PasswordManagement = (props) => {
             <ModalChangePassword open={openModal} handleClose={handleCloseModal} />     
 
             <Box className={`${styles.passwordManagementTableDiv}`}>
-                <CustomTable rows={tableRowData} columns={columns} rowsPerPage={10} pageSize={10} checkBoxSelection={false} />
+                <CustomTable rows={tableRowData} columns={columns}
+                
+              />
             </Box>
 
         </Box >

@@ -204,8 +204,8 @@ function NamedUser(props) {
             <CustomTable
               rows={AvailableLicensesRowData}
               columns={AvailableLicensesColumns}
-              rowsPerPage={10}
-              pageSize={10}
+              //rowsPerPage={10}
+             // pageSize={10}
               checkBoxSelection={false}
             //   TableMainDivHeight={{ height: "44vh" }}
             //   DataGridDivHeight={{ height: "calc(43vh - 48px)" }}
@@ -326,8 +326,8 @@ function NamedUser(props) {
             <CustomTable
               rows={AllocatedLicensesRowData}
               columns={AllocatedLicensesColumns}
-              rowsPerPage={10}
-              pageSize={10}
+              //rowsPerPage={10}
+             // pageSize={10}
               checkBoxSelection={false}
             />
           </Box>

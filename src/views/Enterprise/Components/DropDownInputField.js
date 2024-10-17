@@ -1,61 +1,24 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import InputBase from '@mui/material/InputBase';
 import TextField from '@mui/material/TextField';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import DropDown from './DropDown';
-
-
-const BootstrapInput = styled(InputBase)(({ theme, props }) => ({
-  'label + &': {
-    marginTop: theme.spacing(3),
-  },
-  '& .MuiInputBase-input': {
-    borderRadius: 4,
-    position: 'relative',
-    border: "1px solid grey",
-    fontSize: 14, 
-    padding: '8px 26px 8px 12px', 
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-  '& .MuiSelect-icon': {
-    right: 10,
-    top: 'calc(50% - 12px)',
-    position: 'absolute',
-    pointerEvents: 'none',
-  },
-}));
+import DropDown from './DropDown'; // Ensure DropDown component is imported
 
 export default function DropDownInputField(props) {
-  console.log("props in dropdown input field", props);
   const items = [
     { value: 10, label: 'None' },
     { value: 20, label: 'Select One' },
     { value: 30, label: 'Select Two' },
   ];
-  
-  // Set the default value to 10 to display "None"
- 
+
+  // State to control the selected value in DropDown
+  const [selectedValue, setSelectedValue] = React.useState(10); // Default to 10 ("None")
+
+  // Handle value change in DropDown
+  const handleDropDownChange = (newValue) => {
+    setSelectedValue(newValue); // Update the selected value
+  };
+  const handleValueChange = (newValue) => {
+    setSelectedValue(newValue);
+  };
 
   return (
     <div style={{ marginTop: 10, display: "flex", justifyContent: "space-around" }}>
@@ -63,7 +26,16 @@ export default function DropDownInputField(props) {
         <TextField id="outlined-basic" label="Filter" variant="outlined" size="small" sx={{ width: 240 }} />
       </div>
       <div>
-        <DropDown menuItems={items} width="7em" />
+        <DropDown
+          menuItems={items} // Pass the options
+          selectedValue={selectedValue} // Pass the current selected value
+          onValueChange={handleValueChange} 
+          width="100px"
+          
+          
+          // Handle when the value changes
+          // width="200px" // Optional: specify the width
+        />
       </div>
     </div>
   );

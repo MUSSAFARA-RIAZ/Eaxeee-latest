@@ -9,6 +9,7 @@ import FilterNoneRoundedIcon from '@mui/icons-material/FilterNoneRounded';
 import OrgDefaultTheme from "../OrganizationalPortal.default.module.css";
 import OrgDarkTheme from "../OrganizationalPortal.dark.module.css";
 import OrgLightTheme from "../OrganizationalPortal.light.module.css";
+import SettingsIcon from '@mui/icons-material/Settings';
 
 export default function FloatingWidget({ index, onMinimizedArtifact, isMinimized, theme }) {
   const [expanded, setExpanded] = React.useState(false);
@@ -44,11 +45,11 @@ export default function FloatingWidget({ index, onMinimizedArtifact, isMinimized
             <Paper
               elevation={3}
               className={`${theme === 'default'
-              ? OrgDefaultTheme.Organization_FloatingWidget
-              : theme === 'light'
-              ? OrgLightTheme.Organization_FloatingWidget
-              : OrgDarkTheme.Organization_FloatingWidget}`}
-             
+                ? OrgDefaultTheme.Organization_FloatingWidget
+                : theme === 'light'
+                  ? OrgLightTheme.Organization_FloatingWidget
+                  : OrgDarkTheme.Organization_FloatingWidget}`}
+
               sx={{
                 width: expanded ? '80vw' : '100%',
                 height: expanded ? '80vh' : '100%',
@@ -57,17 +58,43 @@ export default function FloatingWidget({ index, onMinimizedArtifact, isMinimized
                 left: expanded ? '50%' : 'auto',
                 transform: expanded ? 'translate(-50%, -50%)' : 'none',
                 zIndex: expanded ? 9999 : 'auto',
+                // border: "2px solid red"
               }}
             >
+
               <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', paddingRight: '8px' }}>
-                <MinimizeRoundedIcon 
-                sx={{cursor: 'pointer',}} onClick={() => onMinimizedArtifact(index)} />
+                <MinimizeRoundedIcon
+                  sx={{ cursor: 'pointer', marginTop:"-13px"}}
+                  onClick={() => onMinimizedArtifact(index)}
+                />
                 {expanded ? (
-                  <FilterNoneRoundedIcon fontSize='small' sx={{ marginTop: '10px',cursor: 'pointer', }} onClick={handleExpand} /> // Double overlayed squares when expanded
+                  <>
+                    <FilterNoneRoundedIcon
+                      fontSize='small'
+                      sx={{ cursor: 'pointer', marginLeft: '8px' }}
+                      onClick={handleExpand}
+                    />
+                    <SettingsIcon
+                      sx={{ cursor: 'pointer', marginLeft: '8px' }}
+                    />
+                  </>
+                  // Double overlayed squares when expanded
                 ) : (
-                  <CropSquareRoundedIcon fontSize='small' sx={{ marginTop: '10px',cursor: 'pointer', }} onClick={handleExpand} /> // Square when not expanded
+                  <>
+                    <CropSquareRoundedIcon
+                      fontSize='small'
+                      sx={{ cursor: 'pointer', marginLeft: '8px' }}
+                      onClick={handleExpand}
+                    />
+                    <SettingsIcon
+                      sx={{ cursor: 'pointer', marginLeft: '8px' }}
+                    />
+                  </>
+                  // Square when not expanded
                 )}
               </div>
+
+
               {index}
             </Paper>
           </ResizableBox>
