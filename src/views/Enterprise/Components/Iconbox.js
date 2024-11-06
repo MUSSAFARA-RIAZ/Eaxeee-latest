@@ -29,6 +29,9 @@ import BusinessInterfaceIcon from '../../../Assets/Images/business-interface-01.
 import BusinessObjectIcon from '../../../Assets/Images/business-object-01.svg';
 import BusinessProcessIcon from '../../../Assets/Images/business-process-01.svg';
 import BusinessRoleIcon from '../../../Assets/Images/business-role-01.svg';
+import TextIcon from "../../../Assets/Images/text-box.svg";
+import Container from "../../../Assets/Images/container.svg";
+
 
 const Iconbox = ({ onSelectImage, props }) => {
   const [hovered, setHovered] = useState(false);
@@ -40,6 +43,7 @@ const Iconbox = ({ onSelectImage, props }) => {
     { src: ApplicationInterfaceIcon, title: 'Application Interface' },
     { src: ApplicationProcessIcon, title: 'Application Process' },
     { src: ApplicationServiceIcon, title: 'Application Service' },
+  
     { src: ArtifactIcon, title: 'Artifact' },
     { src: AssessmentIcon, title: 'Assessment' },
     { src: BusinessActorIcon, title: 'Business Actor' },
@@ -51,6 +55,12 @@ const Iconbox = ({ onSelectImage, props }) => {
     { src: BusinessObjectIcon, title: 'Business Object' },
     { src: BusinessProcessIcon, title: 'Business Process' },
     { src: BusinessRoleIcon, title: 'Business Role' },
+    { src: TextIcon, title: 'Text' },
+    { src: Container, title: 'Container' },
+    
+    
+   
+
     
 
   ];
@@ -71,6 +81,7 @@ const Iconbox = ({ onSelectImage, props }) => {
     [BusinessObjectIcon]: '#f5e29d',
     [BusinessProcessIcon]: '#f5e29d',
     [BusinessRoleIcon]: '#f5e29d',
+    [TextIcon]: '#f5e29d',
   };
 
   const handleImageClick = (imageSrc, title) => (event) => {
@@ -103,7 +114,7 @@ const Iconbox = ({ onSelectImage, props }) => {
               flexWrap: 'wrap',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '100%',
+              height:"70%",
               overflowY: 'auto',
               marginTop: "50px",
 

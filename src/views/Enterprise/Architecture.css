@@ -1,12 +1,55 @@
-.center-plus {
-    display: none; 
-  }
-  
-  .Rnd:hover .center-plus {
-    display: block; 
-  }
-  
-  .center-plus:hover .draggable-plus {
-    display: flex; /* Show the "+" when hovering over the blue center */
-  }
-  
+.tabs {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.tab {
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.tab.active {
+  background-color: #007bff;
+  color: white;
+}
+.resize-handles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Allows clicks to pass through, except on the handles */
+}
+
+.resize-handle {
+  width: 8px;
+  height: 8px;
+  background-color: magenta;
+  position: absolute;
+  pointer-events: auto; /* Makes handle clickable */
+}
+
+.resize-handle.top-left { top: -4px; left: -4px; cursor: nwse-resize; }
+.resize-handle.top-right { top: -4px; right: -4px; cursor: nesw-resize; }
+.resize-handle.bottom-left { bottom: -4px; left: -4px; cursor: nesw-resize; }
+.resize-handle.bottom-right { bottom: -4px; right: -4px; cursor: nwse-resize; }
+
+.resize-handle.top { top: -4px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resize-handle.bottom { bottom: -4px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resize-handle.left { left: -4px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+.resize-handle.right { right: -4px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+
+
+.resize-handle.top-left { top: -4px; left: -4px; cursor: nwse-resize; }
+.resize-handle.top-right { top: -4px; right: -4px; cursor: nesw-resize; }
+.resize-handle.bottom-left { bottom: -4px; left: -4px; cursor: nesw-resize; }
+.resize-handle.bottom-right { bottom: -4px; right: -4px; cursor: nwse-resize; }
+
+.resize-handle.top { top: -4px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resize-handle.bottom { bottom: -4px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
+.resize-handle.left { left: -4px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+.resize-handle.right { right: -4px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
+
+

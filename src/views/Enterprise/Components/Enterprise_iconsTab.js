@@ -22,7 +22,7 @@ function UserTabs(props) {
     setActiveTree(treeName);
   };
 
-  console.log("value in custom tabs", value);
+  // console.log("value in custom tabs", value);
 
   return (
     <CustomTabs
@@ -45,7 +45,7 @@ function QuickAccessTabs(props) {
     setActiveTable(treeName);
   };
 
-  console.log("value in custom tabs", value);
+  // console.log("value in custom tabs", value);
 
   return (
     <CustomTabs

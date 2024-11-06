@@ -32,8 +32,9 @@ export default function StaticIconLeftPane() {
           flexWrap: 'wrap',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100%',
+          height: '95%',
           overflowY: 'auto',
+          border:"2px solid red",
           width:"60%",
           margin:"auto"
 

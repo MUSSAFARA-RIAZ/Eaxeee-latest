@@ -47,7 +47,8 @@
     "redux": "^4.2.0",
     "styled-components": "^5.3.6",
     "stylis-plugin-rtl": "^2.1.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zustand": "^5.0.1"
   },
   "scripts": {
     "start": "set HTTPS=true&&set SSL_CRT_FILE=C:/Windows/System32/cert.crt&&set SSL_KEY_FILE=C:/Windows/System32/cert.key&&react-scripts start",

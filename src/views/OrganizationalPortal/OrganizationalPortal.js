@@ -73,7 +73,7 @@ const OrganizationalPortal = (props) => {
           >
             Diary 1 : Page 2
           </div>
-          <div style={{ width: "60%", marginTop:"5px" }}>
+          <div style={{ width: "60%", marginTop:"5px", border:"2px solid red" }}>
             <ControlBar
               onSelectArtifact={handleSelectArtifact}
               theme={props.theme}

@@ -10,11 +10,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import settingWhiteImg from "../../../../Assets/Images/settingWhite.png";
-import impexWhiteImg from "../../../../Assets/Images/impexWhite.png";
-import EnterpriseArchitectureImg from "../../../../Assets/Images/EnterpriseArchitecture.png";
+import impexWhiteImg from "../../../../Assets/Images/ImpEx.png";
+import EnterpriseArchitectureImg from "../../../../Assets/Images/Architecture.png";
 import analysisImg from "../../../../Assets/Images/analysis.png";
 import styles from "./Sidebar.module.css";
-import metadata from "../../../../Assets/Images/Metadetaicon.png";
+import metadata from "../../../../Assets/Images/Metamodeler.png";
+
 
 function Sidebar(props) {
   const list = (anchor) => (
@@ -73,7 +74,7 @@ function Sidebar(props) {
         <Divider />
 
         <ListItem disablePadding>
-          <Tooltip title="Eaxee Enterprise Architecture" placement="right">
+          <Tooltip title="Architecture" placement="right">
             <Link to="/enterprise">
               <ListItemButton
                 className={styles.sidebarItemsButton}
@@ -98,7 +99,7 @@ function Sidebar(props) {
 
         <Divider />
         <ListItem disablePadding>
-          <Tooltip title="Eaxee Organization Portal" placement="right">
+          <Tooltip title="Dashboard" placement="right">
             <Link to="/organizational-portal">
               <ListItemButton
                 className={styles.sidebarItemsButton}
