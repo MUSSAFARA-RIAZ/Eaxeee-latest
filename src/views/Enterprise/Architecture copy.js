@@ -305,13 +305,9 @@ const Architecture = (props) => {
                       right: 0,
                     }}
                   />
-                    <div>
-                
-                </div>
-
                 </div>
                 {/* Handles added directly here */}
-                {/* <div>
+                <div>
                   <Handle
                     type="source"
                     id="red"
@@ -327,8 +323,8 @@ const Architecture = (props) => {
                     style={{ ...DEFAULT_HANDLE_STYLE, top: '50%', background: 'green' }}
                     isConnectable={true}
                   />
-                </div> */}
-                
+                </div>
+
 
               </>
             ),
@@ -775,14 +771,12 @@ const Architecture = (props) => {
               id: `${params.source}-${edgeNode.id}`,
               source: params.source,
               target: edgeNode.id,
-              // type: 'smoothstep',
               targetHandle: "left", // Custom handle for edgeNode
             },
             {
               id: `${edgeNode.id}-${params.target}`,
               source: edgeNode.id,
               target: params.target,
-              // type: 'smoothstep',
               sourceHandle: "right", // Custom handle for edgeNode
             },
           ];
@@ -803,63 +797,16 @@ const Architecture = (props) => {
   );
   
 
-  const onNodesChange = useCallback((changes) => {
+  const onNodesChange = (changes) => {
     setDiagrams(prevDiagrams =>
-      prevDiagrams.map(diagram => {
-        if (diagram.id === activeDiagramId) {
-
-          // regular node changes
-          const updatedNodes = applyNodeChanges(changes, diagram.nodes);
-          
-          //finding position changes 
-          const positionChanges = changes.filter(change => 
-            change.type === 'position' && change.dragging
-          );
-          
-          if (positionChanges.length > 0) {
-            return {
-              ...diagram,
-              nodes: updatedNodes.map(node => {
-                // If this is not an edge node, return same
-                if (node.type !== 'edgeNode') {
-                  return node;
-                }
-                
-                // finding connected edges
-                const connectedEdges = diagram.edges.filter(
-                  edge => edge.source === node.id || edge.target === node.id
-                );
-                
-                // If this edge node is connected to any of the dragged nodes
-                const sourceNode = updatedNodes.find(
-                  n => n.id === connectedEdges[0]?.source
-                );
-                const targetNode = updatedNodes.find(
-                  n => n.id === connectedEdges[1]?.target
-                );
-                
-                // update if we found both connected nodes
-                if (sourceNode && targetNode) {
-                  return {
-                    ...node,
-                    position: {
-                      x: (sourceNode.position.x + targetNode.position.x) / 2,
-                      y: (sourceNode.position.y + targetNode.position.y) / 2,
-                    },
-                  };
-                }
-                
-                return node;
-              }),
-            };
-          }
-          
-          return { ...diagram, nodes: updatedNodes };
-        }
-        return diagram;
-      })
+      prevDiagrams.map(diagram =>
+        diagram.id === activeDiagramId
+          ? { ...diagram, nodes: applyNodeChanges(changes, diagram.nodes) }
+          : diagram
+      )
     );
-  }, [activeDiagramId]);
+  };
+
 
   const onEdgesChange = useCallback(
     (changes) => {
@@ -1061,7 +1008,6 @@ const Architecture = (props) => {
                     onConnect={onConnect}
                  
                     nodeTypes={{ edgeNode: EdgeNode }}
-                      deleteKeyCode={['Backspace', 'Delete']}
                    
                     connectionMode="loose"
                     style={{ width: '100%', height: '100%' }}

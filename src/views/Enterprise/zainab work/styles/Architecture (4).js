@@ -36,37 +36,51 @@ import { Select, FormControl } from '@mui/material';
 
 
 import { NodeResizer, Handle, Position } from "reactflow";
-import uniqid from 'uniqid';
+import CustomEdgeWithHandlers from "./CustomEdgesWithHandlers";
 
 
+const HIDDEN_NODE_SIZE = 20;
 
-
-
-const DEFAULT_HANDLE_STYLE = {
-  width: 10,
-  height: 10,
-  bottom: -5,
+const MidpointNode = ({ data }) => {
+  return (
+    <div style={{
+      width: HIDDEN_NODE_SIZE,
+      height: HIDDEN_NODE_SIZE,
+      backgroundColor: 'rgba(255, 0, 0, 0.2)',
+      borderRadius: '50%',
+      position: 'relative'
+    }}>
+      <Handle
+        type="target"
+        position={Position.Left}
+        isConnectable={true}
+        style={{
+          width: 8,
+          height: 8,
+          background: '#fff'
+        }}
+      />
+      <Handle
+        type="source"
+        position={Position.Right}
+        isConnectable={true}
+        style={{
+          width: 8,
+          height: 8,
+          background: '#fff'
+        }}
+      />
+    </div>
+  );
 };
-const EdgeNode = ({ data }) => (
-  <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', width: '20px', height: '20px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    
-   
-    <Handle type="target" id="left" position={Position.Left} style={{ background: 'blue', top: '50%' }} isConnectable={true} />
-    <Handle type="source" id="right" position={Position.Right} style={{ background: 'blue', top: '50%' }} isConnectable={true} />
-    <Handle
-      type="source"
-      id="orange"
-      position={Position.Bottom}
-      style={{ ...DEFAULT_HANDLE_STYLE, left: '50%', background: 'blue' }}
-      isConnectable={true}
-    />
-  </div>
-);
 
 const Architecture = (props) => {
   const [open, setOpen] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  
+  const edgeTypes = {
+    customWithHandlers: CustomEdgeWithHandlers,
+  };
+
   const [isDroppable, setIsDroppable] = useState(false);
   const [contextMenu, setContextMenu] = useState(false);
   const [diagrams, setDiagrams] = useState([]);
@@ -138,25 +152,21 @@ const Architecture = (props) => {
       content: `Diagram ${newDiagramId} Content`,
       nodes: [],
       edges: [],
-      containers: [],
-      texts: [],
+      containers: [],  // Initialize containers array
+      texts: [],       // Initialize texts array
     };
-  
     setArtifacts([...artifacts, newDiagram]);
     setActiveTab(`diagram-${newDiagramId}`);
     setDiagrams([...diagrams, newDiagram]);
+
     setActiveDiagramId(newDiagramId);
-  
+
     // Clear the canvas states for containers and texts
     setContainers([]);
     setTexts([]);
-  
-    // Reset titleCountMap for the new diagram
-    setTitleCountMap({});
-  
+
     handleMenuClose();
   };
-  
 
   const handleAddCatalog = () => {
     const newCatalogId = catalogs.length + 1;
@@ -166,47 +176,6 @@ const Architecture = (props) => {
     setCatalogs([...catalogs, newCatalog]);
     handleMenuClose();
 
-  };
-  const handleAddMatrix = () => {
-    const newMatrixId = matrices.length + 1;
-    const newMatrix = { id: newMatrixId, content: `Matrix ${newMatrixId} Content` };
-    setMatrices([...matrices, newMatrix]);
-    setActiveMatrixId(newMatrixId);
-    setActiveTab(`matrix-${newMatrixId}`);
-    setActiveTool("matrix");
-    handleMenuClose();
-  };
-
-  const handleAddNavigation = () => {
-    const newNavigationId = navigations.length + 1;
-    const newNavigation = { id: newNavigationId, content: `Navigation ${newNavigationId} Content` };
-    setNavigations([...navigations, newNavigation]);
-    setActiveNavigationId(newNavigationId);
-    setActiveTab(`navigation-${newNavigationId}`);
-    setActiveTool("navigation");
-    handleMenuClose();
-  };
-
-  const handleAddViewpoint = () => {
-    const newViewpointId = viewpoints.length + 1;
-    const newViewpoint = { id: newViewpointId, content: `Viewpoint ${newViewpointId} Content` };
-    setViewpoints([...viewpoints, newViewpoint]);
-    setActiveViewpointId(newViewpointId);
-    setActiveTab(`viewpoint-${newViewpointId}`)
-
-
-    setActiveTool("viewpoint");
-    handleMenuClose();
-  };
-
-  const handleAddRoadmap = () => {
-    const newRoadmapId = roadmaps.length + 1;
-    const newRoadmap = { id: newRoadmapId, content: `Roadmap ${newRoadmapId} Content` };
-    setRoadmaps([...roadmaps, newRoadmap]);
-    setActiveRoadmapId(newRoadmapId);
-    setActiveTab(`roadmap-${newRoadmapId}`);
-    setActiveTool("roadmap");
-    handleMenuClose();
   };
 
   const [contextMenuOptions, setContextMenuOptions] = useState(null);
@@ -221,12 +190,7 @@ const Architecture = (props) => {
   // State to store the options
   const handleCanvasClick = (event) => {
     const canvasRect = event.target.getBoundingClientRect();
-
-
     const activeDiagram = diagrams.find((diag) => diag.id === activeDiagramId);
-    console.log("activedigram",activeDiagram);
-    const activeDiagramIndex = diagrams.findIndex((diag) => diag.id === activeDiagramId);
-   
 
     if (event.button === 0) {
       if (isContainerMode) {
@@ -267,8 +231,6 @@ const Architecture = (props) => {
 
         const baseTitle = selectedImageTitle;
         const currentCount = titleCountMap[baseTitle] || 0;
-
-        console.log("currentCount==>",currentCount)
         const newCount = currentCount + 1;
         const formattedCount = String(newCount).padStart(3, '0');
         const newTitle = `${baseTitle} ${formattedCount}`;
@@ -276,7 +238,7 @@ const Architecture = (props) => {
         setTitleCountMap((prev) => ({ ...prev, [baseTitle]: newCount }));
 
         const newNode = {
-          id: `${diagrams[activeDiagramIndex].nodes.length + 1}`,
+          id: `${activeDiagram.nodes.length + 1}`,
           type: "default", // Use default node type
           position: { x, y },
           data: {
@@ -305,13 +267,9 @@ const Architecture = (props) => {
                       right: 0,
                     }}
                   />
-                    <div>
-                
-                </div>
-
                 </div>
                 {/* Handles added directly here */}
-                {/* <div>
+                <div>
                   <Handle
                     type="source"
                     id="red"
@@ -319,7 +277,20 @@ const Architecture = (props) => {
                     style={{ ...DEFAULT_HANDLE_STYLE, top: '50%', background: 'red' }}
                     isConnectable={true}
                   />
-                
+                  <Handle
+                    type="source"
+                    id="blue"
+                    position={Position.Top}
+                    style={{ ...DEFAULT_HANDLE_STYLE, left: '50%', background: 'blue' }}
+                    isConnectable={true}
+                  />
+                  <Handle
+                    type="source"
+                    id="orange"
+                    position={Position.Bottom}
+                    style={{ ...DEFAULT_HANDLE_STYLE, left: '50%', background: 'blue' }}
+                    isConnectable={true}
+                  />
                   <Handle
                     type="source"
                     id="green"
@@ -327,8 +298,8 @@ const Architecture = (props) => {
                     style={{ ...DEFAULT_HANDLE_STYLE, top: '50%', background: 'green' }}
                     isConnectable={true}
                   />
-                </div> */}
-                
+                </div>
+
 
               </>
             ),
@@ -383,7 +354,8 @@ const Architecture = (props) => {
 
     setContextMenuOptions("node");
   };
- 
+  const [showContainer, setShowContainer] = useState(false);
+
   // This handles selecting a new image from the icon box ----> and also extract if the clicked image has a title textt
   const handleSelectImage = (imageSrc, backgroundColor, title) => {
     setContextMenu(false);
@@ -402,7 +374,116 @@ const Architecture = (props) => {
       setTextMode(false);
 
     }
-  }; 
+  };
+
+
+  const onNodesChange = useCallback(
+    (changes) => {
+
+      setDiagrams(prevDiagrams => prevDiagrams.map(diagram => {
+        if (diagram.id === activeDiagramId) {
+          return { ...diagram, nodes: applyNodeChanges(changes, diagram.nodes || []) };
+        }
+        return diagram;
+      }));
+    },
+    [activeDiagramId]
+   );
+
+  
+
+  
+
+  const onEdgesChange = useCallback(
+    (changes) => {
+      alert('hi')
+      setDiagrams(prevDiagrams => prevDiagrams.map(diagram => {
+        if (diagram.id === activeDiagramId) {
+          return { ...diagram, edges: applyEdgeChanges(changes, diagram.edges || []) };
+        }
+        return diagram;
+      }));
+    },
+    [activeDiagramId]
+  );
+
+
+
+  const onConnect = useCallback(
+    (params) => {
+      const { source, target } = params;
+      let newEdge;
+
+      if (params.sourceHandle === 'midpoint' && params.targetHandle === 'midpoint') {
+       
+
+        newEdge = {
+          ...params,
+          markerEnd: { type: 'arrowclosed' },
+          id: params.id,
+          type: 'mindpoint', 
+        }
+
+      }
+      else {
+        
+        newEdge = {
+          ...params,
+          id: params.id,
+          type: 'customWithHandlers',
+          markerEnd: { type: 'arrowclosed' },
+        };
+      }
+
+      const updatedDiagrams = diagrams.map((diagram) => {
+        if (diagram.id === activeDiagramId) {
+          return {
+            ...diagram,
+            edges: [...diagram.edges, newEdge], 
+          };
+        }
+        return diagram;
+      });
+
+      setDiagrams(updatedDiagrams);
+    },
+    [diagrams, activeDiagramId, setDiagrams]
+  );
+
+
+
+
+
+  const onConnectCenterPoints = (params) => {
+    // Extract params and add a new edge based on center-point connection
+    // const newEdge = {
+    //   id: `edge-${Date.now()}`,            // Unique ID for the new edge
+    //   source: params.source,               // Correct source (node or element ID)
+    //   sourceHandle: params.sourceHandle,   // Handle for the source point (center)
+    //   targetX: params.targetX,             // X coordinate of the target (drop point)
+    //   targetY: params.targetY,             // Y coordinate of the target (drop point)
+    //   target: null,                         // Target node is not assigned yet
+    //   targetHandle: null,                  // Target handle is also not assigned
+    //   type: 'customWithHandlers',
+    //   markerEnd: { type: 'arrowclosed' },  // Arrow end marker
+    // };
+
+    // console.log("Creating new edge:", newEdge);
+
+    // // Now, update the diagrams state with the new edge
+    // setDiagrams((prevDiagrams) =>
+    //   prevDiagrams.map((diagram) =>
+    //     diagram.id === activeDiagramId
+    //       ? { ...diagram, edges: [...diagram.edges, newEdge] }
+    //       : diagram
+    //   )
+    // );
+  };
+
+
+
+
+
 
   const activeDiagram = diagrams.find(
     (diagram) => diagram.id === activeDiagramId
@@ -455,7 +536,7 @@ const Architecture = (props) => {
       })
     );
   };
-
+  const [showHideBorder, setShowHideBorder] = useState(false);
   const handleHideBorder = () => {
     if (contextMenu?.id) {
       setTexts((prev) =>
@@ -551,6 +632,52 @@ const Architecture = (props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+
+  const handleAddMatrix = () => {
+    const newMatrixId = matrices.length + 1;
+    const newMatrix = { id: newMatrixId, content: `Matrix ${newMatrixId} Content` };
+    setMatrices([...matrices, newMatrix]);
+    setActiveMatrixId(newMatrixId);
+    setActiveTab(`matrix-${newMatrixId}`);
+    setActiveTool("matrix");
+    handleMenuClose();
+  };
+
+  const handleAddNavigation = () => {
+    const newNavigationId = navigations.length + 1;
+    const newNavigation = { id: newNavigationId, content: `Navigation ${newNavigationId} Content` };
+    setNavigations([...navigations, newNavigation]);
+    setActiveNavigationId(newNavigationId);
+    setActiveTab(`navigation-${newNavigationId}`);
+    setActiveTool("navigation");
+    handleMenuClose();
+  };
+
+  const handleAddViewpoint = () => {
+    const newViewpointId = viewpoints.length + 1;
+    const newViewpoint = { id: newViewpointId, content: `Viewpoint ${newViewpointId} Content` };
+    setViewpoints([...viewpoints, newViewpoint]);
+    setActiveViewpointId(newViewpointId);
+    setActiveTab(`viewpoint-${newViewpointId}`)
+
+
+    setActiveTool("viewpoint");
+    handleMenuClose();
+  };
+
+  const handleAddRoadmap = () => {
+    const newRoadmapId = roadmaps.length + 1;
+    const newRoadmap = { id: newRoadmapId, content: `Roadmap ${newRoadmapId} Content` };
+    setRoadmaps([...roadmaps, newRoadmap]);
+    setActiveRoadmapId(newRoadmapId);
+    setActiveTab(`roadmap-${newRoadmapId}`);
+    setActiveTool("roadmap");
+    handleMenuClose();
+  };
+
+
+
   const handleCloseTab = (tabId) => {
     setTabs((prevTabs) => {
       const updatedTabs = prevTabs.filter((tab) => `${tab.type}-${tab.id}` !== tabId);
@@ -577,10 +704,10 @@ const Architecture = (props) => {
       return updatedTabs;
     });
   };
-  const handleCloseAllTabs = () => {
-    setTabs([]);
-    setActiveTab(null);
-  };
+
+
+
+
   useEffect(() => {
     setTabs([
       ...diagrams.map((diagram) => ({ type: 'diagram', id: diagram.id })),
@@ -591,7 +718,10 @@ const Architecture = (props) => {
       ...roadmaps.map((roadmap) => ({ type: 'roadmap', id: roadmap.id })),
     ]);
   }, [diagrams, catalogs, matrices, navigations, viewpoints, roadmaps]);
- 
+  const handleCloseAllTabs = () => {
+    setTabs([]);
+    setActiveTab(null);
+  };
 
   const handleArchitectureChange = (event) => {
     const selectedArchitecture = event.target.value;
@@ -690,6 +820,12 @@ const Architecture = (props) => {
 
 
 
+  const [text, setText] = useState("Container");
+  const [isEditing, setIsEditing] = useState(false)
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+  };
+
   const handleTextChange = (e, id) => {
     const newTextValue = e.target.value;
 
@@ -717,7 +853,9 @@ const Architecture = (props) => {
 
 
 
-
+  const handleBlur = () => {
+    setIsEditing(false);
+  };
   useEffect(() => {
     const activeDiagram = diagrams.find(diagram => diagram.id === activeDiagramId);
 
@@ -745,137 +883,19 @@ const Architecture = (props) => {
     );
   };
 
- 
+  // Validate connections
 
- 
-  // Update function to use the helper for mid-node positioning
- 
-  // Refactor onConnect to use the helper function as well
-  const onConnect = useCallback(
-    (params) => {
-      const updatedDiagrams = diagrams.map((diagram) => {
-        if (diagram.id === activeDiagramId) {
-          const sourceNode = diagram.nodes.find((node) => node.id === params.source);
-          const targetNode = diagram.nodes.find((node) => node.id === params.target);
-  
-          // Adding an edge node for all node types (default or non-default)
-          const edgeNode = {
-            id: `edge-${params.source}-${params.target}`,
-            type: "edgeNode",
-            position: {
-              x: (sourceNode.position.x + targetNode.position.x) / 2,
-              y: (sourceNode.position.y + targetNode.position.y) / 2,
-            },
-          };
-  
-          const newNodes = [...diagram.nodes, edgeNode];
-  
-          const newEdges = [
-            {
-              id: `${params.source}-${edgeNode.id}`,
-              source: params.source,
-              target: edgeNode.id,
-              // type: 'smoothstep',
-              targetHandle: "left", // Custom handle for edgeNode
-            },
-            {
-              id: `${edgeNode.id}-${params.target}`,
-              source: edgeNode.id,
-              target: params.target,
-              // type: 'smoothstep',
-              sourceHandle: "right", // Custom handle for edgeNode
-            },
-          ];
-  
-          return {
-            ...diagram,
-            nodes: newNodes,
-            edges: [...diagram.edges, ...newEdges],
-          };
-        }
-  
-        return diagram;
-      });
-  
-      setDiagrams(updatedDiagrams);
-    },
-    [diagrams, activeDiagramId]
-  );
-  
+  const isValidConnection = useCallback((connection) => {
+    const isMidpointSource = connection.source?.startsWith('midnode-');
+    const isMidpointTarget = connection.target?.startsWith('midnode-');
 
-  const onNodesChange = useCallback((changes) => {
-    setDiagrams(prevDiagrams =>
-      prevDiagrams.map(diagram => {
-        if (diagram.id === activeDiagramId) {
+    return (isMidpointSource && isMidpointTarget) ||
+      (!isMidpointSource && !isMidpointTarget);
+  }, []);
 
-          // regular node changes
-          const updatedNodes = applyNodeChanges(changes, diagram.nodes);
-          
-          //finding position changes 
-          const positionChanges = changes.filter(change => 
-            change.type === 'position' && change.dragging
-          );
-          
-          if (positionChanges.length > 0) {
-            return {
-              ...diagram,
-              nodes: updatedNodes.map(node => {
-                // If this is not an edge node, return same
-                if (node.type !== 'edgeNode') {
-                  return node;
-                }
-                
-                // finding connected edges
-                const connectedEdges = diagram.edges.filter(
-                  edge => edge.source === node.id || edge.target === node.id
-                );
-                
-                // If this edge node is connected to any of the dragged nodes
-                const sourceNode = updatedNodes.find(
-                  n => n.id === connectedEdges[0]?.source
-                );
-                const targetNode = updatedNodes.find(
-                  n => n.id === connectedEdges[1]?.target
-                );
-                
-                // update if we found both connected nodes
-                if (sourceNode && targetNode) {
-                  return {
-                    ...node,
-                    position: {
-                      x: (sourceNode.position.x + targetNode.position.x) / 2,
-                      y: (sourceNode.position.y + targetNode.position.y) / 2,
-                    },
-                  };
-                }
-                
-                return node;
-              }),
-            };
-          }
-          
-          return { ...diagram, nodes: updatedNodes };
-        }
-        return diagram;
-      })
-    );
-  }, [activeDiagramId]);
-
-  const onEdgesChange = useCallback(
-    (changes) => {
-      setDiagrams(prevDiagrams => prevDiagrams.map(diagram => {
-        if (diagram.id === activeDiagramId) {
-          return { ...diagram, edges: applyEdgeChanges(changes, diagram.edges || []) };
-        }
-        return diagram;
-      }));
-    },
-    [activeDiagramId]
-  );
-  
-
-
-
+  const nodeTypes = {
+    midpointNode: MidpointNode,
+  };
 
 
   return (
@@ -1044,7 +1064,7 @@ const Architecture = (props) => {
                     bounds="parent"
                     position={{ x: open ? 850 : 1240, y: 20 }}
                   >
-                    {/* <Diagra /> */}
+                    {/* <DiagramButton /> */}
                   </Rnd>
 
 
@@ -1052,17 +1072,20 @@ const Architecture = (props) => {
                   <ReactFlow
                     nodes={minimized ? [] : activeDiagram.nodes}
                     edges={minimized ? [] : activeDiagram.edges}
-                   
-                    
+                    edgeTypes={{
+                      customWithHandlers: (props) => (
+                        <CustomEdgeWithHandlers {...props} onConnectCenterPoints={onConnectCenterPoints} />
+                      ),
+                    }}
+                    defaultEdgeOptions={{
+                      type: 'custom'
+                    }}
+                    deleteKeyCode={['Backspace', 'Delete']}
                     onNodesChange={onNodesChange}
-                  
-                 
+                    nodeTypes={nodeTypes}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
-                 
-                    nodeTypes={{ edgeNode: EdgeNode }}
-                      deleteKeyCode={['Backspace', 'Delete']}
-                   
+                    isConnectable={false}
                     connectionMode="loose"
                     style={{ width: '100%', height: '100%' }}
                     onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}

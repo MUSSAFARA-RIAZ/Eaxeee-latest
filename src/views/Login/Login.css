@@ -1,0 +1,177 @@
+/* html, body {
+  overflow: hidden;
+} */
+/* **********************LOGIN PAGE CSS */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+body {
+  font-family: 'Lato';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ 
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(206, 206, 206, 0.47);
+  /* background-color: #cecece; */
+  /* background-color:rgba(206, 206, 206, 0.47); */
+  /* background: linear-gradient(to right, #8db23f, #acdc4c,#a2cc48); */
+  /* background: linear-gradient(to right, #cecece,#cccccc); */
+  background-repeat: no-repeat;
+  overflow: hidden; /* Prevent overflow */
+}
+
+.eaxee-logo {
+  width: 40%;
+  max-width: 200px; /* Add a max-width to prevent it from exceeding container's width */
+  height: auto;
+ 
+  margin: auto;
+  /* border: 2px solid red; */
+  /* border: 2px solid red; */
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch; 
+  height: 500px;
+  max-width: 100%; /* Ensure the wrapper does not exceed the container */
+}
+
+.label {
+  color:  #2158a4;
+ 
+}
+
+.login-imagecontainer {
+/* background-color:rgba(154, 237, 12, 0.32); */
+  /* background-color: #e6feed*/
+  background-color:#2158a4;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; 
+}
+
+.login-img {
+  width: 75%;
+  height: 59%;
+  object-fit: cover;
+
+}
+
+.login-image img {
+  max-width: 90%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  background-color:#cecece;
+  /* background-color: #fafffb; */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  width:455px;
+ 
+  /* max-width: 500px; Optional: Set a max-width for better control */
+}
+
+.login-title {
+  font-size: 36px;
+  /* margin-bottom: 20px; */
+  text-align: center;
+}
+
+.login-subtitle {
+  /* font-size: 16px; */
+  /* color: #cecece; */
+color: #2158a4;
+ 
+  text-align: center;
+  /* border: 2px solid red; */
+  margin: 0px;
+  /* padding: 0px; */
+}
+
+.loginimg-subtitle {
+  font-size: 16px;
+  /* border: 2px solid yellow; */
+  text-align: center;
+  width: 60%;
+}
+
+.login-input-group {
+  margin-bottom: 15px;
+}
+
+.login-input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-forgot-password {
+  float: right;
+  /* text-align: right; */
+  margin-bottom: 15px;
+}
+
+.login-forgot-password a {
+  color:  #2158a4;
+}
+
+.login-button {
+  background-color: #2158a4;
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  width: 100%;
+  font-size: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.Errormain {
+  box-sizing: border-box;
+  min-height: calc(100vh);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #e4e4e4;
+  color: #000;
+}
+.error404{
+  font-weight: bold;
+  font-family: cursive;
+  font-size: 3em;
+}
+
+.pageNotFound{
+  font-family: cursive;
+  font-size: 1.5em;
+}
+/* forget password SCREEN MUSSAFARA */
+
+
+div[data-rct-tree="tree-2"], div[data-rct-tree="tree-3"]{
+
+  height: calc(100vh - 145px) !important;
+
+ }

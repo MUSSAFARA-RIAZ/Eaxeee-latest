@@ -320,8 +320,9 @@ body,
 .react-flow__handle {
   width: 1px;
   height: 1px;
-  border-radius: 50%;
-  background-color: rgb(71, 64, 64);
+  border-radius: 0%;
+
+  background-color:transparent;
   /* Set the background color */
   border: none;
   /* Remove the border */

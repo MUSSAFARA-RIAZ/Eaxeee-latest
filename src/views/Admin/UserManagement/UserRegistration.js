@@ -56,6 +56,12 @@ const UserRegistration = (props) => {
         ...row,
         activated: activatedRows.includes(row.id),
     }));
+
+
+    console.log("updated rows",updatedRows);
+    
+
+    
     const columns = [
         { field: 'id', headerName: (language === 'en' ? 'ID' : AdminTranslation["ID"]), flex: 1, renderCell: (params) => (
             <Box>

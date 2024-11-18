@@ -52,4 +52,36 @@
 .resize-handle.left { left: -4px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
 .resize-handle.right { right: -4px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
 
+.connection-point {
+  width: 10px;
+  height: 10px;
+  background-color: orange;
+  position: absolute;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.connection-point.top {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.connection-point.right {
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.connection-point.bottom {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.connection-point.left {
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 

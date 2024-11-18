@@ -1,0 +1,52 @@
+import React from 'react';
+import { getBezierPath, getEdgeCenter, Handle } from 'reactflow';
+
+const CustomEdgeWithMidpoint = ({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  style = {},
+  markerEnd,
+}) => {
+  // Calculate edge path and midpoint
+  const edgePath = getBezierPath({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+  });
+  const [centerX, centerY] = getEdgeCenter({ sourceX, sourceY, targetX, targetY });
+
+  return (
+    <>
+      {/* Render the edge path */}
+      <path
+        id={id}
+        style={style}
+        className="react-flow__edge-path"
+        d={edgePath}
+        markerEnd={markerEnd}
+      />
+      {/* Render the connector in the middle of the edge */}
+      <Handle
+        type="source"
+        position="top"
+        id={`${id}-midpoint`}
+        style={{
+          top: centerY,
+          left: centerX,
+          background: 'gray',
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+        isConnectable
+      />
+    </>
+  );
+};
+
+export default CustomEdgeWithMidpoint;

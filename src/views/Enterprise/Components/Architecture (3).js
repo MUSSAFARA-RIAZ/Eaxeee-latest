@@ -36,37 +36,13 @@ import { Select, FormControl } from '@mui/material';
 
 
 import { NodeResizer, Handle, Position } from "reactflow";
-import uniqid from 'uniqid';
+import ContainerNode from "./ContainerNode";
 
-
-
-
-
-const DEFAULT_HANDLE_STYLE = {
-  width: 10,
-  height: 10,
-  bottom: -5,
-};
-const EdgeNode = ({ data }) => (
-  <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', width: '20px', height: '20px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    
-   
-    <Handle type="target" id="left" position={Position.Left} style={{ background: 'blue', top: '50%' }} isConnectable={true} />
-    <Handle type="source" id="right" position={Position.Right} style={{ background: 'blue', top: '50%' }} isConnectable={true} />
-    <Handle
-      type="source"
-      id="orange"
-      position={Position.Bottom}
-      style={{ ...DEFAULT_HANDLE_STYLE, left: '50%', background: 'blue' }}
-      isConnectable={true}
-    />
-  </div>
-);
 
 const Architecture = (props) => {
   const [open, setOpen] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  
+
   const [isDroppable, setIsDroppable] = useState(false);
   const [contextMenu, setContextMenu] = useState(false);
   const [diagrams, setDiagrams] = useState([]);
@@ -138,25 +114,25 @@ const Architecture = (props) => {
       content: `Diagram ${newDiagramId} Content`,
       nodes: [],
       edges: [],
-      containers: [],
-      texts: [],
+      containers: [],  // Initialize containers array
+      texts: [],       // Initialize texts array
     };
-  
     setArtifacts([...artifacts, newDiagram]);
     setActiveTab(`diagram-${newDiagramId}`);
     setDiagrams([...diagrams, newDiagram]);
+
     setActiveDiagramId(newDiagramId);
-  
+
     // Clear the canvas states for containers and texts
     setContainers([]);
     setTexts([]);
-  
-    // Reset titleCountMap for the new diagram
-    setTitleCountMap({});
-  
+
     handleMenuClose();
+
+    setContainerNodes((n) => ({...n, [newDiagramId] : []}))
+    setContainerEdges((e) => ({...e, [newDiagramId] : []}))
+
   };
-  
 
   const handleAddCatalog = () => {
     const newCatalogId = catalogs.length + 1;
@@ -167,91 +143,46 @@ const Architecture = (props) => {
     handleMenuClose();
 
   };
-  const handleAddMatrix = () => {
-    const newMatrixId = matrices.length + 1;
-    const newMatrix = { id: newMatrixId, content: `Matrix ${newMatrixId} Content` };
-    setMatrices([...matrices, newMatrix]);
-    setActiveMatrixId(newMatrixId);
-    setActiveTab(`matrix-${newMatrixId}`);
-    setActiveTool("matrix");
-    handleMenuClose();
-  };
-
-  const handleAddNavigation = () => {
-    const newNavigationId = navigations.length + 1;
-    const newNavigation = { id: newNavigationId, content: `Navigation ${newNavigationId} Content` };
-    setNavigations([...navigations, newNavigation]);
-    setActiveNavigationId(newNavigationId);
-    setActiveTab(`navigation-${newNavigationId}`);
-    setActiveTool("navigation");
-    handleMenuClose();
-  };
-
-  const handleAddViewpoint = () => {
-    const newViewpointId = viewpoints.length + 1;
-    const newViewpoint = { id: newViewpointId, content: `Viewpoint ${newViewpointId} Content` };
-    setViewpoints([...viewpoints, newViewpoint]);
-    setActiveViewpointId(newViewpointId);
-    setActiveTab(`viewpoint-${newViewpointId}`)
-
-
-    setActiveTool("viewpoint");
-    handleMenuClose();
-  };
-
-  const handleAddRoadmap = () => {
-    const newRoadmapId = roadmaps.length + 1;
-    const newRoadmap = { id: newRoadmapId, content: `Roadmap ${newRoadmapId} Content` };
-    setRoadmaps([...roadmaps, newRoadmap]);
-    setActiveRoadmapId(newRoadmapId);
-    setActiveTab(`roadmap-${newRoadmapId}`);
-    setActiveTool("roadmap");
-    handleMenuClose();
-  };
 
   const [contextMenuOptions, setContextMenuOptions] = useState(null);
   const [isContainerMode, setIsContainerMode] = useState(false);
   const [containers, setContainers] = useState([]);
-  const DEFAULT_HANDLE_STYLE = {
-    width: 10,
-    height: 10,
-    bottom: -5,
-  };
+
 
   // State to store the options
+
   const handleCanvasClick = (event) => {
     const canvasRect = event.target.getBoundingClientRect();
-
-
-    const activeDiagram = diagrams.find((diag) => diag.id === activeDiagramId);
-    console.log("activedigram",activeDiagram);
-    const activeDiagramIndex = diagrams.findIndex((diag) => diag.id === activeDiagramId);
-   
-
+    const activeDiagram = diagrams.find(diag => diag.id === activeDiagramId);
     if (event.button === 0) {
       if (isContainerMode) {
-        // Container mode code remains unchanged
         const x = event.clientX - canvasRect.left;
         const y = event.clientY - canvasRect.top;
-        const newContainer = { x, y, width: 200, height: 150, id: Date.now() };
+        const newContainer = { x, y, width: 500, height: 350, id: Date.now() }; // Add unique ID
 
-        setDiagrams((prevDiagrams) =>
-          prevDiagrams.map((diagram) =>
+        // Update containers state within the specific active diagram
+        setDiagrams(prevDiagrams =>
+          prevDiagrams.map(diagram =>
             diagram.id === activeDiagramId
               ? { ...diagram, containers: [...(diagram.containers || []), newContainer] }
               : diagram
           )
         );
+
         setIsContainerMode(false);
-      } else if (textMode) {
-        // Text mode code remains unchanged
+      }
+
+
+
+      else if (textMode) {
         const x = event.clientX - canvasRect.left;
         const y = event.clientY - canvasRect.top;
         const newText = { id: Date.now(), x, y, text: '' };
 
+        // Add new text locally and to the active diagram
         setTexts((prev) => [...prev, newText]);
-        setDiagrams((prevDiagrams) =>
-          prevDiagrams.map((diagram) =>
+        setDiagrams(prevDiagrams =>
+          prevDiagrams.map(diagram =>
             diagram.id === activeDiagramId
               ? { ...diagram, texts: [...diagram.texts, newText] }
               : diagram
@@ -260,15 +191,15 @@ const Architecture = (props) => {
 
         setEditingId(newText.id);
         setTextMode(false);
-      } else if (selectedImage && isDroppable && activeDiagram) {
-        // Add a new node with handles embedded directly
+        
+      }
+
+      else if (selectedImage && isDroppable && activeDiagram) {
         const x = event.clientX - canvasRect.left;
         const y = event.clientY - canvasRect.top;
 
         const baseTitle = selectedImageTitle;
         const currentCount = titleCountMap[baseTitle] || 0;
-
-        console.log("currentCount==>",currentCount)
         const newCount = currentCount + 1;
         const formattedCount = String(newCount).padStart(3, '0');
         const newTitle = `${baseTitle} ${formattedCount}`;
@@ -276,84 +207,48 @@ const Architecture = (props) => {
         setTitleCountMap((prev) => ({ ...prev, [baseTitle]: newCount }));
 
         const newNode = {
-          id: `${diagrams[activeDiagramIndex].nodes.length + 1}`,
-          type: "default", // Use default node type
+          id: `${activeDiagram.nodes.length + 1}`,
+          type: "default",
           position: { x, y },
           data: {
             label: (
               <>
-                <NodeResizer minWidth={100} minHeight={40} />
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      color: 'black',
-                      textAlign: 'center',
-                      width: '100px',
-                    }}
-                  >
+                <NodeResizer minWidth={200} minHeight={40} />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ fontSize: "12px", color: "black", textAlign: "center", width: "100px" }}>
                     {newTitle}
                   </span>
-                  <img
-                    src={selectedImage}
-                    alt="Dropped"
-                    style={{
-                      width: '29px',
-                      height: '24px',
-                      position: 'absolute',
-                      top: 2,
-                      right: 0,
-                    }}
-                  />
-                    <div>
-                
-                </div>
+                  <img src={selectedImage} alt="Dropped" style={{ width: "29px", height: "24px", position: "absolute", top: 2, right: 0 }} />
 
                 </div>
-                {/* Handles added directly here */}
-                {/* <div>
-                  <Handle
-                    type="source"
-                    id="red"
-                    position={Position.Left}
-                    style={{ ...DEFAULT_HANDLE_STYLE, top: '50%', background: 'red' }}
-                    isConnectable={true}
-                  />
-                
-                  <Handle
-                    type="source"
-                    id="green"
-                    position={Position.Right}
-                    style={{ ...DEFAULT_HANDLE_STYLE, top: '50%', background: 'green' }}
-                    isConnectable={true}
-                  />
-                </div> */}
-                
-
               </>
+
             ),
           },
           style: {
-            backgroundColor: isBackgroundVisible ? selectedImageColor : 'transparent',
-            padding: '10px',
-            width: '150px',
-            borderRadius: '5px',
+            backgroundColor: isBackgroundVisible ? selectedImageColor : "transparent",
+            padding: "10px",
+            width: "150px",
+            borderRadius: "5px",
+            zIndex: 10,
           },
         };
 
-        const updatedDiagrams = diagrams.map((diagram) => {
+        const updatedDiagrams = diagrams.map(diagram => {
           if (diagram.id === activeDiagramId) {
-            return { ...diagram, nodes: [...diagram.nodes, newNode] };
+            return { ...diagram, nodes: [...diagram.nodes, newNode], };
           }
           return diagram;
         });
 
+        setSelectedImage(null);
+
         setDiagrams(updatedDiagrams);
+
       }
     }
-    setContextMenu(null);
+    setContextMenu(null)
   };
-
 
   const handleCanvasRightClick = (event, isText = false) => {
     event.preventDefault();
@@ -383,7 +278,8 @@ const Architecture = (props) => {
 
     setContextMenuOptions("node");
   };
- 
+  const [showContainer, setShowContainer] = useState(false);
+
   // This handles selecting a new image from the icon box ----> and also extract if the clicked image has a title textt
   const handleSelectImage = (imageSrc, backgroundColor, title) => {
     setContextMenu(false);
@@ -402,7 +298,51 @@ const Architecture = (props) => {
       setTextMode(false);
 
     }
-  }; 
+  };
+
+
+  const onNodesChange = (changes) => {
+    setDiagrams(prevDiagrams =>
+      prevDiagrams.map(diagram =>
+        diagram.id === activeDiagramId
+          ? { ...diagram, nodes: applyNodeChanges(changes, diagram.nodes) }
+          : diagram
+      )
+    );
+  };
+  
+
+  const onEdgesChange = useCallback(
+    (changes) => {
+      setDiagrams(prevDiagrams => prevDiagrams.map(diagram => {
+        if (diagram.id === activeDiagramId) {
+          return { ...diagram, edges: applyEdgeChanges(changes, diagram.edges || []) };
+        }
+        return diagram;
+      }));
+    },
+    [activeDiagramId]
+  );
+
+
+  const onConnect = useCallback(
+    (params) => {
+      const updatedDiagrams = diagrams.map((diagram) => {
+        if (diagram.id === activeDiagramId) {
+          return {
+            ...diagram,
+            edges: addEdge(
+              { ...params, markerEnd: { type: "arrowclosed" } },
+              diagram.edges
+            ),
+          };
+        }
+        return diagram;
+      });
+      setDiagrams(updatedDiagrams);
+    },
+    [diagrams, activeDiagramId]
+  );
 
   const activeDiagram = diagrams.find(
     (diagram) => diagram.id === activeDiagramId
@@ -455,7 +395,7 @@ const Architecture = (props) => {
       })
     );
   };
-
+  const [showHideBorder, setShowHideBorder] = useState(false);
   const handleHideBorder = () => {
     if (contextMenu?.id) {
       setTexts((prev) =>
@@ -519,6 +459,8 @@ const Architecture = (props) => {
   };
 
 
+  console.log("modal open", colorModalOpen);
+
   const handleColorChange = (newColor) => {
 
 
@@ -551,6 +493,52 @@ const Architecture = (props) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+
+  const handleAddMatrix = () => {
+    const newMatrixId = matrices.length + 1;
+    const newMatrix = { id: newMatrixId, content: `Matrix ${newMatrixId} Content` };
+    setMatrices([...matrices, newMatrix]);
+    setActiveMatrixId(newMatrixId);
+    setActiveTab(`matrix-${newMatrixId}`);
+    setActiveTool("matrix");
+    handleMenuClose();
+  };
+
+  const handleAddNavigation = () => {
+    const newNavigationId = navigations.length + 1;
+    const newNavigation = { id: newNavigationId, content: `Navigation ${newNavigationId} Content` };
+    setNavigations([...navigations, newNavigation]);
+    setActiveNavigationId(newNavigationId);
+    setActiveTab(`navigation-${newNavigationId}`);
+    setActiveTool("navigation");
+    handleMenuClose();
+  };
+
+  const handleAddViewpoint = () => {
+    const newViewpointId = viewpoints.length + 1;
+    const newViewpoint = { id: newViewpointId, content: `Viewpoint ${newViewpointId} Content` };
+    setViewpoints([...viewpoints, newViewpoint]);
+    setActiveViewpointId(newViewpointId);
+    setActiveTab(`viewpoint-${newViewpointId}`)
+
+
+    setActiveTool("viewpoint");
+    handleMenuClose();
+  };
+
+  const handleAddRoadmap = () => {
+    const newRoadmapId = roadmaps.length + 1;
+    const newRoadmap = { id: newRoadmapId, content: `Roadmap ${newRoadmapId} Content` };
+    setRoadmaps([...roadmaps, newRoadmap]);
+    setActiveRoadmapId(newRoadmapId);
+    setActiveTab(`roadmap-${newRoadmapId}`);
+    setActiveTool("roadmap");
+    handleMenuClose();
+  };
+
+
+
   const handleCloseTab = (tabId) => {
     setTabs((prevTabs) => {
       const updatedTabs = prevTabs.filter((tab) => `${tab.type}-${tab.id}` !== tabId);
@@ -577,10 +565,10 @@ const Architecture = (props) => {
       return updatedTabs;
     });
   };
-  const handleCloseAllTabs = () => {
-    setTabs([]);
-    setActiveTab(null);
-  };
+
+
+
+
   useEffect(() => {
     setTabs([
       ...diagrams.map((diagram) => ({ type: 'diagram', id: diagram.id })),
@@ -591,7 +579,10 @@ const Architecture = (props) => {
       ...roadmaps.map((roadmap) => ({ type: 'roadmap', id: roadmap.id })),
     ]);
   }, [diagrams, catalogs, matrices, navigations, viewpoints, roadmaps]);
- 
+  const handleCloseAllTabs = () => {
+    setTabs([]);
+    setActiveTab(null);
+  };
 
   const handleArchitectureChange = (event) => {
     const selectedArchitecture = event.target.value;
@@ -659,8 +650,11 @@ const Architecture = (props) => {
     setContextMenuOptions("textField");
   };
 
+  const [selectedNodeForContainer, setSelectedNodeForContainer] = useState();
+
   const onNodeClick = (event, node) => {
     setSelectedNodeId(node.id);
+    setSelectedNodeForContainer(node);
   };
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -690,6 +684,15 @@ const Architecture = (props) => {
 
 
 
+  console.log('====================================');
+  console.log("container state=>", showContainer);
+  console.log('====================================');
+  const [text, setText] = useState("Container");
+  const [isEditing, setIsEditing] = useState(false)
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+  };
+
   const handleTextChange = (e, id) => {
     const newTextValue = e.target.value;
 
@@ -717,7 +720,9 @@ const Architecture = (props) => {
 
 
 
-
+  const handleBlur = () => {
+    setIsEditing(false);
+  };
   useEffect(() => {
     const activeDiagram = diagrams.find(diagram => diagram.id === activeDiagramId);
 
@@ -745,138 +750,22 @@ const Architecture = (props) => {
     );
   };
 
- 
+  //CONTAINER NODES VARS / FUNCS
 
- 
-  // Update function to use the helper for mid-node positioning
- 
-  // Refactor onConnect to use the helper function as well
-  const onConnect = useCallback(
-    (params) => {
-      const updatedDiagrams = diagrams.map((diagram) => {
-        if (diagram.id === activeDiagramId) {
-          const sourceNode = diagram.nodes.find((node) => node.id === params.source);
-          const targetNode = diagram.nodes.find((node) => node.id === params.target);
-  
-          // Adding an edge node for all node types (default or non-default)
-          const edgeNode = {
-            id: `edge-${params.source}-${params.target}`,
-            type: "edgeNode",
-            position: {
-              x: (sourceNode.position.x + targetNode.position.x) / 2,
-              y: (sourceNode.position.y + targetNode.position.y) / 2,
-            },
-          };
-  
-          const newNodes = [...diagram.nodes, edgeNode];
-  
-          const newEdges = [
-            {
-              id: `${params.source}-${edgeNode.id}`,
-              source: params.source,
-              target: edgeNode.id,
-              // type: 'smoothstep',
-              targetHandle: "left", // Custom handle for edgeNode
-            },
-            {
-              id: `${edgeNode.id}-${params.target}`,
-              source: edgeNode.id,
-              target: params.target,
-              // type: 'smoothstep',
-              sourceHandle: "right", // Custom handle for edgeNode
-            },
-          ];
-  
-          return {
-            ...diagram,
-            nodes: newNodes,
-            edges: [...diagram.edges, ...newEdges],
-          };
-        }
-  
-        return diagram;
-      });
-  
-      setDiagrams(updatedDiagrams);
-    },
-    [diagrams, activeDiagramId]
-  );
-  
+  const [containerNodes, setContainerNodes] = useState({});
+  const [containerEdges, setContainerEdges] = useState({});
 
-  const onNodesChange = useCallback((changes) => {
-    setDiagrams(prevDiagrams =>
-      prevDiagrams.map(diagram => {
-        if (diagram.id === activeDiagramId) {
+  const updateContainerNodes = (diagramId, nodes) => {
+    setContainerNodes((n) => {
+      return {...n, [diagramId] : nodes}
+    })
+  }
 
-          // regular node changes
-          const updatedNodes = applyNodeChanges(changes, diagram.nodes);
-          
-          //finding position changes 
-          const positionChanges = changes.filter(change => 
-            change.type === 'position' && change.dragging
-          );
-          
-          if (positionChanges.length > 0) {
-            return {
-              ...diagram,
-              nodes: updatedNodes.map(node => {
-                // If this is not an edge node, return same
-                if (node.type !== 'edgeNode') {
-                  return node;
-                }
-                
-                // finding connected edges
-                const connectedEdges = diagram.edges.filter(
-                  edge => edge.source === node.id || edge.target === node.id
-                );
-                
-                // If this edge node is connected to any of the dragged nodes
-                const sourceNode = updatedNodes.find(
-                  n => n.id === connectedEdges[0]?.source
-                );
-                const targetNode = updatedNodes.find(
-                  n => n.id === connectedEdges[1]?.target
-                );
-                
-                // update if we found both connected nodes
-                if (sourceNode && targetNode) {
-                  return {
-                    ...node,
-                    position: {
-                      x: (sourceNode.position.x + targetNode.position.x) / 2,
-                      y: (sourceNode.position.y + targetNode.position.y) / 2,
-                    },
-                  };
-                }
-                
-                return node;
-              }),
-            };
-          }
-          
-          return { ...diagram, nodes: updatedNodes };
-        }
-        return diagram;
-      })
-    );
-  }, [activeDiagramId]);
-
-  const onEdgesChange = useCallback(
-    (changes) => {
-      setDiagrams(prevDiagrams => prevDiagrams.map(diagram => {
-        if (diagram.id === activeDiagramId) {
-          return { ...diagram, edges: applyEdgeChanges(changes, diagram.edges || []) };
-        }
-        return diagram;
-      }));
-    },
-    [activeDiagramId]
-  );
-  
-
-
-
-
+  const updateContainerEdges = (diagramId, edges) => {
+    setContainerEdges((e) => {
+      return {...e, [diagramId] : edges}
+    })
+  }
 
   return (
     <div>
@@ -1031,8 +920,8 @@ const Architecture = (props) => {
                   id="canvas"
                   style={{ width: "100%", position: "relative", transition: "all 0.3s ease" }}
 
-                  onClick={handleCanvasClick}
-                  onContextMenu={handleCanvasRightClick}
+                  onClick={(e) => { e.stopPropagation(); handleCanvasClick(e); }}
+                  onContextMenu={(e) => { e.stopPropagation(); handleCanvasRightClick(e); }}
                   onMouseEnter={() => setIsDroppable(true)}
                   onMouseLeave={() => setIsDroppable(false)}
                 >
@@ -1044,7 +933,7 @@ const Architecture = (props) => {
                     bounds="parent"
                     position={{ x: open ? 850 : 1240, y: 20 }}
                   >
-                    {/* <Diagra /> */}
+                    {/* <DiagramButton /> */}
                   </Rnd>
 
 
@@ -1052,96 +941,17 @@ const Architecture = (props) => {
                   <ReactFlow
                     nodes={minimized ? [] : activeDiagram.nodes}
                     edges={minimized ? [] : activeDiagram.edges}
-                   
-                    
                     onNodesChange={onNodesChange}
-                  
-                 
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
-                 
-                    nodeTypes={{ edgeNode: EdgeNode }}
-                      deleteKeyCode={['Backspace', 'Delete']}
-                   
+                    panOnDrag={false} // Prevent panning during drag events
                     connectionMode="loose"
-                    style={{ width: '100%', height: '100%' }}
+                    style={{ width: "100%", height: "100%", position: "relative" }}
                     onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
                     onNodeClick={onNodeClick}
                   >
-
                     <Controls />
                     <Background />
-                    {containers.map((container, index) => (
-                      <Rnd
-                        key={container.id} // Ensure unique key per container
-                        default={{
-                          x: container.x,
-                          y: container.y,
-                          width: container.width,
-                          height: container.height
-                        }}
-                        bounds="parent"
-                        onDragStop={(e, data) => {
-                          // Update container position only in the active diagram
-                          setDiagrams(prevDiagrams =>
-                            prevDiagrams.map(diagram =>
-                              diagram.id === activeDiagramId
-                                ? {
-                                  ...diagram,
-                                  containers: diagram.containers.map(cont =>
-                                    cont.id === container.id ? { ...cont, x: data.x, y: data.y } : cont
-                                  )
-                                }
-                                : diagram
-                            )
-                          );
-                        }}
-                        style={{
-                          border: '1px solid black',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'black',
-                          fontSize: '16px',
-                          position: 'absolute',
-                          flexDirection: 'column'
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: '100%',
-                            padding: '5px',
-                            backgroundColor: 'lightgray',
-                            borderBottom: '1px solid black',
-                            cursor: 'pointer',
-                            position: 'absolute',
-                            top: '0',
-                            textAlign: 'center'
-                          }}
-                          onDoubleClick={() => setEditingId(container.id)}
-                        >
-                          {editingId === container.id ? (
-                            <input
-                              type="text"
-                              value={container.text || ""}
-                              onChange={(e) => handleContainerTextChange(e, container.id)}
-                              onBlur={() => setEditingId(null)}
-                              autoFocus
-                              style={{
-                                backgroundColor: 'white',
-                                width: '100%',
-                                textAlign: 'center',
-                                border: 'none',
-                                outline: 'none'
-                              }}
-                            />
-                          ) : (
-                            <span>{container.text || 'Container'}</span>
-                          )}
-                        </div>
-                      </Rnd>
-                    ))}
-
                   </ReactFlow>
 
 
@@ -1157,6 +967,25 @@ const Architecture = (props) => {
                     // initialColor={nodes.find(node => node.id === selectedNodeId)?.style?.backgroundColor}
                     />
                   )}
+                  {containers.map((container, index) => (
+                    <ContainerNode
+                    container = {container}
+                    key={container.id}
+                    activeDiagramId={activeDiagramId}
+                    setDiagrams={setDiagrams}
+                    setEditingId={setEditingId}
+                    handleContainerTextChange={handleContainerTextChange}
+                    editingId={editingId}
+                    _nodes={containerNodes[activeDiagramId]}
+                    updateContainerNodes={updateContainerNodes}
+                    _edges={containerEdges[activeDiagramId]}
+                    updateContainerEdges={updateContainerEdges}                   
+                    selectedNodeForContainer={selectedNodeForContainer}
+                    setSelectedNodeForContainer = {setSelectedNodeForContainer}
+                    theme={props.theme}
+                    // diagramNodes = {di}
+                     />
+                  ))}
 
                   {texts.map(({ id, x, y, text, borderColor = "black" }) => (
                     <Rnd
