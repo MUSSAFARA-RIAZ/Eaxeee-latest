@@ -80,28 +80,27 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
                     </IconButton>
                 </DialogTitle>
 
-                <DialogContent
+                <Box
                     sx={{
                         backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
-                        color: theme === 'default' ? '#414849' : theme === 'light' ? '#414849' : '#cecece',
+                        // border:"3px solid red",
+                        padding:"10px"
+                        
                     }}
                 >
-                    <div style={{ paddingTop: "23px" }}>
-                        <CustomTable
-                            rows={updatedRows}
-                            columns={columns}
-                            showDeleteButton={true}
-                            Theme={theme}
-                            checkboxSelection={true}
-                        />
-                    </div>
-                </DialogContent>
-
-                <DialogActions
+            
+                    <CustomTable 
+                        rows={updatedRows} 
+                        columns={columns} 
+                        showDeleteButton={true}
+                        
+                        checkboxSelection={true}
+                        height={true}
+                    />
+                   
+                   <DialogActions
                     sx={{
                         backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
-                        mt: -3,
-                        pt: 3
                     }}
                 >
                     <CustomButton
@@ -117,17 +116,9 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
                         onClick={handleClose}
                     />
                 </DialogActions>
+                 </Box>
             </Dialog>
-            <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                open={snackBarFlag}
-                autoHideDuration={1500}
-                onClose={handleSnackBarClose}
-            >
-                <Alert severity="success">
-                    Users added successfully!
-                </Alert>
-            </Snackbar>
+            
         </Box>
     );
 };

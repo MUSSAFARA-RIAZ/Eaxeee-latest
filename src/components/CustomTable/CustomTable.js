@@ -17,17 +17,24 @@ function CustomTable(props) {
   const handleDeleteClick = () => {
     setSelectedRows([]);
   };
+  const filteredRows = props.rows.filter((row) =>
+    props.columns.some((col) => {
+      const value = row[col.field];
+      return (
+        typeof value === "string" &&
+        value.toLowerCase().includes(searchText.toLowerCase())
+      );
+    })
+  );
 
   const handleRestoreIconButton = () => {
     setSelectedRows([]);
   };
 
   const handleSelectionChange = (newSelection) => {
-    if (JSON.stringify(newSelection) !== JSON.stringify(selectedRows)) {
-      setSelectedRows(newSelection);
-      if (props.onSelectionChange) {
-        props.onSelectionChange(newSelection);
-      }
+    setSelectedRows(newSelection);
+    if (props.onSelectionChange) {
+      props.onSelectionChange(newSelection);
     }
   };
 
@@ -35,6 +42,14 @@ function CustomTable(props) {
     ...col,
     sortable: true,
   }));
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 5,
+    page: 0,
+  });
+
+  const handlePaginationModelChange = (newModel) => {
+    setPaginationModel(newModel);
+  };
 
   return (
     <Box
@@ -170,19 +185,30 @@ function CustomTable(props) {
           onSelectionModelChange={(newSelection) =>
             handleSelectionChange(newSelection)
           }
-          selectionModel={selectedRows} // Bind selection state
-          pagination={!props.disablePagination}
-          pageSize={props.disablePagination ? props.rows.length : 10}
+          // Show all rows if pagination is disabled
           sx={{
             "& .MuiDataGrid-cell:focus": {
               outline: "none",
             },
-            "& .MuiDataGrid-footerContainer": {
-              display: props.disablePagination ? "none" : "flex",
+            "& .MuiDataGrid-overlay": {
+              backgroundColor: 'transparent',
             },
-          }}
-        />
 
+          }}
+          pageSize={paginationModel.pageSize} // Bind pagination state
+          page={paginationModel.page} // Bind pagination state
+          onPageSizeChange={(newPageSize) =>
+            setPaginationModel((prev) => ({ ...prev, pageSize: newPageSize, page: 0 }))
+          }
+          onPageChange={(newPage) =>
+            setPaginationModel((prev) => ({ ...prev, page: newPage }))
+          }
+          pagination
+          paginationMode="client"
+          rowCount={filteredRows.length} // Total count of filtered rows
+          rowsPerPageOptions={[5, 10, 25]}
+          disableSelectionOnClick
+        />
       </Box>
     </Box>
   );

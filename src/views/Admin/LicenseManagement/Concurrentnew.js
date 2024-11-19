@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Grid, Box, IconButton, Typography,Tooltip } from "@mui/material";
+import { Grid, Box, IconButton, Typography, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import CustomTable from "../../../components/CustomTable/CustomTable";
@@ -39,6 +39,8 @@ function ConcurrentUser(props) {
   };
 
   const handleRowClick = (rowData) => {
+    console.log("poolselected",selectedPool);
+    console.log("rowData",rowData)
     setSelectedPool(rowData.row);
   };
 
@@ -94,19 +96,32 @@ function ConcurrentUser(props) {
 
   const combinedTableRows = selectedPool
     ? selectedPool.licenses.map((license, index) => ({
-        id: `license-${index}`,
-        licenses: license,
-        users: selectedPool.users[index],
-      }))
+      id: `license-${index}`,
+      licenses: license,
+      users: selectedPool.users[index],
+    }))
     : [];
+const licenseTableRows = selectedPool
+  ? selectedPool.licenses.map((license, index) => ({
+      id: `license-${index}`,
+      licenses: license,
+    }))
+  : [];
+
+const userTableRows = selectedPool
+  ? selectedPool.users.map((user, index) => ({
+      id: `user-${index}`,
+      users: user,
+    }))
+  : [];
 
   const renderLicensesHeader = () => (
     <Box sx={{ display: "flex", alignItems: "center" }}>
       Licenses
       <Tooltip title="Add License">
-      <IconButton size="small" onClick={handleOpenLicenseModal}>
-        <AddIcon />
-      </IconButton>
+        <IconButton size="small" onClick={handleOpenLicenseModal}>
+          <AddIcon />
+        </IconButton>
       </Tooltip>
     </Box>
   );
@@ -115,70 +130,87 @@ function ConcurrentUser(props) {
     <Box sx={{ display: "flex", alignItems: "center" }}>
       Users
       <Tooltip title="Add User">
-      <IconButton size="small" onClick={handleOpenUsersModal}>
-        <AddIcon />
-      </IconButton>
-    </Tooltip>
+        <IconButton size="small" onClick={handleOpenUsersModal}>
+          <AddIcon />
+        </IconButton>
+      </Tooltip>
     </Box>
   );
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{ marginTop: "15px", marginLeft: "15px", marginRight: "15px" }}
-    >
-      <Grid item xs={6}>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 2 }}>
-          <ModalAddPool open={openModal} handleClose={handleCloseModal} />
+    <Grid container spacing={2} sx={{ marginTop: "15px", marginLeft: "15px", marginRight: "15px" }}>
+      <Box sx={{ display: "flex", width: "100%" }}>
+        {/* Pool Table */}
+        <Grid item xs={6}>
+          <Box sx={{ display: "flex", alignItems: "center", pl: 2 }}>
+            <ModalAddPool open={openModal} handleClose={handleCloseModal} />
+            <CustomTable
+              rows={poolRowData}
+              columns={poolColumns}
+              checkBoxSelection={false}
+              showAddPoolButton={true}
+              onRowClick={handleRowClick}
+            >
+              <Box sx={{ width: "520px", display: "flex", justifyContent: "space-between" }}>
+                <CustomButton title="Add Pool" variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+                <CustomButton title="Remove Pool" variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+                <CustomButton title="Update Pool" variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+              </Box>
+            </CustomTable>
+          </Box>
+        </Grid>
+  
+        {/* Licenses Table */}
+        <Grid item xs={6} sx={{ marginTop: "45px" }}>
           <CustomTable
-            rows={poolRowData}
-            columns={poolColumns}
-            //rowsPerPage={10}
-           // pageSize={10}
+            rows={licenseTableRows} // Licenses data
+            columns={[
+              {
+                field: "licenses",
+                headerName: renderLicensesHeader(),
+                flex: 1,
+              },
+            ]}
             checkBoxSelection={false}
-            showAddPoolButton={true}
-            onRowClick={handleRowClick}
-          >
-            <CustomButton
-              title="Add Pool"
-              variant="outlined"
-              Theme={props.theme}
-              onClick={handleAddPoolClick}
-            />
-          </CustomTable>
-        </Box>
-      </Grid>
-      <Grid item xs={6} sx={{ marginTop: "45px" }}>
-        <CustomTable
-          rows={combinedTableRows}
-          columns={[
-            {
-              field: "licenses",
-              headerName: renderLicensesHeader(),
-              flex: 1,
-            },
-            { field: "users", headerName: renderUsersHeader(), flex: 1, sortable: false },
-          ]}
-          //rowsPerPage={10}
-         // pageSize={10}
-          checkBoxSelection={false}
-          onRowClick={() => {}}
-          nosearch={true}
-          hideSortIcons={true}
-          className="licenses-users-table-container"
-        />
-        <style>{`
-          .licenses-users-table-container .MuiDataGrid-sortIcon {
-            display: none !important;
-          }
-        `}
-        </style>
-        <ModalAddLicensePool open={openLicenseModal} handleClose={handleCloseLicenseModal} />
-        <ModalAddUsersPool open={openUsersModal} handleClose={handleCloseUsersModal} /> {/* New Users Modal */}
-      </Grid>
+            nosearch={true}
+            hideSortIcons={true}
+            className="licenses-table-container"
+          />
+          <style>{`
+            .licenses-table-container .MuiDataGrid-sortIcon {
+              display: none !important;
+            }
+          `}</style>
+          <ModalAddLicensePool open={openLicenseModal} handleClose={handleCloseLicenseModal} />
+        </Grid>
+  
+        {/* Users Table */}
+        <Grid item xs={6} sx={{ marginTop: "45px" }}>
+          <CustomTable
+            rows={userTableRows} // Users data
+            columns={[
+              {
+                field: "users",
+                headerName: renderUsersHeader(),
+                flex: 1,
+              },
+            ]}
+            checkBoxSelection={false}
+            nosearch={true}
+            hideSortIcons={true}
+            className="users-table-container"
+          />
+          <style>{`
+            .users-table-container .MuiDataGrid-sortIcon {
+              display: none !important;
+            }
+          `}</style>
+          <ModalAddUsersPool open={openUsersModal} handleClose={handleCloseUsersModal} />
+        </Grid>
+      </Box>
     </Grid>
   );
+  
 }
 
 const mapStateToProps = (state) => {

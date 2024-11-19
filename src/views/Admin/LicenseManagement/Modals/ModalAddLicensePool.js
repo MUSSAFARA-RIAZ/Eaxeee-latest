@@ -7,6 +7,8 @@ import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslatio
 import CloseIcon from '@mui/icons-material/Close';
 
 const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
+
+
     const [snackBarFlag, setSnackBarFlag] = useState(false);
 
     const handleSnackBarClose = () => {
@@ -25,10 +27,18 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
     };
 
     const updatedRows = [
-        { id: '1', licenseId: 'conFAUyLzmUl8YzV3ub006', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: '' },
-        { id: '2', licenseId: 'conWG0t3tnTCO4oIPI0009', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: '' },
-        { id: '3', licenseId: 'conColK5I5if8V1YhEM010', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: '' },
-        { id: '4', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: '' },
+        { id: '1', licenseId: 'conFAUyLzmUl8YzV3ub006', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '2', licenseId: 'conWG0t3tnTCO4oIPI0009', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commerical' },
+        { id: '3', licenseId: 'conColK5I5if8V1YhEM010', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '4', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '5', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '6', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '7', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '8', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '9', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '10', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+        { id: '11', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+
     ];
 
     const columns = [
@@ -78,28 +88,27 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
                     </IconButton>
                 </DialogTitle>
 
-                <DialogContent
+                <Box
                     sx={{
                         backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
-                        color: theme === 'default' ? '#414849' : theme === 'light' ? '#414849' : '#cecece',
+                        // border:"3px solid red",
+                        padding:"10px"
+                        
                     }}
-                > 
-                    <div style={{ paddingTop: "23px" }}>
-                        <CustomTable 
-                            rows={updatedRows} 
-                            columns={columns} 
-                            showDeleteButton={true}
-                            Theme={theme}
-                            checkboxSelection={true}
-                        />
-                    </div>
-                </DialogContent>
-
-                <DialogActions
+                >
+            
+                    <CustomTable 
+                        rows={updatedRows} 
+                        columns={columns} 
+                        showDeleteButton={true}
+                        Theme={theme}
+                        checkboxSelection={true}
+                        height={true}
+                    />
+                   
+                   <DialogActions
                     sx={{
                         backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
-                        mt: -3,
-                        pt: 3
                     }}
                 >
                     <CustomButton
@@ -115,17 +124,11 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
                         onClick={handleClose}
                     />
                 </DialogActions>
+                 </Box>
+
+                
             </Dialog>
-            <Snackbar
-                anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                open={snackBarFlag}
-                autoHideDuration={1500}
-                onClose={handleSnackBarClose}
-            >
-                <Alert severity="success">
-                    Licenses added successfully!
-                </Alert>
-            </Snackbar>
+           
         </Box>
     );
 };
