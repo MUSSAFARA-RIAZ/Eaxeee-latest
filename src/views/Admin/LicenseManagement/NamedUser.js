@@ -10,6 +10,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Radio, RadioGroup
 } from "@mui/material";
 import CustomTabs from "../../../components/CustomTabs/CustomTabs"; // Import CustomTabs
 import CustomButton from "../../../components/CustomButton/CustomButton";
@@ -18,6 +19,7 @@ import styles from "./LicenseManagement.module.css";
 import SelectAllIcon from "@mui/icons-material/SelectAll";
 import DeselectIcon from "@mui/icons-material/Deselect";
 import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation";
+
 
 function NamedUser(props) {
   let { language, theme } = props;
@@ -185,6 +187,11 @@ function NamedUser(props) {
           : AdminTranslation["Allocated Licenses"],
     },
   ];
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleRadioChange = (user) => {
+    setSelectedUser(user); // Set the selected user
+  };
 
   return (
     <Box className={`${styles.namedUserMain}`}>
@@ -230,28 +237,7 @@ function NamedUser(props) {
                 ? "Activated Users"
                 : AdminTranslation["Activated Users"]}
             </Typography>
-            <Tooltip
-              title={
-                isAllActivatedUsersSelected ? "Deselect All" : "Select All"
-              }
-              placement="left"
-            >
-              <IconButton onClick={handleSelectAllActivatedUsers}>
-                {isAllActivatedUsersSelected ? (
-                  <DeselectIcon
-                  style={{
-                    color: theme === "default" ? "#2158a4" : "#a5d149",
-                  }}
-                  />
-                ) : (
-                  <SelectAllIcon
-                    style={{
-                      color: theme === "default" ? "#2158a4" : "#a5d149",
-                    }}
-                  />
-                )}
-              </IconButton>
-            </Tooltip>
+            
           </Stack>
           <List
             className={`${styles.activatedUsersList}`}
@@ -282,24 +268,25 @@ function NamedUser(props) {
               },
             }}
           >
-            {activatedUsers.map((user, index) => (
-              <ListItem
-                key={index}
-                sx={{
-                  padding: "2px 16px", // Adjust the padding to reduce the height
-                }}
-              >
-                <Checkbox
-                  checked={selectedActivatedUsers.includes(user)}
-                  onChange={() => handleCheckboxChange(user)}
-                  style={{
-                    height: 0 ,
-                    color: theme === "default" ? "#2158a4" : "#a5d149",
-                  }}
-                />
-                <ListItemText primary={user} />
-              </ListItem>
-            ))}
+              <RadioGroup value={selectedUser} onChange={(e) => handleRadioChange(e.target.value)}>
+      {activatedUsers.map((user, index) => (
+        <ListItem
+          key={index}
+          sx={{
+            padding: "2px 16px", // Adjust the padding to reduce the height
+          }}
+        >
+          <Radio
+            value={user}
+            style={{
+              height: 0,
+              color: theme === "default" ? "#2158a4" : "#a5d149",
+            }}
+          />
+          <ListItemText primary={user} />
+        </ListItem>
+      ))}
+    </RadioGroup>
           </List>
           <CustomButton
             className="allocate-button"

@@ -28,6 +28,7 @@ const UserRegistration = (props) => {
             ...prevActivatedRows,
             ...selectedRows
         ]);
+        console.log("selectedRows before state",selectedRows)
         setSelectedRows([]);
     };
 
@@ -35,8 +36,12 @@ const UserRegistration = (props) => {
         setActivatedRows((prevActivatedRows) =>
             prevActivatedRows.filter(row => !selectedRows.includes(row))
         );
+        console.log("selectedRows",selectedRows)
+
         setSelectedRows([]);
+        console.log("selected Rows after state")
     };
+
 
     const tableRowData = [
         { id: 'abc12', name: language === 'en' ? 'abc' : AdminTranslation["abc"], email: language === 'en' ? 'test@gmail.com' : AdminTranslation["test@gmail.com"] },
@@ -56,12 +61,6 @@ const UserRegistration = (props) => {
         ...row,
         activated: activatedRows.includes(row.id),
     }));
-
-
-    console.log("updated rows",updatedRows);
-    
-
-    
     const columns = [
         { field: 'id', headerName: (language === 'en' ? 'ID' : AdminTranslation["ID"]), flex: 1, renderCell: (params) => (
             <Box>
@@ -71,6 +70,7 @@ const UserRegistration = (props) => {
                         Active
                     </Typography>
                 )}
+                
             </Box>
         ) },
         { field: 'name', headerName: (language === 'en' ? 'Name' : AdminTranslation["Name"]), flex: 1 },
@@ -84,8 +84,8 @@ const UserRegistration = (props) => {
                 <CustomTable 
                     rows={updatedRows} 
                     columns={columns} 
-                    //rowsPerPage={10} 
-                   // pageSize={100}
+                    rowsPerPage={10} 
+                    pageSize={100}
                     showDeleteButton={true}
                     onSelectionChange={setSelectedRows}
                     Theme={theme}

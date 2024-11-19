@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { connect } from "react-redux";
@@ -8,19 +6,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 
-
-
 function CustomTable(props) {
-  console.log("props in custom table=>", props);
-  
-  const currentLang = props.language;
-  const theme = props.theme; // Access the theme
   const [searchText, setSearchText] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
-  const [paginationModel, setPaginationModel] = useState({
-    pageSize: 5,
-    page: 0,
-  });
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
@@ -35,17 +23,12 @@ function CustomTable(props) {
   };
 
   const handleSelectionChange = (newSelection) => {
-    const selectedRowObjects = newSelection.map((id) =>
-      props.rows.find((row) => row.id === id)
-    );
-    setSelectedRows(selectedRowObjects);
-    if (props.onSelectionChange) {
-      props.onSelectionChange(selectedRowObjects);
+    if (JSON.stringify(newSelection) !== JSON.stringify(selectedRows)) {
+      setSelectedRows(newSelection);
+      if (props.onSelectionChange) {
+        props.onSelectionChange(newSelection);
+      }
     }
-  };
-
-  const handlePaginationModelChange = (newModel) => {
-    setPaginationModel(newModel); // Update pagination state when user changes page or pageSize
   };
 
   const columns = props.columns.map((col) => ({
@@ -56,16 +39,17 @@ function CustomTable(props) {
   return (
     <Box
       sx={{
-        height: "70vh",
+        height: "80vh",
         width: "100%",
         ...props.TableMainDivHeight,
       }}
     >
-      {!props.nosearch && (
+      {!props.nosearch && ( // Conditionally render search bar based on props.nosearch
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
+            top: 0,
             zIndex: 1,
             marginBottom: 2,
           }}
@@ -123,7 +107,18 @@ function CustomTable(props) {
                       : "Delete selected rows"
                   }
                 >
-                  <DeleteIcon style={{ color: "deleteIcon.main" }} />
+                  <DeleteIcon
+                    style={{
+                      color:
+                        selectedRows.length === 0
+                          ? "#a5b7b9"
+                          : props.theme === "default"
+                            ? "#2158a4"
+                            : props.theme === "light"
+                              ? "#4A4A4A"
+                              : "#a5d149",
+                    }}
+                  />
                 </Tooltip>
               </IconButton>
             )}
@@ -132,27 +127,31 @@ function CustomTable(props) {
       )}
       <Box
         sx={{
-          height: "100%",
+          height: "calc(80vh - 48px)", // Subtracting the height of the search and delete button container
           width: "100%",
           overflowY: "auto",
-          overflowX: "hidden",
-
           "& ::-webkit-scrollbar": {
-            position: "absolute",
             width: "8px",
-            [currentLang === 'ar' ? 'right' : 'left']: '0', // Scrollbar position based on language
           },
-        
-
-          [currentLang === 'ar' ? '& .MuiDataGrid-scrollbar' : '']: {
-            '&.MuiDataGrid-scrollbar--vertical': {
-
-              left: 0, // Move scrollbar to the left for RTL
-              right: 'unset', // Unset the right property
-            },
+          "& ::-webkit-scrollbar-track": {
+            background:
+              props.theme === "default"
+                ? "#cecece"
+                : props.theme === "light"
+                  ? "#eff3f7"
+                  : "#212121",
+            borderRadius: "10px",
           },
-
-          ...props.DataGridDivHeight,
+          "& ::-webkit-scrollbar-thumb": {
+            background:
+              props.theme === "default"
+                ? "#2158a4"
+                : props.theme === "light"
+                  ? "#cbd0d7"
+                  : "#a5d149",
+            borderRadius: "10px",
+          },
+          ...props.DataGridDivHeight, // Merge custom styles
         }}
       >
         <DataGrid
@@ -168,70 +167,22 @@ function CustomTable(props) {
           )}
           columns={columns}
           checkboxSelection={props.checkboxSelection}
-          onRowSelectionModelChange={(newSelection) =>
+          onSelectionModelChange={(newSelection) =>
             handleSelectionChange(newSelection)
           }
-       
-          pagination
-          pageSizeOptions={[5, 10, 25]}
-          paginationModel={paginationModel}
-         
-
-
+          selectionModel={selectedRows} // Bind selection state
+          pagination={!props.disablePagination}
+          pageSize={props.disablePagination ? props.rows.length : 10}
           sx={{
-
-            "& .MuiDataGrid-overlay": {
-              backgroundColor: 'transparent',
-            },
-            "& .MuiDataGrid-columnHeaderTitle": {
-              fontWeight: "bold",
-            },
-            "& .MuiDataGrid-footerContainer": {
-              display: props.disablePagination ? "none" : "flex",
-              direction: currentLang === 'ar' ? 'rtl' : 'ltr',
-            },
             "& .MuiDataGrid-cell:focus": {
               outline: "none",
             },
-            "& .MuiDataGrid-cell": {
-              // color: theme.palette.tableTextColor.main,
-              // border: "2px solid blue",
-              textAlign: currentLang === 'ar' ? 'right' : 'left',
-
+            "& .MuiDataGrid-footerContainer": {
+              display: props.disablePagination ? "none" : "flex",
             },
-            "& .MuiDataGrid-columnHeaders": {
-              position: "sticky",
-              top: 0,
-              zIndex: 2,
-              direction: currentLang === 'ar' ? 'rtl' : 'ltr',
-            },
-            "& .MuiDataGrid-container--top [role='row']": {
-              // backgroundColor: theme.palette.columnHeaderColor.main,
-              // color: theme.palette.tableTextColor.main,
-            },
-            "& .MuiTablePagination-root": {
-              // color: theme.palette.paginationaction.main,
-              direction: currentLang === 'ar' ? 'rtl' : 'ltr',
-            },
-            "& .MuiButtonBase-root .css-i4bv87-MuiSvgIcon-root": {
-              rotate: currentLang === 'ar' ? "180deg" : "0deg",
-            },
-            "& .MuiCheckbox-root": {
-              // color: theme.palette.checkboxColormain.main,
-              rotate: currentLang === 'ar' ? "0deg" : "0deg",
-
-            },
-            "& .MuiCheckbox-root.Mui-checked": {
-              // color: theme.palette.checkboxCheckedColor.main,
-              rotate: currentLang === 'ar' ? "0deg" : "0deg",
-
-
-            },
-
-
-
           }}
         />
+
       </Box>
     </Box>
   );

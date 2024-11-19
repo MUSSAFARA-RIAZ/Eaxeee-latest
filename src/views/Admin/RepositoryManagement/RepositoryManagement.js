@@ -7,6 +7,7 @@ import CustomTabs from '../../../components/CustomTabs/CustomTabs';
 import Architecture from './Architecture/Architecture';
 import Documents from './Documents/Documents';
 import Process from './Process/Process';
+import Repository from './Repository/Repository';
 
 function RepositoryTabs(props) {  
   const { value, handleChange, tabs} = props; 
@@ -25,6 +26,7 @@ function RepositoryContent(props) {
       {value === 0 && <Architecture />}
       {value === 1 && <Documents />} 
       {value === 2 && <Process />}
+      {value === 3 && <Repository/>}
     </Box>
   );
 }

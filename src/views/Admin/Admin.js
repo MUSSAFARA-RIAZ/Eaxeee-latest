@@ -69,12 +69,12 @@ const Admin = (props) => {
           ? "Password Management"
           : AdminTranslation["Password Management"],
     },
-    {
-      label:
-        language === "en"
-          ? "Directory User"
-          : AdminTranslation["Directory User"],
-    },
+    // {
+    //   label:
+    //     language === "en"
+    //       ? "Directory User"
+    //       : AdminTranslation["Directory User"],
+    // },
   ];
   const licensedtabs = [
     {
@@ -93,6 +93,7 @@ const Admin = (props) => {
     { label: language === "en" ? 'Architecture' : AdminTranslation["Architecture"] },
     { label: language === "en" ? 'Document' : AdminTranslation["Document"] },
     { label: language === "en" ? 'Process' : AdminTranslation["Process"] },
+    { label: language === "en" ? 'Repository' : AdminTranslation["Repository"] },
   ];
   const metamodeltabs = [
     {
