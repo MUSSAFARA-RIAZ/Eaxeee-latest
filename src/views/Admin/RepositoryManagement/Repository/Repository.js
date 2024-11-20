@@ -56,7 +56,7 @@ function Repository(props) {
       architectureName: "Eaxee",
       backupBy: "Maheen",
       version: "v1",
-    },
+    }
   ]);
 
   const handleAddBackupClick = () => {
@@ -95,14 +95,14 @@ function Repository(props) {
 
   const handleActionClick = (row) => {
     if (row.status === "DEPLOYED") {
-      alert(`${row.metamodelName} is already deployed.`);
+    //   alert(`${row.metamodelName} is already deployed.`);
     } else {
       // Handle deployment logic here (e.g., update state or make an API call)
       const updatedRows = tableRowData.map((data) =>
         data.id === row.id ? { ...data, status: "DEPLOYED" } : data
       );
       setTableRowData(updatedRows);
-      alert(`${row.metamodelName} has been deployed.`);
+    //   alert(`${row.metamodelName} has been deployed.`);
     }
   };
   return (

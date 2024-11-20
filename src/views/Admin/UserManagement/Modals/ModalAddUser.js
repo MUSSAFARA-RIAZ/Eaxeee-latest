@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import styles from "./Modals.UserManagement.css";
 import CustomButton from "../../../../components/CustomButton/CustomButton";
 import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslation";
+import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 
 const ModalAddUser = ({ open, handleClose, language, theme }) => {
   let snackBarMessage = "";
@@ -62,28 +63,42 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
         },
       }}
     >
-      <DialogTitle
-        sx={{
-          backgroundColor:
-            theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
-          color: "#cecece",
-          padding: "6px",
-          paddingLeft: "35px",
-        }}
-      >
-        {language === "en" ? "Add User" : AdminTranslation["Add user"]}
-        <IconButton
-          sx={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            color: "#cecece",
-          }}
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+     <DialogTitle
+  sx={{
+    backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
+    color: "#cecece",
+    padding: "3px 16px",
+    display: "flex",
+    alignItems: "center", // Align items vertically in the center
+    justifyContent: "space-between", // Space out the content
+    position: "relative", // Required for absolute positioning of the close icon
+  }}
+>
+  <Box sx={{ display: "flex", alignItems: "center" }}> {/* Flex for logo and title */}
+    <img
+      src={GreenEaxee}
+      alt="img"
+      style={{ width: "40px", height: "40px", marginRight: "5px" }}
+    />
+    <Typography variant="h6">
+      {language === "en" ? "Add User" : AdminTranslation["Add user"]}
+    </Typography>
+  </Box>
+
+  <IconButton
+    sx={{
+      position: "absolute",
+      top: "50%", // Center vertically
+      right: "10px", // Padding from the right edge
+      transform: "translateY(-50%)", // Correct vertical alignment
+      color: "#cecece",
+    }}
+    onClick={handleClose}
+  >
+    <CloseIcon />
+  </IconButton>
+</DialogTitle>
+
       <div
         style={{
           backgroundColor:
@@ -92,7 +107,7 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
       >
         <DialogContent
           sx={{
-            marginTop: "20px",
+            marginTop: "10px",
           }}
         >
           <form onSubmit={handleSubmit(onSubmit)}>

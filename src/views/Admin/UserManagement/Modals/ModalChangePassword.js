@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import CustomButton from '../../../../components/CustomButton/CustomButton';
 import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslation';
 import CloseIcon from '@mui/icons-material/Close';
+import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 
 const ModalChangePassword = ({ open, handleClose, language, theme }) => {
     const [snackBarFlag, setSnackBarFlag] = useState(false);
@@ -26,11 +27,11 @@ const ModalChangePassword = ({ open, handleClose, language, theme }) => {
 
     return (
         <Box>
-            <Dialog 
-                open={open} 
+            <Dialog
+                open={open}
                 onClose={handleDialogClose}
                 PaperProps={{
-                    sx: { 
+                    sx: {
                         width: "400px", // Adjust the width here
                         maxWidth: "90%", // Ensure it doesn't exceed the viewport
                     },
@@ -40,19 +41,34 @@ const ModalChangePassword = ({ open, handleClose, language, theme }) => {
                     sx={{
                         backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
                         color: "#cecece",
-                        padding: "6px",
-                        paddingLeft: "35px",
+                        padding: "3px 16px",
+                        display: "flex",
+                        alignItems: "center", // Align items vertically in the center
+                        justifyContent: "space-between", // Space out the content
+                        position: "relative", // Required for absolute positioning of the close icon
                     }}
                 >
-                    {language === 'en' ? 'Change Password' : AdminTranslation["Change Password"]}
+                    <Box sx={{ display: "flex", alignItems: "center" }}> {/* Flex for logo and title */}
+                        <img
+                            src={GreenEaxee}
+                            alt="img"
+                            style={{ width: "40px", height: "40px", marginRight: "5px" }}
+                        />
+                        <Typography variant="h6">
+                            {language === 'en' ? 'Change Password' : AdminTranslation["Change Password"]}
+                        </Typography>
+                    </Box>
+
                     <IconButton
                         sx={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
+                            position: "absolute",
+                            top: "50%", // Center vertically
+                            right: "10px", // Padding from the right edge
+                            transform: "translateY(-50%)", // Correct vertical alignment
                             color: "#cecece",
                         }}
-                        onClick={handleClose}>
+                        onClick={handleClose}
+                    >
                         <CloseIcon />
                     </IconButton>
                 </DialogTitle>
