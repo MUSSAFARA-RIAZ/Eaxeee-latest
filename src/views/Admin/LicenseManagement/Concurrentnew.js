@@ -7,12 +7,14 @@ import CustomTable from "../../../components/CustomTable/CustomTable";
 import ModalAddPool from "./Modals/ModalAddPool";
 import ModalAddLicensePool from "./Modals/ModalAddLicensePool";
 import ModalAddUsersPool from "./Modals/ModalAddUsersPool";
+import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation";
 
 function ConcurrentUser(props) {
   const [openModal, setOpenModal] = useState(false);
   const [openLicenseModal, setOpenLicenseModal] = useState(false);
   const [openUsersModal, setOpenUsersModal] = useState(false); // New state for Users Modal
   const [selectedPool, setSelectedPool] = useState(null);
+  const { language, theme } = props;
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -151,10 +153,16 @@ const userTableRows = selectedPool
               showAddPoolButton={true}
               onRowClick={handleRowClick}
             >
-              <Box sx={{ width: "520px", display: "flex", justifyContent: "space-between" }}>
-                <CustomButton title="Add Pool" variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
-                <CustomButton title="Remove Pool" variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
-                <CustomButton title="Update Pool" variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+              <Box sx={{ display:"flex", justifyContent:"space-between",alignItems:"space-between", width:"530px",  ...(language === 'ar' && {
+                     display:"flex", width: "400px",justifyContent:"space-between", position:"relative", right:"10px"})
+                    }}>
+              {/* title={language === 'en' ? "Add User": AdminTranslation["Add User"]}  */}
+                <CustomButton title={language === 'en' ? "Add Pool": AdminTranslation["Add Pool"]}
+                 variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+                <CustomButton title={language === 'en' ?"Remove Pool" : AdminTranslation["Remove Pool"]}
+                variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+                <CustomButton title={language === 'en' ?"Update Pool": AdminTranslation["Update Pool"]}
+                 variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
               </Box>
             </CustomTable>
           </Box>

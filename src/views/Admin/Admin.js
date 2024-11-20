@@ -141,6 +141,7 @@ const Admin = (props) => {
               value={value}
               handleChange={handleMainChange}
               tabs={usertabs}
+              language={props.language}
             />
           ) : view === 1 ? (
             <LicenseManagementTabs

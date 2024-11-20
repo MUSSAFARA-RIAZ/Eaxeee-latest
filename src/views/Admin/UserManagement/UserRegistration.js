@@ -84,8 +84,11 @@ const UserRegistration = (props) => {
                     Theme={theme}
                     checkboxSelection={true}
                 >
+                <Box sx={{ display:"flex", justifyContent:"space-between",alignItems:"space-between", width:"350px",  ...(language === 'ar' && {
+                     display:"flex", width: "300px",justifyContent:"space-between", position:"relative", right:"10px"})
+                    }}>
                     <CustomButton
-                        title="Add User"   
+                        title={language === 'en' ? "Add User": AdminTranslation["Add User"]}   
                         variant='outlined' 
                         onClick={handleAddUserClick}
                         type="submit"
@@ -123,6 +126,7 @@ const UserRegistration = (props) => {
                         loaderThickness={5}
                         Theme={theme}
                     />
+                    </Box>
                 </CustomTable>
             </Box>
         </Box>

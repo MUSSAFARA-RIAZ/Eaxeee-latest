@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Box} from '@mui/material';
+import { Box } from '@mui/material';
 import styles from "./RepositoryManagement.module.css";
 import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
 import CustomTabs from '../../../components/CustomTabs/CustomTabs';
@@ -9,24 +9,34 @@ import Documents from './Documents/Documents';
 import Process from './Process/Process';
 import Repository from './Repository/Repository';
 
-function RepositoryTabs(props) {  
-  const { value, handleChange, tabs} = props; 
-  console.log("RepositoryMangement Props: ", props);
+function RepositoryTabs(props) {
+  const { value, handleChange, tabs, language } = props;
+  const isArabic = props.language === 'ar'
 
   return (
-    <CustomTabs value={value} onChange={handleChange} tabs={tabs} />
-  );
+    <div style={{
+      position: "relative",
+
+
+      right: isArabic ? "30px" : undefined,
+      left: !isArabic ? "0px" : undefined,
+
+
+    }}>
+      <CustomTabs value={value} onChange={handleChange} tabs={tabs} />
+    </div>
+  )
 }
 
 function RepositoryContent(props) {
-  const { language, value} = props; 
+  const { language, value } = props;
 
   return (
     <Box className={styles.repositoryManagementSubTabsGroup}>
       {value === 0 && <Architecture />}
-      {value === 1 && <Documents />} 
+      {value === 1 && <Documents />}
       {value === 2 && <Process />}
-      {value === 3 && <Repository/>}
+      {value === 3 && <Repository />}
     </Box>
   );
 }
@@ -38,8 +48,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setLanguage: (lang) => dispatch({
-      type: "TOGGLELANG",
-      value: lang === 'en' ? 'ar' : 'en'
+    type: "TOGGLELANG",
+    value: lang === 'en' ? 'ar' : 'en'
   })
 });
 

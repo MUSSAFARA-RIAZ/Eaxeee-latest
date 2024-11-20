@@ -24,12 +24,22 @@ function LicenseManagementTabs(props){
     const handleAddLicenseClick = () => {
       setOpenModal(true);
     }
-
+  const isArabic=language==='ar'
 
   return (
     <Box className={`${styles.licenseManagementMainDiv}`}>
       {/* Render CustomTabs component with props */}
-      <CustomTabs value={value} onChange={handleChange} tabs={tabs} /> 
+      <div style={{ position: "relative",
+    
+    
+    right: isArabic ? "30px" : undefined,
+    left: !isArabic ? "0px" : undefined,
+     
+     
+      }}>
+      <CustomTabs value={value} onChange={handleChange} tabs={tabs} />
+    </div>
+      
       <Box className={`${styles.addLicenseButtonDiv}`}>
         <ModalAddLicense open={openModal} handleClose={handleCloseModal} /> 
         <CustomButton

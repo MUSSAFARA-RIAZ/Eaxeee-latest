@@ -6,9 +6,21 @@ import DirectoryUser from "./DirectoryUser";
 import CustomTabs from "../../../components/CustomTabs/CustomTabs";
 
 function UserTabs(props) {
-  const { value, handleChange, tabs } = props;
+  const { value, handleChange, tabs , language } = props;
+  const isArabic=props.language==='ar'
 
-  return <CustomTabs value={value} onChange={handleChange} tabs={tabs} />;
+  return (
+    <div style={{ position: "relative",
+    
+    
+      right: isArabic ? "30px" : undefined,
+      left: !isArabic ? "0px" : undefined,
+       
+       
+        }}>
+        <CustomTabs value={value} onChange={handleChange} tabs={tabs} />
+      </div>
+  )
 }
 
 function UserContent(props) {
