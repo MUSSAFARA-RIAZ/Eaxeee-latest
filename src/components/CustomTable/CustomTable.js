@@ -193,8 +193,37 @@ function CustomTable(props) {
             "& .MuiDataGrid-overlay": {
               backgroundColor: 'transparent',
             },
+            "& .MuiButtonBase-root .css-i4bv87-MuiSvgIcon-root": {
+              rotate: props.language === 'ar' ? "180deg" : "0deg",
+            },
 
           }}
+          localeText={{
+            // Determine locale based on currentLang
+            ...(props.language === 'ar' ? {
+              // Arabic translations
+              MuiTablePagination: {
+                labelRowsPerPage: "عدد الصفوف في الصفحة:",
+                labelDisplayedRows: ({ from, to, count }) =>
+                  `${from}-${to} من ${count !== -1 ? count : `أكثر من ${to}`}`,
+                toolbarDensity: 'Density', // Add translation for density
+                noRowsLabel:'No rows', // Add translation for no rows
+              },
+              footerRowSelected: (count) =>
+                `${count} ${count === 1 ? 'صف' : 'صفوف'} محددة`,
+            } : {
+              // English translations
+              MuiTablePagination: {
+                labelRowsPerPage: "Rows per page:",
+                labelDisplayedRows: ({ from, to, count }) =>
+                  `${from}-${to} of ${count !== -1 ? count : `more than ${to}`}`,
+              },
+              footerRowSelected: (count) =>
+                `${count} row${count !== 1 ? 's' : ''} selected`,
+            }),
+            // Additional common properties can be added here if necessary
+          }}
+
           pageSize={paginationModel.pageSize} // Bind pagination state
           page={paginationModel.page} // Bind pagination state
           onPageSizeChange={(newPageSize) =>

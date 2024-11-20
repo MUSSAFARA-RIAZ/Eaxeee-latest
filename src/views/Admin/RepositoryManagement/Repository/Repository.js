@@ -78,13 +78,6 @@ function Repository(props) {
     setTableRowData([...tableRowData, newBackup]);
   };
 
-  // const columns = [
-  //   { field: "id", headerName: "ID", flex: 1, hide: true },
-  //   { field: "backupName", headerName: "Backup Name", flex: 1 },
-  //   { field: "backupDateAndTime", headerName: "Backup Date and Time", flex: 1 },
-  //   { field: "architectureName", headerName: "Architecture Name", flex: 1 },
-  //   { field: "backupBy", headerName: "Backup By", flex: 1 },
-  // ];
   const handleDeleteClick = () => {
     setdeleteOpenModal(true);
   };
