@@ -13,6 +13,7 @@ import RoyalBlue from "../../../src/Assets/Images/PaleGray.png";
 import './Login.css';
 import { Link } from 'react-router-dom';
 import LottieLoader from '../../animation/LottieLoader';
+import { LoginUser } from '../../apis/auth';
 
 function Login({ onSignIn }) {
   const [username, setUsername] = useState('');
@@ -48,10 +49,34 @@ function Login({ onSignIn }) {
     loadResources();
   }, []);
 
-  const handleSignInClick = (e) => {
-    e.preventDefault(); // Prevent default form submission
-    setIsDialogOpen(true); // Open the dialog
-  };
+  const handleSignInClick = async (e) => {
+    try {
+        // Prevent default form submission behavior
+        e.preventDefault();
+        setIsDialogOpen(true);
+
+        // When sign-in button is clicked, call the LoginUser API
+        // setLoading(true)  
+
+
+        //######### Write LoginAPI Code Here #########\\
+        // const response = await LoginUser("testusername", "testpassword");
+        // console.log("loginAPI response:" , response )
+        // // Handle the response based on the status code
+        // if (response.code === 200) {
+        //     console.log("Login successful");
+        //     //Show Dialogbox for user to select a repository from a list
+        //     setIsDialogOpen(true);
+        // } 
+        
+        
+    } catch (error) {
+        // Catch and handle any unexpected errors
+        console.error("An unexpected error occurred:", error.message);
+        
+    }
+
+};
 
   
 
