@@ -34,6 +34,7 @@ function LicenseManagementTabs(props){
     
     right: isArabic ? "30px" : undefined,
     left: !isArabic ? "0px" : undefined,
+ 
      
      
       }}>
@@ -42,6 +43,7 @@ function LicenseManagementTabs(props){
       
       <Box className={`${styles.addLicenseButtonDiv}`}>
         <ModalAddLicense open={openModal} handleClose={handleCloseModal} /> 
+        <Box sx={{position:"relative",right:"10px"}}>
         <CustomButton
           className="addLicense-button"
           title={language === 'en' ? 'Add License' : AdminTranslation["Add License"]}
@@ -57,6 +59,7 @@ function LicenseManagementTabs(props){
           loaderThickness={5}
           startIcon={<AddIcon />} 
           />
+          </Box>
       </Box>
     </Box>
   );

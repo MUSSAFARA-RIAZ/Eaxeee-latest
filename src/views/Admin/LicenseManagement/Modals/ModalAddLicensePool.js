@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, IconButton } from '@mui/material';
+import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, IconButton, Typography } from '@mui/material';
 import { connect } from 'react-redux';
 import CustomButton from '../../../../components/CustomButton/CustomButton';
 import CustomTable from '../../../../components/CustomTable/CustomTable';
 import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslation';
 import CloseIcon from '@mui/icons-material/Close';
+import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 
 const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
 
@@ -61,26 +62,37 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
                     },
                 }}
             >
-                <DialogTitle
+               
+               <DialogTitle
                     sx={{
-                        backgroundColor: theme === "default"
-                        ? "#2158a4"
-                        : theme === "light"
-                        ? "#cbd0d7"
-                        : "#393a3a",
+                        backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
                         color: "#cecece",
-                        padding: "6px",
-                        paddingLeft: "35px",
-                        position: 'relative',
+                        padding: "3px 16px",
+                        display: "flex",
+                        alignItems: "center", // Align items vertically in the center
+                        justifyContent: "space-between", // Space out the content
+                        position: "relative", // Required for absolute positioning of the close icon
                     }}
                 >
-                    {language === 'en' ? 'Add License' : AdminTranslation["Add License"]}
+                    <Box sx={{ display: "flex", alignItems: "center" }}> {/* Flex for logo and title */}
+                        <img
+                            src={GreenEaxee}
+                            alt="img"
+                            style={{ width: "40px", height: "40px", marginRight: "5px" }}
+                        />
+                        <Typography variant="h6">
+                        {language === 'en' ? 'Add License' : AdminTranslation["Add License"]}
+                        </Typography>
+                    </Box>
+
                     <IconButton
                         sx={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
+                            position: "absolute",
+                            top: "50%", // Center vertically
+                            // right: "10px", // Padding from the right edge
+                            transform: "translateY(-50%)", // Correct vertical alignment
                             color: "#cecece",
+                            [language === 'ar' ? 'left' : 'right']: 0
                         }}
                         onClick={handleClose}
                     >
@@ -111,18 +123,39 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
                         backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
                     }}
                 >
-                    <CustomButton
-                        title={language === 'en' ? 'Add' : AdminTranslation["Add"]}
-                        type="submit"
-                        Theme={theme}
-                        onClick={handleAddClick}
-                    />
-                    <CustomButton
-                        title={language === 'en' ? 'Cancel' : AdminTranslation["Cancel"]}
-                        type="button"
-                        Theme={theme}
-                        onClick={handleClose}
-                    />
+                      <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "10px",
+
+
+
+                margin: "0px",
+                position: "relative",
+                top: "10px",
+
+
+              }}
+            >
+              <CustomButton
+                title={language === "en" ? "Add" : AdminTranslation["Add"]}
+                type="submit"
+                // onClick={handleUserSubmit}
+
+                Theme={theme}
+                sx={{ width: "50%" }}
+              />
+              <CustomButton
+                title={
+                  language === "en" ? "Cancel" : AdminTranslation["Cancel"]
+                }
+                type="button"
+                Theme={theme}
+                onClick={handleClose}
+                sx={{ width: "50%" }}
+              />
+            </Box>
                 </DialogActions>
                  </Box>
 

@@ -53,7 +53,7 @@ const Admin = (props) => {
       label:
         language === "en"
           ? "MetaModel Management"
-          : AdminTranslation["Metamodel  Management"],
+          : AdminTranslation["Metamodel Management"],
     },
   ];
   const usertabs = [
@@ -142,12 +142,14 @@ const Admin = (props) => {
               handleChange={handleMainChange}
               tabs={usertabs}
               language={props.language}
+              open={open}
             />
           ) : view === 1 ? (
             <LicenseManagementTabs
               value={value}
               handleChange={handleMainChange}
               tabs={licensedtabs}
+              
             />
           ) : view === 2 ? (
             <RepositoryTabs

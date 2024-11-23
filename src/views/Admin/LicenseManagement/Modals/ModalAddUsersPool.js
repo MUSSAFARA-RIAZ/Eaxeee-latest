@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, IconButton } from '@mui/material';
+import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, IconButton, Typography } from '@mui/material';
 import { connect } from 'react-redux';
 import CustomButton from '../../../../components/CustomButton/CustomButton';
 import CustomTable from '../../../../components/CustomTable/CustomTable';
 import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslation';
 import CloseIcon from '@mui/icons-material/Close';
+import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
+
 
 const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
     const [snackBarFlag, setSnackBarFlag] = useState(false);
@@ -55,24 +57,35 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
             >
                 <DialogTitle
                     sx={{
-                        backgroundColor: theme === "default"
-                            ? "#2158a4"
-                            : theme === "light"
-                                ? "#cbd0d7"
-                                : "#393a3a",
+                        backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
                         color: "#cecece",
-                        padding: "6px",
-                        paddingLeft: "35px",
-                        position: 'relative',
+                        padding: "3px 16px",
+                        display: "flex",
+                        alignItems: "center", // Align items vertically in the center
+                        justifyContent: "space-between", // Space out the content
+                        position: "relative", // Required for absolute positioning of the close icon
                     }}
                 >
-                    {language === 'en' ? 'Add Users' : AdminTranslation["Add Users"]}
+                    <Box sx={{ display: "flex", alignItems: "center" }}> {/* Flex for logo and title */}
+                        <img
+                            src={GreenEaxee}
+                            alt="img"
+                            style={{ width: "40px", height: "40px", marginRight: "5px" }}
+                        />
+                        <Typography variant="h6">
+
+                            {language === 'en' ? 'Add Users' : AdminTranslation["Add Users"]}
+                        </Typography>
+                    </Box>
+
                     <IconButton
                         sx={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
+                            position: "absolute",
+                            top: "50%", // Center vertically
+                            // right: "10px", // Padding from the right edge
+                            transform: "translateY(-50%)", // Correct vertical alignment
                             color: "#cecece",
+                            [language === 'ar' ? 'left' : 'right']: 0
                         }}
                         onClick={handleClose}
                     >
@@ -84,41 +97,62 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
                     sx={{
                         backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
                         // border:"3px solid red",
-                        padding:"10px"
-                        
+                        padding: "10px"
+
                     }}
                 >
-            
-                    <CustomTable 
-                        rows={updatedRows} 
-                        columns={columns} 
+
+                    <CustomTable
+                        rows={updatedRows}
+                        columns={columns}
                         showDeleteButton={true}
-                        
+
                         checkboxSelection={true}
                         height={true}
                     />
-                   
-                   <DialogActions
-                    sx={{
-                        backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
-                    }}
-                >
-                    <CustomButton
-                        title={language === 'en' ? 'Add' : AdminTranslation["Add"]}
-                        type="submit"
-                        Theme={theme}
-                        onClick={handleAddClick}
-                    />
-                    <CustomButton
-                        title={language === 'en' ? 'Cancel' : AdminTranslation["Cancel"]}
-                        type="button"
-                        Theme={theme}
-                        onClick={handleClose}
-                    />
-                </DialogActions>
-                 </Box>
+
+                    <DialogActions
+                        sx={{
+                            backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
+                        }}
+                    >
+                           <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "10px",
+
+
+
+                margin: "0px",
+                position: "relative",
+                top: "10px",
+
+
+              }}
+            >
+              <CustomButton
+                title={language === "en" ? "Add" : AdminTranslation["Add"]}
+                type="submit"
+                // onClick={handleUserSubmit}
+
+                Theme={theme}
+                sx={{ width: "50%" }}
+              />
+              <CustomButton
+                title={
+                  language === "en" ? "Cancel" : AdminTranslation["Cancel"]
+                }
+                type="button"
+                Theme={theme}
+                onClick={handleClose}
+                sx={{ width: "50%" }}
+              />
+            </Box>
+                    </DialogActions>
+                </Box>
             </Dialog>
-            
+
         </Box>
     );
 };

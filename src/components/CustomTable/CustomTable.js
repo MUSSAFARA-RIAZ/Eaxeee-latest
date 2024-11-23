@@ -54,7 +54,7 @@ function CustomTable(props) {
   return (
     <Box
       sx={{
-        height: "80vh",
+        height: props.height?"75vh": "80vh",
         width: "100%",
         ...props.TableMainDivHeight,
       }}
@@ -142,7 +142,7 @@ function CustomTable(props) {
       )}
       <Box
         sx={{
-          height: "calc(80vh - 48px)", // Subtracting the height of the search and delete button container
+          height: props.height?"68vh": "calc(80vh - 48px)", // Subtracting the height of the search and delete button container
           width: "100%",
           overflowY: "auto",
           "& ::-webkit-scrollbar": {

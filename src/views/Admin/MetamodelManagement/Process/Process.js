@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { Box, Snackbar, Alert } from "@mui/material";
 import CustomTable from "../../../../components/CustomTable/CustomTable";
 import CustomButton from "../../../../components/CustomButton/CustomButton";
-
+// import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation";
+import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslation";
 function Document(props) {
   const [tableRowData, setTableRowData] = useState([
     {
@@ -71,7 +72,7 @@ function Document(props) {
           showRestoreButton={true}
         >
           <CustomButton
-            title="Create Backup"
+            title= {props.language === 'en' ? 'Create Backup' : AdminTranslation["Create Backup"]}
             variant="outlined"
             Theme={props.theme}
             onClick={handleBackupClick}

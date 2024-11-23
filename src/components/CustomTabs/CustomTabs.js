@@ -35,6 +35,8 @@ function CustomTabs({
               : theme === "default"
               ? "#2158a4"
               : "#a5d149",
+
+              
         },
       }}
       sx={{

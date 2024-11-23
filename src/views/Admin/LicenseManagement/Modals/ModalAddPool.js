@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, TextField, FormControl, InputLabel, Select, MenuItem, IconButton, Typography } from '@mui/material';
+import {
+    Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert,
+    TextField, FormControl, InputLabel, Select, MenuItem, IconButton, Typography
+} from '@mui/material';
 import { connect } from 'react-redux';
 import { useForm } from "react-hook-form";
 import CustomButton from '../../../../components/CustomButton/CustomButton';
@@ -38,6 +41,7 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
             handleClose();
         }
     };
+    const isRTL = language === "ar";
 
     return (
         <Box>
@@ -77,9 +81,10 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                         sx={{
                             position: "absolute",
                             top: "50%", // Center vertically
-                            right: "10px", // Padding from the right edge
+                            // right: "10px", // Padding from the right edge
                             transform: "translateY(-50%)", // Correct vertical alignment
                             color: "#cecece",
+                            [language === 'ar' ? 'left' : 'right']: 0
                         }}
                         onClick={handleClose}
                     >
@@ -101,11 +106,46 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                             autoComplete="off"
                             fullWidth
                             size="small"
-                            placeholder='Name must be unique'
+                            placeholder={language === 'en' ? 'Name must be unique' : AdminTranslation["Name must be unique"]}
                             {...register('poolName', {
                                 pattern: /^[A-Za-z]+$/i,
                                 required: true,
                             })}
+                            sx={{
+                                mt: 2,
+                                direction: isRTL ? "rtl" : "ltr", // RTL text input
+                                "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {
+                                        textAlign: isRTL ? "right" : "left", // Align text to right in RTL
+                                    },
+                                    "&:hover fieldset": {
+                                        // borderColor: "dialogInputfield.main",
+                                        textAlign: isRTL ? "right" : "left", // Hover color
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                        // borderColor: "dialogInputfield.main",
+                                        textAlign: isRTL ? "right" : "left", // Focus color
+                                    },
+                                    "& input::placeholder": {
+                                        // color: "inputlabelcolor.main",
+                                        textAlign: isRTL ? "right" : "left", // Placeholder color
+                                    },
+                                    "& input": {
+                                        // color: "inputfieldTextColor.main", // Text color when typing
+                                        textAlign: isRTL ? "right" : "left", // Ensure the text inside input is aligned correctly for RTL
+                                    },
+                                },
+                            }}
+                            InputLabelProps={{
+                                sx: {
+                                    transformOrigin: isRTL ? "top right" : "top left", // Align label origin to the right for RTL
+                                    "&.Mui-focused": {
+                                        // color: "dialogInputfield.main", // Focused label color
+                                    },
+                                    textAlign: isRTL ? "right" : "left", // Label alignment based on direction
+                                    right: isRTL ? 24 : "auto", // Ensure it moves to the right in RTL
+                                },
+                            }}
                         />
                         {errors.poolName && (
                             <Box sx={{ color: 'red', fontSize: 'smaller', textAlign: 'left' }}>
@@ -113,13 +153,40 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                             </Box>
                         )}
                         <FormControl fullWidth sx={{ marginTop: 2 }}>
-                            <InputLabel id="pool-role-label">{language === 'en' ? 'Pool Role' : AdminTranslation["Pool Role"]}</InputLabel>
+                            <InputLabel id="pool-role-label" sx={{
+                                transformOrigin: isRTL ? 'top right' : 'top left',
+                                textAlign: isRTL ? 'right' : 'left',
+                                right: isRTL ? 24 : 'auto',
+                                "&.Mui-focused": {
+                                    color: "dialogInputfield.main", // Focused label color
+                                },
+                            }}>{language === 'en' ? 'Pool Role' : AdminTranslation["Pool Role"]}</InputLabel>
                             <Select
                                 labelId="pool-role-label"
                                 id="pool-role"
                                 value={role}
                                 label={language === 'en' ? 'Pool Role' : AdminTranslation["Pool Role"]}
                                 onChange={(e) => setRole(e.target.value)}
+                                sx={{
+                                    "& .MuiSelect-select": {
+                                        textAlign: isRTL ? 'right' : 'left', // Ensure text is aligned based on direction
+                                        color: "inputfieldTextColor.main", // Text color
+                                    },
+                                    "& .MuiOutlinedInput-notchedOutline": {
+                                        textAlign: isRTL ? 'right' : 'left', // Align the outline label
+                                    },
+                                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                                        borderColor: "dialogInputfield.main", // Hover effect
+                                    },
+                                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                        borderColor: "dialogInputfield.main", // Focused outline color
+                                    },
+                                    // Move the icon to the left for RTL layout
+                                    "& .MuiSelect-icon": {
+                                        right: isRTL ? 'unset' : 0,
+                                        left: isRTL ? 0 : 'unset',
+                                    },
+                                }}
                             >
                                 <MenuItem value={"Architect"}>{language === 'en' ? 'Architect' : AdminTranslation["Architect"]}</MenuItem>
                                 <MenuItem value={"Repository Admin"}>{language === 'en' ? 'Repository Admin' : AdminTranslation["Repository Admin"]}</MenuItem>
@@ -148,18 +215,39 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
 
                             }}
                         >
-                            <CustomButton
-                                title={language === 'en' ? 'Add' : AdminTranslation["Add"]}
-                                type="submit"
-                                Theme={theme}
-                                onClick={handleSubmit(onSubmit)}
-                            />
-                            <CustomButton
-                                title={language === 'en' ? 'Cancel' : AdminTranslation["Cancel"]}
-                                type="submit"
-                                Theme={theme}
-                                onClick={handleClose}
-                            />
+                            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "10px",
+
+
+
+                margin: "0px",
+                position: "relative",
+                top: "10px",
+
+
+              }}
+            >
+              <CustomButton
+                title={language === "en" ? "Add" : AdminTranslation["Add"]}
+                type="submit"
+                // onClick={handleUserSubmit}
+
+                Theme={theme}
+                sx={{ width: "50%" }}
+              />
+              <CustomButton
+                title={
+                  language === "en" ? "Cancel" : AdminTranslation["Cancel"]
+                }
+                type="button"
+                Theme={theme}
+                onClick={handleClose}
+                sx={{ width: "50%" }}
+              />
+            </Box>
                         </Box>
                     </form>
                 </DialogContent>

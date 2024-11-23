@@ -41,8 +41,8 @@ function ConcurrentUser(props) {
   };
 
   const handleRowClick = (rowData) => {
-    console.log("poolselected",selectedPool);
-    console.log("rowData",rowData)
+    console.log("poolselected", selectedPool);
+    console.log("rowData", rowData)
     setSelectedPool(rowData.row);
   };
 
@@ -92,8 +92,8 @@ function ConcurrentUser(props) {
   ];
 
   const poolColumns = [
-    { field: "name", headerName: "Name", flex: 1 },
-    { field: "role", headerName: "Role", flex: 1 },
+    { field: "name", headerName: language === "en" ? "Name" : AdminTranslation['Name'], flex: 1 },
+    { field: "role", headerName: language === "en" ? "Role" : AdminTranslation["Role"], flex: 1 },
   ];
 
   const combinedTableRows = selectedPool
@@ -103,23 +103,27 @@ function ConcurrentUser(props) {
       users: selectedPool.users[index],
     }))
     : [];
-const licenseTableRows = selectedPool
-  ? selectedPool.licenses.map((license, index) => ({
+  const licenseTableRows = selectedPool
+    ? selectedPool.licenses.map((license, index) => ({
       id: `license-${index}`,
       licenses: license,
     }))
-  : [];
+    : [];
 
-const userTableRows = selectedPool
-  ? selectedPool.users.map((user, index) => ({
+  const userTableRows = selectedPool
+    ? selectedPool.users.map((user, index) => ({
       id: `user-${index}`,
       users: user,
     }))
-  : [];
+    : [];
 
   const renderLicensesHeader = () => (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      Licenses
+
+      {
+        language === 'en' ? "Licenses" : AdminTranslation["Licenses"]
+      }
+
       <Tooltip title="Add License">
         <IconButton size="small" onClick={handleOpenLicenseModal}>
           <AddIcon />
@@ -130,7 +134,11 @@ const userTableRows = selectedPool
 
   const renderUsersHeader = () => (
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      Users
+
+      {
+        language === 'en' ? "Users" : AdminTranslation["Users"]
+      }
+
       <Tooltip title="Add User">
         <IconButton size="small" onClick={handleOpenUsersModal}>
           <AddIcon />
@@ -153,21 +161,23 @@ const userTableRows = selectedPool
               showAddPoolButton={true}
               onRowClick={handleRowClick}
             >
-              <Box sx={{ display:"flex", justifyContent:"space-between",alignItems:"space-between", width:"530px",  ...(language === 'ar' && {
-                     display:"flex", width: "400px",justifyContent:"space-between", position:"relative", right:"10px"})
-                    }}>
-              {/* title={language === 'en' ? "Add User": AdminTranslation["Add User"]}  */}
-                <CustomButton title={language === 'en' ? "Add Pool": AdminTranslation["Add Pool"]}
-                 variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
-                <CustomButton title={language === 'en' ?"Remove Pool" : AdminTranslation["Remove Pool"]}
-                variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
-                <CustomButton title={language === 'en' ?"Update Pool": AdminTranslation["Update Pool"]}
-                 variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+              <Box sx={{
+                display: "flex", justifyContent: "space-between", alignItems: "space-between", width: "500px", ...(language === 'ar' && {
+                  display: "flex", width: "400px", justifyContent: "space-between", position: "relative", right: "10px"
+                })
+              }}>
+                {/* title={language === 'en' ? "Add User": AdminTranslation["Add User"]}  */}
+                <CustomButton title={language === 'en' ? "Add Pool" : AdminTranslation["Add Pool"]}
+                  variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+                <CustomButton title={language === 'en' ? "Remove Pool" : AdminTranslation["Remove Pool"]}
+                  variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
+                <CustomButton title={language === 'en' ? "Update Pool" : AdminTranslation["Update Pool"]}
+                  variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
               </Box>
             </CustomTable>
           </Box>
         </Grid>
-  
+
         {/* Licenses Table */}
         <Grid item xs={6} sx={{ marginTop: "45px" }}>
           <CustomTable
@@ -191,7 +201,7 @@ const userTableRows = selectedPool
           `}</style>
           <ModalAddLicensePool open={openLicenseModal} handleClose={handleCloseLicenseModal} />
         </Grid>
-  
+
         {/* Users Table */}
         <Grid item xs={6} sx={{ marginTop: "45px" }}>
           <CustomTable
@@ -218,7 +228,7 @@ const userTableRows = selectedPool
       </Box>
     </Grid>
   );
-  
+
 }
 
 const mapStateToProps = (state) => {

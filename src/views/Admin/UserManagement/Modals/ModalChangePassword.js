@@ -63,9 +63,10 @@ const ModalChangePassword = ({ open, handleClose, language, theme }) => {
                         sx={{
                             position: "absolute",
                             top: "50%", // Center vertically
-                            right: "10px", // Padding from the right edge
+                            // right: "10px", // Padding from the right edge
                             transform: "translateY(-50%)", // Correct vertical alignment
                             color: "#cecece",
+                            [language === 'ar' ? 'left' : 'right']: 0
                         }}
                         onClick={handleClose}
                     >

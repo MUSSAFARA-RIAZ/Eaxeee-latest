@@ -22,6 +22,7 @@ function Sidebar(props) {
     <Box
       onClick={props.toggleDrawer(anchor, false)}
       onKeyDown={props.toggleDrawer(anchor, false)}
+      
     >
       <List>
         <ListItem disablePadding>

@@ -51,6 +51,7 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
   const handleUserSubmit = () => {
     setSnackBarFlag(true);
   };
+  const isRTL = language === "ar";
 
   return (
     <Dialog
@@ -59,45 +60,46 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
       PaperProps={{
         sx: {
           width: "500px",
-          maxWidth: "70%", 
+          maxWidth: "70%",
         },
       }}
     >
-     <DialogTitle
-  sx={{
-    backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
-    color: "#cecece",
-    padding: "3px 16px",
-    display: "flex",
-    alignItems: "center", // Align items vertically in the center
-    justifyContent: "space-between", // Space out the content
-    position: "relative", // Required for absolute positioning of the close icon
-  }}
->
-  <Box sx={{ display: "flex", alignItems: "center" }}> {/* Flex for logo and title */}
-    <img
-      src={GreenEaxee}
-      alt="img"
-      style={{ width: "40px", height: "40px", marginRight: "5px" }}
-    />
-    <Typography variant="h6">
-      {language === "en" ? "Add User" : AdminTranslation["Add user"]}
-    </Typography>
-  </Box>
+      <DialogTitle
+        sx={{
+          backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
+          color: "#cecece",
+          padding: "3px 16px",
+          display: "flex",
+          alignItems: "center", // Align items vertically in the center
+          justifyContent: "space-between", // Space out the content
+          position: "relative", // Required for absolute positioning of the close icon
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center" }}> {/* Flex for logo and title */}
+          <img
+            src={GreenEaxee}
+            alt="img"
+            style={{ width: "40px", height: "40px", marginRight: "5px" }}
+          />
+          <Typography variant="h6">
+            {language === "en" ? "Add User" : AdminTranslation["Add User"]}
+          </Typography>
+        </Box>
 
-  <IconButton
-    sx={{
-      position: "absolute",
-      top: "50%", // Center vertically
-      right: "10px", // Padding from the right edge
-      transform: "translateY(-50%)", // Correct vertical alignment
-      color: "#cecece",
-    }}
-    onClick={handleClose}
-  >
-    <CloseIcon />
-  </IconButton>
-</DialogTitle>
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: "50%", // Center vertically
+            // right: "10px", // Padding from the right edge
+            transform: "translateY(-50%)", // Correct vertical alignment
+            color: "#cecece",
+            [language === 'ar' ? 'left' : 'right']: 0
+          }}
+          onClick={handleClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
 
       <div
         style={{
@@ -120,11 +122,46 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
               autoComplete="off"
               fullWidth
               size="small"
-              className={`${styles.userRegistrationFormFullName}`}
+              variant="outlined" // Required for floating label
               {...register("fullName", {
-                pattern: /^[A-Za-z]+$/i,
+                pattern: /^[A-Za-z\s]+$/i,
                 required: true,
               })}
+              sx={{
+                mt: 2,
+                direction: isRTL ? "rtl" : "ltr", // RTL text input
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    textAlign: isRTL ? "right" : "left", // Align text to right in RTL
+                  },
+                  "&:hover fieldset": {
+                    // borderColor: "dialogInputfield.main",
+                    textAlign: isRTL ? "right" : "left", // Hover color
+                  },
+                  "&.Mui-focused fieldset": {
+                    // borderColor: "dialogInputfield.main",
+                    textAlign: isRTL ? "right" : "left", // Focus color
+                  },
+                  "& input::placeholder": {
+                    // color: "inputlabelcolor.main",
+                    textAlign: isRTL ? "right" : "left", // Placeholder color
+                  },
+                  "& input": {
+                    // color: "inputfieldTextColor.main", // Text color when typing
+                    textAlign: isRTL ? "right" : "left", // Ensure the text inside input is aligned correctly for RTL
+                  },
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  transformOrigin: isRTL ? "top right" : "top left", // Align label origin to the right for RTL
+                  "&.Mui-focused": {
+                    // color: "dialogInputfield.main", // Focused label color
+                  },
+                  textAlign: isRTL ? "right" : "left", // Label alignment based on direction
+                  right: isRTL ? 24 : "auto", // Ensure it moves to the right in RTL
+                },
+              }}
             />
             <Box className={`${styles.userRegistrationFormErrorDiv}`}>
               {errors.fullName && errors.fullName.type === "required" && (
@@ -164,13 +201,48 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
               autoComplete="off"
               fullWidth
               size="small"
-              sx={{ mt: 2 }}
+
               className="input-field"
               {...register("userName", {
                 pattern: /^[A-Za-z]+$/i,
                 required: true,
                 minLength: 5,
               })}
+              sx={{
+                mt: 2,
+                direction: isRTL ? "rtl" : "ltr", // RTL text input
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    textAlign: isRTL ? "right" : "left", // Align text to right in RTL
+                  },
+                  "&:hover fieldset": {
+                    // borderColor: "dialogInputfield.main",
+                    textAlign: isRTL ? "right" : "left", // Hover color
+                  },
+                  "&.Mui-focused fieldset": {
+                    // borderColor: "dialogInputfield.main",
+                    textAlign: isRTL ? "right" : "left", // Focus color
+                  },
+                  "& input::placeholder": {
+                    // color: "inputlabelcolor.main",
+                    textAlign: isRTL ? "right" : "left", // Placeholder color
+                  },
+                  "& input": {
+                    // color: "inputfieldTextColor.main", // Text color when typing
+                    textAlign: isRTL ? "right" : "left", // Ensure the text inside input is aligned correctly for RTL
+                  },
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  transformOrigin: isRTL ? "top right" : "top left", // Align label origin to the right for RTL
+                  "&.Mui-focused": {
+                    // color: "dialogInputfield.main", // Focused label color
+                  },
+                  textAlign: isRTL ? "right" : "left", // Label alignment based on direction
+                  right: isRTL ? 24 : "auto", // Ensure it moves to the right in RTL
+                },
+              }}
             />
             <Box className={`${styles.userRegistrationFormErrorDiv}`}>
               {errors.userName && errors.userName.type === "required" && (
@@ -221,7 +293,41 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
               autoComplete="off"
               fullWidth={true}
               size="small"
-              sx={{ mt: 2 }}
+              sx={{
+                mt: 2,
+                direction: isRTL ? "rtl" : "ltr", // RTL text input
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    textAlign: isRTL ? "right" : "left", // Align text to right in RTL
+                  },
+                  "&:hover fieldset": {
+                    // borderColor: "dialogInputfield.main",
+                    textAlign: isRTL ? "right" : "left", // Hover color
+                  },
+                  "&.Mui-focused fieldset": {
+                    // borderColor: "dialogInputfield.main",
+                    textAlign: isRTL ? "right" : "left", // Focus color
+                  },
+                  "& input::placeholder": {
+                    // color: "inputlabelcolor.main",
+                    textAlign: isRTL ? "right" : "left", // Placeholder color
+                  },
+                  "& input": {
+                    // color: "inputfieldTextColor.main", // Text color when typing
+                    textAlign: isRTL ? "right" : "left", // Ensure the text inside input is aligned correctly for RTL
+                  },
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  transformOrigin: isRTL ? "top right" : "top left", // Align label origin to the right for RTL
+                  "&.Mui-focused": {
+                    // color: "dialogInputfield.main", // Focused label color
+                  },
+                  textAlign: isRTL ? "right" : "left", // Label alignment based on direction
+                  right: isRTL ? 24 : "auto", // Ensure it moves to the right in RTL
+                },
+              }}
               className="input-field"
               {...register("email", {
                 required: true,
@@ -249,7 +355,7 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
                     onClose={handleSnackBarClose}
                   >
                     <Alert severity="error">
-                    Please ensure all required fields are filled!
+                      Please ensure all required fields are filled!
                     </Alert>
                   </Snackbar>
                 </div>
@@ -273,22 +379,22 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
-                gap:"10px",
-               
-                
-                
-                margin:"0px",
-                position:"relative",
-                top:"10px",
-             
-                
+                gap: "10px",
+
+
+
+                margin: "0px",
+                position: "relative",
+                top: "10px",
+
+
               }}
             >
               <CustomButton
                 title={language === "en" ? "Add" : AdminTranslation["Add"]}
                 type="submit"
                 onClick={handleUserSubmit}
-                
+
                 Theme={theme}
                 sx={{ width: "50%" }}
               />

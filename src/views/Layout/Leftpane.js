@@ -57,8 +57,8 @@ const LeftPane = ({ props, open, onClose, children }) => {
             props.theme === "default"
               ? "#cecece"
               : props.theme === "light"
-              ? "#eff3f7"
-              : "#181818",
+                ? "#eff3f7"
+                : "#181818",
         },
       }}
       variant="persistent"
@@ -66,13 +66,12 @@ const LeftPane = ({ props, open, onClose, children }) => {
       open={open}
     >
       <div
-        className={`${styles.Leftpane_firstcontainer}  ${
-          props.theme === "default"
-            ? defaultthemestyles.default_drawer_arrowcolor
-            : props.theme === "light"
+        className={`${styles.Leftpane_firstcontainer}  ${props.theme === "default"
+          ? defaultthemestyles.default_drawer_arrowcolor
+          : props.theme === "light"
             ? lightthemestyles.light_iconcolor
             : darkthemestyles.dark_drawer_arrowcolor
-        }`}
+          }`}
       >
         <div style={{ width: "90%" }}>{children[0]}</div>
         <div className={`${styles.LeftPane_iconbutton}`}>
@@ -89,26 +88,24 @@ const LeftPane = ({ props, open, onClose, children }) => {
           >
             {props.language === "en" ? (
               <ArrowCircleLeftRoundedIcon
-                className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${
-                  props.theme === "default"
-                    ? defaultthemestyles.default_drawer_arrowcolor
-                    : props.theme === "light"
+                className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${props.theme === "default"
+                  ? defaultthemestyles.default_drawer_arrowcolor
+                  : props.theme === "light"
                     ? lightthemestyles.light_iconcolor
                     : darkthemestyles.dark_drawer_arrowcolor
-                }`}
+                  }`}
                 sx={{
                   fontSize: "2rem",
                 }}
               />
             ) : (
               <ArrowCircleRightRoundedIcon
-                className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${
-                  props.theme === "default"
-                    ? defaultthemestyles.default_drawer_arrowcolor
-                    : props.theme === "light"
+                className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${props.theme === "default"
+                  ? defaultthemestyles.default_drawer_arrowcolor
+                  : props.theme === "light"
                     ? lightthemestyles.light_iconcolor
                     : darkthemestyles.dark_drawer_arrowcolor
-                }`}
+                  }`}
                 sx={{
                   fontSize: "2rem",
                 }}
@@ -119,19 +116,28 @@ const LeftPane = ({ props, open, onClose, children }) => {
       </div>
       <div style={{ height: "86%" }}>
         {children.slice(1)}
-        <div 
-          className={styles.iconContainer} 
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            [props.language === "ar" ? "right" : "left"]: 0,
+            rotate:props.language==="ar"?"180deg":"360deg",
+         
+            transform: props.language === "ar" ? "translate(-35%, -1%)" : "translate(-40%, -50%)",
+          }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+
         >
           <ArrowCircleRightRoundedIcon
-            className={`${styles.Leftpane_ArrowCircleRoundedIcon} ${
-              props.theme === "default"
-                ? defaultthemestyles.default_drawer_arrowcolor
-                : props.theme === "light"
+            className={`${styles.Leftpane_ArrowCircleRoundedIconkkkkkk} ${props.theme === "default"
+              ? defaultthemestyles.default_drawer_arrowcolor
+              : props.theme === "light"
                 ? lightthemestyles.light_iconcolor
                 : darkthemestyles.dark_drawer_arrowcolor
-            }`}
+              }`}
+
+
             fontSize="large"
           />
           <div className={isSidebarVisible ? styles.visibleSidebar : styles.hiddenSidebar}>

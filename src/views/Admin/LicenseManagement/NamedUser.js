@@ -139,11 +139,11 @@ function NamedUser(props) {
   };
 
   const AllocatedLicensesColumns = [
-    { field: "license_id", headerName: "License ID", flex: 1 },
-    { field: "license_role", headerName: "License Role", flex: 1 },
-    { field: "user", headerName: "User", flex: 1 },
+    { field: "license_id", headerName: language === "en" ? "License ID" : AdminTranslation["License ID"], flex: 1 },
+    { field: "license_role", headerName: language === "en" ? "License Role" : AdminTranslation["License Role"], flex: 1 },
+    { field: "user", headerName: language === "en" ? "User" : AdminTranslation["User"], flex: 1 },
     {
-      field: "deallocate",
+      field: "Deallocate",
       headerName:
         language === "en" ? "Deallocate" : AdminTranslation["Deallocate"],
       flex: 1,
@@ -213,24 +213,17 @@ function NamedUser(props) {
     setSelectedUser(user); // Set the selected user
   };
 
-    const isArabic=props.language==='ar'
+  const isArabic = props.language === 'ar'
   return (
     <Box className={`${styles.namedUserMain}`}>
-
-      <div style={{
-        position: "relative",
-
-
-        right: isArabic ? "20px" : undefined,
-        left: !isArabic ? "0px" : undefined,
-
-        // border:"2px solid red",
-        float:"right"
+<Box sx={{float:isArabic?"right":"left"}}>
+<CustomTabs value={tabValue} onChange={handleTabChange} tabs={tabs} />
+</Box>
+   
+ 
 
 
-      }}>
-        <CustomTabs value={tabValue} onChange={handleTabChange} tabs={tabs} />
-      </div>
+
 
       {tabValue === 0 && (
         <Box className={`${styles.AvailableLicensesandActivatedUsersDiv}`}>
@@ -301,7 +294,11 @@ function NamedUser(props) {
                   <ListItem
                     key={index}
                     sx={{
-                      padding: language === "en" ? "2px 16px" : "0px", // Adjust the padding to reduce the height
+                      padding: language === "en" ? "2px 16px" : "0px",
+                      float: "right"
+
+
+                      // Adjust the padding to reduce the height
                     }}
                   >
                     <Radio
@@ -336,7 +333,8 @@ function NamedUser(props) {
         </Box>
       )}
       {tabValue === 1 && (
-        <Box>
+        <Box className={`${styles.AvailableLicensesandActivatedUsersDiv}`}>
+        <Box className={`${styles.AvailableLicensesDiv}`}>
           <Box className={`${styles.namedUserTableAllocatedLicenses}`}>
             <CustomTable
               rows={AllocatedLicensesRowData}
@@ -346,9 +344,12 @@ function NamedUser(props) {
               checkBoxSelection={false}
             />
           </Box>
+          </Box>
+
         </Box>
       )}
     </Box>
+
   );
 }
 

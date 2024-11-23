@@ -6,14 +6,18 @@ import DirectoryUser from "./DirectoryUser";
 import CustomTabs from "../../../components/CustomTabs/CustomTabs";
 
 function UserTabs(props) {
-  const { value, handleChange, tabs , language } = props;
+  const { value, handleChange, tabs , language,open } = props;
   const isArabic=props.language==='ar'
+
+  console.log("open state", open);
+
 
   return (
     <div style={{ position: "relative",
     
     
-      right: isArabic ? "30px" : undefined,
+      // right: (!open && isArabic) ? "100px" : undefined,
+      right:(!open && isArabic)?"100px":(isArabic)?"30px":undefined,
       left: !isArabic ? "0px" : undefined,
        
        

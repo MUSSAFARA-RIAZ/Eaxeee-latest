@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Box, Snackbar, Alert } from "@mui/material";
 import CustomTable from "../../../../components/CustomTable/CustomTable";
 import CustomButton from "../../../../components/CustomButton/CustomButton";
-
+import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslation";
 function Document(props) {
   const [tableRowData, setTableRowData] = useState([
     {
@@ -54,15 +54,16 @@ function Document(props) {
       <Box sx={{ margin: "5px", padding: "5px" }}>
         <CustomTable
           rows={tableRowData}
+          
           columns={[
-            { field: "id", headerName: "ID", flex: 1, hide: true },
-            { field: "backupName", headerName: "Backup Name", flex: 1 },
+            { field: "id", headerName: props.language==="en"? "ID": AdminTranslation["ID"], flex: 1, hide: true },
+            { field: "backupName", headerName: props.language==="en"? "Backup Name": AdminTranslation["Backup Name"], flex: 1 },
             {
               field: "backupDateAndTime",
-              headerName: "Backup Date and Time",
+              headerName: props.language==="en"? "Backup Date and Time":AdminTranslation["Backup Date and Time"],
               flex: 1,
             },
-            { field: "backupBy", headerName: "Backup By", flex: 1 },
+            { field: "backupBy", headerName: props.language==="en"? "Backup By":AdminTranslation["Backup By"], flex: 1 },
           ]}
           //rowsPerPage={10}
          // pageSize={100}
@@ -70,18 +71,25 @@ function Document(props) {
           showDeleteButton={true}
           showRestoreButton={true}
         >
+           <Box sx={{
+                display: "flex", justifyContent: "space-between", alignItems: "space-between", width: "235px", ...(props.language === 'ar' && {
+                  display: "flex", width: "200px", justifyContent: "space-between", position: "relative", right: "10px"
+                })
+              }}>
           <CustomButton
-            title="Create Backup"
+            title= {props.language === 'en' ? 'Create Backup' : AdminTranslation["Create Backup"]}
             variant="outlined"
             Theme={props.theme}
-            onClick={handleBackupClick}
+            // onClick={handleAddBackupClick}
           />
           <CustomButton
-            title="Delete"
+          
+            title= {props.language === 'en' ? 'Delete' : AdminTranslation["Delete"]}
             variant="outlined"
             Theme={props.theme}
             onClick={handleDeleteClick}
           />
+          </Box>
         </CustomTable>
       </Box>
       <Snackbar
