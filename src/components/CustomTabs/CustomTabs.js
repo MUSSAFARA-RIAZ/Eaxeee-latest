@@ -25,10 +25,7 @@ function CustomTabs({
       TabIndicatorProps={{
         style: {
           // Conditionally set the background color based on the orientation and headertabindicator prop
-          backgroundColor:
-            noindicator === true
-              ? "transparent"
-              : headertabindicator
+          backgroundColor: headertabindicator
               ? theme === "default"
                 ? "#cecece"
                 : "#a5d149"
@@ -55,6 +52,9 @@ function CustomTabs({
             minHeight: "0px",
             minWidth: "0px",
             color: textcolor,
+            padding: "17px 16px",
+            // border:"2px solid red",
+            fontWeight:"bold",
             maxWidth:"initial",
             "&:hover": {
               backgroundColor:

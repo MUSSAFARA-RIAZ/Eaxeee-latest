@@ -126,7 +126,7 @@ function ConcurrentUser(props) {
 
       <Tooltip title="Add License">
         <IconButton size="small" onClick={handleOpenLicenseModal}>
-          <AddIcon />
+
         </IconButton>
       </Tooltip>
     </Box>
@@ -179,7 +179,7 @@ function ConcurrentUser(props) {
         </Grid>
 
         {/* Licenses Table */}
-        <Grid item xs={6} sx={{ marginTop: "45px" }}>
+        <Grid item xs={3} sx={{ marginTop: "53px", marginLeft: "20px" }}>
           <CustomTable
             rows={licenseTableRows} // Licenses data
             columns={[
@@ -192,18 +192,25 @@ function ConcurrentUser(props) {
             checkBoxSelection={false}
             nosearch={true}
             hideSortIcons={true}
+            sx={{
+              width: "200px", // Adjust to fit single column
+              overflow: "hidden", // Prevent scrollbars
+              "& .MuiDataGrid-root": {
+                maxWidth: "200px", // Match table width
+              },
+            }}
             className="licenses-table-container"
           />
           <style>{`
-            .licenses-table-container .MuiDataGrid-sortIcon {
-              display: none !important;
-            }
-          `}</style>
+    .licenses-table-container .MuiDataGrid-sortIcon {
+      display: none !important;
+    }
+  `}</style>
           <ModalAddLicensePool open={openLicenseModal} handleClose={handleCloseLicenseModal} />
         </Grid>
 
         {/* Users Table */}
-        <Grid item xs={6} sx={{ marginTop: "45px" }}>
+        <Grid item xs={3} sx={{ marginTop: "53px", marginLeft: "20px" }}>
           <CustomTable
             rows={userTableRows} // Users data
             columns={[
@@ -216,15 +223,23 @@ function ConcurrentUser(props) {
             checkBoxSelection={false}
             nosearch={true}
             hideSortIcons={true}
+            sx={{
+              width: "200px", // Adjust to fit single column
+              overflow: "hidden", // Prevent scrollbars
+              "& .MuiDataGrid-root": {
+                maxWidth: "200px", // Match table width
+              },
+            }}
             className="users-table-container"
           />
           <style>{`
-            .users-table-container .MuiDataGrid-sortIcon {
-              display: none !important;
-            }
-          `}</style>
+    .users-table-container .MuiDataGrid-sortIcon {
+      display: none !important;
+    }
+  `}</style>
           <ModalAddUsersPool open={openUsersModal} handleClose={handleCloseUsersModal} />
         </Grid>
+
       </Box>
     </Grid>
   );

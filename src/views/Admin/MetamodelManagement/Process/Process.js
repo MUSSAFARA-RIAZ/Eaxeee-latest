@@ -10,25 +10,25 @@ function Document(props) {
     {
       id: "1",
       backupName: "Eaxee process",
-      backupDateAndTime: "2024/02/15 05:04:19",
+      backedupAt: "2024/02/15 05:04:19",
       backupBy: "Hajra",
     },
     {
       id: "2",
       backupName: "Eaxee process 1",
-      backupDateAndTime: "2024/02/16 05:04:19",
+      backedupAt: "2024/02/16 05:04:19",
       backupBy: "Iman",
     },
     {
       id: "3",
       backupName: "Eaxee process 2",
-      backupDateAndTime: "2024/02/17 05:04:19",
+      backedupAt: "2024/02/17 05:04:19",
       backupBy: "Musaffara",
     },
     {
       id: "4",
       backupName: "Eaxee process 3",
-      backupDateAndTime: "2024/02/18 05:04:19",
+      backedupAt: "2024/02/18 05:04:19",
       backupBy: "Mahnoor",
     },
   ]);
@@ -59,8 +59,8 @@ function Document(props) {
             { field: "id", headerName: "ID", flex: 1, hide: true },
             { field: "backupName", headerName: "Backup Name", flex: 1 },
             {
-              field: "backupDateAndTime",
-              headerName: "Backup Date and Time",
+              field: "backedupAt",
+              headerName: "backedupAt",
               flex: 1,
             },
             { field: "backupBy", headerName: "Backup By", flex: 1 },

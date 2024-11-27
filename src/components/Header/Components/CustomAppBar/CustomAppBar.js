@@ -101,77 +101,73 @@ function CustomAppBar(props) {
               theme === "default"
                 ? "#2158a4"
                 : theme === "light"
-                ? "#cbd0d7"
-                : "#181818",
+                  ? "#cbd0d7"
+                  : "#181818",
             //header ka colour
           }}
           className={styles.toolbar}
         >
-          <CustomButton
-            startIcon={
-              <MenuIcon
-                style={{
-                  fill:
-                    theme === "default"
-                      ? `#ffff`
-                      : theme === "light"
-                      ? "#6d7175"
-                      : "#ffff ",
-                }}
-                className={styles.menuIcon}
-              />
-            }
-            onClick={props.toggleDrawer("left", true)}
-          />
+<Box
+  sx={{
+    // border: "3px solid red",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+  }}
+  style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+>
+  <Box
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: "10px", // Space between icon and logo
+    }}
+  >
+    <MenuIcon
+      style={{
+        fill: theme === "default" ? "#ffff" : theme === "light" ? "#6d7175" : "#ffff",
+        cursor: "pointer",
+      }}
+      onClick={props.toggleDrawer("left", true)}
+    />
+  </Box>
 
-          <Box className={styles.logoParent}>
-            <Link to="/" className={styles.logoLink}>
-              <Tooltip
-                title="Home"
-                placement="right"
-                className={
-                  language === "en"
-                    ? `${styles.logoToolTip}`
-                    : `${styles.logoToolTipArabic}`
-                }
-              >
-                <Box
-                  component="img"
-                  className={styles.logo}
-                  alt="Eaxee logo."
-                  src={
-                    theme === "default"
-                      ? WhiteXLogo
-                      : theme === "light"
-                      ? BlackXlogo
-                      : WhiteXLogo
-                  }
-                  onClick={() => props.changepage("Home")}
-                />
-              </Tooltip>
-            </Link>
-          </Box>
+  <Box sx={{ width: "100px", height: "50px", padding: 0, margin: 0, position:"relative",top:"5px" }}>
+    <Link to="/">
+      <Box
+        component="img"
+        alt="Eaxee logo"
+        src={theme === "default" ? WhiteXLogo : theme === "light" ? BlackXlogo : WhiteXLogo}
+        onClick={() => props.changepage("Home")}
+        style={{ width: "100%", height: "auto", objectFit: "contain" }}
+      />
+    </Link>
+  </Box>
+</Box>
+
           {/* Eaxee logo end */}
           {console.log("active page", activepage)}
 
           {location.pathname === "/enterprise" ? (
-                <CustomTabs
-                  value={value}
-                  headertabindicator={true}
-                  textcolor={"rgb(206,206,206,0.7)"}
-                  onChange={handleMainChange}
-                  onClick={() => {
-                    if (value === 1) {
-                      props.setSubPage("architecture");
-                    } else {
-                      props.setSubPage("quickaccess");
-                    }
-                  }}
-                  tabs={tabs}
-                  language={props.language}
-                  theme={props.theme}
-                  orientation="horizontal"
-                />
+            <CustomTabs
+              value={value}
+              headertabindicator={true}
+              textcolor={"rgb(206,206,206,0.7)"}
+              onChange={handleMainChange}
+              onClick={() => {
+                if (value === 1) {
+                  props.setSubPage("architecture");
+                } else {
+                  props.setSubPage("quickaccess");
+                }
+              }}
+              tabs={tabs}
+              language={props.language}
+              theme={props.theme}
+              orientation="horizontal"
+            />
           ) : (
             ""
           )}
@@ -182,8 +178,8 @@ function CustomAppBar(props) {
                   theme === "default"
                     ? `#ffff`
                     : theme === "light"
-                    ? "#4A4A4A  "
-                    : "#ffff ",
+                      ? "#4A4A4A  "
+                      : "#ffff ",
               }}
               className={styles.pageTitleText}
             >
@@ -252,8 +248,8 @@ function CustomAppBar(props) {
                   theme === "default"
                     ? `#ffff`
                     : theme === "light"
-                    ? "#6d7175"
-                    : "#ffff ",
+                      ? "#6d7175"
+                      : "#ffff ",
                 fontFamily:
                   "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
               }}
@@ -269,8 +265,8 @@ function CustomAppBar(props) {
                   theme === "default"
                     ? `#ffff`
                     : theme === "light"
-                    ? "#6d7175"
-                    : "#ffff ",
+                      ? "#6d7175"
+                      : "#ffff ",
               }}
             ></FontAwesomeIcon>
           </div>
@@ -279,12 +275,10 @@ function CustomAppBar(props) {
             <div
               className={
                 language === "en"
-                  ? `dropdown-menu ${styles.userMenuListEn} ${
-                      open ? "active" : "inactive"
-                    }`
-                  : `dropdown-menuar ${styles.userMenuListAr} ${
-                      open ? "active" : "inactive"
-                    }`
+                  ? `dropdown-menu ${styles.userMenuListEn} ${open ? "active" : "inactive"
+                  }`
+                  : `dropdown-menuar ${styles.userMenuListAr} ${open ? "active" : "inactive"
+                  }`
               }
             >
               <h3>

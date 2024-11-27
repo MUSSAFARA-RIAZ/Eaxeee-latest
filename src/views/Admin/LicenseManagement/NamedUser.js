@@ -73,6 +73,15 @@ function NamedUser(props) {
     "User 7",
     "User 8",
     "User 9",
+    "User 11",
+    "User 12",
+    "User 13",
+    "User 14",
+    "User 15",
+    "User 16",
+    "User 17",
+    "User 18",
+    "User 19",
   ];
 
   const [selectedActivatedUsers, setSelectedActivatedUsers] = useState([]);
@@ -216,11 +225,11 @@ function NamedUser(props) {
   const isArabic = props.language === 'ar'
   return (
     <Box className={`${styles.namedUserMain}`}>
-<Box sx={{float:isArabic?"right":"left"}}>
-<CustomTabs value={tabValue} onChange={handleTabChange} tabs={tabs} />
-</Box>
-   
- 
+      <Box sx={{ float: isArabic ? "right" : "left" }}>
+        <CustomTabs value={tabValue} onChange={handleTabChange} tabs={tabs} />
+      </Box>
+
+
 
 
 
@@ -263,9 +272,12 @@ function NamedUser(props) {
             <List
               className={`${styles.activatedUsersList}`}
               sx={{
-                marginBottom: "100px",
-                border:
-                  theme === "dark" ? "1px solid #515151" : "1px solid #e0e0e0",
+                marginBottom: "50px",
+                height: "400px",
+                // border: "2px solid red",
+                padding:"10px",
+                overflowY: "auto", // Enable vertical scrolling
+                // Scrollbar styles
                 "&::-webkit-scrollbar": {
                   width: "10px",
                 },
@@ -295,10 +307,7 @@ function NamedUser(props) {
                     key={index}
                     sx={{
                       padding: language === "en" ? "2px 16px" : "0px",
-                      float: "right"
-
-
-                      // Adjust the padding to reduce the height
+                      float: "right", // Consider whether "float: right" is necessary
                     }}
                   >
                     <Radio
@@ -313,37 +322,40 @@ function NamedUser(props) {
                 ))}
               </RadioGroup>
             </List>
-            <CustomButton
-              className="allocate-button"
-              title={
-                language === "en" ? "Allocate" : AdminTranslation["Allocate"]
-              }
-              variant="outlined"
-              onClick={handleAllocateUserClick}
-              type="submit"
-              loading={false}
-              disabled={false}
-              fullWidth={true}
-              loaderSize={25}
-              loaderColor="success"
-              loaderThickness={5}
-              Theme={theme}
-            />
+
+            <Box sx={{ position: "relative", left: "30px" }}>
+              <CustomButton
+                className="allocate-button"
+                title={
+                  language === "en" ? "Allocate" : AdminTranslation["Allocate"]
+                }
+                variant="outlined"
+                onClick={handleAllocateUserClick}
+                type="submit"
+                loading={false}
+                disabled={false}
+                fullWidth={true}
+                loaderSize={25}
+                loaderColor="success"
+                loaderThickness={5}
+                Theme={theme}
+              />
+            </Box>
           </Box>
         </Box>
       )}
       {tabValue === 1 && (
         <Box className={`${styles.AvailableLicensesandActivatedUsersDiv}`}>
-        <Box className={`${styles.AvailableLicensesDiv}`}>
-          <Box className={`${styles.namedUserTableAllocatedLicenses}`}>
-            <CustomTable
-              rows={AllocatedLicensesRowData}
-              columns={AllocatedLicensesColumns}
-              //rowsPerPage={10}
-              // pageSize={10}
-              checkBoxSelection={false}
-            />
-          </Box>
+          <Box className={`${styles.AvailableLicensesDiv}`}>
+            <Box className={`${styles.namedUserTableAllocatedLicenses}`}>
+              <CustomTable
+                rows={AllocatedLicensesRowData}
+                columns={AllocatedLicensesColumns}
+                //rowsPerPage={10}
+                // pageSize={10}
+                checkBoxSelection={false}
+              />
+            </Box>
           </Box>
 
         </Box>

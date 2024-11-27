@@ -23,11 +23,9 @@ import processdefault from "../../Assets/Images/processcharcoal.png";
 import processdark from "../../Assets/Images/processpale.png";
 import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
 import blueprintdark from "../../Assets/Images/blueprintpale.png";
-
+import { getHelperLines } from './utils'; // Make sure this utility is accessible
 import ContextMenu from "./ContextMenu";
-import { useMemo } from 'react';
 import IconToolbar from "./Components/IconToolbar";
-import { getHelperLines } from "./utils";
 
 import { Rnd } from "react-rnd";
 
@@ -37,10 +35,12 @@ import { Select, FormControl } from '@mui/material';
 // import { Handle } from 'react-flow-renderer';
 
 
+
+
 import { NodeResizer, Handle, Position } from "reactflow";
 import uniqid from 'uniqid';
-import { ReactFlowProvider } from "@xyflow/react";
 import HelperLinesRenderer from "./HelperLines";
+import { ReactFlowProvider } from "@xyflow/react";
 
 
 
@@ -51,6 +51,7 @@ const DEFAULT_HANDLE_STYLE = {
   height: 10,
   bottom: -5,
 };
+const proOptions = { account: 'paid-pro', hideAttribution: true };
 const EdgeNode = ({ data }) => (
   <div style={{ backgroundColor: 'red', color: 'white', padding: '10px', width: '20px', height: '20px', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
@@ -70,7 +71,6 @@ const EdgeNode = ({ data }) => (
 const Architecture = (props) => {
   const [open, setOpen] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const nodeTypes = useMemo(() => ({ edgeNode: EdgeNode }), []);
 
   const [isDroppable, setIsDroppable] = useState(false);
   const [contextMenu, setContextMenu] = useState(false);
@@ -217,11 +217,7 @@ const Architecture = (props) => {
   const [contextMenuOptions, setContextMenuOptions] = useState(null);
   const [isContainerMode, setIsContainerMode] = useState(false);
   const [containers, setContainers] = useState([]);
-  const DEFAULT_HANDLE_STYLE = {
-    width: 10,
-    height: 10,
-    bottom: -5,
-  };
+
 
   // State to store the options
   const handleCanvasClick = (event) => {
@@ -751,102 +747,101 @@ const Architecture = (props) => {
   };
 
 
+  const [helperLines, setHelperLines] = useState({ horizontal: null, vertical: null });
 
 
+  // Update function to use the helper for mid-node positioning
+
+  // Refactor onConnect to use the helper function as well
   const onConnect = useCallback(
     (params) => {
-      setDiagrams((prevDiagrams) =>
-        prevDiagrams.map((diagram) => {
-          if (diagram.id === activeDiagramId) {
-            const sourceNode = diagram.nodes.find((node) => node.id === params.source);
-            const targetNode = diagram.nodes.find((node) => node.id === params.target);
+      const updatedDiagrams = diagrams.map((diagram) => {
+        if (diagram.id === activeDiagramId) {
+          const sourceNode = diagram.nodes.find((node) => node.id === params.source);
+          const targetNode = diagram.nodes.find((node) => node.id === params.target);
 
-            if (!sourceNode || !targetNode) return diagram;
+          // Adding an edge node for all node types (default or non-default)
+          const edgeNode = {
+            id: `edge-${params.source}-${params.target}`,
+            type: "edgeNode",
+            position: {
+              x: (sourceNode.position.x + targetNode.position.x) / 2,
+              y: (sourceNode.position.y + targetNode.position.y) / 2,
+            },
+          };
 
-            const edgeNode = {
-              id: `edge-${params.source}-${params.target}`,
-              type: 'edgeNode',
-              position: {
-                x: (sourceNode.position.x + targetNode.position.x) / 2,
-                y: (sourceNode.position.y + targetNode.position.y) / 2,
-              },
-            };
+          const newNodes = [...diagram.nodes, edgeNode];
 
-            const newNodes = [...diagram.nodes, edgeNode];
+          const newEdges = [
+            {
+              id: `${params.source}-${edgeNode.id}`,
+              source: params.source,
+              target: edgeNode.id,
+              // type: 'smoothstep',
+              targetHandle: "left", // Custom handle for edgeNode
+            },
+            {
+              id: `${edgeNode.id}-${params.target}`,
+              source: edgeNode.id,
+              target: params.target,
+              // type: 'smoothstep',
+              sourceHandle: "right", // Custom handle for edgeNode
+            },
+          ];
 
-            const newEdges = [
-              {
-                id: `${params.source}-${edgeNode.id}`,
-                source: params.source,
-                target: edgeNode.id,
-                targetHandle: 'left',
-              },
-              {
-                id: `${edgeNode.id}-${params.target}`,
-                source: edgeNode.id,
-                target: params.target,
-                sourceHandle: 'right',
-              },
-            ];
+          return {
+            ...diagram,
+            nodes: newNodes,
+            edges: [...diagram.edges, ...newEdges],
+          };
+        }
 
-            return {
-              ...diagram,
-              nodes: newNodes,
-              edges: [...diagram.edges, ...newEdges],
-            };
-          }
+        return diagram;
+      });
 
-          return diagram;
-        })
-      );
+      setDiagrams(updatedDiagrams);
     },
-    [activeDiagramId, setDiagrams]
+    [diagrams, activeDiagramId]
   );
 
-  const [helperLineHorizontal, setHelperLineHorizontal] = useState(undefined);
-  const [helperLineVertical, setHelperLineVertical] = useState(undefined);
-  const onNodesChange = useCallback(
-    (changes) => {
-      setDiagrams((prevDiagrams) =>
-        prevDiagrams.map((diagram) => {
-          if (diagram.id === activeDiagramId) {
-            const updatedNodes = applyNodeChanges(changes, diagram.nodes);
 
-            let horizontalLine = undefined;
-            let verticalLine = undefined;
 
-            const positionChanges = changes.filter(
-              (change) => change.type === 'position' && change.dragging
-            );
 
-            if (positionChanges.length === 1) {
-              const draggedNode = updatedNodes.find((node) => node.id === positionChanges[0].id);
-              if (draggedNode) {
-                const helperLines = getHelperLines(draggedNode, updatedNodes);
-                horizontalLine = helperLines.horizontal;
-                verticalLine = helperLines.vertical;
-
-                // Snap to positions if available
-                draggedNode.position.x = helperLines.snapPosition.x ?? draggedNode.position.x;
-                draggedNode.position.y = helperLines.snapPosition.y ?? draggedNode.position.y;
-              }
+  const onNodesChange = useCallback((changes) => {
+    setDiagrams((prevDiagrams) =>
+      prevDiagrams.map((diagram) => {
+        if (diagram.id === activeDiagramId) {
+          const updatedNodes = applyNodeChanges(changes, diagram.nodes);
+   
+          const positionChanges = changes.filter(
+            (change) => change.type === 'position' && change.dragging
+          );
+   
+          if (positionChanges.length > 0) {
+            const lastChange = positionChanges[positionChanges.length - 1];
+            const helperLinesResult = getHelperLines(lastChange, diagram.nodes);
+            console.log('Updating helper lines:', helperLinesResult);  // Ensure this outputs correct values
+   
+            if (helperLinesResult.horizontal !== undefined && helperLinesResult.vertical !== undefined) {
+              setHelperLines({
+                horizontal: helperLinesResult.horizontal,
+                vertical: helperLinesResult.vertical,
+              });
+            } else {
+              console.log("Helper lines are undefined, check getHelperLines function.");
             }
-
-            setHelperLineHorizontal(horizontalLine);
-            setHelperLineVertical(verticalLine);
-
-            return {
-              ...diagram,
-              nodes: updatedNodes,
-            };
+   
+            return { ...diagram, nodes: updatedNodes };
           }
+   
+          return { ...diagram, nodes: updatedNodes };
+        }
+        return diagram;
+      })
+    );
 
-          return diagram;
-        })
-      );
-    },
-    [activeDiagramId, setDiagrams]
-  );
+  });
+   
 
   const onEdgesChange = useCallback(
     (changes) => {
@@ -1034,41 +1029,30 @@ const Architecture = (props) => {
                     {/* <Diagra /> */}
                   </Rnd>
 
-
                   <ReactFlowProvider>
                     <ReactFlow
                       nodes={minimized ? [] : activeDiagram.nodes}
                       edges={minimized ? [] : activeDiagram.edges}
-
-
                       onNodesChange={onNodesChange}
-
-
                       onEdgesChange={onEdgesChange}
                       onConnect={onConnect}
-
-                      nodeTypes={nodeTypes}
+                      proOptions={proOptions}
+                      nodeTypes={{ edgeNode: EdgeNode }}
                       deleteKeyCode={['Backspace', 'Delete']}
-
                       connectionMode="loose"
                       style={{ width: '100%', height: '100%' }}
                       onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
                       onNodeClick={onNodeClick}
+                    
                     >
-
+                      <HelperLinesRenderer
+                        horizontal={helperLines.horizontal}
+                        vertical={helperLines.vertical}
+                      />
                       <Controls />
                       <Background />
-
-
                     </ReactFlow>
-
-                    <HelperLinesRenderer
-
-
-                      horizontal={helperLineHorizontal} vertical={helperLineVertical}
-                    />
                   </ReactFlowProvider>
-
 
 
 

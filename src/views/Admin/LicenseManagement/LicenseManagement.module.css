@@ -76,7 +76,10 @@
 
 .namedUserMain {
   
-    height: calc(100vh - 200px - 10%);
+   
+ 
+    height: calc(100vh - 100px - 8%);
+    /* display: flex; */
     width: 100%;
     margin-left: 15px;
     margin-top: 5px;

@@ -49,7 +49,7 @@ function Deployment(props) {
       flex: 1,
       hide: true
     },
-   
+
     {
       field: "metamodelId",
       headerName: props.language === "en" ? "Metamodel Id" : AdminTranslation["Metamodel Id"],
@@ -95,7 +95,9 @@ function Deployment(props) {
         return (
           <CustomButton
             title={isDeployed ? (props.language === "en" ? "Deployed" : AdminTranslation["Deployed"]) : (props.language === "en" ? "Deploy" : AdminTranslation["Deploy"])}
-            Theme="default"
+
+            Theme={props.theme}
+            variant="outlined"
             onClick={() => handleActionClick(params.row)}
           />
         );

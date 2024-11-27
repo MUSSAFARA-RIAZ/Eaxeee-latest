@@ -125,12 +125,12 @@ const Admin = (props) => {
       <LeftPane open={open} onClose={handleDrawerClose} props={props}>
         <div></div>
         <CustomTabs
-          className={styles.adminCustomTabs}
+          // className={styles.adminCustomTabs}
           value={view}
           onChange={handleMainTabs}
           tabs={tabs}
           orientation="vertical"
-          noindicator={true}
+          
         />
       </LeftPane>
 
@@ -149,7 +149,7 @@ const Admin = (props) => {
               value={value}
               handleChange={handleMainChange}
               tabs={licensedtabs}
-              
+
             />
           ) : view === 2 ? (
             <RepositoryTabs

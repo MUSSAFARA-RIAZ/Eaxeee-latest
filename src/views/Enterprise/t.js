@@ -1,45 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import Box from "@mui/material/Box";
-import { connect } from "react-redux";
-import LeftPane from "../Layout/Leftpane";
-import RightPane from "../Layout/Rightpane";
-import { EnterpriseContent, UserTabs } from "./Components/Enterprise_iconsTab";
-import DropDownInputField from "./Components/DropDownInputField";
-import Iconbox from "./Components/Iconbox";
-import ModalChangeColor from "./Components/Modals/ModalChangeColor";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import ReactFlow, {
-  addEdge,
-  Controls,
-  Background,
-  applyNodeChanges,
-  applyEdgeChanges,
-} from "reactflow";
-import "reactflow/dist/style.css";
-import { Tooltip, Tabs, Tab, Button, Menu, MenuItem } from "@mui/material";
-import objectdefault from "../../Assets/Images/objectcharcoal.png";
-import objectdark from "../../Assets/Images/objectpale.png";
-import processdefault from "../../Assets/Images/processcharcoal.png";
-import processdark from "../../Assets/Images/processpale.png";
-import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
-import blueprintdark from "../../Assets/Images/blueprintpale.png";
 
-import ContextMenu from "./ContextMenu";
-import IconToolbar from "./Components/IconToolbar";
-
-import { Rnd } from "react-rnd";
-import  { ReactFlowProvider } from '@xyflow/react';
-
-import CloseIcon from '@mui/icons-material/Close';
-import { IconButton } from '@mui/material';
-import { Select, FormControl } from '@mui/material';
-// import { Handle } from 'react-flow-renderer';
-
-
-import { NodeResizer, Handle, Position } from "reactflow";
-import uniqid from 'uniqid';
-import { getHelperLines } from "./getHelperLines";
-import { useStore } from "@xyflow/react";
 
 
 
@@ -119,97 +78,7 @@ const Architecture = (props) => {
 
 
   const [editingId, setEditingId] = useState(null);
-  const leftpanetabs = [
-    {
-      icon: (
-        <Tooltip title="Object">
-          <img src={objectsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} />
-        </Tooltip>
-      )
-    },
-    { icon: (<Tooltip title="Artifacts"><img src={artifactsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
-    { icon: (<Tooltip title="Process"><img src={processsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
-    { icon: (<Tooltip title="Documents"><DescriptionOutlinedIcon /></Tooltip>) },
-  ];
-
-  const handleAddDiagram = () => {
-    const newDiagramId = diagrams.length + 1;
-    const newDiagram = {
-      id: newDiagramId,
-      type: "diagram",
-      content: `Diagram ${newDiagramId} Content`,
-      nodes: [],
-      edges: [],
-      containers: [],
-      texts: [],
-    };
-
-    setArtifacts([...artifacts, newDiagram]);
-    setActiveTab(`diagram-${newDiagramId}`);
-    setDiagrams([...diagrams, newDiagram]);
-    setActiveDiagramId(newDiagramId);
-
-    // Clear the canvas states for containers and texts
-    setContainers([]);
-    setTexts([]);
-
-    // Reset titleCountMap for the new diagram
-    setTitleCountMap({});
-
-    handleMenuClose();
-  };
-
-
-  const handleAddCatalog = () => {
-    const newCatalogId = catalogs.length + 1;
-    const newCatalog = { id: newCatalogId, type: "catalog", content: `Catalog ${newCatalogId} Content` };
-    setArtifacts([...artifacts, newCatalog]);
-    setActiveTab(`catalog-${newCatalogId}`);
-    setCatalogs([...catalogs, newCatalog]);
-    handleMenuClose();
-
-  };
-  const handleAddMatrix = () => {
-    const newMatrixId = matrices.length + 1;
-    const newMatrix = { id: newMatrixId, content: `Matrix ${newMatrixId} Content` };
-    setMatrices([...matrices, newMatrix]);
-    setActiveMatrixId(newMatrixId);
-    setActiveTab(`matrix-${newMatrixId}`);
-    setActiveTool("matrix");
-    handleMenuClose();
-  };
-
-  const handleAddNavigation = () => {
-    const newNavigationId = navigations.length + 1;
-    const newNavigation = { id: newNavigationId, content: `Navigation ${newNavigationId} Content` };
-    setNavigations([...navigations, newNavigation]);
-    setActiveNavigationId(newNavigationId);
-    setActiveTab(`navigation-${newNavigationId}`);
-    setActiveTool("navigation");
-    handleMenuClose();
-  };
-
-  const handleAddViewpoint = () => {
-    const newViewpointId = viewpoints.length + 1;
-    const newViewpoint = { id: newViewpointId, content: `Viewpoint ${newViewpointId} Content` };
-    setViewpoints([...viewpoints, newViewpoint]);
-    setActiveViewpointId(newViewpointId);
-    setActiveTab(`viewpoint-${newViewpointId}`)
-
-
-    setActiveTool("viewpoint");
-    handleMenuClose();
-  };
-
-  const handleAddRoadmap = () => {
-    const newRoadmapId = roadmaps.length + 1;
-    const newRoadmap = { id: newRoadmapId, content: `Roadmap ${newRoadmapId} Content` };
-    setRoadmaps([...roadmaps, newRoadmap]);
-    setActiveRoadmapId(newRoadmapId);
-    setActiveTab(`roadmap-${newRoadmapId}`);
-    setActiveTool("roadmap");
-    handleMenuClose();
-  };
+ 
 
   const [contextMenuOptions, setContextMenuOptions] = useState(null);
   const [isContainerMode, setIsContainerMode] = useState(false);
@@ -312,24 +181,7 @@ const Architecture = (props) => {
                   </div>
 
                 </div>
-                {/* Handles added directly here */}
-                {/* <div>
-                  <Handle
-                    type="source"
-                    id="red"
-                    position={Position.Left}
-                    style={{ ...DEFAULT_HANDLE_STYLE, top: '50%', background: 'red' }}
-                    isConnectable={true}
-                  />
-                
-                  <Handle
-                    type="source"
-                    id="green"
-                    position={Position.Right}
-                    style={{ ...DEFAULT_HANDLE_STYLE, top: '50%', background: 'green' }}
-                    isConnectable={true}
-                  />
-                </div> */}
+               
 
 
               </>
@@ -417,335 +269,16 @@ const Architecture = (props) => {
 
 
 
-  const bringToFront = (nodeId) => {
-    setDiagrams((prevDiagrams) =>
-      prevDiagrams.map((diagram) => {
-        if (diagram.id === activeDiagramId) {
-          const maxZIndex = Math.max(...diagram.nodes.map((node) => node.style?.zIndex || 0)) + 1;
-          return {
-            ...diagram,
-            nodes: diagram.nodes.map((node) => {
-              if (node.id === nodeId) {
-                return { ...node, style: { ...node.style, zIndex: maxZIndex } };
-              }
-              return node;
-            }),
-          };
-        }
-        return diagram; // Return the diagram unchanged
-      })
-    );
-
-  };
-
-  const sendToBack = (nodeId) => {
-    setDiagrams((prevDiagrams) =>
-      prevDiagrams.map((diagram) => {
-        if (diagram.id === activeDiagramId) {
-          const minZIndex = Math.min(...diagram.nodes.map((node) => node.style?.zIndex || 0)) - 1;
-          return {
-            ...diagram,
-            nodes: diagram.nodes.map((node) => {
-              if (node.id === nodeId) {
-                return { ...node, style: { ...node.style, zIndex: minZIndex } };
-              }
-              return node;
-            }),
-          };
-        }
-        return diagram;
-      })
-    );
-  };
-
-  const handleHideBorder = () => {
-    if (contextMenu?.id) {
-      setTexts((prev) =>
-        prev.map((t) => (t.id === contextMenu.id ? { ...t, borderColor: "transparent" } : t))
-      );
-    }
-  };
 
 
-  const handleMenuClick = (action) => {
-    switch (action) {
-      case "hideBorder":
-        handleHideBorder(); // Make sure this is called correctly
-        setContextMenu(null); // Optionally close the context menu after the action
-        break;
 
-
-      case "delete":
-        setDiagrams((prevDiagrams) =>
-          prevDiagrams.map((diagram) => {
-            if (diagram.id === activeDiagramId) {
-              return {
-                ...diagram,
-                nodes: diagram.nodes.filter((node) => node.id !== selectedNodeId),
-              };
-            }
-            return diagram;
-          })
-        );
-        setContextMenu(false)
-
-        break;
-      case "sendBack":
-        sendToBack(selectedNodeId);
-        setContextMenu(false)
-        break;
-      case "bringFront":
-        bringToFront(selectedNodeId);
-        setContextMenu(false)
-        break;
-      case "changeColor":
-        // Optionally, you can open the color change modal here
-        setColorModalOpen(true);
-        setContextMenu(false)
-        break;
-      default:
-        break;
-    }
-  };
-
-  const getBackgroundColor = (action) => {
-    return contextMenu && contextMenu.hoveredItem === action ? "#f0f0f0" : "#ffffff";
-  };
-
-  const handleMouseEnter = (item) => {
-    setContextMenu((prev) => ({ ...prev, hoveredItem: item }));
-  };
-
-  const handleMouseLeave = () => {
-    setContextMenu((prev) => ({ ...prev, hoveredItem: null }));
-  };
-
-
-  const handleColorChange = (newColor) => {
+  
 
 
 
 
-    setDiagrams((prevDiagrams) =>
-      prevDiagrams.map((diagram) => {
-        if (diagram.id === activeDiagramId) {
-          return {
-            ...diagram,
-            nodes: diagram.nodes.map((node) =>
-              node.id === selectedNodeId
-                ? { ...node, style: { ...node.style, backgroundColor: newColor } }
-                : node
-            ),
-          };
-        }
-        return diagram; // Return the diagram unchanged
-      })
-    );
-    setColorModalOpen(false); // Close modal after color change
-  };
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-  const handleCloseTab = (tabId) => {
-    setTabs((prevTabs) => {
-      const updatedTabs = prevTabs.filter((tab) => `${tab.type}-${tab.id}` !== tabId);
-
-
-      if (activeTab === tabId) {
-        const closingTabIndex = prevTabs.findIndex((tab) => `${tab.type}-${tab.id}` === tabId);
-        let newActiveTab = null;
-
-        if (updatedTabs.length > 0) {
-
-          if (closingTabIndex === prevTabs.length - 1) {
-            newActiveTab = `${updatedTabs[updatedTabs.length - 1].type}-${updatedTabs[updatedTabs.length - 1].id}`;
-          } else {
-
-            newActiveTab = `${updatedTabs[closingTabIndex]?.type}-${updatedTabs[closingTabIndex]?.id}`;
-          }
-        }
-
-
-        setActiveTab(newActiveTab);
-      }
-
-      return updatedTabs;
-    });
-  };
-  const handleCloseAllTabs = () => {
-    setTabs([]);
-    setActiveTab(null);
-  };
-  useEffect(() => {
-    setTabs([
-      ...diagrams.map((diagram) => ({ type: 'diagram', id: diagram.id })),
-      ...catalogs.map((catalog) => ({ type: 'catalog', id: catalog.id })),
-      ...matrices.map((matrix) => ({ type: 'matrix', id: matrix.id })),
-      ...navigations.map((navigation) => ({ type: 'navigation', id: navigation.id })),
-      ...viewpoints.map((viewpoint) => ({ type: 'viewpoint', id: viewpoint.id })),
-      ...roadmaps.map((roadmap) => ({ type: 'roadmap', id: roadmap.id })),
-    ]);
-  }, [diagrams, catalogs, matrices, navigations, viewpoints, roadmaps]);
-
-
-  const handleArchitectureChange = (event) => {
-    const selectedArchitecture = event.target.value;
-    setArchitecture(event.target.value);
-
-    // Save the current state of tabs and artifacts for the old architecture
-    if (architecture) {
-      setSavedTabs((prevSavedTabs) => ({
-        ...prevSavedTabs,
-        [architecture]: [...tabs],
-      }));
-      setSavedArtifacts((prevSavedArtifacts) => ({
-        ...prevSavedArtifacts,
-        [architecture]: { diagrams, catalogs, matrices, navigations, viewpoints, roadmaps }, // Save ->all artifacts
-      }));
-    }
-
-    // Update the new architecture and check if there is saved state to load
-    setArchitecture(selectedArchitecture);
-    setAddArtifactEnabled(!!selectedArchitecture);
-
-    if (selectedArchitecture) {
-
-      const savedTabsForArchitecture = savedTabs[selectedArchitecture] || [];
-      const savedArtifactsForArchitecture = savedArtifacts[selectedArchitecture] || {
-        diagrams: [],
-        catalogs: [],
-        matrices: [],
-        navigations: [],
-        viewpoints: [],
-        roadmaps: [],
-      };
-
-
-      setTabs(savedTabsForArchitecture);
-      setDiagrams(savedArtifactsForArchitecture.diagrams || []);
-      setCatalogs(savedArtifactsForArchitecture.catalogs || []);
-      setMatrices(savedArtifactsForArchitecture.matrices || []);
-      setNavigations(savedArtifactsForArchitecture.navigations || []);
-      setViewpoints(savedArtifactsForArchitecture.viewpoints || []);
-      setRoadmaps(savedArtifactsForArchitecture.roadmaps || []);
-      setActiveTab(savedTabsForArchitecture.length ? savedTabsForArchitecture[0] : null); // Set first tab as active if any
-    } else {
-
-      setTabs([]);
-      setDiagrams([]);
-      setCatalogs([]);
-      setMatrices([]);
-      setNavigations([]);
-      setViewpoints([]);
-      setRoadmaps([]);
-      setActiveTab(null);
-    }
-  };
-
-
-
-  const handleTextfield = (e, id) => {
-    e.preventDefault(); // Prevent the default context menu from appearing
-    setContextMenu({
-      id: id,
-      x: e.clientX,
-      y: e.clientY,
-    });
-    setContextMenuOptions("textField");
-  };
-
-  const onNodeClick = (event, node) => {
-    setSelectedNodeId(node.id);
-  };
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.key === 'Delete' && selectedNodeId) {
-        // Filter out the node with selectedNodeId from activeDiagram.nodes
-        const updatedDiagrams = diagrams.map((diagram) => {
-          if (diagram.id === activeDiagramId) {
-            return {
-              ...diagram,
-              nodes: diagram.nodes.filter((node) => node.id !== selectedNodeId),
-            };
-          }
-          return diagram;
-        });
-
-        setDiagrams(updatedDiagrams);
-        setSelectedNodeId(null); // Clear the selection after deletion
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [selectedNodeId, diagrams, activeDiagramId]);
-
-
-
-  const handleTextChange = (e, id) => {
-    const newTextValue = e.target.value;
-
-    // Update texts locally
-    setTexts((prev) =>
-      prev.map((textItem) =>
-        textItem.id === id ? { ...textItem, text: newTextValue } : textItem
-      )
-    );
-
-    // Update texts in the active diagram
-    setDiagrams(prevDiagrams =>
-      prevDiagrams.map(diagram =>
-        diagram.id === activeDiagramId
-          ? {
-            ...diagram,
-            texts: diagram.texts.map((textItem) =>
-              textItem.id === id ? { ...textItem, text: newTextValue } : textItem
-            )
-          }
-          : diagram
-      )
-    );
-  };
-
-
-
-
-  useEffect(() => {
-    const activeDiagram = diagrams.find(diagram => diagram.id === activeDiagramId);
-
-    if (activeDiagram) {
-      setContainers(activeDiagram.containers || []);
-      setTexts(activeDiagram.texts || []);
-    }
-  }, [activeDiagramId, diagrams]);
-
-  const handleContainerTextChange = (e, containerId) => {
-    const newTextValue = e.target.value;
-
-    // Update container text in the active diagram
-    setDiagrams(prevDiagrams =>
-      prevDiagrams.map(diagram =>
-        diagram.id === activeDiagramId
-          ? {
-            ...diagram,
-            containers: diagram.containers.map(container =>
-              container.id === containerId ? { ...container, text: newTextValue } : container
-            )
-          }
-          : diagram
-      )
-    );
-  };
+  
   const canvasStyle = {
     width: '100%',
     height: '100%',
@@ -753,14 +286,16 @@ const Architecture = (props) => {
     zIndex: 10,
     pointerEvents: 'none',
   };
+  const [helperLines, setHelperLines] = useState({ horizontal: null, vertical: null });
 
   const storeSelector = (state) => ({
-    width: state.width || 800, // Default width
-    height: state.height || 600, // Default height
-    transform: state.transform || [0, 0, 1], // Default transform
+    width: state.width,
+    height: state.height,
+    transform: state.transform, 
   });
 
-  console.log("storeSelector============>",storeSelector);
+  console.log("storeSelector============>",storeSelector.width);
+  console.log("heightttttttttttttttttttt",storeSelector.height);
 
 
   function HelperLinesRenderer({ horizontal, vertical }) {
@@ -788,7 +323,7 @@ const Architecture = (props) => {
       ctx.scale(dpi, dpi);
 
       ctx.clearRect(0, 0, width, height);
-      ctx.strokeStyle = '#0041d0';
+      ctx.strokeStyle = 'red';
 
       if (typeof vertical === 'number') {
         const xPosition = vertical * transform[2] + transform[0];
@@ -872,7 +407,7 @@ const Architecture = (props) => {
     [diagrams, activeDiagramId]
   );
 
-  const [helperLines, setHelperLines] = useState({ horizontal: null, vertical: null });
+
 
 
   const onNodesChange = useCallback((changes) => {
@@ -1094,20 +629,7 @@ const Architecture = (props) => {
 
 
 
-        <div style={{ display: "flex", flex: 1 }}>
-          {typeof activeTab === "string" && activeTab?.startsWith("catalog-") ? (
-            <div>{catalogs.find((cat) => `catalog-${cat.id}` === activeTab)?.content}</div>
-          ) : typeof activeTab === "string" && activeTab?.startsWith("matrix-") ? (
-            <div>{matrices.find((mat) => `matrix-${mat.id}` === activeTab)?.content}</div>
-          ) : typeof activeTab === "string" && activeTab?.startsWith("navigation-") ? (
-            <div>{navigations.find((nav) => `navigation-${nav.id}` === activeTab)?.content}</div>
-          ) : typeof activeTab === "string" && activeTab?.startsWith("viewpoint-") ? (
-            <div>{viewpoints.find((view) => `viewpoint-${view.id}` === activeTab)?.content}</div>
-          ) : typeof activeTab === "string" && activeTab?.startsWith("roadmap-") ? (
-            <div>{roadmaps.find((road) => `roadmap-${road.id}` === activeTab)?.content}</div>
-          ) : typeof activeTab === "string" && activeTab?.startsWith("diagram-") ? (
-            activeDiagram && (
-              <>
+        <>
                 <Iconbox onSelectImage={handleSelectImage} props={props} />
                 <div
                   id="canvas"
@@ -1165,104 +687,10 @@ const Architecture = (props) => {
 
 
 
-                  {colorModalOpen && (
-                    <ModalChangeColor
-                      open={colorModalOpen}
-                      onClose={() => setColorModalOpen(false)}
-                      onChangeColor={handleColorChange}
-                      theme={props.theme}
-                      language={props.language}
-                    // initialColor={nodes.find(node => node.id === selectedNodeId)?.style?.backgroundColor}
-                    />
-                  )}
-
-                  {texts.map(({ id, x, y, text, borderColor = "black" }) => (
-                    <Rnd
-                      key={id}
-                      position={{ x, y }}
-                      onDragStop={(e, data) => {
-                        setTexts((prev) =>
-                          prev.map((t) => (t.id === id ? { ...t, x: data.x, y: data.y } : t))
-                        );
-
-                        setDiagrams((prevDiagrams) =>
-                          prevDiagrams.map((diagram) =>
-                            diagram.id === activeDiagramId
-                              ? {
-                                ...diagram,
-                                texts: diagram.texts.map((t) =>
-                                  t.id === id ? { ...t, x: data.x, y: data.y } : t
-                                ),
-                              }
-                              : diagram
-                          )
-                        );
-                      }}
-                      bounds="parent"
-                      style={{ cursor: "move" }}
-                    >
-                      {editingId === id ? (
-                        <input
-                          type="text"
-                          value={text}
-                          onBlur={() => setEditingId(null)}
-                          onChange={(e) => handleTextChange(e, id)}
-                          autoFocus
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            padding: "5px",
-                            fontSize: "12px",
-                            textAlign: "center",
-                            border: `1px solid ${borderColor}`,
-                            backgroundColor: "white",
-                          }}
-                          aria-label="Edit text"
-                        />
-                      ) : (
-                        <div
-                          onDoubleClick={() => setEditingId(id)}
-                          onContextMenu={(e) => handleTextfield(e, id)}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            padding: "5px",
-                            fontSize: "12px",
-                            textAlign: "center",
-                            border: `1px solid ${borderColor}`,
-                            backgroundColor: "transparent",
-                            cursor: "text",
-                          }}
-                          role="button"
-                          tabIndex={0}
-                          onKeyPress={(e) => {
-                            if (e.key === "Enter") setEditingId(id);
-                          }}
-                        >
-                          {text || "Type here..."}
-                        </div>
-                      )}
-                    </Rnd>
-                  ))}
-
-                  <ContextMenu
-                    contextMenu={contextMenu}
-
-                    handleMenuClick={handleMenuClick}
-                    getBackgroundColor={getBackgroundColor}
-                    handleMouseEnter={handleMouseEnter}
-                    handleMouseLeave={handleMouseLeave}
-                    showHideBorder={contextMenuOptions === "textField"}
-                    theme={props.theme}
-                  />
-
 
 
                 </div>
               </>
-            )
-          ) : null}
-        </div>
 
 
 
@@ -1273,14 +701,3 @@ const Architecture = (props) => {
     </div>
   );
 };
-const mapStateToProps = (state) => ({
-  language: state.language,
-  theme: state.theme,
-  userdetail: state.userdetail,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  settree: (data) => dispatch({ type: "SET_TREE", payload: data }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Architecture);

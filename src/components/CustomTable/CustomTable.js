@@ -5,6 +5,7 @@ import { Tooltip, Box, TextField, IconButton, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
+import AdminTranslation from "../../Utils/AdminTranslation/AdminTranslation";
 
 function CustomTable(props) {
   const [searchText, setSearchText] = useState("");
@@ -54,7 +55,7 @@ function CustomTable(props) {
   return (
     <Box
       sx={{
-        height: props.height?"75vh": "80vh",
+        height: props.height ? "75vh" : "80vh",
         width: "100%",
         ...props.TableMainDivHeight,
       }}
@@ -73,7 +74,7 @@ function CustomTable(props) {
             <TextField
               value={searchText}
               onChange={handleSearchChange}
-              placeholder="Search..."
+              placeholder={props.language === "en" ? "Search..." : AdminTranslation["Search..."]}
               InputProps={{
                 startAdornment: <SearchIcon color="disabled" />,
               }}
@@ -142,7 +143,7 @@ function CustomTable(props) {
       )}
       <Box
         sx={{
-          height: props.height?"68vh": "calc(80vh - 48px)", // Subtracting the height of the search and delete button container
+          height: props.height ? "68vh" : "calc(80vh - 100px)", 
           width: "100%",
           overflowY: "auto",
           "& ::-webkit-scrollbar": {
@@ -196,6 +197,16 @@ function CustomTable(props) {
             "& .MuiButtonBase-root .css-i4bv87-MuiSvgIcon-root": {
               rotate: props.language === 'ar' ? "180deg" : "0deg",
             },
+            "& .MuiCheckbox-root.Mui-checked": {
+              color: props.theme === "default" ? "#2158a4" : "#a5d149",
+              rotate: props.language === 'ar' ? "0deg" : "0deg",
+
+
+            },
+            // border:"2px solid red",
+            color:props.theme==="dark"?"#cecece":"#000000DE",
+          
+
 
           }}
           localeText={{
@@ -207,7 +218,7 @@ function CustomTable(props) {
                 labelDisplayedRows: ({ from, to, count }) =>
                   `${from}-${to} من ${count !== -1 ? count : `أكثر من ${to}`}`,
                 toolbarDensity: 'Density', // Add translation for density
-                noRowsLabel:'No rows', // Add translation for no rows
+                noRowsLabel: 'No rows', // Add translation for no rows
               },
               footerRowSelected: (count) =>
                 `${count} ${count === 1 ? 'صف' : 'صفوف'} محددة`,

@@ -15,35 +15,35 @@ function Architecture(props) {
     {
       id: "1",
       backupName: "Eaxee backup",
-      backupDateAndTime: "2024/02/15 05:04:19",
+      backedupAt: "2024/02/15 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Mahnoor",
     },
     {
       id: "2",
       backupName: "Eaxee backup 1",
-      backupDateAndTime: "2024/02/16 05:04:19",
+      backedupAt: "2024/02/16 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Iman",
     },
     {
       id: "3",
       backupName: "Eaxee backup 2",
-      backupDateAndTime: "2024/02/17 05:04:19",
+      backedupAt: "2024/02/17 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Musaffara",
     },
     {
       id: "4",
       backupName: "Eaxee backup 3",
-      backupDateAndTime: "2024/02/18 05:04:19",
+      backedupAt: "2024/02/18 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Mahnoor",
     },
     {
       id: "5",
       backupName: "Eaxee backup 4",
-      backupDateAndTime: "2024/02/20 05:04:19",
+      backedupAt: "2024/02/20 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Maheen",
     },
@@ -61,7 +61,7 @@ function Architecture(props) {
     const newBackup = {
       id: (tableRowData.length + 1).toString(),
       backupName: backupName,
-      backupDateAndTime: new Date().toISOString(),
+      backedupAt: new Date().toISOString(),
       architectureName: "New Architecture",
       backupBy: "User",
     };
@@ -71,7 +71,7 @@ function Architecture(props) {
   // const columns = [
   //   { field: "id", headerName: "ID", flex: 1, hide: true },
   //   { field: "backupName", headerName: "Backup Name", flex: 1 },
-  //   { field: "backupDateAndTime", headerName: "Backup Date and Time", flex: 1 },
+  //   { field: "backedupAt", headerName: "backedupAt", flex: 1 },
   //   { field: "architectureName", headerName: "Architecture Name", flex: 1 },
   //   { field: "backupBy", headerName: "Backup By", flex: 1 },
   // ];
@@ -104,8 +104,8 @@ function Architecture(props) {
           //   { field: "id", headerName: props.language==="en"? "ID": AdminTranslation["ID"], flex: 1, hide: true },
           //   { field: "backupName", headerName: props.language==="en"? "Backup Name": AdminTranslation["Backup Name"], flex: 1 },
           //   {
-          //     field: "backupDateAndTime",
-          //     headerName: props.language==="en"? "Backup Date and Time":AdminTranslation["Backup Date and Time"],
+          //     field: "backedupAt",
+          //     headerName: props.language==="en"? "BackedupAt":AdminTranslation["backedupAt"],
           //     flex: 1,
           //   },
           //   { field: "backupBy", headerName: props.language==="en"? "Backup By":AdminTranslation["Backup By"], flex: 1 },
@@ -114,15 +114,16 @@ function Architecture(props) {
             { field: "id", headerName:props.language==="en"? "ID": AdminTranslation["ID"], flex: 1, hide: true },
             { field: "backupName", headerName: props.language==="en"? "Backup Name": AdminTranslation["Backup Name"], flex: 1 },
             {
-              field: "backupDateAndTime",
-              headerName: props.language==="en"? "Backup Date and Time":AdminTranslation["Backup Date and Time"],
+              field: "architectureName",
+              headerName:props.language==="en"? "Architecture":AdminTranslation["Architecture"],
               flex: 1,
             },
             {
-              field: "architectureName",
-              headerName:props.language==="en"? "Architecture Name":AdminTranslation["Architecture Name"],
+              field: "backedupAt",
+              headerName: props.language==="en"? "BackedupAt":AdminTranslation["backedupAt"],
               flex: 1,
             },
+           
             { field: "backupBy", headerName: props.language==="en"? "Backup By":AdminTranslation["Backup By"], flex: 1 },
           ]}
           //rowsPerPage={10}

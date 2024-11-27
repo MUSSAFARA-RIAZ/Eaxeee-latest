@@ -16,7 +16,7 @@ function Repository(props) {
       id: "1",
       backupName: "Eaxee backup",
       MetamodelName: "Archimate",
-      backupDateAndTime: "2024/02/15 05:04:19",
+      backedupAt: "2024/02/15 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Mahnoor",
       version: "v1",
@@ -25,7 +25,7 @@ function Repository(props) {
       id: "2",
       backupName: "Eaxee backup 1",
       MetamodelName: "Archimate",
-      backupDateAndTime: "2024/02/16 05:04:19",
+      backedupAt: "2024/02/16 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Iman",
       version: "v1",
@@ -34,7 +34,7 @@ function Repository(props) {
       id: "3",
       backupName: "Eaxee backup 2",
       MetamodelName: "Archimate",
-      backupDateAndTime: "2024/02/17 05:04:19",
+      backedupAt: "2024/02/17 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Mussafara",
       version: "v1",
@@ -43,7 +43,7 @@ function Repository(props) {
       id: "4",
       backupName: "Eaxee backup 3",
       MetamodelName: "Archimate",
-      backupDateAndTime: "2024/02/18 05:04:19",
+      backedupAt: "2024/02/18 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Mahnoor",
       version: "v1",
@@ -52,7 +52,7 @@ function Repository(props) {
       id: "5",
       backupName: "Eaxee backup 4",
       MetamodelName: "Archimate",
-      backupDateAndTime: "2024/02/20 05:04:19",
+      backedupAt: "2024/02/20 05:04:19",
       architectureName: "Eaxee",
       backupBy: "Maheen",
       version: "v1",
@@ -71,7 +71,7 @@ function Repository(props) {
     const newBackup = {
       id: (tableRowData.length + 1).toString(),
       backupName: backupName,
-      backupDateAndTime: new Date().toISOString(),
+      backedupAt: new Date().toISOString(),
       architectureName: "New Architecture",
       backupBy: "User",
     };
@@ -134,8 +134,8 @@ function Repository(props) {
               flex: 1
             },
             {
-              field: "backupDateAndTime",
-              headerName: props.language === "en" ? "Backup Date and Time" : AdminTranslation["Backup Date and Time"],
+              field: "backedupAt",
+              headerName: props.language === "en" ? "BackedupAt" : AdminTranslation["backedupAt"],
               flex: 1
             },
             {
@@ -157,7 +157,8 @@ function Repository(props) {
                 return (
                   <CustomButton
                     title={isDeployed ? (props.language === "en" ? "Deployed" : AdminTranslation["Deployed"]) : (props.language === "en" ? "Deploy" : AdminTranslation["Deploy"])}
-                    Theme="default"
+                    Theme={props.theme}
+                    variant="outlined"
                     onClick={() => handleActionClick(params.row)}
                   />
                 );

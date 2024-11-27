@@ -103,6 +103,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
       </div>
 
       <div
+      style={{overflow:"hidden"}}
       // style={{border:"2px solid red"}}
         className={`${styles.rightpane_secondcontainer}  ${
           props.theme === "default"

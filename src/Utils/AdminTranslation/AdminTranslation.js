@@ -90,10 +90,13 @@ let AdminTranslation = {
 
     "Role": "دور",
     "Backup Name": "اسم النسخة الاحتياطية",
-    "Backup Date and Time": "تاريخ ووقت النسخة الاحتياطية",
+    "backedupAt": "تاريخ ووقت النسخة الاحتياطية",
     "Backup By": "نسخة احتياطية بواسطة",
     "Create Backup": "إنشاء نسخة احتياطية",
 
+        "Search...": "بحث",
+
+      
     "Metamodel Name": "اسم الموديل النموذجي",
 
     "Version": "الإصدار",
@@ -105,8 +108,8 @@ let AdminTranslation = {
     "Framework": "إطار العمل",
     "Licenses": "التراخيص",
     "Users": "المستخدمون",
-    "Architecture Name": "اسم البنية"
-    , "Add Users": "إضافة مستخدمين",
+    
+    "Add Users": "إضافة مستخدمين",
      "Delete": "حذف",
     
      "Metamodel Id": "معرف النموذج الفوقي",
