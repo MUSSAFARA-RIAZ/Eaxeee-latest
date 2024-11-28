@@ -23,7 +23,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useLocation } from "react-router-dom";
 import CustomTabs from "../../../CustomTabs/CustomTabs";
-
+import { logoutUser } from "../../../../apis/auth";
 function CustomAppBar(props) {
   let { setLanguage, language, theme, activepage } = props;
 
@@ -38,10 +38,36 @@ function CustomAppBar(props) {
   const [open, setOpen] = useState(false);
 
   const [openDialog, setOpenDialog] = useState(false);
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    console.log("clicked agree")
+  const [isAgreeDisabled, setIsAgreeDisabled] = useState(false);
+
+
+
+
+  
+  const handleCloseDialogWhenAgree = async () => {
+    console.log("clicked Agree")
+
+    setIsAgreeDisabled(true)
+    // Logout API will be added here
+    const res = await logoutUser()
+    if (res.code === 200){
+      setOpenDialog(false);
+      setIsAgreeDisabled(false)
+
+    }else{
+      setIsAgreeDisabled(false)
+      alert("Failed to Logout")
+    }
   };
+
+
+  const handleCloseDialogWhenDisagree = () => {
+    console.log("clicked DisAgree")
+    setOpenDialog(false);
+  };
+
+
+
   const handleCloseDialogWhenClickOutside = () => {
     console.log("handleCloseDialogOnOutsideClick");
     setOpenDialog(false);
@@ -327,7 +353,7 @@ function CustomAppBar(props) {
         <DialogActions>
           <CustomButton
             title={language === "en" ? "Disagree" : "تعارض "}
-            onClick={handleCloseDialog}
+            onClick={handleCloseDialogWhenDisagree}
             loading={false}
             disabled={false}
             fullWidth={true}
@@ -338,13 +364,14 @@ function CustomAppBar(props) {
           <CustomButton
             autoFocus
             title={language === "en" ? "Agree" : "يوافق على "}
-            onClick={handleCloseDialog}
+            onClick={handleCloseDialogWhenAgree}
             loading={false}
-            disabled={false}
+            disabled={isAgreeDisabled}
             fullWidth={true}
             loaderSize={25}
             loaderColor="success"
             loaderThickness={5}
+            
           />
         </DialogActions>
       </Dialog>

@@ -13,7 +13,6 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import './Login.css';
-import axios from 'axios';
 
 import GreenPaleGray from "../../../src/Assets/Images/BlueAndBlack.png";
 import RoyalBlue from "../../../src/Assets/Images/PaleGray.png";
@@ -33,35 +32,10 @@ function Login({onSignIn}) {
   const [repositories, setRepositories] = useState([]);
   const [selectedOption, setSelectedOption] = useState('abc');
   const [isSignInDisabled, setIsSignInDisabled] = useState(false);
-
+  const [loading, setLoading] = useState(true); 
 
  
-
   
-  const handleSignInClick = async (e) => {
-    e.preventDefault();
-  
-    try {
-      // Call API
-      // setLoading(true)
-      setIsSignInDisabled(true)
-      const res = await getRepositoriesByUsername(username);
-      setIsSignInDisabled(false)
-      // setLoading(false)
-      if (res.code === 200) {
-        setRepositories(res.data);
-        setIsDialogOpen(true);
-        console.log("list of repositories are: ", res);
-      } else {
-        alert("Invalid domain");
-      }
-    } catch (error) {
-      setIsSignInDisabled(false)
-      console.error("Error during sign-in:", error);
-      alert("Unknown error occured");
-    }
-  };
-  const [loading, setLoading] = useState(true); 
   useEffect(() => {
  
     const loadResources = async () => {
@@ -76,27 +50,65 @@ function Login({onSignIn}) {
     setIsDialogOpen(false);
   };
 
+
+
+
+  const handleSignInClick = async (e) => {
+    e.preventDefault();
+  
+    try {
+      // Call API to get list of repositories when sign-in is clicked
+      setIsSignInDisabled(true)
+      const res = await getRepositoriesByUsername(username);
+      setIsSignInDisabled(false)
+      
+      // If the domain in username exist and have some repositories then it will list them
+      if (res.code === 200) {
+        setRepositories(res.data);
+        setIsDialogOpen(true);
+        console.log("list of repositories are: ", res);
+      }  //Otherwise it will show message 'invalid domain'
+      else {
+        alert("Invalid domain");
+      }
+    } // If something else went wrong during this api call then this catch block will execute.
+    catch (error) {
+      setIsSignInDisabled(false)
+      console.error("Error during sign-in:", error);
+      alert("Unknown error occured");
+    }
+  };
+
+
+
+
+
   const handleConfirm = async () => {
+
+    // When user has selected a repository form a list and 'Confirm' button is clicked then this api will be called that check if the username & password exist in that repository
     const res = await checkIfUserExistOrNot(username, password, selectedOption);
     console.log("Response after selecting repository and confirming: ", res);
 
+    // If correct credentials & correct repository was provided then it returns 200
     if (res.code === 200) {
       console.log("onsign: ",onSignIn)
-      localStorage.setItem("isUserLoggedIn",true)
-      
       setIsDialogOpen(false); // Close the dialog box
 
-      
+      // When this api returns 200 then we'll call the final api that login the user & update the session for user on backend.
       const res_login = await loginUser(username, password, selectedOption)
-      console.log("loging in user returned this: ",res)
+      
+      // If the api updates the session on backend successfully & user is logged in, 200 status code is returned and the onSignIn function is called that allows user to view rest of the view as logged in user.
       if (res_login.code === 200){
+        localStorage.setItem("isUserLoggedIn",true)
         if (onSignIn){
           onSignIn()
         }
         alert("user login successful")
+        navigate('/home')
         
-      }
+      }// Other wise it shows alert with the error message and user is shown no UI other than the login page.
       else if (res_login.code === 401){
+        console.log("called this one lol")
         alert(res_login.data.error)
       }
       
@@ -107,6 +119,9 @@ function Login({onSignIn}) {
     }
   };
    
+
+
+
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
     };
@@ -116,6 +131,10 @@ function Login({onSignIn}) {
     event.preventDefault();
     setIsDialogOpen(true); 
   };
+
+
+
+
 
 
   return (

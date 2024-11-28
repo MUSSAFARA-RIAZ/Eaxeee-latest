@@ -3,38 +3,6 @@ import { S_URL } from "../config";
 import axios from "axios";
 
 
-// export const LoginUser = async (username, password) => {
-//     try {
-//       const response = await axios.post(
-//         `${S_URL}/auth/login`,
-//         {
-//           username: "emilys",
-//           password: "emilyspass",
-//           expiresInMins: 30 // optional, defaults to 60
-//         },
-//         {
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           withCredentials: true // Include cookies in the request
-//         }
-//       );
-  
-//       console.log("The incoming response is: ", response.data);
-  
-//       // Return response data
-//       return { code: response.status, data: response.data };
-//     } catch (error) {
-//       console.error("Error during login:", error);
-  
-//       // Handle and return error response
-//       return {
-//         code: error.response?.status || 502,
-//         data: error.response?.data || "Unknown error occurred"
-//       };
-//     }
-//   };
-
 
   export const getRepositoriesByUsername = async (username) => {
     try {
@@ -131,6 +99,38 @@ export const loginUser = async (username, password, repositoryId) => {
     };
   } catch (error) {
     console.error("Login failed:", error);
+
+    // Handle and return the error
+    return {
+      code: error.response?.status || 502,
+      data: error.response?.data || "Unknown error occurred",
+    };
+  }
+};
+
+
+export const logoutUser = async () => {
+  try {
+    const url = `${S_URL}/EAZeeRest/logout`;
+
+    const headers = {
+      "Content-Type": "application/json",
+      // Include credentials (cookies) for authentication
+      withCredentials: true,
+    };
+
+    // Make the API call for logout
+    const response = await axios.post(url, {}, { headers, withCredentials: true });
+
+    console.log("Logout successful:", response.data);
+
+    // Return the response in a structured format
+    return {
+      code: response.status,
+      data: response.data,
+    };
+  } catch (error) {
+    console.error("Logout failed:", error);
 
     // Handle and return the error
     return {
