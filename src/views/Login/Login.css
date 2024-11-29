@@ -147,6 +147,8 @@ color: #2158a4;
   border-radius: 10px;
   cursor: pointer;
 }
+
+
 .Errormain {
   box-sizing: border-box;
   min-height: calc(100vh);

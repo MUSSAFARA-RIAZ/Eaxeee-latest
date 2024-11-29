@@ -37,9 +37,12 @@ export function getHelperLines(change, nodes, distance = 30) {
       // Calculate distances for vertical alignment
       const distanceLeftLeft = Math.abs(nodeABounds.left - nodeBBounds.left);
       if (distanceLeftLeft < verticalDistance) {
+
+        
         result.snapPosition.x = nodeBBounds.left;
         result.vertical = nodeBBounds.left;
         verticalDistance = distanceLeftLeft;
+        console.log("distanceLeftLeft < verticalDistance",verticalDistance)
       }
 
       const distanceRightRight = Math.abs(nodeABounds.right - nodeBBounds.right);
@@ -47,6 +50,8 @@ export function getHelperLines(change, nodes, distance = 30) {
         result.snapPosition.x = nodeBBounds.right - nodeABounds.width;
         result.vertical = nodeBBounds.right;
         verticalDistance = distanceRightRight;
+        console.log("distanceRightRight < verticalDistance",verticalDistance)
+
       }
 
       const distanceLeftRight = Math.abs(nodeABounds.left - nodeBBounds.right);
@@ -54,6 +59,9 @@ export function getHelperLines(change, nodes, distance = 30) {
         result.snapPosition.x = nodeBBounds.right;
         result.vertical = nodeBBounds.right;
         verticalDistance = distanceLeftRight;
+        console.log("distanceLeftRight < verticalDistance",verticalDistance)
+
+        
       }
 
       const distanceRightLeft = Math.abs(nodeABounds.right - nodeBBounds.left);
@@ -61,6 +69,9 @@ export function getHelperLines(change, nodes, distance = 30) {
         result.snapPosition.x = nodeBBounds.left - nodeABounds.width;
         result.vertical = nodeBBounds.left;
         verticalDistance = distanceRightLeft;
+        console.log("distanceRightLeft < verticalDistance",verticalDistance)
+
+
       }
 
       // Calculate distances for horizontal alignment
@@ -69,6 +80,9 @@ export function getHelperLines(change, nodes, distance = 30) {
         result.snapPosition.y = nodeBBounds.top;
         result.horizontal = nodeBBounds.top;
         horizontalDistance = distanceTopTop;
+        console.log("distanceTopTop < horizontalDistance",horizontalDistance)
+
+
       }
 
       const distanceBottomTop = Math.abs(nodeABounds.bottom - nodeBBounds.top);
@@ -76,6 +90,8 @@ export function getHelperLines(change, nodes, distance = 30) {
         result.snapPosition.y = nodeBBounds.top - nodeABounds.height;
         result.horizontal = nodeBBounds.top;
         horizontalDistance = distanceBottomTop;
+        console.log("distanceBottomTop < horizontalDistance",horizontalDistance)
+
       }
 
       const distanceBottomBottom = Math.abs(nodeABounds.bottom - nodeBBounds.bottom);
@@ -83,6 +99,8 @@ export function getHelperLines(change, nodes, distance = 30) {
         result.snapPosition.y = nodeBBounds.bottom - nodeABounds.height;
         result.horizontal = nodeBBounds.bottom;
         horizontalDistance = distanceBottomBottom;
+        console.log("distanceBottomBottom < horizontalDistance",horizontalDistance)
+
       }
 
       const distanceTopBottom = Math.abs(nodeABounds.top - nodeBBounds.bottom);
@@ -90,7 +108,11 @@ export function getHelperLines(change, nodes, distance = 30) {
         result.snapPosition.y = nodeBBounds.bottom;
         result.horizontal = nodeBBounds.bottom;
         horizontalDistance = distanceTopBottom;
+        console.log("distanceTopBottom < horizontalDistance",horizontalDistance)
+
       }
+
+      console.log("final result",result)
 
       return result;
     }, defaultResult);

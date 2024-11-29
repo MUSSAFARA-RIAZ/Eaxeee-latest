@@ -1,44 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import {
-  Dialog, DialogTitle, DialogContent, DialogActions,
-  IconButton, RadioGroup, FormControlLabel, Radio,
-  Button
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Button,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import './Login.css';
+import axios from 'axios';
+
 import GreenPaleGray from "../../../src/Assets/Images/BlueAndBlack.png";
 import RoyalBlue from "../../../src/Assets/Images/PaleGray.png";
-import './Login.css';
-import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import LottieLoader from '../../animation/LottieLoader';
-import { LoginUser } from '../../apis/auth';
+import { Link, Navigate } from 'react-router-dom';
+import { getRepositoriesByUsername } from '../../apis/auth';
+import { checkIfUserExistOrNot } from '../../apis/auth';
+import { loginUser } from '../../apis/auth';
+function Login({onSignIn}) {
 
-function Login({ onSignIn }) {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('');
-  const navigate = useNavigate();
+  const [repositories, setRepositories] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('abc');
+  const [isSignInDisabled, setIsSignInDisabled] = useState(false);
 
-  // Handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setIsDialogOpen(true); // Open repository selection dialog
-  };
 
-  // Handle password visibility toggle
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+ 
 
-  // Handle dialog close
-  const handleDialogClose = () => {
-    setIsDialogOpen(false);
+  
+  const handleSignInClick = async (e) => {
+    e.preventDefault();
+  
+    try {
+      // Call API
+      // setLoading(true)
+      setIsSignInDisabled(true)
+      const res = await getRepositoriesByUsername(username);
+      setIsSignInDisabled(false)
+      // setLoading(false)
+      if (res.code === 200) {
+        setRepositories(res.data);
+        setIsDialogOpen(true);
+        console.log("list of repositories are: ", res);
+      } else {
+        alert("Invalid domain");
+      }
+    } catch (error) {
+      setIsSignInDisabled(false)
+      console.error("Error during sign-in:", error);
+      alert("Unknown error occured");
+    }
   };
-  const [loading, setLoading] = useState(true); // Loading state to show the loader
+  const [loading, setLoading] = useState(true); 
   useEffect(() => {
  
     const loadResources = async () => {
@@ -48,47 +71,53 @@ function Login({ onSignIn }) {
 
     loadResources();
   }, []);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleDialogClose = () => {
+    setIsDialogOpen(false);
+  };
 
-  const handleSignInClick = async (e) => {
-    try {
-        // Prevent default form submission behavior
-        e.preventDefault();
-        setIsDialogOpen(true);
+  const handleConfirm = async () => {
+    const res = await checkIfUserExistOrNot(username, password, selectedOption);
+    console.log("Response after selecting repository and confirming: ", res);
 
-        // When sign-in button is clicked, call the LoginUser API
-        // setLoading(true)  
+    if (res.code === 200) {
+      console.log("onsign: ",onSignIn)
+      localStorage.setItem("isUserLoggedIn",true)
+      
+      setIsDialogOpen(false); // Close the dialog box
 
-
-        //######### Write LoginAPI Code Here #########\\
-        // const response = await LoginUser("testusername", "testpassword");
-        // console.log("loginAPI response:" , response )
-        // // Handle the response based on the status code
-        // if (response.code === 200) {
-        //     console.log("Login successful");
-        //     //Show Dialogbox for user to select a repository from a list
-        //     setIsDialogOpen(true);
-        // } 
+      
+      const res_login = await loginUser(username, password, selectedOption)
+      console.log("loging in user returned this: ",res)
+      if (res_login.code === 200){
+        if (onSignIn){
+          onSignIn()
+        }
+        alert("user login successful")
         
-        
-    } catch (error) {
-        // Catch and handle any unexpected errors
-        console.error("An unexpected error occurred:", error.message);
-        
-    }
-
-};
-
-  
-
-  const handleConfirm = () => {
-    if (onSignIn) {
-        onSignIn(); // Notify parent component of successful login
       }
-    if (selectedOption) {
-      setIsDialogOpen(false); // Close the dialog
-      navigate('/'); // Redirect to the home page
+      else if (res_login.code === 401){
+        alert(res_login.data.error)
+      }
+      
+    } else if (res.code === 401) {
+      alert(res.data.message);
+    } else {
+      alert("Something went wrong.");
     }
   };
+   
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
+  
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setIsDialogOpen(true); 
+  };
+
+
   return (
     <>
     {loading ? (
@@ -155,7 +184,7 @@ function Login({ onSignIn }) {
             <div className="login-forgot-password">
               <Link to="/forgetpassword">Reset password?</Link>
             </div>
-            <button type="submit" className="login-button">
+            <button type="submit" className="login-button" >
               Sign in
             </button>
           </form>
@@ -219,7 +248,7 @@ function Login({ onSignIn }) {
               <div className="login-forgot-password">
                 <Link to="/forgetpassword">Reset password?</Link>
               </div>
-              <button type="submit" className="login-button">
+              <button type="submit" className="login-button" disabled={isSignInDisabled}>
                 Sign in
               </button>
             </form>
@@ -229,60 +258,58 @@ function Login({ onSignIn }) {
       <Dialog
         open={isDialogOpen}
         onClose={handleDialogClose}
-        PaperProps={{
-          sx: { width: "700px", maxWidth: "90%" }
-        }}
+        PaperProps={{ sx: { width: '700px', maxWidth: '90%' } }}
       >
-        <DialogTitle
-          sx={{
+        <DialogTitle sx={{
             backgroundColor: "#2158a4",
             color: "#cecece",
             padding: "10px",
             paddingLeft: "35px",
-          }}
-        >
+          }}>
           Select Repository
           <IconButton
-            sx={{
+                      sx={{
               position: 'absolute',
               top: 0,
               right: 0,
               color: "#cecece",
             }}
             onClick={handleDialogClose}
+
           >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent
-          sx={{
+        <DialogContent   sx={{
             backgroundColor: "#cecece",
             color: '#414849',
             padding: "20px",
             
-          }}
-        >
-          <RadioGroup value={selectedOption} sx={{position:"relative",
-            top:"20px", left:"10px"}} onChange={(e) => setSelectedOption(e.target.value)}>
-            <FormControlLabel value="option1" control={<Radio />} label={'Mussafara'} />
-            <FormControlLabel value="option2" control={<Radio />} label={'Eaxee'} />
-            <FormControlLabel value="option3" control={<Radio />} label={'LT'} />
+          }}>
+          <RadioGroup
+          sx={{position:"relative",
+            top:"20px", left:"10px"}}
+            value={selectedOption}
+            onChange={(e) => setSelectedOption(e.target.value)}
+          >
+            {repositories.map((repo) => (
+              <FormControlLabel
+                key={repo.repository_id}
+                value={repo.repository_id}
+                control={<Radio />}
+                label={repo.repository_name}
+              />
+            ))}
           </RadioGroup>
         </DialogContent>
-        <DialogActions
-          sx={{
+        <DialogActions  sx={{
             backgroundColor: "#cecece",
             padding: "10px 20px",
-          }}
-        >
+          }}>
           <Button onClick={handleDialogClose} color="primary">
             Cancel
           </Button>
-          <Button
-            onClick={handleConfirm}
-            color="primary"
-            disabled={!selectedOption} // Prevent submission without selection
-          >
+          <Button onClick={handleConfirm} color="primary" disabled={!selectedOption}>
             Confirm
           </Button>
         </DialogActions>

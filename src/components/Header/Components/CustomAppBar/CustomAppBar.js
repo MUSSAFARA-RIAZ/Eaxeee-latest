@@ -40,6 +40,7 @@ function CustomAppBar(props) {
   const [openDialog, setOpenDialog] = useState(false);
   const handleCloseDialog = () => {
     setOpenDialog(false);
+    console.log("clicked agree")
   };
   const handleCloseDialogWhenClickOutside = () => {
     console.log("handleCloseDialogOnOutsideClick");

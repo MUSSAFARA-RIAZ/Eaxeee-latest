@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Box from "@mui/material/Box";
 import { connect } from "react-redux";
 import LeftPane from "../Layout/Leftpane";
@@ -25,11 +25,10 @@ import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
 import blueprintdark from "../../Assets/Images/blueprintpale.png";
 
 import ContextMenu from "./ContextMenu";
-import { useMemo } from 'react';
 import IconToolbar from "./Components/IconToolbar";
-import { getHelperLines } from "./utils";
 
 import { Rnd } from "react-rnd";
+import  { ReactFlowProvider } from '@xyflow/react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
@@ -39,9 +38,8 @@ import { Select, FormControl } from '@mui/material';
 
 import { NodeResizer, Handle, Position } from "reactflow";
 import uniqid from 'uniqid';
-import { ReactFlowProvider } from "@xyflow/react";
-import HelperLinesRenderer from "./HelperLines";
-
+import { getHelperLines } from "./getHelperLines";
+import { useStore } from "@xyflow/react";
 
 
 
@@ -70,7 +68,6 @@ const EdgeNode = ({ data }) => (
 const Architecture = (props) => {
   const [open, setOpen] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const nodeTypes = useMemo(() => ({ edgeNode: EdgeNode }), []);
 
   const [isDroppable, setIsDroppable] = useState(false);
   const [contextMenu, setContextMenu] = useState(false);
@@ -223,9 +220,22 @@ const Architecture = (props) => {
     bottom: -5,
   };
 
+  const[canvasState,setcanvasState]=useState({x:0,y:0});
   // State to store the options
   const handleCanvasClick = (event) => {
     const canvasRect = event.target.getBoundingClientRect();
+
+    console.log('====================================');
+    console.log("canvasssssrect",canvasRect);
+    console.log('====================================');
+    const x = event.clientX - canvasRect.left;
+    const y = event.clientY - canvasRect.top;
+    console.log('====================================');
+    console.log("x,y",x,y);
+    console.log('====================================');
+    setcanvasState({x,y});
+
+    
 
 
     const activeDiagram = diagrams.find((diag) => diag.id === activeDiagramId);
@@ -732,23 +742,103 @@ const Architecture = (props) => {
     }
   }, [activeDiagramId, diagrams]);
 
-  const handleContainerTextChange = (e, containerId) => {
-    const newTextValue = e.target.value;
-
-    // Update container text in the active diagram
-    setDiagrams(prevDiagrams =>
-      prevDiagrams.map(diagram =>
-        diagram.id === activeDiagramId
-          ? {
-            ...diagram,
-            containers: diagram.containers.map(container =>
-              container.id === containerId ? { ...container, text: newTextValue } : container
-            )
-          }
-          : diagram
-      )
-    );
+  
+  const canvasStyle = {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    zIndex: 10,
+    pointerEvents: 'none',
   };
+    const [helperLines, setHelperLines] = useState({ horizontal: null, vertical: null });
+
+
+    // 
+// 0
+// : 
+// 482.89669421487605
+// 1
+// : 
+// 155.52892561983472
+// 2
+// : 
+// 0.762396694214876
+
+  const storeSelector = (state) => ({
+
+   
+
+    
+    width: state.width || 882.66, // Default width
+    height: state.height || 637.600,// Default height
+    transform: state.transform,
+  });
+
+  
+
+
+  function HelperLinesRenderer({ horizontal, vertical }) {
+
+    console.log("horizontal",horizontal);
+    console.log("vertical",vertical);
+    
+    const { width, height, transform } = useStore(storeSelector);
+  
+    console.log("widthhhhh===>>>>>>>>>>>>>>>>",width);
+    console.log("heighthhhh===>>>>>>>>>>>>>>>>",height);
+    
+  
+    console.log("transform from store selector",transform);
+    
+    const canvasRef = useRef(null);
+  
+    useEffect(() => {
+      const canvas = canvasRef.current;
+  
+      console.log("canvas===>>render html element ",canvas);
+      const context = canvas?.getContext('2d');
+  
+      if (!context || !canvas || !transform || transform.length < 3) {
+        return;
+      }
+  
+      const dpi = window.devicePixelRatio || 1;
+      canvas.width = width * dpi;
+      canvas.height = height * dpi;
+      context.scale(dpi, dpi);
+  
+      context.clearRect(0, 0, width, height);
+      context.strokeStyle = '#0041d0';
+  
+      if (typeof vertical === 'number') {
+        const xPosition = vertical * transform[2] + transform[0];
+        console.log("vertical=====>",xPosition)
+        context.beginPath();
+        context.moveTo(xPosition, 0);
+        context.lineTo(xPosition, height);
+        context.stroke();
+      }
+  
+      if (typeof horizontal === 'number') {
+        const yPosition = horizontal * transform[2] + transform[1];
+        console.log("horizontal=====>",yPosition)
+        context.beginPath();
+        context.moveTo(0, yPosition);
+        context.lineTo(width, yPosition);
+        context.stroke();
+      }
+    }, [width, height, transform, horizontal, vertical]);
+  
+    return (
+      <canvas
+        ref={canvasRef}
+        className="react-flow__canvas"
+        style={canvasStyle}
+      />
+    );
+  }
+  
+
 
 
 
@@ -760,105 +850,138 @@ const Architecture = (props) => {
           if (diagram.id === activeDiagramId) {
             const sourceNode = diagram.nodes.find((node) => node.id === params.source);
             const targetNode = diagram.nodes.find((node) => node.id === params.target);
-
+  
             if (!sourceNode || !targetNode) return diagram;
-
+  
             const edgeNode = {
               id: `edge-${params.source}-${params.target}`,
-              type: 'edgeNode',
+              type: "edgeNode",
               position: {
                 x: (sourceNode.position.x + targetNode.position.x) / 2,
                 y: (sourceNode.position.y + targetNode.position.y) / 2,
               },
             };
-
+  
             const newNodes = [...diagram.nodes, edgeNode];
-
             const newEdges = [
               {
                 id: `${params.source}-${edgeNode.id}`,
                 source: params.source,
                 target: edgeNode.id,
-                targetHandle: 'left',
+                type: 'smoothstep',
+                targetHandle: "left",
               },
               {
                 id: `${edgeNode.id}-${params.target}`,
                 source: edgeNode.id,
                 target: params.target,
-                sourceHandle: 'right',
+                type: 'smoothstep',
+                sourceHandle: "right",
               },
             ];
-
+  
             return {
               ...diagram,
               nodes: newNodes,
               edges: [...diagram.edges, ...newEdges],
             };
           }
-
           return diagram;
         })
       );
     },
-    [activeDiagramId, setDiagrams]
+    [diagrams, activeDiagramId]
   );
-
-  const [helperLineHorizontal, setHelperLineHorizontal] = useState(undefined);
-  const [helperLineVertical, setHelperLineVertical] = useState(undefined);
+  
   const onNodesChange = useCallback(
     (changes) => {
       setDiagrams((prevDiagrams) =>
         prevDiagrams.map((diagram) => {
           if (diagram.id === activeDiagramId) {
             const updatedNodes = applyNodeChanges(changes, diagram.nodes);
-
-            let horizontalLine = undefined;
-            let verticalLine = undefined;
-
+  
+            console.log("changes in nodechange",changes);
             const positionChanges = changes.filter(
-              (change) => change.type === 'position' && change.dragging
+              (change) => change.type === 'position' && change.dragging && changes[0].position
             );
+  
+            console.log("position changes[0]======>",positionChanges[0])
+            if (positionChanges.length > 0) {
+              const helperLineData = getHelperLines(positionChanges[0], updatedNodes);
+            //   changes[0].position.x =
+            //   helperLines.snapPosition.x ?? changes[0].position.x;
+            // changes[0].position.y =
+            //   helperLines.snapPosition.y ?? changes[0].position.y;
 
-            if (positionChanges.length === 1) {
-              const draggedNode = updatedNodes.find((node) => node.id === positionChanges[0].id);
-              if (draggedNode) {
-                const helperLines = getHelperLines(draggedNode, updatedNodes);
-                horizontalLine = helperLines.horizontal;
-                verticalLine = helperLines.vertical;
+              console.log("helperLineData.horizontal===>",helperLineData.horizontal);
+              console.log("helperLineData.vertical===>",helperLineData.vertical);
 
-                // Snap to positions if available
-                draggedNode.position.x = helperLines.snapPosition.x ?? draggedNode.position.x;
-                draggedNode.position.y = helperLines.snapPosition.y ?? draggedNode.position.y;
-              }
+
+  
+              setHelperLines({
+                horizontal: helperLineData.horizontal,
+                vertical: helperLineData.vertical,
+              });
+  
+              return {
+                ...diagram,
+                nodes: updatedNodes.map((node) => {
+                  if (node.type !== 'edgeNode') return node;
+  
+                  const connectedEdges = diagram.edges.filter(
+                    (edge) => edge.source === node.id || edge.target === node.id
+                  );
+  
+                  const sourceNode = updatedNodes.find(
+                    (n) => n.id === connectedEdges[0]?.source
+                  );
+                  const targetNode = updatedNodes.find(
+                    (n) => n.id === connectedEdges[1]?.target
+                  );
+  
+                  if (sourceNode && targetNode) {
+                    return {
+                      ...node,
+                      position: {
+                        x: (sourceNode.position.x + targetNode.position.x) / 2,
+                        y: (sourceNode.position.y + targetNode.position.y) / 2,
+                      },
+                    };
+                  }
+  
+                  return node;
+                }),
+              };
             }
-
-            setHelperLineHorizontal(horizontalLine);
-            setHelperLineVertical(verticalLine);
-
-            return {
-              ...diagram,
-              nodes: updatedNodes,
-            };
+  
+            setHelperLines({ horizontal: null, vertical: null });
+  
+            return { ...diagram, nodes: updatedNodes };
           }
-
           return diagram;
         })
       );
     },
-    [activeDiagramId, setDiagrams]
+    [activeDiagramId]
   );
-
+  
   const onEdgesChange = useCallback(
     (changes) => {
-      setDiagrams(prevDiagrams => prevDiagrams.map(diagram => {
-        if (diagram.id === activeDiagramId) {
-          return { ...diagram, edges: applyEdgeChanges(changes, diagram.edges || []) };
-        }
-        return diagram;
-      }));
+      setDiagrams((prevDiagrams) =>
+        prevDiagrams.map((diagram) => {
+          if (diagram.id === activeDiagramId) {
+            return {
+              ...diagram,
+              edges: applyEdgeChanges(changes, diagram.edges || []),
+            };
+          }
+          return diagram;
+        })
+      );
     },
     [activeDiagramId]
   );
+  
 
 
 
@@ -1034,39 +1157,37 @@ const Architecture = (props) => {
                     {/* <Diagra /> */}
                   </Rnd>
 
-
                   <ReactFlowProvider>
-                    <ReactFlow
-                      nodes={minimized ? [] : activeDiagram.nodes}
-                      edges={minimized ? [] : activeDiagram.edges}
+
+                  <ReactFlow
+                    nodes={minimized ? [] : activeDiagram.nodes}
+                    edges={minimized ? [] : activeDiagram.edges}
 
 
-                      onNodesChange={onNodesChange}
+                    onNodesChange={onNodesChange}
 
 
-                      onEdgesChange={onEdgesChange}
-                      onConnect={onConnect}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
 
-                      nodeTypes={nodeTypes}
-                      deleteKeyCode={['Backspace', 'Delete']}
+                    nodeTypes={{ edgeNode: EdgeNode }}
+                    deleteKeyCode={['Backspace', 'Delete']}
 
-                      connectionMode="loose"
-                      style={{ width: '100%', height: '100%' }}
-                      onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
-                      onNodeClick={onNodeClick}
-                    >
+                    connectionMode="loose"
+                    style={{ width: '100%', height: '100%' }}
+                    onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
+                    onNodeClick={onNodeClick}
+                  >
 
-                      <Controls />
-                      <Background />
-
-
-                    </ReactFlow>
-
+                    <Controls />
+                    <Background />
                     <HelperLinesRenderer
-
-
-                      horizontal={helperLineHorizontal} vertical={helperLineVertical}
+                      horizontal={helperLines.horizontal}
+                      vertical={helperLines.vertical}
                     />
+                  
+
+                  </ReactFlow>
                   </ReactFlowProvider>
 
 
@@ -1091,7 +1212,7 @@ const Architecture = (props) => {
                         setTexts((prev) =>
                           prev.map((t) => (t.id === id ? { ...t, x: data.x, y: data.y } : t))
                         );
-                        // Update the position in `diagrams` for the active diagram
+
                         setDiagrams((prevDiagrams) =>
                           prevDiagrams.map((diagram) =>
                             diagram.id === activeDiagramId

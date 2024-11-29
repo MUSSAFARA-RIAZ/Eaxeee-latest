@@ -7,7 +7,8 @@ import Header from './components/Header/Header';
 import { connect } from 'react-redux';
 
 function App(props) {
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  console.log("localstoragewalivalue: ",localStorage.getItem('isUserLoggedIn'))
+  const [userLoggedIn, setUserLoggedIn] = useState(localStorage.getItem('isUserLoggedIn') || false);
   const { theme } = props;
 
   const darkTheme = createTheme({

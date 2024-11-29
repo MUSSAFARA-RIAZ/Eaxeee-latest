@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Box from "@mui/material/Box";
 import { connect } from "react-redux";
-import LeftPane from "../Layout/Leftpane";
-import RightPane from "../Layout/Rightpane";
-import { EnterpriseContent, UserTabs } from "./Components/Enterprise_iconsTab";
-import DropDownInputField from "./Components/DropDownInputField";
-import Iconbox from "./Components/Iconbox";
-import ModalChangeColor from "./Components/Modals/ModalChangeColor";
+import LeftPane from "../../Layout/Leftpane";
+import RightPane from "../../Layout/Rightpane";
+import { EnterpriseContent, UserTabs } from "../Components/Enterprise_iconsTab";
+import DropDownInputField from "../Components/DropDownInputField";
+import Iconbox from "../Components/Iconbox";
+import ModalChangeColor from "../Components/Modals/ModalChangeColor";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import ReactFlow, {
   addEdge,
@@ -24,8 +24,8 @@ import processdark from "../../Assets/Images/processpale.png";
 import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
 import blueprintdark from "../../Assets/Images/blueprintpale.png";
 
-import ContextMenu from "./ContextMenu";
-import IconToolbar from "./Components/IconToolbar";
+import ContextMenu from "../ContextMenu";
+import IconToolbar from "../Components/IconToolbar";
 
 import { Rnd } from "react-rnd";
 import  { ReactFlowProvider } from '@xyflow/react';
@@ -38,7 +38,7 @@ import { Select, FormControl } from '@mui/material';
 
 import { NodeResizer, Handle, Position } from "reactflow";
 import uniqid from 'uniqid';
-import { getHelperLines } from "./getHelperLines";
+import { getHelperLines } from "../getHelperLines";
 import { useStore } from "@xyflow/react";
 
 
