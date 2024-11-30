@@ -1,15 +1,40 @@
 import './App.css';
 import AuthRouter from './config/routing/AuthRouter';
 import AppRouter from './config/routing/AppRouter';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Header from './components/Header/Header';
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function App(props) {
-  console.log("localstoragewalivalue: ",localStorage.getItem('isUserLoggedIn'))
+  console.log("localstoragewalivalue: ", localStorage.getItem('isUserLoggedIn'));
   const [userLoggedIn, setUserLoggedIn] = useState(localStorage.getItem('isUserLoggedIn') || false);
   const { theme } = props;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const currentPath = window.location.pathname;
+
+    if (!userLoggedIn) {
+      // Redirect to /login if userLoggedIn is false
+      if (currentPath !== '/login') {
+        navigate('/login', { replace: true });
+      }
+    } else {
+      // Redirect to /home if userLoggedIn is true and the user is on /login
+      if (currentPath === '/login') {
+        navigate('/home', { replace: true });
+      }
+    }
+  }, [userLoggedIn, navigate]);
+
+  useEffect(() => {
+    if (window.location.pathname === '/') {
+      // Redirect to /login if user is at the root path
+      navigate('/login', { replace: true });
+    }
+  }, [navigate]);
 
   const darkTheme = createTheme({
     palette: { mode: 'dark' },
