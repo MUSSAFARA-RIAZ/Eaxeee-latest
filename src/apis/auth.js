@@ -134,7 +134,7 @@ export const logoutUser = async () => {
     if (response.status === 200){
       sessionStorage.removeItem('isUserLoggedIn');
       alert("logout was successfull")
-      window.location.reload()
+      window.location.href = '/login'
 
       // window.location.reload()
       
