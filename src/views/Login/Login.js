@@ -96,10 +96,10 @@ function Login({onSignIn}) {
 
       // When this api returns 200 then we'll call the final api that login the user & update the session for user on backend.
       const res_login = await loginUser(username, password, selectedOption)
-      
+      console.log("res is: ",res_login)
       // If the api updates the session on backend successfully & user is logged in, 200 status code is returned and the onSignIn function is called that allows user to view rest of the view as logged in user.
       if (res_login.code === 200){
-        localStorage.setItem("isUserLoggedIn",true)
+        
         if (onSignIn){
           onSignIn()
         }
