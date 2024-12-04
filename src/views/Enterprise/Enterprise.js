@@ -74,7 +74,7 @@ const Enterprise = (props) => {
 
       {props.subPage === "architecture" ? (
         <>
-          <Architecture props={props}/>
+          <Architecture props={props} open={open}/>
         </>
       ) : (
         <QuickAccess props={props}/>

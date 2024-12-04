@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import TreeStructure from '../../../components/TreeStructure/TreeStructure';
-// import TreeStructure from "../../../components/TreeStructure/TreeStructure";
-import { getTreeNodes1 } from "../../../components/TreeStructure/NodeService/Data";
+
 import { connect } from "react-redux";
 
 function Table1({ language, theme, setLanguage, setTheme }) {

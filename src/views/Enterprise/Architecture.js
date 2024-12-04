@@ -1006,7 +1006,7 @@ const Architecture = (props) => {
         </div>
         <div>
           {view === 0 && (
-            <EnterpriseContent value={value} language={props.language} />
+            <EnterpriseContent value={value} open={open} language={props.language} />
           )}
         </div>
       </LeftPane>

@@ -1,0 +1,196 @@
+
+  
+  .contextMenu {
+    position: absolute;
+    background: lightgray;
+    width: 200px;
+    /* max-width: 250px; */
+  
+    z-index: 999999999999;
+    background: #e3fdff;
+    border-radius: 5px;
+    /* transform: scale(0); */
+    transition: transform 300ms ease-in-out;
+    transform-origin: top left;
+  }
+  
+  .contextMenuItems {
+    padding: 10px;
+    border-bottom: 0.5px solid lightgray;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 300;
+    list-style: none;
+  }
+  
+  .contextMenuItems:hover {
+    background: #0d7e8a;
+    color: #fff;
+  }
+  
+  .popup {
+    /* background: #e3fdff; */
+    z-index: 999999999999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 150px;
+    width: 400px;
+    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  
+  
+  .popupChildDiv {
+    width: 100%;
+    height: 100%;
+    /* Adjust height if needed */
+    display: flex;
+    /* Enable flexbox layout */
+    flex-direction: column;
+    /* Stack elements vertically */
+    justify-content: center;
+    /* Align vertically in center */
+    align-items: center;
+    /* Align horizontally in center */
+    margin-top: 2%;
+  }
+  
+  
+  .popup input {
+    padding: 10px;
+    width: 90%;
+    outline: none;
+  }
+  
+  .popupBottomButtonsDiv {
+    position: absolute;
+    bottom: 5px;
+    width: 95%;
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+  }
+  
+  .popup button {
+    padding: 8px 30px;
+    color: #fff !important;
+    font-weight: bold !important;
+    border: none !important;
+    cursor: pointer !important;
+  
+  }
+  
+  /* .cancelButton{
+    background: red !important;
+  } */
+  
+  
+  
+  .popup button:hover {
+    opacity: 0.9;
+  }
+  
+  .popupHeader {
+    position: absolute;
+    top: 0;
+    /* left: 0; */
+    /* background-color: #0d7e8a; */
+    color: #fff;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 8px;
+  
+  
+  
+  
+  }
+  
+  .popupClose {
+    position: relative;
+    background: #E3FDFF;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .popupClose:hover {
+    opacity: 0.9;
+  }
+  
+  .popupClose::before {
+    content: "";
+    font-size: 24px;
+    position: absolute;
+    left: 45%;
+    width: 2px;
+    height: 60%;
+    background-color: #000;
+    color: black;
+    transform: rotate(45deg);
+    z-index: 1;
+    box-shadow: 0.9px 1px 1px #fff;
+    opacity: .5;
+  }
+  
+  .popupClose::after {
+    content: "";
+    font-size: 24px;
+    position: absolute;
+    left: 45%;
+    width: 2px;
+    height: 60%;
+    background-color: #000;
+    transform: rotate(-45deg);
+    z-index: 1;
+    box-shadow: -0.9px 1px 1px #fff;
+    opacity: .5;
+  }
+  
+  /* main.css */
+  
+  .treeMainBox {
+    display: flex;
+    height: 100vh;
+  }
+  
+  
+  
+  .rct-tree-item-li {
+    position: relative;
+  }
+  
+  .contextMenu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 9999;
+  }
+  
+  .contextMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .contextMenuItems {
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+  
+  .contextMenuItems:hover {
+    background-color: #f0f0f0;
+  }

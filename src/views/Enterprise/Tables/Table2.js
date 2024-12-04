@@ -1,5 +1,4 @@
-import TreeStructure from "../../../components/TreeStructure/TreeStructure";
-import {getTreeNodes2} from "../../../components/TreeStructure/NodeService/Data";
+
 import { connect } from "react-redux";
 
 function Table2(props) {
