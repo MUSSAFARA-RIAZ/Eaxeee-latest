@@ -91,7 +91,7 @@ function Login({onSignIn}) {
 
     // If correct credentials & correct repository was provided then it returns 200
     if (res.code === 200) {
-      console.log("onsign: ",onSignIn)
+      console.log("Provided credentials are correct: ",onSignIn)
       setIsDialogOpen(false); // Close the dialog box
 
       // When this api returns 200 then we'll call the final api that login the user & update the session for user on backend.
@@ -99,7 +99,7 @@ function Login({onSignIn}) {
       
       // If the api updates the session on backend successfully & user is logged in, 200 status code is returned and the onSignIn function is called that allows user to view rest of the view as logged in user.
       if (res_login.code === 200){
-        localStorage.setItem("isUserLoggedIn",true)
+
         if (onSignIn){
           onSignIn()
         }
@@ -108,7 +108,6 @@ function Login({onSignIn}) {
         
       }// Other wise it shows alert with the error message and user is shown no UI other than the login page.
       else if (res_login.code === 401){
-        console.log("called this one lol")
         alert(res_login.data.error)
       }
       

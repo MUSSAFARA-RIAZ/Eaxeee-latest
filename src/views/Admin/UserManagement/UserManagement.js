@@ -4,8 +4,8 @@ import UserRegistration from "./UserRegistration";
 import PasswordManagement from "./PasswordManagement";
 import DirectoryUser from "./DirectoryUser";
 import CustomTabs from "../../../components/CustomTabs/CustomTabs";
-
 function UserTabs(props) {
+  
   const { value, handleChange, tabs , language,open } = props;
   const isArabic=props.language==='ar'
 

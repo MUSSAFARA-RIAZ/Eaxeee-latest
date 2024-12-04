@@ -1,6 +1,14 @@
 "use client";
 import { S_URL } from "../config";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom'
+
+
+const _headers = {
+  "Content-Type": "application/json",
+  
+};
+
 
 
 
@@ -8,16 +16,12 @@ import axios from "axios";
     try {
         const response = await axios.post(
             
-            `${S_URL}/EAZeeRest/rest/getUserRepositories`,
+            `${S_URL}/rest/getUserRepositories`,
             
             { 
               username 
             },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },withCredentials: true
-            }
+            
         );
 
         console.log("Repositories fetched successfully:", response.data);
@@ -38,7 +42,7 @@ import axios from "axios";
 
 export const checkIfUserExistOrNot = async (username, password, repositoryId) => {
   try {
-    const url = `${S_URL}/EAZeeRest/rest/checkUserExistOrNot`;
+    const url = `${S_URL}/rest/checkUserExistOrNot`;
 
     const payload = {
       username,
@@ -46,9 +50,7 @@ export const checkIfUserExistOrNot = async (username, password, repositoryId) =>
       repositoryId,
     };
 
-    const headers = {
-      "Content-Type": "application/json",
-    };
+    const headers = _headers
 
     // Make the API call
     const response = await axios.post(url, payload, { headers,withCredentials: true });
@@ -75,7 +77,7 @@ export const checkIfUserExistOrNot = async (username, password, repositoryId) =>
 
 export const loginUser = async (username, password, repositoryId) => {
   try {
-    const url = `${S_URL}/EAZeeRest/rest/loginUser`;
+    const url = `${S_URL}/rest/loginUser`;
 
     const payload = {
       username,
@@ -83,22 +85,24 @@ export const loginUser = async (username, password, repositoryId) => {
       repositoryId,
     };
 
-    const headers = {
-      "Content-Type": "application/json",
-    };
+    const headers = _headers;
 
     // Make the API call with credentials enabled
     const response = await axios.post(url, payload, { headers, withCredentials: true });
 
     console.log("Login successful:", response.data);
 
+    //Store the session id in session storage.
+    if (response.status === 200){
+      sessionStorage.setItem("isUserLoggedIn",true)
+    }
     // Return the response in a structured format
     return {
       code: response.status,
       data: response.data,
     };
   } catch (error) {
-    console.error("Login failed:", error);
+    console.error("Login failed:", error);  
 
     // Handle and return the error
     return {
@@ -109,30 +113,46 @@ export const loginUser = async (username, password, repositoryId) => {
 };
 
 
+
 export const logoutUser = async () => {
+
+    console.log("calling logout user")
   try {
-    const url = `${S_URL}/EAZeeRest/logout`;
+    const url = `${S_URL}/rest/logout`;
 
-    const headers = {
-      "Content-Type": "application/json",
-      // Include credentials (cookies) for authentication
-      withCredentials: true,
-    };
 
-    // Make the API call for logout
-    const response = await axios.post(url, {}, { headers, withCredentials: true });
+    // Now make the API call for logout with withCredentials
+    const response = await axios.post(url, {}, { withCredentials: true });
 
+    console.log("response is: ", response);
     console.log("Logout successful:", response.data);
 
+    
+    if (response.status === 200){
+      sessionStorage.removeItem('isUserLoggedIn');
+      alert("logout was successfull")
+      window.location.href = '/login'
+
+      // window.location.reload()
+      
+
+    }
+    else if (response.status === 400){
+      console.log("inside anotehr bracket")
+    }
     // Return the response in a structured format
+
+    // sessionStorage.removeItem('isUserLoggedIn');
+    // window.location.reload()
+
     return {
       code: response.status,
       data: response.data,
     };
   } catch (error) {
-    console.error("Logout failed:", error);
+    console.log("I am in catch")
+    
 
-    // Handle and return the error
     return {
       code: error.response?.status || 502,
       data: error.response?.data || "Unknown error occurred",

@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function App(props) {
-  console.log("localstoragewalivalue: ", localStorage.getItem('isUserLoggedIn'));
-  const [userLoggedIn, setUserLoggedIn] = useState(localStorage.getItem('isUserLoggedIn') || false);
+  console.log("localstoragewalivalue: ", sessionStorage.getItem('isUserLoggedIn'));
+  const [userLoggedIn, setUserLoggedIn] = useState(sessionStorage.getItem('isUserLoggedIn') || false);
   const { theme } = props;
   const navigate = useNavigate();
 
