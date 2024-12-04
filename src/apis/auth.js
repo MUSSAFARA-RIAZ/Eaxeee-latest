@@ -95,7 +95,6 @@ export const loginUser = async (username, password, repositoryId) => {
     //Store the session id in session storage.
     if (response.status === 200){
       sessionStorage.setItem("isUserLoggedIn",true)
-      sessionStorage.setItem("JSESSIONID",response.data.JSESSIONID)
     }
     // Return the response in a structured format
     return {
@@ -121,8 +120,6 @@ export const logoutUser = async () => {
   try {
     const url = `${S_URL}/rest/logout`;
 
-    // Set the JSESSIONID cookie
-    // document.cookie = "JSESSIONID=aaa8268D15125A2BCFE5BC8D58BB0D622EE; path=/;";
 
     // Now make the API call for logout with withCredentials
     const response = await axios.post(url, {}, { withCredentials: true });

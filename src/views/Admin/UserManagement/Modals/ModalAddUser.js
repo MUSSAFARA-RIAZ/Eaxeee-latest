@@ -17,20 +17,29 @@ import styles from "./Modals.UserManagement.css";
 import CustomButton from "../../../../components/CustomButton/CustomButton";
 import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslation";
 import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
+import { addUser } from "../../../../apis/user_management";
 
-const ModalAddUser = ({ open, handleClose, language, theme }) => {
+
+const ModalAddUser = ({ open, handleClose, language, theme, onUserAdded  }) => {
   let snackBarMessage = "";
+  const [snackBarFlag, setSnackBarFlag] = useState(true);
+  const [disableAddButton, setDisableAddButton] = useState(false);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
+    
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    console.log("Clicked Add User")
+    
     console.log(data);
     let { fullName, userName, email } = data;
-
+    console.log("handle close")
+    
     if (!fullName) {
       snackBarMessage = "Full Name is required";
       setSnackBarFlag(true);
@@ -40,10 +49,37 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
     } else if (!email) {
       snackBarMessage = "Email is required";
       setSnackBarFlag(true);
+      
+    }
+    else{
+      setDisableAddButton(true)
+      console.log("calling api...")
+      const res = await addUser({
+        "full_name": fullName,
+        "username": userName,
+        "email": email
+      }
+      
+      )
+      setDisableAddButton(false)
+      if (res.code === 200){
+        console.log("User added and 'onUserAdded' event is triggered...")
+        handleClose()
+        reset()
+        onUserAdded();
+       
+        alert(res.data.message)
+        
+      } else {
+        console.log("Couldn't add user for some reason")
+        alert(res.error)
+      }
+
+      console.log("res is: ",res)
+      
     }
   };
 
-  const [snackBarFlag, setSnackBarFlag] = useState(false);
 
   const handleSnackBarClose = () => {
     setSnackBarFlag(false);
@@ -204,7 +240,7 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
 
               className="input-field"
               {...register("userName", {
-                pattern: /^[A-Za-z]+$/i,
+                pattern: /\S+@\S+\.\S+/,
                 required: true,
                 minLength: 5,
               })}
@@ -397,6 +433,7 @@ const ModalAddUser = ({ open, handleClose, language, theme }) => {
 
                 Theme={theme}
                 sx={{ width: "50%" }}
+                disabled={disableAddButton}
               />
               <CustomButton
                 title={
