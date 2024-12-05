@@ -15,9 +15,9 @@ function CustomTable(props) {
     setSearchText(event.target.value);
   };
 
-  const handleDeleteClick = () => {
-    setSelectedRows([]);
-  };
+  // const handleDeleteClick = () => {
+  //   setSelectedRows([]);
+  // };
   const filteredRows = props.rows.filter((row) =>
     props.columns.some((col) => {
       const value = row[col.field];
@@ -113,29 +113,29 @@ function CustomTable(props) {
             )}
             {props.showDeleteButton && (
               <IconButton
-                onClick={handleDeleteClick}
-                disabled={selectedRows.length === 0}
+                onClick={props.onDeleteClick}
+                disabled={props.deleteButtonDisabled} // Control enabled/disabled from the parent
+            >
+              <Tooltip
+                title={
+                  props.deleteButtonDisabled
+                    ? "No rows selected"
+                    : "Delete selected rows"
+                }
               >
-                <Tooltip
-                  title={
-                    selectedRows.length === 0
-                      ? "No rows selected"
-                      : "Delete selected rows"
-                  }
-                >
-                  <DeleteIcon
-                    style={{
-                      color:
-                        selectedRows.length === 0
-                          ? "#a5b7b9"
-                          : props.theme === "default"
-                            ? "#2158a4"
-                            : props.theme === "light"
-                              ? "#4A4A4A"
-                              : "#a5d149",
-                    }}
-                  />
-                </Tooltip>
+                <DeleteIcon
+                  style={{
+                    color:
+                      props.deleteButtonDisabled
+                        ? "#a5b7b9"
+                        : props.theme === "default"
+                          ? "#2158a4"
+                          : props.theme === "light"
+                            ? "#4A4A4A"
+                            : "#a5d149",
+                  }}
+                />
+              </Tooltip>
               </IconButton>
             )}
           </Stack>

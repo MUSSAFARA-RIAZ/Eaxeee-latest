@@ -6,13 +6,14 @@ import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslatio
 import CloseIcon from '@mui/icons-material/Close';
 import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 
-const ModalChangePassword = ({ open, handleClose, language, theme }) => {
+const ModalChangePassword = ({ open, handleClose, language, theme,handleYesClick, disabledYesButton }) => {
     const [snackBarFlag, setSnackBarFlag] = useState(false);
 
     const handleYes = () => {
-        // Add your logic for password change confirmation here              
-        handleClose(); // Close the dialog
-        setSnackBarFlag(true);
+
+        if (handleYesClick) {
+            handleYesClick(); // Call the parent function
+        }
     };
 
     const handleSnackBarClose = () => {
@@ -29,7 +30,7 @@ const ModalChangePassword = ({ open, handleClose, language, theme }) => {
         <Box>
             <Dialog
                 open={open}
-                onClose={handleDialogClose}
+                // onClose={handleDialogClose}
                 PaperProps={{
                     sx: {
                         width: "400px", // Adjust the width here
@@ -102,6 +103,7 @@ const ModalChangePassword = ({ open, handleClose, language, theme }) => {
                         type="submit"
                         onClick={handleYes}
                         Theme={theme}
+                        disabled={disabledYesButton}
                     />
                     <CustomButton
                         title={language === 'en' ? 'No' : AdminTranslation["No"]}
