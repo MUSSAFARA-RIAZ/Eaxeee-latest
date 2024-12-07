@@ -27,6 +27,17 @@
     background: #0d7e8a;
     color: #fff;
   }
+  .rct-tree-item-li-disabled {
+    color: gray;
+    cursor: not-allowed;
+  }
+  .blurred-item {
+    /* filter: blur(2px); */
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  
+  
   
   .popup {
     /* background: #e3fdff; */

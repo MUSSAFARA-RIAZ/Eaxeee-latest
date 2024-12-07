@@ -14,27 +14,18 @@ import PropertiesPopup from '../Components/propertiesPopup.jsx';
 
 import 'react-complex-tree/lib/style-modern.css';
 import { connect } from "react-redux";
+import DescriptionIcon from '@mui/icons-material/Description';
+import PopupTree4 from '../Components/Popup/PopupTree4.js';
+import AddIcon from '@mui/icons-material/Add';
+// import PopupTree2 from '../Components/Popup/PopupTree2.js';
 
-const Tree1 = (props) => {
-    console.log("props in tree1",props)
-//   const { t, i18n } = useTranslation();
+const Tree2 = (props) => {
+  console.log("props in tree1", props)
 
-
-
-
-  const [tree, setTree] = useState(longTree)
+  const [disabledItems, setDisabledItems] = useState({});
+  const [tree, setTree] = useState(JSON.parse(JSON.stringify(longTree)));
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [licenseProperties, setLicenseProperties] = useState({
-    deploymentType: '',
-    repositoryId: '',
-  });
-  const [treeData, setTreeData] = useState('')
-
-
-
-
-
   useEffect(() => {
     if (selectedFile) {
       console.log("selectedFile:", selectedFile);
@@ -66,17 +57,9 @@ const Tree1 = (props) => {
       document.body.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-
   useEffect(() => {
-    // console.log("selectedItem:", selectedItem); // This will be called whenever the selectedItem changes
+
   }, [selectedItem]);
-
-
-
-
-
-
   const handleCreateFile = (action, item) => {
     setContextMenu({ visible: false, x: 0, y: 0 });
     setUpdateTreeState(prev => ({
@@ -87,34 +70,44 @@ const Tree1 = (props) => {
       action: "create file"
     }));
   };
-
-
-
-
   const handleCreateFolder = (action, item) => {
     setContextMenu({ visible: false, x: 0, y: 0 });
 
-    console.log("---------------");
-    console.log("in handleCreateFolder");
 
     setUpdateTreeState((prev) => ({ ...prev, showPopUp: true, item: item, type: "folder", action: "create meta-model" }))
-    console.log("action:", action);
-    console.log("item:", item);
-    console.log("tree => ", tree);
-    console.log("---------------");
-    console.log("");
+
 
   }
 
+  const handleRemoveItem = (item) => {
+    // Function to recursively disable the item and its children
+    const disableItemAndChildren = (itemData) => {
+      setDisabledItems((prev) => ({
+        ...prev,
+        [itemData]: true, // Mark item as disabled
+      }));
 
+      // If the item is a folder and has children, disable them as well
+      const currentItem = tree.items[itemData];
+      if (currentItem && currentItem.isFolder) {
+        currentItem.children.forEach((child) => {
+          disableItemAndChildren(child); // Recursively disable children
+        });
+      }
+    };
 
+    disableItemAndChildren(item.data); // Disable the item and its children
 
+    setContextMenu((prev) => ({
+      ...prev,
+      text: "Delete", // Update text to "Delete" after removal
+    }));
 
-
-
-
-
-
+    // Optionally, add a delay before actually deleting or enable 'delete' state
+    setTimeout(() => {
+      console.log(`Item ${item.data} and its children are marked for deletion.`);
+    }, 2000); // Adjust delay duration as needed
+  };
   const handleDeleteItem = (action, item) => {
     setContextMenu({ visible: false, x: 0, y: 0 });
 
@@ -150,20 +143,28 @@ const Tree1 = (props) => {
 
     setTree(newTreeState);
   }
+  const handleRestoreItem = (item) => {
+    // Function to restore the item and its children
+    const restoreItemAndChildren = (itemData) => {
+      setDisabledItems((prev) => {
+        const updated = { ...prev };
+        delete updated[itemData]; // Remove the disabled state
+        return updated;
+      });
 
+      // If the item is a folder, restore its children as well
+      const currentItem = tree.items[itemData];
+      if (currentItem && currentItem.isFolder) {
+        currentItem.children.forEach((child) => {
+          restoreItemAndChildren(child); // Recursively restore children
+        });
+      }
+    };
 
-
-
-
-
-
-
-
-
-
-  // Define context menu component for folders
+    restoreItemAndChildren(item.data); // Restore the item and its children
+  };
   const FolderContextMenu = ({ item }) => {
-    const hasFiles = item.children.length > 0;
+    // const isDisabled = disabledItems[item.data];
     return (
       <div className="contextMenu"
         style={{
@@ -171,57 +172,45 @@ const Tree1 = (props) => {
           left: contextMenu.x,
         }}>
         <ul>
-          {item.data === 'Roles' ? (
-            <>
-              <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('generate license')}</li>
-              <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('load license')}</li>
 
-              <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('generate role')}</li>
-              <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('load role')}</li>
-            </>
-          ) : (
+          {item.data === 'Eaxee' && (
+            <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('New Folder')}</li>
+          )}
+          {item.data !== 'Eaxee' && (
             <>
-              {item.data === 'Eaxee' && (
-                <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('New Architecture')}</li>
-              )}
-              {item.data !== 'Eaxee' && (
-                <>
-                  <li className='contextMenuItems'>📋 {('Copy Architecture')}</li>
-                  {/* <li className='contextMenuItems' onClick={() => handleRenameFolder('renameFolder', item)}>✏️ {t('rename')}</li> */}
-                  {/* {!hasFiles && (
-                    <li className='contextMenuItems' onClick={() => handleRemoveFolder('delete', item)}>🗑️ {t('delete')}</li>
-                  )} */}
-                  {/* <li className='contextMenuItems' onClick={() => handleLockFolder('lock', item)}>🔒 {t('lock')}</li>
-                  <li className='contextMenuItems' onClick={() => handleFolderProperties('properties', item)}>📜 {t('properties')}</li> */}
-                </>
-              )}
+
+              <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Diagram')}</li>
+              <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Catalog')}</li>
+              <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Matrix')}</li>
+              <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Navigation')}</li>
+              <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Viewpoint')}</li>
+              <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Roadmap')}</li>
+
+
             </>
           )}
+
+
         </ul>
       </div>
-    )
+    );
   };
-  // Define context menu component for other items
-  const ItemContextMenu = ({ item }) => (
-    <div className="contextMenu"
-      style={{
-        position: "absolute",
-        top: contextMenu.y,
-        left: contextMenu.x,
-      }}>
-      <ul>
-        {/* <li className='contextMenuItems' onClick={() => handleRenameItem('renameItem', item)}>✏️ {t('rename')}</li> */}
-        <li className='contextMenuItems' onClick={() => handleDeleteItem('deleteItem', item)}>🗑️ {('delete')}</li>
-        {/* <li className='contextMenuItems' onClick={() => handleLockItem('lockItem', item)}>🔒 {t('lock')}</li> */}
-        {/* <li className='contextMenuItems' onClick={() => handleUnlockItem('unlockItem', item)}>🔓 Unlock</li> */}
-        {/* <li className='contextMenuItems' onClick={() => handleItemProperties('itemProperties', item)}>📜 {t('properties')}</li> */}
-      </ul>
-    </div>
-  );
 
+  const ItemContextMenu = ({ item }) => {
+    const isDisabled = disabledItems[item.data];
+    return (
+      <div className="contextMenu"
+        style={{
+          position: "absolute",
+          top: contextMenu.y,
+          left: contextMenu.x,
+        }}>
+        <ul>
 
-
-
+        </ul>
+      </div>
+    );
+  };
   const createNewFolder = () => {
     console.log("---------------");
     console.log("in handleCreateFolder");
@@ -335,14 +324,16 @@ const Tree1 = (props) => {
             canDropOnFolder={true}
 
 
-            // onSelectItems={(items) => console.log("Selected items:", items)} //returns array of selected items
+
             renderItemTitle={({ item, context, title }) => {
 
-              // console.log("item:", item);
-              // console.log("context:", context);
-              // console.log("title:", title);
 
-              return item.isFolder ? <span>{context.isExpanded ? '📁 ' : '📂 '}{title}</span> : <span>{'📚 '}{title}</span>
+
+              return item.isFolder ? <span>{context.isExpanded ? '📁 ' : '📂 '}{title}</span> : <span style={{ display: "inline-flex", alignItems: "center" }}>
+                <DescriptionIcon sx={{ fontSize: "13px", verticalAlign: "middle" }} />
+                {title}
+              </span>
+
             }}
             renderItem={({ item, depth, children, title, context, arrow }) => {
               const isSelected = context.isSelected; //returns boolean
@@ -375,13 +366,7 @@ const Tree1 = (props) => {
                   }
 
                   onContextMenu={e => {
-                    // console.log("item =>", item.isFolder);
-                    // console.log("depth =>", depth);
-                    // console.log("children =>", children);
-                    // console.log("title =>", title);
-                    // console.log("context =>", context);
-                    // console.log("arrow =>", arrow);
-                    // console.log("e =>", e);
+
 
                     e.preventDefault();
                     e.stopPropagation();
@@ -396,6 +381,7 @@ const Tree1 = (props) => {
                     style={{ paddingLeft: `${(depth + 1) * 10}px` }}
                     className={cx(
                       'rct-tree-item-title-container',
+                      disabledItems[item.data] && 'blurred-item', // Add blur if disabled
                       item.isFolder && 'rct-tree-item-title-container-isFolder',
                       context.isSelected && 'rct-tree-item-title-container-selected',
                       context.isExpanded && 'rct-tree-item-title-container-expanded',
@@ -425,13 +411,15 @@ const Tree1 = (props) => {
 
             {updateTreeState.showPopUp && (
               updateTreeState.action === "create meta-model" || updateTreeState.action === "create file"
-                ? <Popup
+                ? <PopupTree4
                   itemNameInput={itemNameInput}
                   setItemNameInput={setItemNameInput}
                   updateTreeState={updateTreeState}
                   setSelectedFile={setSelectedFile}
                   props={props}
-                titlefile="tree2"
+                  type="folder"
+                  titlefile="tree4"
+
                   createNewFolder={createNewFolder}
                   createNewFile={createNewFile}
                   closeCreateFolderModal={closeCreateFolderModal}
@@ -445,20 +433,17 @@ const Tree1 = (props) => {
                   />
                   : null
             )}
-
-
-            {/* <Grid container spacing={1} sx={{ marginTop: '1%' }}> */}
-            <Grid item  sx={{ height: "100%",  width:"100%", background:"transparent" }}>
-              <Paper sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', background:"transparent", justifyContent: 'space-between', boxShadow: 0 }}>
+            <Grid item sx={{ height: "100%", width: "100%", background: "transparent" }}>
+              <Paper sx={{ p: 2, height: '100%', display: 'flex', flexDirection: 'column', background: "transparent", justifyContent: 'space-between', boxShadow: 0 }}>
 
                 <div>
                   <Tree treeId="tree-1" rootItem="leftpane" treeLabel="Tree 1"
-                  // {...createDefaultRenderers(10, true)} //this is for rtl :)
+
                   />
                 </div>
 
               </Paper>
-              {/* </Grid> */}
+
             </Grid>
           </UncontrolledTreeEnvironment>
 
@@ -471,29 +456,29 @@ const Tree1 = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    language: state.language,
-    theme: state.theme,
-    activeTree: state.activeTree,
-  
-  });
-  
-  const mapDispatchToProps = (dispatch) => ({
-    setLanguage: (lang) =>
-      dispatch({
-        type: "TOGGLELANG",
-        value: lang === "en" ? "ar" : "en",
-      }),
-    setTheme: (theme) =>
-      dispatch({
-        type: "UPDATETHEME",
-        value: theme,
-      }),
-  
-    setTree: (tree) =>
-      dispatch({
-        type: "ACTIVETREE",
-        value: tree,
-      }),
-  });
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(Tree1);
+  language: state.language,
+  theme: state.theme,
+  activeTree: state.activeTree,
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setLanguage: (lang) =>
+    dispatch({
+      type: "TOGGLELANG",
+      value: lang === "en" ? "ar" : "en",
+    }),
+  setTheme: (theme) =>
+    dispatch({
+      type: "UPDATETHEME",
+      value: theme,
+    }),
+
+  setTree: (tree) =>
+    dispatch({
+      type: "ACTIVETREE",
+      value: tree,
+    }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tree2);

@@ -97,6 +97,8 @@ const PopupTree1 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
                   variant="outlined" // Required for floating label
                   value={itemNameInput}
                   onChange={(e) => setItemNameInput(e.target.value)}
+             
+
                   placeholder={(updateTreeState.action === "create meta-model" && type==="folder") ? "Folder name" : "Architecture name"}
                   required
 

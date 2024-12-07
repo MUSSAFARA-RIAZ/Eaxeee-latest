@@ -128,8 +128,9 @@ const Architecture = (props) => {
       )
     },
     { icon: (<Tooltip title="Artifacts"><img src={artifactsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
-    { icon: (<Tooltip title="Process"><img src={processsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
     { icon: (<Tooltip title="Documents"><DescriptionOutlinedIcon /></Tooltip>) },
+    { icon: (<Tooltip title="Process"><img src={processsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
+   
   ];
 
   const handleAddDiagram = () => {

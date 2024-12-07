@@ -20,6 +20,8 @@ import PopupTree4 from '../Components/Popup/PopupTree4.js';
 const Tree4 = (props) => {
   console.log("props in tree1", props)
   //   const { t, i18n } = useTranslation();
+  const [disabledItems, setDisabledItems] = useState({});
+
 
 
 
@@ -110,13 +112,35 @@ const Tree4 = (props) => {
 
 
 
+  const handleRemoveItem = (item) => {
+    // Function to recursively disable the item and its children
+    const disableItemAndChildren = (itemData) => {
+      setDisabledItems((prev) => ({
+        ...prev,
+        [itemData]: true, // Mark item as disabled
+      }));
 
+      // If the item is a folder and has children, disable them as well
+      const currentItem = tree.items[itemData];
+      if (currentItem && currentItem.isFolder) {
+        currentItem.children.forEach((child) => {
+          disableItemAndChildren(child); // Recursively disable children
+        });
+      }
+    };
 
+    disableItemAndChildren(item.data); // Disable the item and its children
 
+    setContextMenu((prev) => ({
+      ...prev,
+      text: "Delete", // Update text to "Delete" after removal
+    }));
 
-
-
-
+    // Optionally, add a delay before actually deleting or enable 'delete' state
+    setTimeout(() => {
+      console.log(`Item ${item.data} and its children are marked for deletion.`);
+    }, 2000); // Adjust delay duration as needed
+  };
   const handleDeleteItem = (action, item) => {
     setContextMenu({ visible: false, x: 0, y: 0 });
 
@@ -152,20 +176,32 @@ const Tree4 = (props) => {
 
     setTree(newTreeState);
   }
+  const handleRestoreItem = (item) => {
+    // Function to restore the item and its children
+    const restoreItemAndChildren = (itemData) => {
+      setDisabledItems((prev) => {
+        const updated = { ...prev };
+        delete updated[itemData]; // Remove the disabled state
+        return updated;
+      });
+
+      // If the item is a folder, restore its children as well
+      const currentItem = tree.items[itemData];
+      if (currentItem && currentItem.isFolder) {
+        currentItem.children.forEach((child) => {
+          restoreItemAndChildren(child); // Recursively restore children
+        });
+      }
+    };
+
+    restoreItemAndChildren(item.data); // Restore the item and its children
+  };
 
 
 
 
-
-
-
-
-
-
-
-  // Define context menu component for folders
   const FolderContextMenu = ({ item }) => {
-    const hasFiles = item.children.length > 0;
+    const isDisabled = disabledItems[item.data];
     return (
       <div className="contextMenu"
         style={{
@@ -177,7 +213,6 @@ const Tree4 = (props) => {
             <>
               <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('generate license')}</li>
               <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('load license')}</li>
-
               <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('generate role')}</li>
               <li className='contextMenuItems' onClick={() => handleCreateFolder('create', item)}>➕ {('load role')}</li>
             </>
@@ -188,39 +223,58 @@ const Tree4 = (props) => {
               )}
               {item.data !== 'Eaxee' && (
                 <>
-                  <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Process')}</li>
-                  <li className='contextMenuItems' >🗑️ {('Remove')}</li>
-                  {/* <li className='contextMenuItems' onClick={() => handleRenameFolder('renameFolder', item)}>✏️ {t('rename')}</li>
-                  {!hasFiles && (
-                 
-                  )} */}
-                  {/* <li className='contextMenuItems' onClick={() => handleLockFolder('lock', item)}>🔒 {t('lock')}</li>
-                  <li className='contextMenuItems' onClick={() => handleFolderProperties('properties', item)}>📜 {t('properties')}</li> */}
+                  {!isDisabled && (
+                    <li className='contextMenuItems' onClick={() => handleCreateFile('create', item)}>📋 {('New Process')}</li>
+                  )}
+                  {isDisabled ? (
+                    <>
+                      <li className="contextMenuItems" onClick={() => handleDeleteItem('deleteItem', item)}>
+                        🗑️ {('Delete')}
+                      </li>
+                      <li className="contextMenuItems" onClick={() => handleRestoreItem(item)}>
+                        🔄 {('Restore')}
+                      </li>
+                    </>
+                  ) : (
+                    <li className="contextMenuItems" onClick={() => handleRemoveItem(item)}>
+                      🗑️ {('Remove')}
+                    </li>
+                  )}
                 </>
               )}
             </>
           )}
         </ul>
       </div>
-    )
+    );
   };
-  // Define context menu component for other items
-  const ItemContextMenu = ({ item }) => (
-    <div className="contextMenu"
-      style={{
-        position: "absolute",
-        top: contextMenu.y,
-        left: contextMenu.x,
-      }}>
-      <ul>
-        {/* <li className='contextMenuItems' onClick={() => handleRenameItem('renameItem', item)}>✏️ {t('rename')}</li> */}
-        <li className='contextMenuItems' onClick={() => handleDeleteItem('deleteItem', item)}>🗑️ {('delete')}</li>
-        {/* <li className='contextMenuItems' onClick={() => handleLockItem('lockItem', item)}>🔒 {t('lock')}</li> */}
-        {/* <li className='contextMenuItems' onClick={() => handleUnlockItem('unlockItem', item)}>🔓 Unlock</li> */}
-        {/* <li className='contextMenuItems' onClick={() => handleItemProperties('itemProperties', item)}>📜 {t('properties')}</li> */}
-      </ul>
-    </div>
-  );
+
+  const ItemContextMenu = ({ item }) => {
+    const isDisabled = disabledItems[item.data];
+    return (
+      <div className="contextMenu"
+        style={{
+          position: "absolute",
+          top: contextMenu.y,
+          left: contextMenu.x,
+        }}>
+        <ul>
+          {/* {isDisabled ? (
+            <>
+              <li className='contextMenuItems' onClick={() => handleDeleteItem('deleteItem', item)}>🗑️ {('Delete')}</li>
+              <li className='contextMenuItems' onClick={() => handleRestoreItem(item)}>🔄 {('Restore')}</li>
+            </>
+          ) : (
+            <>
+              <li className='contextMenuItems' onClick={() => handleDeleteItem('deleteItem', item)}>🗑️ {('Delete')}</li>
+              <li className='contextMenuItems' onClick={() => handleRemoveItem(item)}>🗑️ {('Remove')}</li>
+            </>
+          )} */}
+        </ul>
+      </div>
+    );
+  };
+
 
 
 
@@ -403,6 +457,7 @@ const Tree4 = (props) => {
                     style={{ paddingLeft: `${(depth + 1) * 10}px` }}
                     className={cx(
                       'rct-tree-item-title-container',
+                      disabledItems[item.data] && 'blurred-item', // Add blur if disabled
                       item.isFolder && 'rct-tree-item-title-container-isFolder',
                       context.isSelected && 'rct-tree-item-title-container-selected',
                       context.isExpanded && 'rct-tree-item-title-container-expanded',

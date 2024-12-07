@@ -177,3 +177,15 @@ div[data-rct-tree="tree-2"], div[data-rct-tree="tree-3"]{
   height: calc(100vh - 145px) !important;
 
  }
+ .custom-ok-button {
+  background-color:#2158a4;
+
+  border: none !important;
+  color: white;
+  outline: none !important;
+  padding: 10px 10px;
+  border-radius: 4px;
+  margin: 10px;
+  font-size: 15px;
+  width: 130px;
+}
