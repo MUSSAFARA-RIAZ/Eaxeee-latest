@@ -67,10 +67,10 @@ function Login({ onSignIn }) {
       setIsSignInDisabled(true)
       setIsLoading(true);
       const res = await getRepositoriesByUsername(username);
-      setIsSignInDisabled(false)
-
+      
       // If the domain in username exist and have some repositories then it will list them
       if (res.code === 200) {
+        
         setRepositories(res.data);
         setIsDialogOpen(true);
         console.log("list of repositories are: ", res);
@@ -91,11 +91,13 @@ function Login({ onSignIn }) {
     } // If something else went wrong during this api call then this catch block will execute.
 
     catch (error) {
-      setIsLoading(true);
-      setIsSignInDisabled(false)
+      // setIsLoading(true);
+      
       console.error("Error during sign-in:", error);
       alert("Unknown error occured");
     }
+    setIsLoading(false )
+    setIsSignInDisabled(false)
   };
 
 
@@ -122,18 +124,45 @@ function Login({ onSignIn }) {
         if (onSignIn) {
           onSignIn()
         }
-        alert("user login successful")
+        // alert("user login successful")
+        
         navigate('/home')
 
       }// Other wise it shows alert with the error message and user is shown no UI other than the login page.
       else if (res_login.code === 401) {
-        alert(res_login.data.error)
+        Swal.fire({
+          title: res_login.data.error,
+          icon: 'error',
+          confirmButtonText: 'OK',
+          buttonsStyling: false, 
+          customClass: {
+            confirmButton: 'custom-ok-button' 
+          }
+        });
+        // alert(res_login.data.error)
       }
 
     } else if (res.code === 401) {
-      alert(res.data.message);
+      // alert(res.data.message);
+      Swal.fire({
+          title: res.data.message,
+          icon: 'error',
+          confirmButtonText: 'OK',
+          buttonsStyling: false, 
+          customClass: {
+            confirmButton: 'custom-ok-button' 
+          }
+        });
     } else {
-      alert("Something went wrong.");
+      Swal.fire({
+        title: "Something went wrong, please try later.",
+        icon: 'error',
+        confirmButtonText: 'OK',
+        buttonsStyling: false, 
+        customClass: {
+          confirmButton: 'custom-ok-button' 
+        }
+      });
     }
   };
 
@@ -288,7 +317,7 @@ function Login({ onSignIn }) {
                   <Button
                     onClick={handleSignInClick}
                     variant="contained"
-                    // disabled={isSignInDisabled || isLoading}
+                    disabled={isSignInDisabled || isLoading}
                     className="login-button"
                     sx={{padding:"10px", position:"relative",top:"10px"}}
                   >
