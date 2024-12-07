@@ -79,15 +79,16 @@ function Login({ onSignIn }) {
       }  //Otherwise it will show message 'invalid domain'
       else {
         setIsLoading(true);
-        Swal.fire({
-          title: 'Invalid Domain',
-          icon: 'error',
-          confirmButtonText: 'OK',
-          buttonsStyling: false, 
-          customClass: {
-            confirmButton: 'custom-ok-button' 
-          }
-        });
+        alert("invalid Domain")
+        // Swal.fire({
+        //   title: 'Invalid Domain',
+        //   icon: 'error',
+        //   confirmButtonText: 'OK',
+        //   buttonsStyling: false, 
+        //   customClass: {
+        //     confirmButton: 'custom-ok-button' 
+        //   }
+        // });
         // alert("Invalid domain");
       }
     } // If something else went wrong during this api call then this catch block will execute.
@@ -134,39 +135,41 @@ function Login({ onSignIn }) {
 
       }// Other wise it shows alert with the error message and user is shown no UI other than the login page.
       else if (res_login.code === 401) {
-        Swal.fire({
-          title: res_login.data.error,
-          icon: 'error',
-          confirmButtonText: 'OK',
-          buttonsStyling: false, 
-          customClass: {
-            confirmButton: 'custom-ok-button' 
-          }
-        });
-        // alert(res_login.data.error)
+
+        // Swal.fire({
+        //   title: res_login.data.error,
+        //   icon: 'error',
+        //   confirmButtonText: 'OK',
+        //   buttonsStyling: false, 
+        //   customClass: {
+        //     confirmButton: 'custom-ok-button' 
+        //   }
+        // });
+        alert(res_login.data.error + "401-148")
       }
 
     } else if (res.code === 401) {
-      // alert(res.data.message);
-      Swal.fire({
-          title: res.data.message,
-          icon: 'error',
-          confirmButtonText: 'OK',
-          buttonsStyling: false, 
-          customClass: {
-            confirmButton: 'custom-ok-button' 
-          }
-        });
+      alert(res.data.message + "401-152");
+      // Swal.fire({
+      //     title: res.data.message,
+      //     icon: 'error',
+      //     confirmButtonText: 'OK',
+      //     buttonsStyling: false, 
+      //     customClass: {
+      //       confirmButton: 'custom-ok-button' 
+      //     }
+      //   });
     } else {
-      Swal.fire({
-        title: "Something went wrong, please try later.",
-        icon: 'error',
-        confirmButtonText: 'OK',
-        buttonsStyling: false, 
-        customClass: {
-          confirmButton: 'custom-ok-button' 
-        }
-      });
+      console.log("Something went wrong, please try later.")
+      // Swal.fire({
+      //   title: "Something went wrong, please try later.",
+      //   icon: 'error',
+      //   confirmButtonText: 'OK',
+      //   buttonsStyling: false, 
+      //   customClass: {
+      //     confirmButton: 'custom-ok-button' 
+      //   }
+      // });
     }
 
     setDisableConfirmButton(false)
@@ -320,7 +323,6 @@ function Login({ onSignIn }) {
                   <div className="login-forgot-password">
                     <Link to="/forgetpassword">Reset password?</Link>
                   </div>
-                  
                   <Button
                     onClick={handleSignInClick}
                     variant="contained"
