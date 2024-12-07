@@ -8,6 +8,9 @@ import ModalAddUser from './Modals/ModalAddUser';
 import AdminTranslation from '../../../Utils/AdminTranslation/AdminTranslation';
 import AddIcon from '@mui/icons-material/Add';
 import { getUsersList } from "../../../apis/user_management"
+import { activateDeactivateUsers } from '../../../apis/user_management';
+import { removeUsers } from '../../../apis/user_management';
+
 const UserRegistration = (props) => {
 
        
@@ -20,10 +23,16 @@ const UserRegistration = (props) => {
 
     const [listOfUsers, setListOfUsers] = useState([]);
     const [refreshUsers, setRefreshUsers] = useState(false);
+    const [isActivateLoading, setIsActivateLoading] = useState(false);
+    const [isDeActivateLoading, setIsDeActivateLoading] = useState(false);
+    const [isDeleteDisabled, setIsDeleteDisabled] = useState(false);
+    
+    
 
     useEffect(() => {
     getUsersList()
         .then((res) => {
+            console.log("res is: ",res)
             if (res.code === 200) {
                 const formattedUsers = res.data.map(user => ({
                     id: user.username,
@@ -42,9 +51,9 @@ const UserRegistration = (props) => {
                 console.log("list of users is: ", formattedUsers);
                 console.log("activated rows are: ", activatedRowsArray);
             } else if (res.code === 401) {
-                console.error("Unauthorized access:", res.message);
-                alert(res.message); // Display the message from the response (optional)
+                console.error("Unauthorized access:", res.data);
             } else {
+                console.log("running catch")
                 console.error("Error fetching users list:", res.message || "Unknown error");
             }
         })
@@ -66,20 +75,168 @@ const UserRegistration = (props) => {
         setOpenModal(true);
     };
 
-    const handleActivateUserClick = () => {
-        setActivatedRows((prevActivatedRows) => [
-            ...prevActivatedRows,
-            ...selectedRows
-        ]);
-        setSelectedRows([]);
+    const handleActivateUserClick = async () => {
+        console.log("clicked ACTIVATE button.")
+        setIsActivateLoading(true)
+        // Filter out rows from selectedRows that are already activated
+        const validSelectedRows = selectedRows.filter((row) =>
+            !activatedRows.includes(row)
+        );
+
+        console.log("Filtered Selected Rows: ", validSelectedRows);
+
+        // If there are no valid rows to activate, do nothing
+        if (validSelectedRows.length === 0) {
+            setIsActivateLoading(false)
+            alert("No users to activate.");
+            return;
+        }
+
+        // Prepare the payload for the API call
+        const payload = {
+            usernames: validSelectedRows,
+            status: "1", // 1 indicates activation
+        };
+
+        try {
+            // Call the API
+            const response = await activateDeactivateUsers(payload);
+
+            // If the API call is successful, proceed with the rest of the function
+            if (response.code === 200) {
+                alert(response.data.message); // Show success message
+
+                // Update the activated rows by adding the activated rows
+                setActivatedRows((prevActivatedRows) => [
+                    ...prevActivatedRows,
+                    ...validSelectedRows,
+                ]);
+
+                // Clear selected rows after processing
+            } else if (response.code === 401) {
+                console.error("Unauthorized access:", response.data); // Show session-expired message
+            } else {
+                alert(response.error); // Show generic error message
+            }
+        } catch (error) {
+            console.error("Error during API call:", error);
+            alert("An unexpected error occurred. Please try again later.");
+        }
+
+        setIsActivateLoading(false)
+    
+        // setSelectedRows([]);
     };
 
-    const handleDeactivateUserClick = () => {
-        setActivatedRows((prevActivatedRows) =>
-            prevActivatedRows.filter(row => !selectedRows.includes(row))
+    const handleDeactivateUserClick = async () => {
+        console.log("Clicked DEACTIVATE button.")
+
+        setIsDeActivateLoading(true)
+        // Filter out rows from selectedRows that are already deactivated
+        const validSelectedRows = selectedRows.filter((row) =>
+            activatedRows.includes(row)
         );
-        setSelectedRows([]);
+    
+        console.log("Filtered Selected Rows: ", validSelectedRows);
+    
+        // If there are no valid rows to deactivate, do nothing
+        if (validSelectedRows.length === 0) {
+            setIsDeActivateLoading(false)
+            alert("No users to deactivate.");
+            return;
+        }
+    
+        // Prepare the payload for the API call
+        const payload = {
+            usernames: validSelectedRows,
+            status: "0", // 0 indicates deactivation
+        };
+    
+        try {
+
+            // Call the API
+            const response = await activateDeactivateUsers(payload);
+    
+            // If the API call is successful, proceed with the rest of the function
+            if (response.code === 200) {
+                alert(response.data.message); // Show success message
+    
+                // Update the activated rows by removing the deactivated rows
+                setActivatedRows((prevActivatedRows) =>
+                    prevActivatedRows.filter((row) => !validSelectedRows.includes(row))
+                );
+    
+                // Clear selected rows after processing
+                
+            } else if (response.code === 401) {
+                alert(response.data.message); // Show session-expired message
+            } else {
+                alert(response.error); // Show generic error message
+            }
+            
+        } catch (error) {
+            console.error("Error during API call:", error);
+            alert("An unexpected error occurred. Please try again later.");
+        }
+        
+        setIsDeActivateLoading(false)
+
+    // setSelectedRows([]); // Clear selected rows after deactivating
     };
+
+
+    const handleDeleteClick = async () => {
+        setIsDeleteDisabled(true)
+        console.log("clicked delete...");
+    
+        // If there are no selected rows, do nothing
+        if (selectedRows.length === 0) {
+            setIsDeleteDisabled(false)
+            alert("No users selected for deletion.");
+            return;
+        }
+    
+        // Prepare the payload for the API call
+        const payload = {
+            usernames: selectedRows, // List of usernames to delete
+        };
+    
+        try {
+            // Call the API
+            const response = await removeUsers(payload);
+    
+            // If the API call is successful, proceed with the rest of the function
+            if (response.code === 200) {
+                alert(response.data.message); // Show success message
+    
+                // Update the listOfUsers to remove deleted rows
+                const updatedListOfUsers = listOfUsers.filter(
+                    (row) => !selectedRows.includes(row.id)
+                );
+    
+                // Update tableRowData (and indirectly updatedRows) by setting the new data
+                setListOfUsers(updatedListOfUsers);
+    
+                // Clear activated rows if applicable
+                setActivatedRows((prevActivatedRows) =>
+                    prevActivatedRows.filter((row) => !selectedRows.includes(row))
+                );
+    
+                // Clear selected rows after processing
+                setSelectedRows([]);
+            } else if (response.code === 401) {
+                console.error("Unauthorized access:", response.data); // Show session-expired message
+            } else {
+                alert(response.error); // Show generic error message
+            }
+        } catch (error) {
+            console.error("Error during API call:", error);
+            alert("An unexpected error occurred. Please try again later.");
+        }
+        setIsDeleteDisabled(false)
+    };
+    
+    
 
     const tableRowData = listOfUsers;
 
@@ -123,11 +280,14 @@ const UserRegistration = (props) => {
                 <CustomTable 
                     rows={updatedRows} 
                     columns={columns} 
-                  
+                    onDeleteClick={handleDeleteClick}
                     showDeleteButton={true}
                     onSelectionChange={setSelectedRows}
                     Theme={theme}
                     checkboxSelection={true}
+                    deleteButtonDisabled={selectedRows.length === 0 || isDeleteDisabled}
+                    
+                    
                 >
                 <Box sx={{ display:"flex", justifyContent:"space-between",alignItems:"space-between", width:"350px",  ...(language === 'ar' && {
                      display:"flex", width: "300px",justifyContent:"space-between", position:"relative", right:"10px"})
@@ -150,8 +310,8 @@ const UserRegistration = (props) => {
                         variant="outlined"
                         onClick={handleActivateUserClick}
                         type="submit"
-                        loading={false}
-                        // disabled={selectedRows.length === 0}
+                        loading={isActivateLoading}
+                        disabled={selectedRows.length === 0}
                         fullWidth={true}
                         loaderSize={25}
                         loaderColor="success"
@@ -163,8 +323,8 @@ const UserRegistration = (props) => {
                         variant="outlined"
                         onClick={handleDeactivateUserClick}
                         type="submit"
-                        loading={false}
-                        // disabled={selectedRows.length === 0}
+                        loading={isDeActivateLoading}
+                        disabled={selectedRows.length === 0}
                         fullWidth={true}
                         loaderSize={25}
                         loaderColor="success"
