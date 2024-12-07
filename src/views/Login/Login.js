@@ -33,7 +33,8 @@ function Login({ onSignIn }) {
   const [password, setPassword] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [repositories, setRepositories] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('abc');
+  const [selectedOption, setSelectedOption] = useState('');
+  const [disableConfirmButton, setDisableConfirmButton] = useState(false);
   const [isSignInDisabled, setIsSignInDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -51,6 +52,7 @@ function Login({ onSignIn }) {
   const [showPassword, setShowPassword] = useState(false);
   const handleDialogClose = () => {
     setIsDialogOpen(false);
+    setSelectedOption('')
   };
 
 
@@ -106,6 +108,8 @@ function Login({ onSignIn }) {
 
   const handleConfirm = async () => {
 
+
+    setDisableConfirmButton(true)
     // When user has selected a repository form a list and 'Confirm' button is clicked then this api will be called that check if the username & password exist in that repository
     const res = await checkIfUserExistOrNot(username, password, selectedOption);
     console.log("Response after selecting repository and confirming: ", res);
@@ -164,6 +168,8 @@ function Login({ onSignIn }) {
         }
       });
     }
+
+    setDisableConfirmButton(false)
   };
 
 
@@ -204,7 +210,7 @@ function Login({ onSignIn }) {
                     Superadmin Login
                   </p>
                   <p className='subheadtext'>
-                    Your key to multitenancy
+                  Enterprise architecture-based digital transformation made efficient and effective.
                   </p>
                 </p>
                 <form onSubmit={handleSubmit}>
@@ -269,7 +275,7 @@ function Login({ onSignIn }) {
                 <img className='eaxee-logo' src={GreenPaleGray} alt="Eaxee Logo" />
                 <p className="login-subtitle">
                   <p className='login-heading'>Eaxee Login</p>
-                  <p className='subheadtext'>Your key to multitenancy</p>
+                  <p className='subheadtext'>Enterprise architecture-based digital transformation made efficient and effective.</p>
                 </p>
                 <form onSubmit={handleSignInClick}>
                   <div className="login-input-group">
@@ -314,6 +320,7 @@ function Login({ onSignIn }) {
                   <div className="login-forgot-password">
                     <Link to="/forgetpassword">Reset password?</Link>
                   </div>
+                  
                   <Button
                     onClick={handleSignInClick}
                     variant="contained"
@@ -390,7 +397,7 @@ function Login({ onSignIn }) {
               <Button onClick={handleDialogClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={handleConfirm} color="primary" disabled={!selectedOption}>
+              <Button onClick={handleConfirm} color="primary" disabled={!selectedOption || disableConfirmButton}>
                 Confirm
               </Button>
             </DialogActions>
