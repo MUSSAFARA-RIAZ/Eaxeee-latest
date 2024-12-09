@@ -119,12 +119,14 @@ function Login({ onSignIn }) {
     if (res.code === 200) {
       console.log("Provided credentials are correct: ", onSignIn)
       setIsDialogOpen(false); // Close the dialog box
-
+      
       // When this api returns 200 then we'll call the final api that login the user & update the session for user on backend.
+      setLoading(true)
       const res_login = await loginUser(username, password, selectedOption)
 
       // If the api updates the session on backend successfully & user is logged in, 200 status code is returned and the onSignIn function is called that allows user to view rest of the view as logged in user.
       if (res_login.code === 200) {
+
 
         if (onSignIn) {
           onSignIn()
@@ -147,9 +149,10 @@ function Login({ onSignIn }) {
         // });
         alert(res_login.data.error + "401-148")
       }
-
+      setLoading(false)
     } else if (res.code === 401) {
       alert(res.data.message + "401-152");
+       // Close the dialog box
       // Swal.fire({
       //     title: res.data.message,
       //     icon: 'error',
@@ -161,6 +164,7 @@ function Login({ onSignIn }) {
       //   });
     } else {
       console.log("Something went wrong, please try later.")
+      setIsDialogOpen(false); // Close the dialog box
       // Swal.fire({
       //   title: "Something went wrong, please try later.",
       //   icon: 'error',
@@ -171,7 +175,7 @@ function Login({ onSignIn }) {
       //   }
       // });
     }
-
+    setIsDialogOpen(false);
     setDisableConfirmButton(false)
   };
 
