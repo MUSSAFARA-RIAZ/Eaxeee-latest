@@ -188,9 +188,10 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                                     },
                                 }}
                             >
-                                <MenuItem value={"Architect"}>{language === 'en' ? 'Architect' : AdminTranslation["Architect"]}</MenuItem>
-                                <MenuItem value={"Repository Admin"}>{language === 'en' ? 'Repository Admin' : AdminTranslation["Repository Admin"]}</MenuItem>
-                                <MenuItem value={"Organization Portal"}>{language === 'en' ? 'Organization Portal' : AdminTranslation["Organization Portal"]}</MenuItem>
+                                <MenuItem value={"ROLE_USER"}>{language === 'en' ? 'Architect' : AdminTranslation["Architect"]}</MenuItem>
+                                <MenuItem value={"ROLE_ADMIN"}>{language === 'en' ? 'Repository Admin' : AdminTranslation["Repository Admin"]}</MenuItem>
+                                <MenuItem value={"ROLE_ORGANIZATION_PORTAL"}>{language === 'en' ? 'Organization Portal' : AdminTranslation["Organization Portal"]}</MenuItem>
+                                <MenuItem value={"METAMODELER"}>{language === 'en' ? 'Metamodeler' : AdminTranslation["Organization Portal"]}</MenuItem>
                             </Select>
                         </FormControl>
                         {errors.poolRole && (
