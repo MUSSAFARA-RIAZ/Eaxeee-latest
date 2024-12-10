@@ -28,7 +28,7 @@ import ContextMenu from "./ContextMenu";
 import IconToolbar from "./Components/IconToolbar";
 
 import { Rnd } from "react-rnd";
-import  { ReactFlowProvider } from '@xyflow/react';
+import { ReactFlowProvider } from '@xyflow/react';
 
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
@@ -130,7 +130,7 @@ const Architecture = (props) => {
     { icon: (<Tooltip title="Artifacts"><img src={artifactsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
     { icon: (<Tooltip title="Documents"><DescriptionOutlinedIcon /></Tooltip>) },
     { icon: (<Tooltip title="Process"><img src={processsrc} alt="Object Default" style={{ width: '24px', height: '24px' }} /></Tooltip>) },
-   
+
   ];
 
   const handleAddDiagram = () => {
@@ -221,22 +221,22 @@ const Architecture = (props) => {
     bottom: -5,
   };
 
-  const[canvasState,setcanvasState]=useState({x:0,y:0});
+  const [canvasState, setcanvasState] = useState({ x: 0, y: 0 });
   // State to store the options
   const handleCanvasClick = (event) => {
     const canvasRect = event.target.getBoundingClientRect();
 
     console.log('====================================');
-    console.log("canvasssssrect",canvasRect);
+    console.log("canvasssssrect", canvasRect);
     console.log('====================================');
     const x = event.clientX - canvasRect.left;
     const y = event.clientY - canvasRect.top;
     console.log('====================================');
-    console.log("x,y",x,y);
+    console.log("x,y", x, y);
     console.log('====================================');
-    setcanvasState({x,y});
+    setcanvasState({ x, y });
 
-    
+
 
 
     const activeDiagram = diagrams.find((diag) => diag.id === activeDiagramId);
@@ -743,7 +743,7 @@ const Architecture = (props) => {
     }
   }, [activeDiagramId, diagrams]);
 
-  
+
   const canvasStyle = {
     width: '100%',
     height: '100%',
@@ -751,85 +751,85 @@ const Architecture = (props) => {
     zIndex: 10,
     pointerEvents: 'none',
   };
-    const [helperLines, setHelperLines] = useState({ horizontal: null, vertical: null });
+  const [helperLines, setHelperLines] = useState({ horizontal: null, vertical: null });
 
 
-    // 
-// 0
-// : 
-// 482.89669421487605
-// 1
-// : 
-// 155.52892561983472
-// 2
-// : 
-// 0.762396694214876
+  // 
+  // 0
+  // : 
+  // 482.89669421487605
+  // 1
+  // : 
+  // 155.52892561983472
+  // 2
+  // : 
+  // 0.762396694214876
 
   const storeSelector = (state) => ({
 
-   
 
-    
+
+
     width: state.width || 882.66, // Default width
     height: state.height || 637.600,// Default height
     transform: state.transform,
   });
 
-  
+
 
 
   function HelperLinesRenderer({ horizontal, vertical }) {
 
-    console.log("horizontal",horizontal);
-    console.log("vertical",vertical);
-    
+    console.log("horizontal", horizontal);
+    console.log("vertical", vertical);
+
     const { width, height, transform } = useStore(storeSelector);
-  
-    console.log("widthhhhh===>>>>>>>>>>>>>>>>",width);
-    console.log("heighthhhh===>>>>>>>>>>>>>>>>",height);
-    
-  
-    console.log("transform from store selector",transform);
-    
+
+    console.log("widthhhhh===>>>>>>>>>>>>>>>>", width);
+    console.log("heighthhhh===>>>>>>>>>>>>>>>>", height);
+
+
+    console.log("transform from store selector", transform);
+
     const canvasRef = useRef(null);
-  
+
     useEffect(() => {
       const canvas = canvasRef.current;
-  
-      console.log("canvas===>>render html element ",canvas);
+
+      console.log("canvas===>>render html element ", canvas);
       const context = canvas?.getContext('2d');
-  
+
       if (!context || !canvas || !transform || transform.length < 3) {
         return;
       }
-  
+
       const dpi = window.devicePixelRatio || 1;
       canvas.width = width * dpi;
       canvas.height = height * dpi;
       context.scale(dpi, dpi);
-  
+
       context.clearRect(0, 0, width, height);
       context.strokeStyle = '#0041d0';
-  
+
       if (typeof vertical === 'number') {
         const xPosition = vertical * transform[2] + transform[0];
-        console.log("vertical=====>",xPosition)
+        console.log("vertical=====>", xPosition)
         context.beginPath();
         context.moveTo(xPosition, 0);
         context.lineTo(xPosition, height);
         context.stroke();
       }
-  
+
       if (typeof horizontal === 'number') {
         const yPosition = horizontal * transform[2] + transform[1];
-        console.log("horizontal=====>",yPosition)
+        console.log("horizontal=====>", yPosition)
         context.beginPath();
         context.moveTo(0, yPosition);
         context.lineTo(width, yPosition);
         context.stroke();
       }
     }, [width, height, transform, horizontal, vertical]);
-  
+
     return (
       <canvas
         ref={canvasRef}
@@ -838,7 +838,7 @@ const Architecture = (props) => {
       />
     );
   }
-  
+
 
 
 
@@ -851,9 +851,9 @@ const Architecture = (props) => {
           if (diagram.id === activeDiagramId) {
             const sourceNode = diagram.nodes.find((node) => node.id === params.source);
             const targetNode = diagram.nodes.find((node) => node.id === params.target);
-  
+
             if (!sourceNode || !targetNode) return diagram;
-  
+
             const edgeNode = {
               id: `edge-${params.source}-${params.target}`,
               type: "edgeNode",
@@ -862,7 +862,7 @@ const Architecture = (props) => {
                 y: (sourceNode.position.y + targetNode.position.y) / 2,
               },
             };
-  
+
             const newNodes = [...diagram.nodes, edgeNode];
             const newEdges = [
               {
@@ -880,7 +880,7 @@ const Architecture = (props) => {
                 sourceHandle: "right",
               },
             ];
-  
+
             return {
               ...diagram,
               nodes: newNodes,
@@ -893,53 +893,53 @@ const Architecture = (props) => {
     },
     [diagrams, activeDiagramId]
   );
-  
+
   const onNodesChange = useCallback(
     (changes) => {
       setDiagrams((prevDiagrams) =>
         prevDiagrams.map((diagram) => {
           if (diagram.id === activeDiagramId) {
             const updatedNodes = applyNodeChanges(changes, diagram.nodes);
-  
-            console.log("changes in nodechange",changes);
+
+            console.log("changes in nodechange", changes);
             const positionChanges = changes.filter(
               (change) => change.type === 'position' && change.dragging && changes[0].position
             );
-  
-            console.log("position changes[0]======>",positionChanges[0])
+
+            console.log("position changes[0]======>", positionChanges[0])
             if (positionChanges.length > 0) {
               const helperLineData = getHelperLines(positionChanges[0], updatedNodes);
-            //   changes[0].position.x =
-            //   helperLines.snapPosition.x ?? changes[0].position.x;
-            // changes[0].position.y =
-            //   helperLines.snapPosition.y ?? changes[0].position.y;
+              //   changes[0].position.x =
+              //   helperLines.snapPosition.x ?? changes[0].position.x;
+              // changes[0].position.y =
+              //   helperLines.snapPosition.y ?? changes[0].position.y;
 
-              console.log("helperLineData.horizontal===>",helperLineData.horizontal);
-              console.log("helperLineData.vertical===>",helperLineData.vertical);
+              console.log("helperLineData.horizontal===>", helperLineData.horizontal);
+              console.log("helperLineData.vertical===>", helperLineData.vertical);
 
 
-  
+
               setHelperLines({
                 horizontal: helperLineData.horizontal,
                 vertical: helperLineData.vertical,
               });
-  
+
               return {
                 ...diagram,
                 nodes: updatedNodes.map((node) => {
                   if (node.type !== 'edgeNode') return node;
-  
+
                   const connectedEdges = diagram.edges.filter(
                     (edge) => edge.source === node.id || edge.target === node.id
                   );
-  
+
                   const sourceNode = updatedNodes.find(
                     (n) => n.id === connectedEdges[0]?.source
                   );
                   const targetNode = updatedNodes.find(
                     (n) => n.id === connectedEdges[1]?.target
                   );
-  
+
                   if (sourceNode && targetNode) {
                     return {
                       ...node,
@@ -949,14 +949,14 @@ const Architecture = (props) => {
                       },
                     };
                   }
-  
+
                   return node;
                 }),
               };
             }
-  
+
             setHelperLines({ horizontal: null, vertical: null });
-  
+
             return { ...diagram, nodes: updatedNodes };
           }
           return diagram;
@@ -965,7 +965,7 @@ const Architecture = (props) => {
     },
     [activeDiagramId]
   );
-  
+
   const onEdgesChange = useCallback(
     (changes) => {
       setDiagrams((prevDiagrams) =>
@@ -982,10 +982,11 @@ const Architecture = (props) => {
     },
     [activeDiagramId]
   );
-  
 
 
 
+
+  console.log("props in architecture===========>", props.activeTree);
 
 
 
@@ -1002,6 +1003,7 @@ const Architecture = (props) => {
             onClick={() => props.settree("tree1")}
           />
         </div>
+        {/* <div style={{ display: (props.activeTree === "Tree3" || props.activeTree === "Tree4") ? "none" : "block" }}> */}
         <div>
           <DropDownInputField props={props} />
         </div>
@@ -1037,6 +1039,7 @@ const Architecture = (props) => {
               size="small"
               sx={{
                 minWidth: 220,
+                display: (props.activeTree === "Tree3" || props.activeTree === "Tree4") ? "none" : "block",
               }}
 
             >
@@ -1160,35 +1163,35 @@ const Architecture = (props) => {
 
                   <ReactFlowProvider>
 
-                  <ReactFlow
-                    nodes={minimized ? [] : activeDiagram.nodes}
-                    edges={minimized ? [] : activeDiagram.edges}
+                    <ReactFlow
+                      nodes={minimized ? [] : activeDiagram.nodes}
+                      edges={minimized ? [] : activeDiagram.edges}
 
 
-                    onNodesChange={onNodesChange}
+                      onNodesChange={onNodesChange}
 
 
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
+                      onEdgesChange={onEdgesChange}
+                      onConnect={onConnect}
 
-                    nodeTypes={{ edgeNode: EdgeNode }}
-                    deleteKeyCode={['Backspace', 'Delete']}
+                      nodeTypes={{ edgeNode: EdgeNode }}
+                      deleteKeyCode={['Backspace', 'Delete']}
 
-                    connectionMode="loose"
-                    style={{ width: '100%', height: '100%' }}
-                    onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
-                    onNodeClick={onNodeClick}
-                  >
+                      connectionMode="loose"
+                      style={{ width: '100%', height: '100%' }}
+                      onNodeContextMenu={(event, node) => handleRightClick(event, node.id)}
+                      onNodeClick={onNodeClick}
+                    >
 
-                    <Controls />
-                    <Background />
-                    <HelperLinesRenderer
-                      horizontal={helperLines.horizontal}
-                      vertical={helperLines.vertical}
-                    />
-                  
+                      <Controls />
+                      <Background />
+                      <HelperLinesRenderer
+                        horizontal={helperLines.horizontal}
+                        vertical={helperLines.vertical}
+                      />
 
-                  </ReactFlow>
+
+                    </ReactFlow>
                   </ReactFlowProvider>
 
 
@@ -1305,6 +1308,8 @@ const Architecture = (props) => {
 const mapStateToProps = (state) => ({
   language: state.language,
   theme: state.theme,
+  activeTree: state.activeTree,
+
   userdetail: state.userdetail,
 });
 

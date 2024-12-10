@@ -10,6 +10,7 @@ import {
   FormControlLabel,
   Radio,
   Button,
+  Alert,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { CircularProgress } from '@mui/material';
@@ -81,9 +82,9 @@ function Login({ onSignIn }) {
           title: 'Invalid Domain',
           icon: 'error',
           confirmButtonText: 'OK',
-          buttonsStyling: false, 
+          buttonsStyling: false,
           customClass: {
-            confirmButton: 'custom-ok-button' 
+            confirmButton: 'custom-ok-button'
           }
         });
         // alert("Invalid domain");
@@ -282,6 +283,23 @@ function Login({ onSignIn }) {
                       </span>
                     </div>
                   </div>
+                  <Alert
+                    sx={{
+                      // opacity: 1,
+                      padding: '1px 5px',      // Reduce padding for smaller height
+                      fontSize: '12px',         // Adjust font size for a compact look
+                      lineHeight:0.3,          // Fine-tune line spacing
+                      borderRadius: '4px',      // Match the compact height with smaller corners
+                      alignItems: 'center',     // Ensure content is vertically centered
+                      '.MuiAlert-icon': {
+                        fontSize: '20px',       // Scale down the icon size
+                      }
+                    }}
+                    severity="error"
+                  >
+                    This is an error Alert.
+                  </Alert>
+
                   <div className="login-forgot-password">
                     <Link to="/forgetpassword">Reset password?</Link>
                   </div>
@@ -290,7 +308,7 @@ function Login({ onSignIn }) {
                     variant="contained"
                     // disabled={isSignInDisabled || isLoading}
                     className="login-button"
-                    sx={{padding:"10px", position:"relative",top:"10px"}}
+                    sx={{ padding: "10px", position: "relative", top: "10px" }}
                   >
                     {isLoading ? (
                       <>

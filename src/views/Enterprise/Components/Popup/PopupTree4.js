@@ -85,9 +85,9 @@ const PopupTree4 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
             }}
           >
             <DialogContent
-              sx={{
-                marginTop: "10px",
-              }}
+            //   sx={{
+            //     marginTop: "10px",
+            //   }}
             >
               <form>
                 <TextField
@@ -104,7 +104,7 @@ const PopupTree4 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
                   required
 
                   sx={{
-                    mt: 2,
+                    // mt: 2,
                     direction: isRTL ? "rtl" : "ltr", // RTL text input
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
@@ -155,7 +155,7 @@ const PopupTree4 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
 
                     margin: "0px",
                     position: "relative",
-                    top: "10px",
+                    top: "18px",
 
 
                   }}

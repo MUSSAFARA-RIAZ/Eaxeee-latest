@@ -16,7 +16,7 @@ import 'react-complex-tree/lib/style-modern.css';
 import { connect } from "react-redux";
 
 const Tree5 = (props) => {
-    console.log("props in tree1",props)
+  console.log("props in tree1", props)
   // const { t, i18n } = useTranslation();
 
 
@@ -325,6 +325,61 @@ const Tree5 = (props) => {
 
       <div>
         <Grid container spacing={1} sx={{ marginTop: '1%' }}>
+          <style>
+            {`
+      :root {
+
+           --rct-color-arrow: #2158a4;
+
+         
+          --rct-bar-color: #2158a4;
+
+          --rct-color-focustree-item-selected-bg:#2158A429;
+         
+        
+          --rct-color-focustree-item-active-text: #4f4f4f;
+          
+   
+       
+        }
+        .rct-tree-item-arrow svg : hover{
+    background-color: red
+}
+      .rct-tree-item-title-container-selected .rct-tree-item-button::before {
+
+    content: " ";
+    position: absolute;
+    left: calc(-1* var(--rct-bar-width));
+ 
+    left: calc(-0.5* var(--rct-bar-width));
+    right: calc(-0.5* var(--rct-bar-width));
+    height: calc(var(--rct-item-height) - 2* var(--rct-bar-offset));
+    width: var(--rct-bar-width);
+    background-color: var(--rct-bar-color);
+    border-radius: 99px;
+}
+
+        .rct-tree-item-button:hover{
+        background-color: #cecece;
+         color: #393a3a;
+        }
+      
+.rct-tree-item-title-container-selected .rct-tree-item-button {
+    background-color: var(--rct-color-focustree-item-selected-bg);
+    color: #393a3a;
+    }
+[dir="rtl"] .rct-tree-item-li[aria-expanded="false"] .rct-tree-item-arrow {
+  rotate: 180deg;
+}
+.rct-tree-item-arrow.rct-tree-item-arrow-isFolder:hover {
+    background-color: transparent;
+    color: red;
+}
+    
+
+
+    `}
+          </style>
           <UncontrolledTreeEnvironment
             dataProvider={new StaticTreeDataProvider(tree.items, (item, data) => ({ ...item, data }))}
             getItemTitle={item => item.data}
@@ -387,7 +442,7 @@ const Tree5 = (props) => {
                     e.stopPropagation();
                     setUpdateTreeState((prev) => ({ ...prev, rightClickedItem: item }))
                     const containerRect = e.currentTarget.getBoundingClientRect();
-                  props.language === 'ar' ? setContextMenu({ visible: true, x: containerRect.right - e.clientX, y: e.clientY - containerRect.top }) : setContextMenu({ visible: true, x: e.clientX + 4 - containerRect.left, y: e.clientY - containerRect.top });
+                    props.language === 'ar' ? setContextMenu({ visible: true, x: containerRect.right - e.clientX, y: e.clientY - containerRect.top }) : setContextMenu({ visible: true, x: e.clientX + 4 - containerRect.left, y: e.clientY - containerRect.top });
                   }}
                   style={{ position: "relative" }}
                 >
@@ -447,7 +502,7 @@ const Tree5 = (props) => {
 
             {/* <Grid container spacing={1} sx={{ marginTop: '1%' }}> */}
             <Grid item xs={12} sm={4} md={4} sx={{ height: "100%" }}>
-              <Paper sx={{ p: 2, height: '100%', display: 'flex', background:"transparent", flexDirection: 'column', justifyContent: 'space-between', boxShadow: 0 }}>
+              <Paper sx={{ p: 2, height: '100%', display: 'flex', background: "transparent", flexDirection: 'column', justifyContent: 'space-between', boxShadow: 0 }}>
 
                 <div>
                   <Tree treeId="tree-1" rootItem="leftpane" treeLabel="Tree 1"

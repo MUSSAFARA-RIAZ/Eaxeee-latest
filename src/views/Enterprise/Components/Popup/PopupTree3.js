@@ -81,8 +81,8 @@ const PopupTree3 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
           </DialogTitle>
 
           <div style={{ backgroundColor: props.theme === "default" ? "#cecece" : props.theme === "dark" ? "#212121" : "" }}>
-            <DialogContent sx={{ marginTop: "10px" }}>
-              <form>
+            <DialogContent>
+            
                 {/* Folder or document name input field (only for folder creation) */}
                 {updateTreeState.action === "create meta-model" && type === "folder" && (
                   <TextField
@@ -98,7 +98,7 @@ const PopupTree3 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
                     placeholder="Folder name"
                     required
                     sx={{
-                      mt: 2,
+                    //   mt: 2,
                       direction: isRTL ? "rtl" : "ltr",
                       "& .MuiOutlinedInput-root": {
                         "& fieldset": {
@@ -139,7 +139,7 @@ const PopupTree3 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
                   </Box>
                 )}
 
-                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "10px", margin: "0px", position: "relative", top: "10px" }}>
+                <Box sx={{ display: "flex", justifyContent: "flex-end", gap: "10px", margin: "0px", position: "relative", top: "18px" }}>
                   <CustomButton
                     title={props.language === "en" ? "Add" : AdminTranslation["Add"]}
                     type="submit"
@@ -153,7 +153,7 @@ const PopupTree3 = ({ handleClose, itemNameInput, setItemNameInput, updateTreeSt
                     sx={{ width: "50%" }}
                   />
                 </Box>
-              </form>
+            
             </DialogContent>
           </div>
         </Dialog>
