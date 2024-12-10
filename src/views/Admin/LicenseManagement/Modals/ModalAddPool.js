@@ -9,37 +9,57 @@ import CustomButton from '../../../../components/CustomButton/CustomButton';
 import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslation';
 import CloseIcon from '@mui/icons-material/Close';
 import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
+import { createPool } from '../../../../apis/license_management';
 
 const ModalAddPool = ({ open, handleClose, language, theme }) => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [role, setRole] = useState('');
     const [snackBarFlag, setSnackBarFlag] = useState(false);
+    const [isAddButtonDisabled, setIsAddButtonDisabled] = useState(false);
     let snackBarMessage = "";
-
+    // console.log("value in register: ",register)
     const handleSnackBarClose = () => {
         setSnackBarFlag(false);
     };
-    const onSubmit = (data) => {
-        const { poolName, poolRole } = data;
+    const onSubmit = async (data) => {
+        setIsAddButtonDisabled(true)
+        const poolName= data.poolName;
+        const poolRole= role;
 
+        console.log("poolName: ",poolName)
+        console.log("poolRole: ",poolRole)
         if (!poolName) {
-            snackBarMessage = "Pool Name is required";
+            alert("PoolName is required")
+            snackBarMessage = "Pool Name is requiredd";
             setSnackBarFlag(true);
-            handleClose();
         } else if (!poolRole) {
+            alert("poolRole is required")
             snackBarMessage = "Pool Role is required";
             setSnackBarFlag(true);
-            handleClose();
         } else {
+            const res = await createPool(poolName, poolRole)
+            if (res.code === 200){
+                alert("Pool created successfully")
+                handleClose(); // Close the dialog
+                reset({ poolName: '' });
+            }else{
+                alert(res.error)
+            }
             // Handle the form submission logic here
-            handleClose(); // Close the dialog
+            
         }
+        setIsAddButtonDisabled(false)
+
+
+        
     };
 
     const handleDialogClose = (event, reason) => {
         if (reason !== 'backdropClick') {
             handleClose();
         }
+
     };
     const isRTL = language === "ar";
 
@@ -235,6 +255,7 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                 title={language === "en" ? "Add" : AdminTranslation["Add"]}
                 type="submit"
                 // onClick={handleUserSubmit}
+                disabled={isAddButtonDisabled}
 
                 Theme={theme}
                 sx={{ width: "50%" }}
