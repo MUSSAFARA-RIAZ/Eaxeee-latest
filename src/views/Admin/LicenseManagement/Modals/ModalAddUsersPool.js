@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 
 
-const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
+const ModalAddUsersPool = ({ open, handleClose, language, theme,users  }) => {
     const [snackBarFlag, setSnackBarFlag] = useState(false);
 
     const handleSnackBarClose = () => {
@@ -26,18 +26,18 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
         }
     };
 
-    const updatedRows = [
-        { id: '1', user: 'admin' },
-        { id: '2', user: 'hammad' },
-        { id: '3', user: 'ghazni' },
-        { id: '4', user: 'user2' },
-        { id: '5', user: 'user3' },
-        { id: '6', user: 'Mahnoor' },
-        { id: '7', user: 'Mussaffra' },
-        { id: '8', user: 'user1' },
-        { id: '9', user: 'maheen' },
-        { id: '10', user: 'monir' },
-    ];
+    // const updatedRows = [
+    //     { id: '1', user: 'admin' },
+    //     { id: '2', user: 'hammad' },
+    //     { id: '3', user: 'ghazni' },
+    //     { id: '4', user: 'user2' },
+    //     { id: '5', user: 'user3' },
+    //     { id: '6', user: 'Mahnoor' },
+    //     { id: '7', user: 'Mussaffra' },
+    //     { id: '8', user: 'user1' },
+    //     { id: '9', user: 'maheen' },
+    //     { id: '10', user: 'monir' },
+    // ];
 
     const columns = [
         { field: 'user', headerName: language === 'en' ? 'Users' : AdminTranslation["Users"], flex: 1 },
@@ -103,7 +103,7 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme }) => {
                 >
 
                     <CustomTable
-                        rows={updatedRows}
+                        rows={users}
                         columns={columns}
                         showDeleteButton={true}
 

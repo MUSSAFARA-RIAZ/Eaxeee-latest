@@ -163,6 +163,65 @@ export const createPool = async (poolName, poolType) => {
 };
 
 
+export const getPools = async () => {
+    try {
+        const url = `${S_URL}/rest/getPools`;
+
+        const headers = _headers;
+
+        // Constructing the payload within the function
+        
+
+        const response = await axios.get(url, { headers, withCredentials: true });
+
+        return {
+            code: response.status,
+            data: response.data,
+        };
+    } catch (error) {
+        const statusCode = error.response?.status || 500;
+        const errorMessage = error.response?.data?.error || "Unknown error occurred";
+
+        handleSessionExpiration(statusCode);
+
+        return {
+            code: statusCode,
+            error: errorMessage,
+        };
+    }
+};
+
+
+
+export const  getPoolLicensesAndUsers = async (poolName) => {
+    try {
+        const url = `${S_URL}/rest/getPoolLicenseAndUsers/${poolName}`;
+
+        const headers = _headers;
+
+        // Constructing the payload within the function
+        
+
+        const response = await axios.get(url, { headers, withCredentials: true });
+
+        return {
+            code: response.status,
+            data: response.data,
+        };
+    } catch (error) {
+        const statusCode = error.response?.status || 500;
+        const errorMessage = error.response?.data?.error || "Unknown error occurred";
+
+        handleSessionExpiration(statusCode);
+
+        return {
+            code: statusCode,
+            error: errorMessage,
+        };
+    }
+};
+
+
 
 
 
