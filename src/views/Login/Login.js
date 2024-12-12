@@ -34,7 +34,8 @@ function Login({ onSignIn }) {
   const [password, setPassword] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [repositories, setRepositories] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('abc');
+  const [selectedOption, setSelectedOption] = useState('');
+  const [disableConfirmButton, setDisableConfirmButton] = useState(false);
   const [isSignInDisabled, setIsSignInDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -52,6 +53,7 @@ function Login({ onSignIn }) {
   const [showPassword, setShowPassword] = useState(false);
   const handleDialogClose = () => {
     setIsDialogOpen(false);
+    setSelectedOption('')
   };
 
 
@@ -68,35 +70,38 @@ function Login({ onSignIn }) {
       setIsSignInDisabled(true)
       setIsLoading(true);
       const res = await getRepositoriesByUsername(username);
-      setIsSignInDisabled(false)
-
+      
       // If the domain in username exist and have some repositories then it will list them
       if (res.code === 200) {
+        
         setRepositories(res.data);
         setIsDialogOpen(true);
         console.log("list of repositories are: ", res);
       }  //Otherwise it will show message 'invalid domain'
       else {
         setIsLoading(true);
-        Swal.fire({
-          title: 'Invalid Domain',
-          icon: 'error',
-          confirmButtonText: 'OK',
-          buttonsStyling: false,
-          customClass: {
-            confirmButton: 'custom-ok-button'
-          }
-        });
+        alert("invalid Domain")
+        // Swal.fire({
+        //   title: 'Invalid Domain',
+        //   icon: 'error',
+        //   confirmButtonText: 'OK',
+        //   buttonsStyling: false, 
+        //   customClass: {
+        //     confirmButton: 'custom-ok-button' 
+        //   }
+        // });
         // alert("Invalid domain");
       }
     } // If something else went wrong during this api call then this catch block will execute.
 
     catch (error) {
-      setIsLoading(true);
-      setIsSignInDisabled(false)
+      // setIsLoading(true);
+      
       console.error("Error during sign-in:", error);
       alert("Unknown error occured");
     }
+    setIsLoading(false )
+    setIsSignInDisabled(false)
   };
 
 
@@ -105,6 +110,8 @@ function Login({ onSignIn }) {
 
   const handleConfirm = async () => {
 
+
+    setDisableConfirmButton(true)
     // When user has selected a repository form a list and 'Confirm' button is clicked then this api will be called that check if the username & password exist in that repository
     const res = await checkIfUserExistOrNot(username, password, selectedOption);
     console.log("Response after selecting repository and confirming: ", res);
@@ -113,29 +120,64 @@ function Login({ onSignIn }) {
     if (res.code === 200) {
       console.log("Provided credentials are correct: ", onSignIn)
       setIsDialogOpen(false); // Close the dialog box
-
+      
       // When this api returns 200 then we'll call the final api that login the user & update the session for user on backend.
+      setLoading(true)
       const res_login = await loginUser(username, password, selectedOption)
 
       // If the api updates the session on backend successfully & user is logged in, 200 status code is returned and the onSignIn function is called that allows user to view rest of the view as logged in user.
       if (res_login.code === 200) {
 
+
         if (onSignIn) {
           onSignIn()
         }
-        alert("user login successful")
+        // alert("user login successful")
+        
         navigate('/home')
 
       }// Other wise it shows alert with the error message and user is shown no UI other than the login page.
       else if (res_login.code === 401) {
-        alert(res_login.data.error)
-      }
 
+        // Swal.fire({
+        //   title: res_login.data.error,
+        //   icon: 'error',
+        //   confirmButtonText: 'OK',
+        //   buttonsStyling: false, 
+        //   customClass: {
+        //     confirmButton: 'custom-ok-button' 
+        //   }
+        // });
+        alert(res_login.data.error + "401-148")
+      }
+      setLoading(false)
     } else if (res.code === 401) {
-      alert(res.data.message);
+      alert(res.data.message + "401-152");
+       // Close the dialog box
+      // Swal.fire({
+      //     title: res.data.message,
+      //     icon: 'error',
+      //     confirmButtonText: 'OK',
+      //     buttonsStyling: false, 
+      //     customClass: {
+      //       confirmButton: 'custom-ok-button' 
+      //     }
+      //   });
     } else {
-      alert("Something went wrong.");
+      console.log("Something went wrong, please try later.")
+      setIsDialogOpen(false); // Close the dialog box
+      // Swal.fire({
+      //   title: "Something went wrong, please try later.",
+      //   icon: 'error',
+      //   confirmButtonText: 'OK',
+      //   buttonsStyling: false, 
+      //   customClass: {
+      //     confirmButton: 'custom-ok-button' 
+      //   }
+      // });
     }
+    setIsDialogOpen(false);
+    setDisableConfirmButton(false)
   };
 
 
@@ -176,7 +218,7 @@ function Login({ onSignIn }) {
                     Superadmin Login
                   </p>
                   <p className='subheadtext'>
-                    Your key to multitenancy
+                  Enterprise architecture-based digital transformation made efficient and effective.
                   </p>
                 </p>
                 <form onSubmit={handleSubmit}>
@@ -241,7 +283,7 @@ function Login({ onSignIn }) {
                 <img className='eaxee-logo' src={GreenPaleGray} alt="Eaxee Logo" />
                 <p className="login-subtitle">
                   <p className='login-heading'>Eaxee Login</p>
-                  <p className='subheadtext'>Your key to multitenancy</p>
+                  <p className='subheadtext'>Enterprise architecture-based digital transformation made efficient and effective.</p>
                 </p>
                 <form onSubmit={handleSignInClick}>
                   <div className="login-input-group">
@@ -306,7 +348,7 @@ function Login({ onSignIn }) {
                   <Button
                     onClick={handleSignInClick}
                     variant="contained"
-                    // disabled={isSignInDisabled || isLoading}
+                    disabled={isSignInDisabled || isLoading}
                     className="login-button"
                     sx={{ padding: "10px", position: "relative", top: "10px" }}
                   >
@@ -379,7 +421,7 @@ function Login({ onSignIn }) {
               <Button onClick={handleDialogClose} color="primary">
                 Cancel
               </Button>
-              <Button onClick={handleConfirm} color="primary" disabled={!selectedOption}>
+              <Button onClick={handleConfirm} color="primary" disabled={!selectedOption || disableConfirmButton}>
                 Confirm
               </Button>
             </DialogActions>

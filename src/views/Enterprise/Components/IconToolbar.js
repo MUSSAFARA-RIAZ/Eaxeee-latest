@@ -1,130 +1,188 @@
+// IconToolbar.js
 import React, { useState } from "react";
-import IconButton from "@mui/material/IconButton";
-import Stack from "@mui/material/Stack";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import AddchartIcon from "@mui/icons-material/Addchart";
-import HistoryIcon from "@mui/icons-material/History";
-import Tooltip from "@mui/material/Tooltip";
-// import ArtifactDialog from "./ArtifactDialog";
-import savealldark from "../../../Assets/Images/palegraysaveall.svg";
-import savealldefault from "../../../Assets/Images/charcoalgraysaveall.svg";
-import savedark from "../../../Assets/Images/palegraysave.svg";
-import savedefault from "../../../Assets/Images/charcoalgraysave.svg";
-import DefaultTheme from "../../../Themes/default_theme.module.css";
-import DarkTheme from "../../../Themes/dark_theme.module.css";
+import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
+import ImageIcon from "@mui/icons-material/Image";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import LoopIcon from "@mui/icons-material/Loop";
+import SaveIcon from "@mui/icons-material/Save";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import SaveAsIcon from '@mui/icons-material/SaveAs'; // Import ToggleOff icon
+
+import darktheme from "../../../Themes/dark_theme.module.css";
+import lighttheme from "../../../Themes/light_theme.module.css";
+import defaulttheme from "../../../Themes/default_theme.module.css";
+import CustomButton from '../../../components/CustomButton/CustomButton';
 import CloseIcon from '@mui/icons-material/Close';
+import { styled } from "@mui/material/styles";
+import Switch from "@mui/material/Switch";
+import ArchitectureButton from '../../../components/CustomButton/ArchitectureButton';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import AddchartIcon from '@mui/icons-material/Addchart';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+
+import { Box } from "@mui/material";
+const IOSSwitch = styled((props) => (
+  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
+))(({ theme }) => ({
+  width: 34, // reduced width
+  height: 18, // reduced height
+  padding: 0,
+  "& .MuiSwitch-switchBase": {
+    padding: 0,
+    margin: 2,
+    transitionDuration: "300ms",
+    "&.Mui-checked": {
+      transform: "translateX(16px)", // adjust for new size
+      color: "#fff",
+      "& + .MuiSwitch-track": {
+        backgroundColor: theme.palette.mode === "dark" ? "#a5d149" : "#2158a4",
+        opacity: 1,
+        border: 0,
+      },
+    },
+    "&.Mui-disabled .MuiSwitch-thumb": {
+      color: theme.palette.grey[100],
+    },
+    "&.Mui-disabled + .MuiSwitch-track": {
+      opacity: 0.7,
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxSizing: "border-box",
+    width: 14, // reduced thumb width
+    height: 14, // reduced thumb height
+  },
+  "& .MuiSwitch-track": {
+    borderRadius: 10, // adjusted for new size
+    backgroundColor: "#E9E9EA",
+    opacity: 1,
+    transition: theme.transitions.create(["background-color"], {
+      duration: 500,
+    }),
+  },
+}));
+
+const IconToolbar = ({ theme, handleMenuOpen, disabled, handleCloseAllTabs, handleMenuCloseAllOpen }) => {
 
 
-const IconToolbar = ({ onSelectArtifact, theme ,handleMenuOpen ,handleCloseAllTabs , disabled }) => {
-  // Receive onSelectArtifact prop
-  const [openDialog, setOpenDialog] = useState(false);
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   return (
-    <>
-      <Stack
-        direction="row"
-        display="flex"
-        justifyContent="flex-end"
-        alignItems="flex-end"
-        spacing={0}
-      >
-        <Tooltip title="Add Artifact">
-          <IconButton
-            aria-label="Add artifact"
-            onClick={handleMenuOpen}
-            disabled={disabled}
-            
-            sx={{
-              "&:hover": {
-                backgroundColor:
-                  theme === "dark"
-                    ? "rgba(165,209, 73, 0.5)"
-                    : "rgba(33,88, 164, 0.2)",
-              },
-            }}
-          >
-            <AddchartIcon
-              fontSize="medium"
+    <div style={{ width: "100%", display: "flex", flexDirection: "row", gap: "10px", justifyContent: "flex-end", }}>
+      <ArchitectureButton
+        title="Add Artifacts"
+        startIcon={<AddchartIcon />}
+        onClick={handleMenuOpen}
+        disabled={disabled}
 
-              className={`${
-                theme === "default"
-                  ? DefaultTheme.default_iconcolor
-                  : theme === "dark"
-                  ? DarkTheme.dark_iconcolor
-                  : ''
-              }`}
-            />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Save">
-          <IconButton
-            aria-label="save"
-            sx={{
-              "&:hover": {
-                backgroundColor:
-                  theme === "dark"
-                    ? "rgba(165,209, 73, 0.5)"
-                    : "rgba(33,88, 164, 0.2)",
-              },
-            }}
-          >
-            <img
-              src={theme === "dark" ? savedark : savedefault}
-              alt="save"
-              style={{ width: 23, height: 23 }}
-            />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Save All">
-          <IconButton
-            aria-label="save all"
-            sx={{
-              "&:hover": {
-                backgroundColor:
-                  theme === "dark"
-                    ? "rgba(165,209, 73, 0.5)"
-                    : "rgba(33,88, 164, 0.2)",
-              },
-            }}
-          >
-            <img
-              src={theme === "dark" ? savealldark : savealldefault}
-              alt="saveall"
-              style={{ width: 23, height: 23 }}
-            />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Close All">
-          <IconButton
-            aria-label="close  all"
-            onClick={handleCloseAllTabs}
-            sx={{
-              "&:hover": {
-                backgroundColor:
-                  theme === "dark"
-                    ? "rgba(165,209, 73, 0.5)"
-                    : "rgba(33,88, 164, 0.2)",
-              },
-            }}
-          >
-            <CloseIcon theme={theme} style={{width: 23, height:23}}/>
-          </IconButton>
-        </Tooltip>
-     
-      
-      
-      </Stack>
-      
-    </>
+        // startIcon={isToggledImage ? <ToggleOnIcon /> : <ToggleOffIcon />} 
+        Theme={theme}
+
+      />
+      {/* <ArchitectureButton
+      title="Add Catalog"
+      startIcon={<AddBusinessIcon/>}
+      onClick={handleAddCatalogDrawingTool}
+      Theme={theme}
+
+
+
+      /> */}
+
+      {/* <ArchitectureButton
+        title="Container"
+        startIcon={<IOSSwitch defaultChecked inputProps={{ 'aria-label': 'iOS style switch', fontSize: "20px" }} />}
+        // startIcon={isToggledImage ? <ToggleOnIcon /> : <ToggleOffIcon />} 
+        Theme={theme}
+
+      />
+      <ArchitectureButton
+        title="Relations"
+        startIcon={<IOSSwitch defaultChecked inputProps={{ 'aria-label': 'iOS style switch', fontSize: "20px" }} />}
+        //  Toggle icon based on state
+        Theme={theme}
+
+      // tooltipTitle="Toggle Relations" // Tooltip for toggle button
+
+      />
+      <ArchitectureButton
+        title="Synchronize"
+        startIcon={<LoopIcon />}
+        Theme={theme}
+        onClick={() => console.log('Loop clicked')}
+
+      />
+      <ArchitectureButton
+        title="Diagram Filter"
+        startIcon={<FilterAltIcon />}
+        Theme={theme}
+        onClick={() => console.log('Filter clicked')}
+      /> */}
+
+
+      {/* <ArchitectureButton
+        startIcon={<ZoomOutMapIcon />}
+        Theme={theme}
+        // tooltipTitle="Fit to Screen"
+        title="FitScreen"
+        onClick={() => console.log('Zoom Out Map clicked')}
+      />
+      <ArchitectureButton
+        startIcon={<ZoomInIcon />}
+        Theme={theme}
+        // tooltipTitle="Zoom In"
+        title="Zoom In"
+        onClick={() => console.log('Zoom In clicked')}
+      />
+      <ArchitectureButton
+        startIcon={<CloseIcon />}
+        Theme={theme}
+        // tooltipTitle="Zoom Out"
+        title="Zoom Out"
+        onClick={() => console.log('Zoom Out clicked')}
+      /> */}
+      {/* <ArchitectureButton
+        startIcon={<CloseIcon />}
+        Theme={theme}
+        // tooltipTitle="Zoom Out"
+        title="Close All"
+        onClick={handleCloseAllTabs}
+      /> */}
+      <ArchitectureButton
+        startIcon={<SaveIcon />}
+        Theme={theme}
+        title="Save"
+        // tooltipTitle="Save"
+        onClick={() => console.log('Save clicked')}
+      />
+
+      <ArchitectureButton
+        startIcon={<SaveAsIcon />}
+        title="Save All"
+        Theme={theme}
+        // tooltipTitle="Save As Graph"
+        onClick={() => console.log('Save As Graph clicked')}
+      />
+      <ArchitectureButton
+
+        startIcon={<MoreVertIcon />}
+        onClick={handleMenuCloseAllOpen}
+        // title="Save All"
+        Theme={theme}
+      // tooltipTitle="Save As Graph"
+
+      // onClick={() => console.log('Save As Graph clicked')}
+
+
+
+      />
+
+
+
+    </div>
   );
 };
 

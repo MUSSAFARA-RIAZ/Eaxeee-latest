@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import './NestedDropDown.css'; // Custom CSS for styling
 
-const NestedDropDown = () => {
-    const architectureOptions = {
-        EAXEE: ['Element Objects', 'Relationship Objects'],
-        University: ['Element Objects', 'Relationship Objects'],
-    };
+const NestedDropDown = ({ architecturename }) => {
+    const architectureOptions = ['Element Objects', 'Relationship Objects'];
 
     const additionalOptions = {
         'Element Objects': [
@@ -21,95 +18,87 @@ const NestedDropDown = () => {
         'Relationship Objects': ['Select All', 'Composition', 'Aggregation', 'Assignment', 'Realization', 'Serving', 'Access', 'Association', 'Triggering', 'Influence'],
     };
 
-    const [showMainDropdown, setShowMainDropdown] = useState(false);
-    const [selectedMainOption, setSelectedMainOption] = useState(null);
-    const [hoveredSubOption, setHoveredSubOption] = useState(null);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [hoveredOption, setHoveredOption] = useState(null);
 
-    const handleParentDropdownToggle = () => {
-        setShowMainDropdown(!showMainDropdown);
+    const toggleDropdown = () => {
+        if (architecturename) {
+            setShowDropdown(!showDropdown);
+        }
     };
 
-    const handleMainOptionMouseEnter = (option) => {
-        setSelectedMainOption(option);
+    const handleOptionMouseEnter = (option) => {
+        setHoveredOption(option);
     };
 
-    const handleMainOptionMouseLeave = () => {
-        setSelectedMainOption(null);
+    const handleOptionMouseLeave = () => {
+        setHoveredOption(null);
     };
 
-    const handleSubOptionClick = (subOption) => {
-        alert(`You selected: ${subOption}`);
+    const handleOptionClick = (option) => {
+        alert(`You selected: ${option}`);
     };
-
-    const handleSubOptionMouseEnter = (subOption) => {
-        setHoveredSubOption(subOption);
-    };
-
-    const handleSubOptionMouseLeave = () => {
-        setHoveredSubOption(null);
-    };
-
-    // .log
-    console.log('====================================');
-    console.log('SelectedMainOption', selectedMainOption);
-    console.log('====================================');
 
     return (
         <div className="dropdown-container">
-            <div className="parent-dropdown" onClick={handleParentDropdownToggle}>
-                Select Architecture
-                {showMainDropdown ? (
-                    <ArrowDropDownIcon sx={{ transform: 'rotate(180deg)', transition: 'transform 0.3s ease' }} />
-                ) : (
-                    <ArrowDropDownIcon className="dropdown-icon" />
+            <div
+                className="parent-dropdown"
+                onClick={toggleDropdown}
+                style={{
+                    cursor: architecturename ? 'pointer' : 'not-allowed',
+                    backgroundColor: architecturename ? 'white' : '#f0f0f0',
+                    color: architecturename ? 'black' : '#aaa',
+                }}
+            >
+                {architecturename || 'No Architecture Selected'}
+                {architecturename && (
+                    <ArrowDropDownIcon
+                        className="dropdown-icon"
+                        sx={{
+                            transform: showDropdown ? 'rotate(180deg)' : 'rotate(0deg)',
+                            transition: 'transform 0.3s ease',
+                        }}
+                    />
                 )}
             </div>
 
-            {showMainDropdown && (
+            {showDropdown && architecturename && (
                 <div className="main-dropdown">
-                    {Object.keys(architectureOptions).map((option) => (
-
+                    {architectureOptions.map((option) => (
                         <div
                             key={option}
                             className="main-option"
-                            onMouseEnter={() => handleMainOptionMouseEnter(option)}
-                            onMouseLeave={handleMainOptionMouseLeave}
+                            onMouseEnter={() => handleOptionMouseEnter(option)}
+                            onMouseLeave={handleOptionMouseLeave}
+                            style={{
+                                fontSize: '12px',
+                                border: '1px solid #fff',
+                                borderRadius: '4px',
+                                padding: '5px',
+                            }}
                         >
-                            <div style={{ fontSize: "12px" }}>
-                                {option}
-                                <ArrowDropDownIcon sx={{ transform: 'rotate(270deg)', transition: 'transform 0.3s ease', float: "right" }} />
-                            </div>
-                            {selectedMainOption === option && (
-                                <div className="submenu">
-                                    {architectureOptions[option].map((subOption, index) => (
-                                        <div
-                                            key={subOption}
-                                            className="submenu-option"
-                                            onClick={() => handleSubOptionClick(subOption)}
-                                            onMouseEnter={() => handleSubOptionMouseEnter(subOption)}
-                                            onMouseLeave={handleSubOptionMouseLeave}
-                                            style={{ position: 'relative', fontSize: "12px", border:"1px solid #fff", borderRadius:"4px" }}
-                                        >
-                                            {subOption}
-                                            <ArrowDropDownIcon sx={{
-                                                transform: 'rotate(270deg)',
-                                                transition: 'transform 0.3s ease', float: "right"
-                                            }} />
+                            {option}
+                            <ArrowDropDownIcon
+                                sx={{
+                                    transform: 'rotate(270deg)',
+                                    transition: 'transform 0.3s ease',
+                                    float: 'right',
+                                }}
+                            />
 
-                                            {hoveredSubOption === subOption && (
-                                                <div className="additional-submenu" style={{ top: `${index * 10}px` }}>
-                                                    {additionalOptions[subOption].map((extraOption) => (
-                                                        <div
-                                                            key={extraOption}
-                                                            className="additional-option"
-                                                            style={{ fontSize: "12px" }}
-                                                            onClick={() => alert(`You selected: ${extraOption}`)}
-                                                        >
-                                                            {extraOption}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            )}
+                            {hoveredOption === option && (
+                                <div
+                                    className="additional-submenu"
+                                    style={{ position: 'absolute', marginTop: '10px' }}
+                                >
+                                    {additionalOptions[option].map((extraOption) => (
+                                        <div
+                                            key={extraOption}
+                                            className="additional-option"
+                                            style={{ fontSize: '12px', padding: '5px' }}
+                                            onClick={() => handleOptionClick(extraOption)}
+                                        >
+                                            {extraOption}
                                         </div>
                                     ))}
                                 </div>

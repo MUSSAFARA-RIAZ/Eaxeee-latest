@@ -82,6 +82,10 @@ const IOSSwitch = styled((props) => (
 
 
 const QuickAccess = (props) => {
+    console.log('props in quick access', props);
+
+
+
     const [open, setOpen] = useState(true);
     const [value, setValue] = useState(0);
     // const [isToggled, setIsToggled] = useState(false); // Moved inside component
@@ -132,173 +136,120 @@ const QuickAccess = (props) => {
         { value: 30, label: "Evolved Architecture" },
     ];
 
-    const [isToggled, setIsToggled] = useState(false); 
-    const [isToggledImage, setIsToggledImage]=useState(false);
-  
-    
-    const handleToggleImage=()=>{
-      setIsToggledImage(prevState => !prevState); // Toggle state
-      
+    const [isToggled, setIsToggled] = useState(false);
+    const [isToggledImage, setIsToggledImage] = useState(false);
+
+
+    const handleToggleImage = () => {
+        setIsToggledImage(prevState => !prevState); // Toggle state
+
     }
-  
-  
-      
+
+
+
 
     const handleToggle = () => {
         setIsToggled(prevState => !prevState); // Toggle state
-      };
+    };
     const seconddropdownitems = [{ value: 40, label: "Select All" }];
 
     return (
         <>
-            <LeftPane open={open} onClose={handleDrawerClose} props={props}>
-                <div></div>
-                <div>
-                    <StaticIconLeftPane />
-                </div>
-            </LeftPane>
 
-            <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen}>
-                <div style={{ display: "flex", width: "100%" }}>
-                    <div style={{ width: "40%", display: "flex", alignItems: "center", marginLeft: open ? "25px" : "50px" }}>
-                        <QuickAccessTabs
-                            value={value}
-                            handleChange={handleMainChange}
-                            tabs={tabs}
-                            language={props.language}
-                            theme={props.theme}
-                            onClick={() => props.settable("table1")}
-                        />
-                    </div>
-                    <div style={{ width: "100%", display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-                        {/* <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                            <CustomButton
-                                title="Delete"
-                                startIcon={<DeleteIcon sx={{ color: props.theme === "default" ? "#2158a4" : "#a5d149" }} />}
-                                Theme={props.theme}
-                            />
-                            <CustomButton
-                                title="Remove"
-                                startIcon={<CancelIcon sx={{ color: props.theme === "default" ? "#2158a4" : "#a5d149" }} />}
-                                Theme={props.theme}
-                            />
-                            <CustomButton
-                                title="Undo"
-                                startIcon={<ReplayIcon sx={{ color: props.theme === "default" ? "#2158a4" : "#a5d149" }} />}
-                                Theme={props.theme}
-                            />
-                            <CustomButton
-                                title="Show All Objects"
-                                startIcon={isToggled ? <ToggleOnIcon /> : <ToggleOffIcon />}
-                                // startIcon={<ReplayIcon sx={{ color: props.theme === "default" ? "#2158a4" : "#a5d149" }} />}
-                                Theme={props.theme}
-                                onClick={handleToggle}
-                            />
-                        </Box>
-                        <TextField
-                            id="outlined-basic"
-                            label="Search"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                style: { height: 36, position: "relative", top: "5px" },
-                            }}
-                        /> */}
-                    </div>
+
+            <div style={{ padding: "30px", height: "50px", display: props.activeTab ? "none" : "flex", alignItems: "center", gap: "10px" }}>
+
+                <div style={{ display: (props.activeTable === "Table3" || props.activeTable === "Table4") ? "none" : "block" }}>
+                    <NestedDropDown architecturename={props.architecturename} />
                 </div>
 
-                <div style={{ padding: "30px", height: "50px", display: "flex", alignItems: "center", gap: "10px" }}>
-                    <NestedDropDown/>
-                    {/* <DropDown menuItems={seconddropdownitems} /> */}
-                    <p>Object Last Updated</p>
-                    <UseNumberInput theme={props.theme} open={open}  />
-                    <p style={{ marginLeft: "5px" }}>Days</p>
 
-                    {/* <CustomButton
-                        title={props.language === "en" ? "Show" : AdminTranslation["Show"]}
-                        type="submit"
+                {/* <DropDown menuItems={seconddropdownitems} /> */}
+                <p>Object Last Updated</p>
+                <UseNumberInput theme={props.theme} open={open} />
+                <p style={{ marginLeft: "5px" }}>Days</p>
+
+
+
+
+                <div style={{ width: "50%", display: "flex", flexDirection: "row", gap: "10px", justifyContent: "flex-end", }}>
+
+                    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+
+                    </Box>
+                    <ArchitectureButton
+                        title="Show All Objects"
+                        startIcon={<IOSSwitch defaultChecked inputProps={{ 'aria-label': 'iOS style switch', fontSize: "20px" }} />}
                         Theme={props.theme}
-                    /> */}
 
-                 
-                        <div style={{ width: "50%",  display: "flex", flexDirection: "row", gap: "10px", justifyContent: "flex-end", }}>
-                        {/* <ArchitectureButton
-                                title="Show All Objects"
-                                startIcon={isToggled ? <ToggleOnIcon /> : <ToggleOffIcon />} // Toggle icon based on state
-                                Theme={props.theme}
+                    />
+                    <ArchitectureButton
+                        title="Remove"
+                        startIcon={<CancelIcon />}
+                        Theme={props.theme}
 
-                                // tooltipTitle="Toggle Relations" // Tooltip for toggle button
-                                onClick={handleToggle} // Toggle functionality
-                            /> */}
-                            <Box sx={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                    />
 
-                            {/* <IOSSwitch defaultChecked inputProps={{ 'aria-label': 'iOS style switch' }} /> */}
-                            </Box>
-                            <ArchitectureButton
-                                title="Show All Objects"
-                                startIcon={ <IOSSwitch defaultChecked inputProps={{ 'aria-label': 'iOS style switch', fontSize:"20px" }} />}
-                                Theme={props.theme}
-                                // onClick={handleToggleImage}
-                            />
-                            <ArchitectureButton
-                                title="Remove"
-                                startIcon={<CancelIcon/>}
-                                Theme={props.theme}
-                                // onClick={handleToggleImage}
-                            />
-                           
-                          
-                            <ArchitectureButton
-                                title="Restore"
-                                startIcon={<ReplayIcon />}
-                                Theme={props.theme}
-                                onClick={() => console.log('Loop clicked')}
 
-                            />
-                            <ArchitectureButton
-                                title="Delete"
-                                startIcon={<DeleteIcon />}
-                                Theme={props.theme}
-                                onClick={() => console.log('Filter clicked')}
-                            />
-                             <Box sx={{display:"flex", alignItems:"center", justifyContent:"center"}}>
-                             <TextField id="outlined-basic" label="Search"  size="small"  InputProps={{
-                                style: { height: 36, },
+                    <ArchitectureButton
+                        title="Restore"
+                        startIcon={<ReplayIcon />}
+                        Theme={props.theme}
+                        onClick={() => console.log('Loop clicked')}
 
-                            }} />
-                            </Box>
-                            
-                            </div>
+                    />
+                    <ArchitectureButton
+                        title="Delete"
+                        startIcon={<DeleteIcon />}
+                        Theme={props.theme}
+                        onClick={() => console.log('Filter clicked')}
+                    />
+                    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <TextField id="outlined-basic" label="Search" size="small" InputProps={{
+                            style: { height: 36, },
 
-                           
-                    
+                        }} />
+                    </Box>
 
-                       
-                    </div>
+                </div>
 
-                    <QuickAccessContent value={value} language={props.language} />
-            </RightPane>
+
+
+
+
+            </div>
+            <div style={{ display: props.activeTab ? "none" : "block" }}>
+                <QuickAccessContent value={value} language={props.language} />
+            </div>
+
         </>
     );
 };
 
-const mapStateToProps = (state) => ({
-    language: state.language,
-    theme: state.theme,
-    subPage: state.subPage,
-});
+const mapStateToProps = (state) => {
+    return {
+        language: state.language,
+        theme: state.theme,
+        route: state.route,
+        activepage: state.activepage,
+        subpage: state.subpage,
+        activeTree: state.activeTree,
+        activeTable: state.activeTable,
+    };
+};
 
-const mapDispatchToProps = (dispatch) => ({
-    setLanguage: (lang) =>
-        dispatch({
-            type: "TOGGLELANG",
-            value: lang === "en" ? "ar" : "en",
-        }),
-    setTheme: (theme) =>
-        dispatch({
-            type: "UPDATETHEME",
-            value: theme,
-        }),
-});
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setLanguage: (lang) => dispatch({ type: "TOGGLELANG", value: lang === "en" ? "ar" : "en" }),
+        setTheme: (theme) => dispatch({ type: "UPDATETHEME", value: theme }),
+        setRoute: (route) => dispatch({ type: "UPDATEROUTE", value: route }),
+        setActivePage: (pageName) => dispatch({ type: "SETACTIVEPAGE", value: pageName }),
+        setSubPage: (subpage) => dispatch({ type: "SETSUBPAGE", value: subpage }),
+        setActiveTree: (activeTree) => dispatch({ type: "ACTIVETREE", value: activeTree }),
+        setActiveTable: (activeTable) => dispatch({ type: "ACTIVETABLE", value: activeTable }),
+
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuickAccess);

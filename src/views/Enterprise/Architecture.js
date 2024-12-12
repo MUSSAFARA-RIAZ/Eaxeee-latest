@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import { connect } from "react-redux";
 import LeftPane from "../Layout/Leftpane";
 import RightPane from "../Layout/Rightpane";
-import { EnterpriseContent, UserTabs } from "./Components/Enterprise_iconsTab";
+import { EnterpriseContent, QuickAccessTabs, UserTabs } from "./Components/Enterprise_iconsTab";
 import DropDownInputField from "./Components/DropDownInputField";
 import Iconbox from "./Components/Iconbox";
 import ModalChangeColor from "./Components/Modals/ModalChangeColor";
@@ -23,7 +23,7 @@ import processdefault from "../../Assets/Images/processcharcoal.png";
 import processdark from "../../Assets/Images/processpale.png";
 import blueprintdefault from "../../Assets/Images/blueprintcharcoal.png";
 import blueprintdark from "../../Assets/Images/blueprintpale.png";
-
+import CancelIcon from "@mui/icons-material/Cancel";
 import ContextMenu from "./ContextMenu";
 import IconToolbar from "./Components/IconToolbar";
 
@@ -40,6 +40,14 @@ import { NodeResizer, Handle, Position } from "reactflow";
 import uniqid from 'uniqid';
 import { getHelperLines } from "./getHelperLines";
 import { useStore } from "@xyflow/react";
+import UseNumberInput from "./Components/CustomNameInput";
+import NestedDropDown from "./Components/NestedDropDown";
+import ArchitectureButton from "../../components/CustomButton/ArchitectureButton";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import LoopIcon from "@mui/icons-material/Loop";
+import SaveIcon from "@mui/icons-material/Save";
+import ReplayIcon from "@mui/icons-material/Replay";
+import QuickAccess from "./QuickAccess";
 
 
 
@@ -104,6 +112,8 @@ const Architecture = (props) => {
   const processsrc = props.theme === "dark" ? processdark : processdefault;
   const artifactsrc = props.theme === "dark" ? blueprintdark : blueprintdefault;
   const [value, setValue] = useState(0);
+  const [QuickAccessTabvalue, setQuickAccessTabvalue] = useState(0);
+
   const [tabs, setTabs] = React.useState([
     ...diagrams.map((diagram) => ({ type: 'diagram', id: diagram.id })),
     ...catalogs.map((catalog) => ({ type: 'catalog', id: catalog.id })),
@@ -429,6 +439,10 @@ const Architecture = (props) => {
     setValue(newValue);
   };
 
+  const handleQuickAccessTabChange = (event, newValue) => {
+    setQuickAccessTabvalue(newValue);
+    setActiveTab(null)
+  };
 
 
   const bringToFront = (nodeId) => {
@@ -559,14 +573,24 @@ const Architecture = (props) => {
   };
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorE1CloseAll, setanchorE1CloseAll] = useState(null);
+
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleMenuCloseAllOpen = (event) => {
+    setanchorE1CloseAll(event.currentTarget)
+  }
 
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleMenuCloseAll = () => {
+    setanchorE1CloseAll(null);
+
+
+  }
   const handleCloseTab = (tabId) => {
     setTabs((prevTabs) => {
       const updatedTabs = prevTabs.filter((tab) => `${tab.type}-${tab.id}` !== tabId);
@@ -595,7 +619,9 @@ const Architecture = (props) => {
   };
   const handleCloseAllTabs = () => {
     setTabs([]);
+    setanchorE1CloseAll(null);
     setActiveTab(null);
+
   };
   useEffect(() => {
     setTabs([
@@ -607,6 +633,53 @@ const Architecture = (props) => {
       ...roadmaps.map((roadmap) => ({ type: 'roadmap', id: roadmap.id })),
     ]);
   }, [diagrams, catalogs, matrices, navigations, viewpoints, roadmaps]);
+  const handleCloseArtifactsByType = (artifactType) => {
+    setTabs((prevTabs) => {
+      const updatedTabs = prevTabs.filter((tab) => tab.type !== artifactType);
+
+
+      if (activeTab && activeTab.startsWith(`${artifactType}-`)) {
+        const remainingTabs = updatedTabs;
+        setActiveTab(remainingTabs.length > 0 ? `${remainingTabs[0].type}-${remainingTabs[0].id}` : null);
+      }
+
+      return updatedTabs;
+    });
+
+
+    if (artifactType === "diagram") {
+      setDiagrams([]);
+      setanchorE1CloseAll(null);
+
+    } else if (artifactType === "catalog") {
+      setCatalogs([]);
+      setanchorE1CloseAll(null);
+    } else if (artifactType === "matrix") {
+      setMatrices([]);
+      setanchorE1CloseAll(null);
+    }
+    else if (artifactType === "navigation") {
+      setNavigations([]);
+      setanchorE1CloseAll(null);
+
+    }
+    else if (artifactType === 'viewpoint') {
+      setViewpoints([]);
+      setanchorE1CloseAll(null);
+    }
+    else if (artifactType === 'roadmap') {
+      setRoadmaps([]);
+      setanchorE1CloseAll(null);
+
+    }
+
+
+    // Clear global artifacts state of this type
+    setArtifacts((prevArtifacts) =>
+      prevArtifacts.filter((artifact) => artifact.type !== artifactType)
+    );
+  };
+
 
 
   const handleArchitectureChange = (event) => {
@@ -987,6 +1060,36 @@ const Architecture = (props) => {
 
 
   console.log("props in architecture===========>", props.activeTree);
+  const QuickAccesstabs = [
+    {
+      icon: (
+        <Tooltip title="Object">
+          <img src={objectsrc} alt="Object" style={{ width: "24px", height: "24px" }} />
+        </Tooltip>
+      ),
+    },
+    {
+      icon: (
+        <Tooltip title="Artifacts">
+          <img src={artifactsrc} alt="Artifacts" style={{ width: "24px", height: "24px" }} />
+        </Tooltip>
+      ),
+    },
+    {
+      icon: (
+        <Tooltip title="Process">
+          <img src={processsrc} alt="Process" style={{ width: "24px", height: "24px" }} />
+        </Tooltip>
+      ),
+    },
+    {
+      icon: (
+        <Tooltip title="Documents">
+          <DescriptionOutlinedIcon />
+        </Tooltip>
+      ),
+    },
+  ];
 
 
 
@@ -1039,7 +1142,8 @@ const Architecture = (props) => {
               size="small"
               sx={{
                 minWidth: 220,
-                display: (props.activeTree === "Tree3" || props.activeTree === "Tree4") ? "none" : "block",
+                display: (props.activeTree === "Tree3" || props.activeTree === "Tree4" || props.activeTable === "Table3" || props.activeTable === "Table4") ? "none" : "block",
+                // display: (props.activeTable === "Table3" || props.activeTable === "Table4") ? "none" : "block"
               }}
 
             >
@@ -1080,10 +1184,21 @@ const Architecture = (props) => {
               <MenuItem onClick={handleAddViewpoint}>Viewpoint</MenuItem>
               <MenuItem onClick={handleAddRoadmap}>Roadmap</MenuItem>
             </Menu>
+            <Menu id="simple-menu" anchorEl={anchorE1CloseAll} keepMounted open={Boolean(anchorE1CloseAll)} onClose={handleMenuCloseAll}>
+              <MenuItem onClick={() => handleCloseArtifactsByType("diagram")}>Close Diagrams</MenuItem>
+              <MenuItem onClick={() => handleCloseArtifactsByType("catalog")}>Close Catalogs</MenuItem>
+              <MenuItem onClick={() => handleCloseArtifactsByType("matrix")}>Close Matrices</MenuItem>
+              <MenuItem onClick={() => handleCloseArtifactsByType("navigation")}>Close Navigations</MenuItem>
+              <MenuItem onClick={() => handleCloseArtifactsByType("viewpoint")}>Close Viewpoints</MenuItem>
+              <MenuItem onClick={() => handleCloseArtifactsByType("roadmap")}>Close Roadmaps</MenuItem>
+              <MenuItem onClick={handleCloseAllTabs}>Close All</MenuItem>
+
+            </Menu>
             {/* <button onClick={handleCloseAllTabs}>Close All</button> */}
             <IconToolbar
               theme={props.theme}
               handleMenuOpen={handleMenuOpen}
+              handleMenuCloseAllOpen={handleMenuCloseAllOpen}
               handleCloseAllTabs={handleCloseAllTabs}
               disabled={!addArtifactEnabled}
 
@@ -1092,35 +1207,55 @@ const Architecture = (props) => {
 
           </div>
         </div>
-        <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)}>
-          {tabs.map((tab) => (
-            <Tab
-              key={`${tab.type}-${tab.id}`}
-              value={`${tab.type}-${tab.id}`}
-              onClick={() => {
-                if (tab.type == "diagram") {
-                  setActiveDiagramId(tab.id);
-                }
-              }}
-              label={
-                <span>
-                  {`${tab.type.charAt(0).toUpperCase() + tab.type.slice(1)} ${tab.id}`}
-                  <IconButton
-                    size="small"
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent switching tabs when closing
-                      handleCloseTab(`${tab.type}-${tab.id}`);
-                    }}
-                  >
-                    <CloseIcon fontSize="small" />
-                  </IconButton>
-                </span>
-              }
+        <div style={{ display: "flex" }}>
+          <div style={{ marginLeft: open ? "25px" : "50px" }}>
+            <QuickAccessTabs
+              value={QuickAccessTabvalue}
+              handleChange={handleQuickAccessTabChange}
+              tabs={QuickAccesstabs}
+              language={props.language}
+              theme={props.theme}
+              onClick={() => props.settable("table1")}
             />
-          ))}
-        </Tabs>
+          </div>
+          <Tabs value={activeTab} onChange={(e, newValue) => {
+            console.log("newVlaue", newValue);
 
+            setActiveTab(newValue)
+            setQuickAccessTabvalue(null)
+          }} variant="scrollable"
+            scrollButtons="auto">
+            {tabs.map((tab) => (
+              <Tab
+                key={`${tab.type}-${tab.id}`}
+                value={`${tab.type}-${tab.id}`}
+                onClick={() => {
+                  if (tab.type == "diagram") {
+                    setActiveDiagramId(tab.id);
+                  }
+                }}
+                label={
+                  <span>
+                    {`${tab.type.charAt(0).toUpperCase() + tab.type.slice(1)} ${tab.id}`}
+                    <IconButton
+                      size="small"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent switching tabs when closing
+                        handleCloseTab(`${tab.type}-${tab.id}`);
+                      }}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </span>
+                }
+              />
+            ))}
+          </Tabs>
+        </div>
+        {
+          console.log("activeTab in", activeTab)}
 
+        <QuickAccess activeTab={activeTab} architecturename={architecture} />
 
 
 
@@ -1305,16 +1440,29 @@ const Architecture = (props) => {
     </div>
   );
 };
-const mapStateToProps = (state) => ({
-  language: state.language,
-  theme: state.theme,
-  activeTree: state.activeTree,
+const mapStateToProps = (state) => {
+  return {
+    language: state.language,
+    theme: state.theme,
+    route: state.route,
+    activepage: state.activepage,
+    subpage: state.subpage,
+    activeTree: state.activeTree,
+    activeTable: state.activeTable,
+  };
+};
 
-  userdetail: state.userdetail,
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLanguage: (lang) => dispatch({ type: "TOGGLELANG", value: lang === "en" ? "ar" : "en" }),
+    setTheme: (theme) => dispatch({ type: "UPDATETHEME", value: theme }),
+    setRoute: (route) => dispatch({ type: "UPDATEROUTE", value: route }),
+    setActivePage: (pageName) => dispatch({ type: "SETACTIVEPAGE", value: pageName }),
+    setSubPage: (subpage) => dispatch({ type: "SETSUBPAGE", value: subpage }),
+    setActiveTree: (activeTree) => dispatch({ type: "ACTIVETREE", value: activeTree }),
+    setActiveTable: (activeTable) => dispatch({ type: "ACTIVETABLE", value: activeTable }),
 
-const mapDispatchToProps = (dispatch) => ({
-  settree: (data) => dispatch({ type: "SET_TREE", payload: data }),
-});
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Architecture);
