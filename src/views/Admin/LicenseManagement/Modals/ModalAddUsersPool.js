@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, IconButton, Typography } from '@mui/material';
 import { connect } from 'react-redux';
 import CustomButton from '../../../../components/CustomButton/CustomButton';
@@ -8,19 +8,92 @@ import CloseIcon from '@mui/icons-material/Close';
 import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 
 
-const ModalAddUsersPool = ({ open, handleClose, language, theme,users  }) => {
+const ModalAddUsersPool = ({ open, handleClose, language, theme, selectedPool, updateSelectedPool }) => {
+
     const [snackBarFlag, setSnackBarFlag] = useState(false);
+    const [selectedUsersForPool, setSelectedUsersForPool] = useState([]);
+    const [users, setUsers] = useState([]);
+
+    const formatUsers = (usersArray) => {
+        const formatted = usersArray.map((user, index) => ({
+            id: (index + 1).toString(), // Generate a string ID
+            user: user, // Map the username to the `user` field
+        }));
+        setUsers(formatted); // Update the state with formatted users
+        console.log("Formatted Users: ", formatted);
+    };
+
+    useEffect(() => {
+        console.log("this is inside useeffect")
+        if (selectedPool) {
+            console.log("running hook inside if")
+            console.log(selectedPool)
+
+            formatUsers(selectedPool.availableUsers); // Format the users when the component is mounted or users change
+
+            
+        }
+    }, [selectedPool])
+
+
+
+    const handleSelectionChange = (selectedIds) => {
+        // Filter the `users` state to find the selected users
+        const selectedUsers = users.filter((user) => selectedIds.includes(user.id));
+
+        // Extract only the 'user' field (email) from the selected users
+        const selectedEmails = selectedUsers.map((user) => user.user);
+
+        // Update the `selectedUsersForPool` state with the email array
+        setSelectedUsersForPool(selectedEmails);
+        console.log("selected_user_emails: ", selectedEmails);
+    };
+
+
+    const handleAddClick = () => {
+        console.log("Clicked Add");
+    
+        if (!selectedPool) {
+            console.error("No pool selected.");
+            return;
+        }
+    
+        // Merge existing users with new selected users
+        const updatedUsers = [...selectedPool.users, ...selectedUsersForPool];
+    
+        // Remove duplicates if necessary
+        const uniqueUsers = Array.from(new Set(updatedUsers));
+    
+        // Filter out added users from availableUsers
+        const updatedAvailableUsers = selectedPool.availableUsers.filter(
+            (user) => !selectedUsersForPool.includes(user)
+        );
+    
+        // Update the pool's users and availableUsers lists
+        const updatedPool = {
+            ...selectedPool,
+            users: uniqueUsers,
+            availableUsers: updatedAvailableUsers,
+        };
+    
+        console.log("updated_pool_looks_like: ", updatedPool);
+    
+        // Update the selected pool in the parent
+        updateSelectedPool(updatedPool);
+    
+        console.log("Updated Pool:", updatedPool);
+    
+        handleClose(); // Close the modal
+    };
+
+    
+
 
     const handleSnackBarClose = () => {
         setSnackBarFlag(false);
     };
-
-    const handleAddClick = () => {
-        setSnackBarFlag(true); // Show snackbar
-        handleClose(); // Close the dialog
-    };
-
     const handleDialogClose = (event, reason) => {
+        console.log("clicked add")
         if (reason !== 'backdropClick') {
             handleClose();
         }
@@ -106,7 +179,7 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme,users  }) => {
                         rows={users}
                         columns={columns}
                         showDeleteButton={true}
-
+                        onSelectionChange={handleSelectionChange}
                         checkboxSelection={true}
                         height={true}
                     />
@@ -116,39 +189,39 @@ const ModalAddUsersPool = ({ open, handleClose, language, theme,users  }) => {
                             backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "#ffffff",
                         }}
                     >
-                           <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                gap: "10px",
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                                gap: "10px",
 
 
 
-                margin: "0px",
-                position: "relative",
-                top: "10px",
+                                margin: "0px",
+                                position: "relative",
+                                top: "10px",
 
 
-              }}
-            >
-              <CustomButton
-                title={language === "en" ? "Add" : AdminTranslation["Add"]}
-                type="submit"
-                // onClick={handleUserSubmit}
+                            }}
+                        >
+                            <CustomButton
+                                title={language === "en" ? "Add" : AdminTranslation["Add"]}
+                                type="submit"
+                                onClick={handleAddClick}
 
-                Theme={theme}
-                sx={{ width: "50%" }}
-              />
-              <CustomButton
-                title={
-                  language === "en" ? "Cancel" : AdminTranslation["Cancel"]
-                }
-                type="button"
-                Theme={theme}
-                onClick={handleClose}
-                sx={{ width: "50%" }}
-              />
-            </Box>
+                                Theme={theme}
+                                sx={{ width: "50%" }}
+                            />
+                            <CustomButton
+                                title={
+                                    language === "en" ? "Cancel" : AdminTranslation["Cancel"]
+                                }
+                                type="button"
+                                Theme={theme}
+                                onClick={handleClose}
+                                sx={{ width: "50%" }}
+                            />
+                        </Box>
                     </DialogActions>
                 </Box>
             </Dialog>

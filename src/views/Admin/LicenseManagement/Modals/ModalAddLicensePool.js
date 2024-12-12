@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { Box, Dialog, DialogTitle, DialogContent, DialogActions, Snackbar, Alert, IconButton, Typography } from '@mui/material';
 import { connect } from 'react-redux';
 import CustomButton from '../../../../components/CustomButton/CustomButton';
@@ -7,19 +7,65 @@ import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslatio
 import CloseIcon from '@mui/icons-material/Close';
 import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 
-const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
+const ModalAddLicensePool = ({ open, handleClose, language, theme, selectedPool, updateSelectedPool }) => {
 
 
     const [snackBarFlag, setSnackBarFlag] = useState(false);
-
+    const [updatedRows, setUpdatedRows] = useState(null);
+    const [selectedLicenseForPool, setSelectedLicenseForPool] = useState([]);
     const handleSnackBarClose = () => {
         setSnackBarFlag(false);
     };
 
+    
+    // const handleAddClick = () => {
+    //     setSnackBarFlag(true); // Show snackbar
+    //     handleClose(); // Close the dialog
+    // };
+
+
     const handleAddClick = () => {
-        setSnackBarFlag(true); // Show snackbar
-        handleClose(); // Close the dialog
+        console.log("Clicked Add");
+    
+        if (!selectedPool) {
+            console.error("No pool selected.");
+            return;
+        }
+    
+        // Merge existing license with new selected licenses
+        console.log("selectedLicenses_for_pool: ",selectedLicenseForPool)
+        const updatedLicenses = [...selectedPool.licenses, ...selectedLicenseForPool];
+        
+        console.log("updated_licenses_are: ",updatedLicenses)
+        // Remove duplicates if necessary
+        const uniqueLicenses = Array.from(new Set(updatedLicenses));
+        console.log("unique_licenses_are: ",uniqueLicenses)
+        
+        // Filter out added license from availableUsers
+        const updatedAvailableLicenses = selectedPool.availableLicenses.filter(
+            (license) => !selectedLicenseForPool.includes(license.license_id)
+        );
+        // console.log("updated_available_licenses: ",updatedAvailableLicenses)
+    
+        // Update the pool's users and availableUsers lists
+        const updatedPool = {
+            ...selectedPool,
+            licenses: uniqueLicenses,
+            availableLicenses: updatedAvailableLicenses,
+        };
+        
+        console.log("finally_licenses_are: ",uniqueLicenses)
+        console.log("finally_availableLicenses_are: ",updatedAvailableLicenses)
+        console.log("updated_pool_looks_like: ", updatedPool);
+    
+        // Update the selected pool in the parent
+        updateSelectedPool(updatedPool);
+    
+        // console.log("Updated Pool:", updatedPool);
+    
+        handleClose(); // Close the modal
     };
+
 
     const handleDialogClose = (event, reason) => {
         if (reason !== 'backdropClick') {
@@ -27,20 +73,56 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
         }
     };
 
-    const updatedRows = [
-        { id: '1', licenseId: 'conFAUyLzmUl8YzV3ub006', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '2', licenseId: 'conWG0t3tnTCO4oIPI0009', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commerical' },
-        { id: '3', licenseId: 'conColK5I5if8V1YhEM010', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '4', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '5', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '6', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '7', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '8', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '9', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '10', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
-        { id: '11', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
 
-    ];
+    const formatLicenses = (availableLicensesArray) => {
+        const formatted = availableLicensesArray.map((license, index) => ({
+            id: (index + 1).toString(), // Generate a string ID
+            licenseId: license.license_id, // Map the username to the `user` field
+            role: license.license_role,
+            startDate: license.start_date,
+            endDate: license.end_date,
+            licenseType: license.license_type,
+        }));
+        setUpdatedRows(formatted); // Update the state with formatted users
+        console.log("Formatted Users: ", formatted);
+    };
+
+    useEffect(() => {
+        if (selectedPool) {
+            console.log(selectedPool)
+
+            formatLicenses(selectedPool.availableLicenses); // Format the users when the component is mounted or users change
+
+            
+        }
+    }, [selectedPool])
+
+
+
+    const handleSelectionChange = (selectedIds) => {
+        // Filter the `users` state to find the selected users
+        const selectedLicense = updatedRows.filter((row) => selectedIds.includes(row.id));
+        // console.log("selected_license is: ",selectedLicense)
+        // Extract only the 'user' field (email) from the selected users
+        const selectedLicenses = selectedLicense.map((license) => license.licenseId);
+        // Update the `selectedUsersForPool` state with the email array
+        setSelectedLicenseForPool(selectedLicenses);
+        console.log("selected_Licenses_are: ", selectedLicenses);
+    };
+    // const updatedRows = [
+    //     { id: '1', licenseId: 'conFAUyLzmUl8YzV3ub006', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '2', licenseId: 'conWG0t3tnTCO4oIPI0009', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commerical' },
+    //     { id: '3', licenseId: 'conColK5I5if8V1YhEM010', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '4', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '5', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '6', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '7', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '8', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '9', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '10', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+    //     { id: '11', licenseId: 'conFf7A5TJercvCiNo0013', role: 'Organizational Portal', startDate: '2022-05-10', endDate: '2075-01-05', licenseType: 'Commercial' },
+
+    // ];
 
     const columns = [
         { field: 'licenseId', headerName: language === 'en' ? 'License ID' : AdminTranslation["License ID"], flex: 1 },
@@ -112,6 +194,7 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
                     <CustomTable 
                         rows={updatedRows} 
                         columns={columns} 
+                        onSelectionChange={handleSelectionChange}
                         showDeleteButton={true}
                         Theme={theme}
                         checkboxSelection={true}
@@ -142,6 +225,7 @@ const ModalAddLicensePool = ({ open, handleClose, language, theme }) => {
                 title={language === "en" ? "Add" : AdminTranslation["Add"]}
                 type="submit"
                 // onClick={handleUserSubmit}
+                onClick={handleAddClick}
 
                 Theme={theme}
                 sx={{ width: "50%" }}

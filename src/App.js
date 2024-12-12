@@ -10,7 +10,7 @@ import Alert from '@mui/material/Alert';
 
 function App(props) {
   console.log("localstoragewalivalue: ", sessionStorage.getItem('isUserLoggedIn'));
-  const [userLoggedIn, setUserLoggedIn] = useState(sessionStorage.getItem('isUserLoggedIn') ||true);
+  const [userLoggedIn, setUserLoggedIn] = useState(sessionStorage.getItem('isUserLoggedIn') ||false);
   const { theme } = props;
   const navigate = useNavigate();
 
