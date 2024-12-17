@@ -6,6 +6,11 @@ const INITIAL_STATE = {
     subPage: "architecture",
     activeTree: "Tree1",
     activeTable: "Table1",
+    //    //     { id: 2, layername: "as", layernotation: "f", layercolor: "Blue", parentlayer: "Architecture" },
+
+    layers: [        { id: 3, layername: "Mussafara", layernotation: "s", layercolor: "Black", parentlayer: "None" },
+        { id: 4, layername: "Mark", layernotation: "s", layercolor: "Black", parentlayer: "None" },
+        { id: 5, layername: "Ben", layernotation: "s", layercolor: "Black", parentlayer: "None" },],
 
 };
 
@@ -48,8 +53,11 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 activeTable: action.value
-                
-            }    
+
+            }
+        case 'SET_LAYERS':
+            return { ...state, layers: action.payload };
+
         default:
             return state;
     }

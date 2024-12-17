@@ -57,6 +57,7 @@ function CustomTable(props) {
       sx={{
         height: props.height ? "75vh" : "80vh",
         width: "100%",
+        // border:"2px solid red",
         ...props.TableMainDivHeight,
       }}
     >
@@ -146,6 +147,10 @@ function CustomTable(props) {
           height: props.height ? "68vh" : "calc(80vh - 100px)", 
           width: "100%",
           overflowY: "auto",
+          // border:"2px solid red",
+          position:"relative",
+          top:"10px",
+
           "& ::-webkit-scrollbar": {
             width: "8px",
           },

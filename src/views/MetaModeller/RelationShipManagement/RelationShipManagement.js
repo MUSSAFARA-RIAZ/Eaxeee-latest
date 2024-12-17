@@ -1,12 +1,15 @@
 import React from "react";
-// import styles from "./UserManagement.module.css";
-import UserRegistration from "./UserRegistration";
-import PasswordManagement from "./PasswordManagement";
-import DirectoryUser from "./DirectoryUser";
+
 import CustomTabs from "../../../components/CustomTabs/CustomTabs";
-function UserTabs(props) {
+// import LayerRegistration from "./LayerRegistration";
+import ElementRegistration from "./RelationShipRegistration";
+import RelationShipRegistration from "./RelationShipRegistration";
+function RelationShipTabs(props) {
   
   const { value, handleChange, tabs , language,open } = props;
+
+  console.log("value",value);
+
   const isArabic=props.language==='ar'
 
   console.log("open state", open);
@@ -27,16 +30,15 @@ function UserTabs(props) {
   )
 }
 
-function UserContent(props) {
-  const { value} = props; 
+function RelationShipContent() {
+ 
 
   return (
     <div>
-      {value === 0 && <UserRegistration />}
-      {/* {value === 1 && <PasswordManagement />}
-      {value === 2 && <DirectoryUser />} */}
+      {<RelationShipRegistration/>}
+     
     </div>
   );
 }
 
-export { UserTabs, UserContent };
+export {RelationShipTabs,RelationShipContent};

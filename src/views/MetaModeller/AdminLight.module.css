@@ -1,0 +1,13 @@
+.main {
+
+}
+
+.leftPane {
+    /* border-right: 2px solid #dee1e6; */
+    border: 2px solid #dee1e6;
+}
+
+.rightPane {
+    /* border-left: 2px solid #dee1e6; */
+    border: 2px solid #dee1e6;
+}

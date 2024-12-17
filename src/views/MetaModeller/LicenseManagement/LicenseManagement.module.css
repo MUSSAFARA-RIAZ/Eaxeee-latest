@@ -1,0 +1,131 @@
+/* licenseManagement css starts */
+
+.main {
+    /* border: 2px solid black; */
+    height: 100%;
+}
+
+.licenseManagementMainDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.addLicenseButtonDiv {
+    margin: 7px 25px;
+}
+
+.licenseManagementMainButton {
+    position: relative;
+    top: 5%;
+}
+
+.licenseManagementSubTabsGroup {
+    position: relative;
+    top: 5%;
+}
+
+.licenseManagementSubTabs {
+    min-width: 17em !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: flex-start !important;
+    text-align: center;
+    gap: 10px;
+    border-radius: 4px !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+.licenseManagementSubTabsTextSpan {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+}
+
+.licenseManagementSubButtonsGroup {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.licenseManagementSubButtonsParentBox{
+    min-width: 15%;
+}
+
+.licenseManagementSubButtons {
+    border: 2px solid blue;
+}
+
+@media screen and (max-width: 1390px) {
+
+    .licenseManagementSubTabs {
+        min-width: 5em !important;
+    }
+
+    .licenseManagementSubTabsTextSpan {
+        font-size: 13px;
+
+    }
+
+}
+
+/* licenseManagement css ends */
+
+/*********************** Named User Starts ***************************/
+
+.namedUserMain {
+  
+   
+ 
+    height: calc(100vh - 100px - 8%);
+    /* display: flex; */
+    width: 100%;
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.AvailableLicensesandActivatedUsersDiv {
+    width: 100%;
+    display: flex;
+}
+.AvailableLicensesDiv {
+    width: 75%;
+    margin-left: 5px;
+}
+
+.namedUserTableAvailableLicenses {    
+    width: 100%;
+    margin: 5px;
+    padding: 5px;
+}
+
+
+.activatedUsersDiv {
+    margin: 0 10px;
+   
+    height: 100%;
+}
+
+.activatedUsersList {
+    /* width: 200px;  */
+    height: 272px; 
+    /* overflow-y: auto;     */
+    border-radius: 4px; 
+}
+
+.namedUserTableAllocatedLicenses {    
+    /* flex: 1; */
+    margin: 5px;
+    padding: 5px;
+}
+
+/*********************** Named User Ends ***************************/
+
+/*********************** Concurrent User Starts ***************************/
+
+.poolDiv {
+    margin: 5px;
+    padding: 5px;
+    width: 40%;
+}

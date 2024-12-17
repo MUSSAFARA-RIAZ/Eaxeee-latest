@@ -1,0 +1,108 @@
+.errorMessage {
+  color: red; /* Red color for error messages */
+  font-size: smaller; /* Smaller font size */
+}
+
+.closeButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.DialogTitle_default {
+  background-color: #2158a4 ;
+  color: #cecece ;
+}
+
+.DialogTitle_dark {
+  background-color: #393a3a ;
+  color: #cecece ;
+}
+
+.DialogContent_default {
+  background-color: #cecece ;
+}
+
+.DialogContent_dark {
+    background-color: #212121 ;
+}
+/*********************** Modal User Import (Directory User) css starts ***************************/
+.activeDirModalBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  background-color: white;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);
+}
+
+.activeDirModalHeader {
+  background-color: #0d7e8a;
+  color: white;
+  padding: 1px 20px;
+}
+
+.activeDirModalHeader h1 {
+  font-weight: 350;
+  font-size: large;
+}
+
+.activeDirModalTitle h2 {
+  font-weight: 350;
+  font-size: x-large;
+  margin: 15px 0;
+}
+
+.activeDirModalTextFields {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+.activeDirModalTextFields > * {
+  flex: 1;
+}
+
+.activeDirSearchButton {
+  flex: 1;
+  transform: scale(0.85);
+  width: 20px;
+}
+.activeDirSearchButton:hover {
+  background-color: #dff7fa;
+  border-color: #0d7e8a;
+}
+
+.activeDirModalTextFieldsSelectAll {
+  width: fit-content;
+}
+
+.activeDirModalFooter {
+  display: flex;
+  background-color: #dff7fa;
+  margin-top: 15px;
+  padding: 10px;
+  justify-content: flex-end;
+  gap: 2px;
+  box-shadow: 3px 3px 10px #b8e6ec inset;
+}
+
+.activeDirImport,
+.activeDirCancel {
+  transform: scale(0.9);
+  border-radius: 20px;
+}
+
+.activeDirImport:hover,
+.activeDirCancel:hover {
+  color: #0d7e8a;
+  border-color: #0d7e8a;
+  background-color: white;
+}
+
+.activeDirModalForm {
+  padding: 0 20px;
+}
+
+/*********************** Modal User Import (Directory User) css ends ***************************/

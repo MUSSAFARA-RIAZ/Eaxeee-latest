@@ -124,7 +124,7 @@ function Sidebar(props) {
         </ListItem>
         <ListItem disablePadding>
           <Tooltip title="Meta Model" placement="right">
-            <Link to="/organizational-portal">
+            <Link to="/metamodel">
               <ListItemButton
                 className={styles.sidebarItemsButton}
                 onClick={() => {

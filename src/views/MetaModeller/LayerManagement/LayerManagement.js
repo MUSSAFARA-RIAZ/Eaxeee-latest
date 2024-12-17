@@ -1,10 +1,8 @@
 import React from "react";
-// import styles from "./UserManagement.module.css";
-import UserRegistration from "./UserRegistration";
-import PasswordManagement from "./PasswordManagement";
-import DirectoryUser from "./DirectoryUser";
+
 import CustomTabs from "../../../components/CustomTabs/CustomTabs";
-function UserTabs(props) {
+import LayerRegistration from "./LayerRegistration";
+function LayerTabs(props) {
   
   const { value, handleChange, tabs , language,open } = props;
   const isArabic=props.language==='ar'
@@ -27,16 +25,16 @@ function UserTabs(props) {
   )
 }
 
-function UserContent(props) {
-  const { value} = props; 
+function LayerContent() {
+  
 
   return (
     <div>
-      {value === 0 && <UserRegistration />}
+      {<LayerRegistration />}
       {/* {value === 1 && <PasswordManagement />}
       {value === 2 && <DirectoryUser />} */}
     </div>
   );
 }
 
-export { UserTabs, UserContent };
+export { LayerTabs, LayerContent};

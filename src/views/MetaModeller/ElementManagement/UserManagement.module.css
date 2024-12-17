@@ -1,0 +1,298 @@
+/************************** UserManagement css starts **************************/
+.main {
+    /* border: 2px solid black; */
+    height: 100%;
+}
+
+
+.userManagementSubTabsGroup {
+    /* border: 2px solid black; */
+    position: relative;
+    top: 5%;
+}
+
+.userManagementSubTabs {
+    /* border: 2px solid red !important; */
+    min-width: 17em !important;
+    /* max-width: 17em !important; */
+    /* height: 45px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: flex-start !important;
+    text-align: center;
+    gap: 10px;
+    border-radius: 4px !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.12) !important;
+}
+
+.userManagementSubTabsTextSpan {
+    /* border: 2px solid black; */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+}
+
+@media screen and (max-width: 1390px) {
+
+    .userManagementSubTabs {
+        /* border: 2px solid red !important; */
+        min-width: 5em !important;
+    }
+
+    .userManagementSubTabsTextSpan {
+        /* border: 2px solid black; */
+        font-size: 13px;
+
+    }
+
+}
+
+/************************** UserManagement css ends **************************/
+
+/************************** UserRegistration css starts **************************/
+
+.userRegistrationMain {
+    /* border: 2px solid red; */
+    position: relative;
+    top: 5%;
+    height: calc(100vh - 100px - 8%);
+    display: flex;
+}
+
+.userRegistrationFormDiv {
+    /* border: 1px solid black; */
+    /* flex: 0.53; */
+    margin: 5px;
+    min-width: 29.5em;
+    /* padding: 5px; */
+}
+
+.userRegistrationForm {
+    /* border: 2px solid green; */
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    /* padding: 5%; */
+    padding: 10px;
+}
+
+.userRegistrationFormInputParent {
+  
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    top: 1%;
+}
+
+
+/* .userRegistrationFormFullName {} */
+
+.userRegistrationFormErrorDiv {
+    height: 1em;
+    font-size: 12px;
+    padding: 10px;
+    color: red;
+}
+
+.userRegistrationTableDiv {
+    /* border: 1px solid black; */
+    flex: 1;
+    margin: 5px;
+    padding: 5px;
+}
+
+@media screen and (max-width: 1390px) {
+
+    .userRegistrationFormDiv {
+        /* border: 1px solid black; */
+        min-width: 24em;
+        
+    }
+
+    .userRegistrationForm {
+        /* border: 2px solid green; */
+        flex: 0.5;
+    }
+}
+
+/************************** UserRegistration css ends **************************/
+
+/************************** passwordManagement css starts **************************/
+
+.passwordManagementMain {
+    /* border: 2px solid red; */
+    position: relative;
+    top: 5%;
+    height: calc(100vh - 100px - 8%);
+    display: flex;
+}
+
+.passwordManagementFormDiv {
+    /* border: 1px solid black; */
+    /* flex: 0.53; */
+    margin: 5px;
+    min-width: 29.5em;
+    /* padding: 5px; */
+}
+
+.passwordManagementForm {
+    /* border: 2px solid green; */
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    align-items: center;
+    /* padding: 5%; */
+    padding: 10px;
+}
+
+.passwordManagementFormInputParent {
+    /* border: 1px solid black; */
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    top: 1%;
+}
+
+/* .passwordManagementFormFullName {} */
+
+.passwordManagementFormErrorDiv {
+    height: 1em;
+    font-size: 12px;
+    padding: 10px;
+    color: red;
+}
+
+.passwordManagementTableDiv {
+    /* border: 1px solid black; */
+    flex: 1;
+    margin: 5px;
+    padding: 5px;
+}
+
+@media screen and (max-width: 1390px) {
+
+    .passwordManagementFormDiv {
+        /* border: 1px solid black; */
+        min-width: 24em;
+    }
+
+    .passwordManagementForm {
+        /* border: 2px solid green; */
+        flex: 0.5;
+    }
+}
+
+/************************** passwordManagement css ends **************************/
+
+/************************** ActiveDirectoryUser css starts **************************/
+
+.activeUserDirectoryMain {
+    /* border: 2px solid red; */
+    position: relative;
+    top: 5%;
+    height: calc(100vh - 100px - 8%);
+    display: flex;
+}
+
+.activeDirTableDiv {
+    flex: 2.5;
+    padding: 5px;
+    margin: 5px;
+}
+
+/************************* ActiveDirectoryUser css ends *************************/
+
+
+.activeDirModalBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;    
+    /* background-color: white; */
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.15);    
+}
+
+.activeDirModalHeader {
+    /* background-color: #0d7e8a; */
+    color: white;    
+    padding: 1px 20px;
+}
+
+/* .closeButton {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+} */
+
+.activeDirModalHeader h1{
+    font-weight: 350;
+    font-size: large;
+}
+
+.activeDirModalTitle h2{
+    font-weight: 350;
+    font-size: x-large;
+    margin: 15px 0;
+}
+
+.activeDirModalTextFields {
+    display: flex;
+    flex-direction: row; 
+    gap: 10px;
+    align-items: center;
+}
+.activeDirModalTextFields > * {
+    flex: 1;
+    margin: 8px 0 !important; /* over writting MUI TextFields' default margin top and botton property, default property: margin-top: 16px, margin-bottom: 8px */
+}
+
+/* .activeDirSearchButton {
+    flex: 1;
+    transform: scale(0.85);  
+    width: 20px;  
+} */
+/* .activeDirSearchButton:hover {
+    background-color: #dff7fa;
+    border-color: #0d7e8a;    
+} */
+
+
+.activeDirModalTextFieldsSelectAll {
+    width:fit-content;
+}
+
+.activeDirModalFooter {
+    display: flex;    
+    padding: 10px;
+    justify-content: flex-end;
+    gap: 10px;
+    /* box-shadow: 3px 3px 10px #b8e6ec inset; */
+}
+
+/* .activeDirImport, .activeDirCancel {
+    transform: scale(0.9);
+    border-radius: 20px;
+}
+
+.activeDirImport:hover, .activeDirCancel:hover {    
+    color: #0d7e8a;
+    border-color: #0d7e8a;
+    background-color: white;
+  } */
+
+.activeDirModalForm {
+    padding: 0 20px;
+    height: 450px;
+}
+
+.directoryUsersList {
+    height: 82%; 
+    overflow-y: auto;    
+    border-radius: 4px; 
+}
