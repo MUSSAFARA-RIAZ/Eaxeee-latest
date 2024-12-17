@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getAllocatedNamedLicenses, getAvailableNamedLicenses, deAllocateNamedLicense } from "../../../apis/license_management";
+import { getAllocatedNamedLicenses, getAvailableNamedLicenses,deAllocateNamedLicense,allocateLicense } from "../../../apis/license_management";
 import { getListofUsers } from "../../../apis/user_management";
 import { connect } from "react-redux";
 import {
@@ -52,7 +52,7 @@ function NamedUser(props) {
     setSelectedAvailableLicenseRow(selectedRow);
     selectedARows.current = selectedRow;
   };
-  const [selectedLicenseId, setSelectedLicenseId] = useState(null);
+  
   const AvailableLicensesColumns = [
     // {
     //   field: "id",
@@ -70,8 +70,7 @@ function NamedUser(props) {
               aria-label="selectedLicense"
               name="selectedLicense"
               value={params.row.license_id}
-              // style={{
-              //   color:theme.palette.checkboxColor.main
+              style={{
 
               // }}
               checked={selectedLicenseId === params.row.license_id} // Make sure the radio is checked only if it matches the selectedLicenseId
@@ -161,6 +160,9 @@ function NamedUser(props) {
   const [recallAvailableNamedLicenses, setRecallAvailableNamedLicenses] = useState(0);
   const [recallAllocatedNamedLicenses, setRecallAllocatedNamedLicenses] = useState(0);
   const [selectedLicenseIds, setSelectedLicenseIds] = useState('');
+  const [selectedLicenseId, setSelectedLicenseId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [disableAllocate, setDisableAllocate] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   // setRecallAvailableLicenses(!recallAvailableLicenses)
   // Call List of available named licenses
@@ -360,7 +362,39 @@ function NamedUser(props) {
     },
   ];
 
-  const handleAllocateUserClick = () => { };
+  const handleAllocateUserClick = async () => {
+    setDisableAllocate(true);
+    console.log("Allocate was clicked");
+    console.log("selectedUser: ", selectedUser);
+    console.log("selectedLicenseId: ", selectedLicenseId);
+  
+    if (selectedUser && selectedLicenseId) {
+      try {
+        const res = await allocateLicense(selectedLicenseId, selectedUser);
+  
+        if (res.code === 200) {
+          console.log("License was allocated successfully");
+  
+          // Remove the allocated license from AvailableLicensesRowData
+          setAvailableLicensesRowData(prevData =>
+            prevData.filter(license => license.license_id !== selectedLicenseId)
+          );
+          setRecallAllocatedNamedLicenses(!recallAllocatedNamedLicenses)
+          alert(res.data.message);
+        } else {
+          console.log("Couldn't allocate license.");
+          alert(res.error);
+        }
+      } catch (error) {
+        console.error("An unexpected error occurred:", error);
+        alert("An unexpected error occurred. Please try again later.");
+      }
+    }
+  
+    setDisableAllocate(false);
+    setSelectedLicenseId(null);
+  };
+  
 
   const handleCheckboxChange = (user) => {
     setSelectedActivatedUsers((prevSelected) => {
@@ -395,7 +429,7 @@ function NamedUser(props) {
           : AdminTranslation["Allocated Licenses"],
     },
   ];
-  const [selectedUser, setSelectedUser] = useState(null);
+  
 
   const handleRadioChange = (user) => {
     setSelectedUser(user); // Set the selected user
@@ -540,7 +574,7 @@ function NamedUser(props) {
                 onClick={handleAllocateUserClick}
                 type="submit"
                 loading={false}
-                disabled={false}
+                disabled={disableAllocate || (!selectedUser || !selectedLicenseId )}
                 fullWidth={true}
                 loaderSize={25}
                 loaderColor="success"

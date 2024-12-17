@@ -128,6 +128,38 @@ export const deAllocateNamedLicense = async (licenseId, username) => {
 };
 
 
+export const allocateLicense = async (licenseId, username) => {
+    try {
+        const url = `${S_URL}/rest/allocateNamedLicense`;
+
+        const headers = _headers;
+
+        // Constructing the payload within the function
+        const payload = {
+            license_id: licenseId,
+            username: username,
+        };
+
+        const response = await axios.post(url, payload, { headers, withCredentials: true });
+
+        return {
+            code: response.status,
+            data: response.data,
+        };
+    } catch (error) {
+        const statusCode = error.response?.status || 500;
+        const errorMessage = error.response?.data?.error || "Unknown error occurred";
+
+        handleSessionExpiration(statusCode);
+
+        return {
+            code: statusCode,
+            error: errorMessage,
+        };
+    }
+};
+
+
 
 
 
@@ -222,7 +254,66 @@ export const  getPoolLicensesAndUsers = async (poolName) => {
 };
 
 
+export const  updatePoolLicensesAndUsers = async (poolName,poolLicenses,poolUsers) => {
+    try {
+        const url = `${S_URL}/rest/updatePoolDetails`;
 
+        const headers = _headers;
+
+        // Constructing the payload within the function
+        const payload = {
+            poolName: poolName,
+            poolLicenses: poolLicenses,
+            poolUsers: poolUsers,
+        };
+
+        const response = await axios.post(url,payload, { headers, withCredentials: true });
+
+        return {
+            code: response.status,
+            data: response.data,
+        };
+    } catch (error) {
+        const statusCode = error.response?.status || 500;
+        const errorMessage = error.response?.data?.error || "Unknown error occurred";
+
+        handleSessionExpiration(statusCode);
+
+        return {
+            code: statusCode,
+            error: errorMessage,
+        };
+    }
+};
+
+
+export const deletePool = async (poolName) => {
+    try {
+        const url = `${S_URL}/rest/deletePool/${poolName}`;
+
+        const headers = _headers;
+
+        // Constructing the payload within the function
+        
+
+        const response = await axios.delete(url, { headers, withCredentials: true });
+
+        return {
+            code: response.status,
+            data: response.data,
+        };
+    } catch (error) {
+        const statusCode = error.response?.status || 500;
+        const errorMessage = error.response?.data?.error || "Unknown error occurred";
+
+        handleSessionExpiration(statusCode);
+
+        return {
+            code: statusCode,
+            error: errorMessage,
+        };
+    }
+};
 
 
 
