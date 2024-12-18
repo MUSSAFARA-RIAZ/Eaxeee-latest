@@ -11,7 +11,35 @@ import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 // import GreenEaxeeLogo from "../../../../Assets/Images/ModalEaxeeLogo.png";
 import Crop75Icon from '@mui/icons-material/Crop75';
 import ModalAddRelation from './Modals/ModalAddRelation';
+import SolidLine from "../../../Assets/Images/MetaModellerImages/solid.svg";
+import DashedLine from "../../../Assets/Images/MetaModellerImages/dashed.svg";
+import DottedLine from "../../../Assets/Images/MetaModellerImages/dotted.svg";
+import DiamondThin from "../../../Assets/Images/MetaModellerImages/diamondThin.svg";
+import rightOpenArrow from "../../../Assets/Images/MetaModellerImages/open.svg";
+import CrossIcon from "../../../Assets/Images/MetaModellerImages/CrossImage.svg"; 
+import Diamond from "../../../Assets/Images/MetaModellerImages/diamond.svg";
+// import CrossIcon from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg";
 
+
+const lineStyleOptions = [
+    { id: "solid", label: "Solid", image: SolidLine },
+    { id: "dashed", label: "Dashed", image: DashedLine },
+    {
+        id:"dotted", label:"Dotted", image:DottedLine
+    }
+];
+const EndshapeOptions = [
+    { id: "DiamondThin", label: "DiamondThin", image: DiamondThin },
+    { id: "rightOpenArrow", label: "rightOpenArrow", image: rightOpenArrow },
+    {
+        id:"CrossIcon", label:"crossIcon",image:CrossIcon
+    }
+];
+
+const StartshapeOptions = [
+    { id: "diamon", label: "Diamond", image: Diamond },
+    { id: "crossIcon", label: "CrossIcon", image: CrossIcon },
+];
 const RelationShipRegistration = (props) => {
     const { language, theme } = props;
     const layers = useSelector((state) => state.layers);
@@ -28,9 +56,9 @@ const RelationShipRegistration = (props) => {
             ConceptType: "Element",
             Color: "#87CEEB", // Light Blue
             RelationShipNotation: "A",
-            LineStyle: "Crop75Icon", // LineStyle with an icon
-            StartShape: "GreenEaxee", // StartShape using image
-            EndShape: "Crop75Icon",   // EndShape using icon
+            LineStyle: "solid", // LineStyle with an icon
+            StartShape: "diamon", // StartShape using image
+            EndShape: "DiamondThin",   // EndShape using icon
             FromtoToInterpretation: "Interpreted from A to B",
             TotoFromInterpretation: "Interpreted from B to A",
             Description: "To be provided later",
@@ -47,9 +75,9 @@ const RelationShipRegistration = (props) => {
             ConceptType: "Element",
             Color: "#87CEEB", // Light Blue
             RelationShipNotation: "B",
-            LineStyle: "Crop75Icon", // Text fallback or icon
-            StartShape: "Crop75Icon",
-            EndShape: "GreenEaxee",
+            LineStyle: "solid", // LineStyle with an icon
+            StartShape: "diamon", // StartShape using image
+            EndShape: "DiamondThin",   // EndShape using icon
             FromtoToInterpretation: "Interpreted from B to C",
             TotoFromInterpretation: "Interpreted from C to B",
             Description: "To be provided later",
@@ -66,9 +94,9 @@ const RelationShipRegistration = (props) => {
             ConceptType: "Interface",
             Color: "#FF6347", // Tomato Red
             RelationShipNotation: "C",
-            LineStyle: "Default", // Fallback to text
-            StartShape: "Square",
-            EndShape: "Circle",
+            LineStyle: "solid", // LineStyle with an icon
+            StartShape: "diamon", // StartShape using image
+            EndShape: "DiamondThin",   // EndShape using icon
             FromtoToInterpretation: "Data flow from C to D",
             TotoFromInterpretation: "Data flow from D to C",
             Description: "External interface description",
@@ -151,11 +179,14 @@ const RelationShipRegistration = (props) => {
             headerName: 'Line Style',
             flex: 1,
             renderCell: (params) => {
-                if (params.value === "Crop75Icon") {
-                    return <Crop75Icon />;
-                }
-                
-                return params.value; // Text-based icon like "★"
+                const lineStyleOption = lineStyleOptions.find(option => option.id === params.value);
+                return lineStyleOption ? (
+                    <img
+                        src={lineStyleOption.image}
+                        alt={lineStyleOption.label}
+                        style={{ width: "40px", height: "20px", objectFit: "contain" }}
+                    />
+                ) : params.value; // Fallback for unrecognized values
             },
         },
         {
@@ -163,45 +194,31 @@ const RelationShipRegistration = (props) => {
             headerName: 'Start Shape',
             flex: 1,
             renderCell: (params) => {
-              switch (params.value) {
-                case "GreenEaxee":
-                  return (
+                const startShapeOption = StartshapeOptions.find(option => option.id === params.value);
+                return startShapeOption ? (
                     <img
-                      src={GreenEaxee}
-                      alt="GreenEaxee"
-                      width="20"
-                      height="20"
+                        src={startShapeOption.image}
+                        alt={startShapeOption.label}
+                        style={{ width: "20px", height: "20px", objectFit: "contain" }}
                     />
-                  );
-                case "Crop75Icon":
-                  return <Crop75Icon />;
-                default:
-                  return params.value; // Fallback for text-based shapes
-              }
+                ) : params.value; // Fallback for unrecognized values
             },
-          },
-          {
+        },
+        {
             field: 'EndShape',
             headerName: 'End Shape',
             flex: 1,
             renderCell: (params) => {
-              switch (params.value) {
-                case "GreenEaxee":
-                  return (
+                const endShapeOption = EndshapeOptions.find(option => option.id === params.value);
+                return endShapeOption ? (
                     <img
-                      src={GreenEaxee}
-                      alt="GreenEaxee"
-                      width="20"
-                      height="20"
+                        src={endShapeOption.image}
+                        alt={endShapeOption.label}
+                        style={{ width: "20px", height: "20px", objectFit: "contain" }}
                     />
-                  );
-                case "Crop75Icon":
-                  return <Crop75Icon />;
-                default:
-                  return params.value; // Fallback for text-based shapes
-              }
+                ) : params.value; // Fallback for unrecognized values
             },
-          },
+        },
           
           { field: 'FromtoToInterpretation', headerName: (language === 'en' ? 'From to To Interpretation' : 'From to To Interpretation'), flex: 1 },
           { field: 'TotoFromInterpretation', headerName: (language === 'en' ? 'To to From Interpretation' : 'To to From Interpretation'), flex: 1 },

@@ -72,7 +72,7 @@ function NamedUser(props) {
               value={params.row.license_id}
               style={{
 
-              // }}
+              }}
               checked={selectedLicenseId === params.row.license_id} // Make sure the radio is checked only if it matches the selectedLicenseId
               onChange={(e) => handleRadio(e, params.row)}
             />
