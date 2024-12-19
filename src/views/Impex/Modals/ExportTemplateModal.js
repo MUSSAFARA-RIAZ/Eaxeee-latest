@@ -302,18 +302,21 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                             marginTop: "20px",
                         }}
                     >
-                    {dialogButtons.map((button, index) => (
+                        {dialogButtons.map((button, index) => (
                             <CustomButton
                                 key={index}
                                 title={button.label}
                                 type="submit"
                                 Theme={theme}
+                                label={button.label}
+                                isDisabled={isDisabled}
+                                // loading={true}
                                 disabled={
                                     (button.label === "Import" && isDisabled) || (button.label === "Export" && isDisabled) ||
-                                        (
-                                            (button.label === "Import" || button.label === "Export") &&
-                                            selectedItems.length === 0
-                                        )
+                                    (
+                                        (button.label === "Import" || button.label === "Export") &&
+                                        selectedItems.length === 0
+                                    )
                                 }
 
                                 onClick={
@@ -324,7 +327,9 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                                         : button.onClick
                                 }
                                 sx={{ width: "auto" }}
+                              
                             />
+                            
                         ))}
 
                     </Box>

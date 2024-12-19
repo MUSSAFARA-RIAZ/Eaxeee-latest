@@ -25,6 +25,8 @@ const LightTooltip = styled(({ className, ...props }) => (
 const CustomButton = React.forwardRef((props, ref) => {
   const {
     title,
+    label,
+    isDisabled,
     Theme,
     tooltipTitle,
     variant,
@@ -41,7 +43,9 @@ const CustomButton = React.forwardRef((props, ref) => {
     startIcon,
     buttonBorderColor,
   } = props;
-  console.log("disbaled========================", props.disabled);
+  console.log("disbaled========================", props.isDisabled);
+  console.log("laebel", props.label)
+
 
 
   return (
@@ -57,10 +61,10 @@ const CustomButton = React.forwardRef((props, ref) => {
           fullWidth={fullWidth}
           ref={ref}
           className={`${Theme === "default"
-              ? defaulttheme.default_themebtntextcolor
-              : Theme === "dark"
-                ? darktheme.dark_themebtntextcolor
-                : lighttheme.light_themebtntextcolor
+            ? defaulttheme.default_themebtntextcolor
+            : Theme === "dark"
+              ? darktheme.dark_themebtntextcolor
+              : lighttheme.light_themebtntextcolor
             } ${Theme === "default"
               ? defaulttheme.default_themebtnbordercolor
               : Theme === "dark"
@@ -80,7 +84,7 @@ const CustomButton = React.forwardRef((props, ref) => {
             minHeight: "unset",
             // backgroundColor:bgcolor,
             backgroundColor: props.disabled ? "rgba(0, 0, 0, 0.12)" : bgcolor,
-            opacity:props.disabled?"0.5":1,
+            opacity: props.disabled ? "0.5" : 1,
             // color:"white",
 
 
@@ -93,15 +97,17 @@ const CustomButton = React.forwardRef((props, ref) => {
           }}
           startIcon={startIcon}
         >
-          {loading ? (
-            <CircularProgress
-              size={loaderSize}
-              color={loaderColor}
-              thickness={loaderThickness}
-            />
-          ) : (
-            title
-          )}
+          {
+            (props.label === "Import" && isDisabled) || (props.label === "Export" && isDisabled) ? (
+              <>
+                <CircularProgress size={24} style={{ marginLeft: 8 }} />
+                {title}
+              </>
+            ) : (
+              title
+            )
+          }
+
         </Button>
       </LightTooltip>
     </Box>
