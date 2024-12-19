@@ -302,7 +302,7 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                             marginTop: "20px",
                         }}
                     >
-                        {dialogButtons.map((button, index) => (
+                    {dialogButtons.map((button, index) => (
                             <CustomButton
                                 key={index}
                                 title={button.label}
