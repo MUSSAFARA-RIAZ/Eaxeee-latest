@@ -11,13 +11,20 @@ import DropDown from "../ImpexComponents/DropDown.js";
 import CustomButton from "../../../components/CustomButton/CustomButton.js";
 import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation.js";
 import { connect } from "react-redux";
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import ExportTemplateModal from "../Modals/ExportTemplateModal.js";
-
+import { getElementNames } from "../../../apis/impex_management.js";
 const ImportExportBox = ({ props }) => {
   const [open, setOpen] = useState(false);
 
+  const [listOfElements, setListOfElements] = useState([]);
+//   const items = [
+//     { id: 1, name: "Item 1" },
+//     { id: 2, name: "Item 2" },
+//     { id: 3, name: "Item 3" },
+//     { id: 4, name: "Item 4" },
+// ];
 
   const [modalConfig, setModalConfig] = useState({
     open: false,
@@ -27,7 +34,16 @@ const ImportExportBox = ({ props }) => {
 
   // Open modal with specific configuration
   const handleOpenModal = (config) => {
+
+    // if (config.title.lower() == 'Export Template'){
+
+    //   const res = exportTemplate
+    // }
+    console.log("opened modal is: ",config)
+    console.log("oelemnt list is:: ",listOfElements)
+
     setModalConfig({ open: true, ...config });
+    console.log(modalConfig)
   };
 
 
@@ -35,12 +51,38 @@ const ImportExportBox = ({ props }) => {
     setModalConfig({ ...modalConfig, open: false });
   };
   console.log("In import export box", props.theme);
-  const items = [
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-];
+  
+
+
+  useEffect(() => {
+    getElementNames()
+      .then((res) => {
+        if (res.code === 200) {
+          // Assuming res.data is something like: ["Item 1", "Item 2", "Item 3", "Item 4"]
+          // and you want it to be:
+          // [
+          //   { id: 1, name: "Item 1" },
+          //   { id: 2, name: "Item 2" },
+          //   { id: 3, name: "Item 3" },
+          //   { id: 4, name: "Item 4" },
+          // ]
+          const transformedData = res.data.map((item, index) => ({
+            id: index + 1,
+            name: item
+          }));
+          
+          setListOfElements(transformedData);
+        } else if (res.code === 401) {
+          console.error("Unauthorized access:", res.data);
+        } else {
+          console.error("Error fetching available licenses:", res.message || "Unknown error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching available licenses:", error);
+      });
+  }, []);
+
   return (
     <>
       <div
@@ -202,7 +244,7 @@ const ImportExportBox = ({ props }) => {
               dialogTitle={modalConfig.title}
               dialogButtons={modalConfig.buttons}
               props={props}
-              items={items}
+              items={listOfElements}
             />
 
             {/* <ExportTemplateModal open={open} handleClose={handleClose} props={props}/> */}

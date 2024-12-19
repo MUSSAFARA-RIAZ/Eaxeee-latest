@@ -9,7 +9,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
-
+import { exportTemplate } from "../../../apis/impex_management";
 export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items }) {
 
     console.log("dialog title===>", dialogTitle);
@@ -41,9 +41,48 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
         }
     };
 
-    const handleAdd = () => {
+    const handleAdd = async () => {
+
+
         const selectedItemDetails = items.filter((item) => selectedItems.includes(item.id));
-        console.log("Selected Items:", selectedItemDetails);
+        console.log("Selected Items details are:", selectedItemDetails);
+        const nameList = selectedItemDetails.map(element => element.name);
+        console.log("nameList is: ", nameList)
+        // const res = exportTemplate(nameList)
+        console.log("dialogTitleis: ",dialogTitle)
+
+        if (dialogTitle === 'Export Template'){
+            const result = await exportTemplate(nameList);
+
+        if (result.code === 200) {
+            const { data, headers } = result;
+
+            // Create a Blob URL
+            const blob = new Blob([data], { type: headers['content-type'] });
+            const downloadUrl = URL.createObjectURL(blob);
+
+            // Extract filename from headers or use a default
+            const filename = headers['content-disposition']
+                ? headers['content-disposition'].split('filename=')[1]
+                : 'template.xlsx'; // Default filename
+
+            // Trigger download
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = filename.replace(/['"]/g, ''); // Remove quotes if present
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            // Revoke the Blob URL to free up memory
+            URL.revokeObjectURL(downloadUrl);
+        } else {
+            alert("couldn't download file....")
+            console.error(`Error downloading file: ${result.error}`);
+        }
+        }
+        
+        // console.log("res is:",res)
         handleClose();
     };
     const isAllSelected = selectedItems.length === items.length;
@@ -117,22 +156,22 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                     </List>
                     <Box
                         sx={{
-                            display: "flex",        
-                            flexDirection: "row",    
-                            justifyContent: "flex-end", 
-                            gap: "10px",            
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                            gap: "10px",
                             marginTop: "20px",
                         }}
                     >
                         {dialogButtons.map((button, index) => (
                             <CustomButton
-                                key={index}              
+                                key={index}
                                 title={button.label}
                                 type="submit"
                                 Theme={theme}
-                                onClick={button.label === "Import" || button.label==="Export" || button.label==="ExportTemplate" ? handleAdd : button.onClick}
+                                onClick={button.label === "Import" || button.label === "Export" || button.label === "ExportTemplate" ? handleAdd : button.onClick}
                                 // onClick={button.onClick}
-                                sx={{ width: "auto" }}   
+                                sx={{ width: "auto" }}
                             />
                         ))}
                     </Box>
