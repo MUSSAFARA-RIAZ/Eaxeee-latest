@@ -9,32 +9,32 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import { exportTemplate,exportData } from "../../../apis/impex_management";
-export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props,  selectedArchitecture }) {
+import { exportTemplate, exportData } from "../../../apis/impex_management";
+export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, selectedArchitecture }) {
 
     console.log("dialog title===>", dialogTitle);
 
     const theme = props.theme;
     const language = props.language;
     const [selectedItems, setSelectedItems] = useState([]);
-  const items = [
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-];
+    const items = [
+        { id: 1, name: "Item 1" },
+        { id: 2, name: "Item 2" },
+        { id: 3, name: "Item 3" },
+        { id: 4, name: "Item 4" },
+        { id: 1, name: "Item 1" },
+        { id: 2, name: "Item 2" },
+        { id: 3, name: "Item 3" },
+        { id: 4, name: "Item 4" },
+        { id: 1, name: "Item 1" },
+        { id: 2, name: "Item 2" },
+        { id: 3, name: "Item 3" },
+        { id: 4, name: "Item 4" },
+        { id: 1, name: "Item 1" },
+        { id: 2, name: "Item 2" },
+        { id: 3, name: "Item 3" },
+        { id: 4, name: "Item 4" },
+    ];
 
     // Reset selectedItems when the modal is closed
     useEffect(() => {
@@ -107,7 +107,7 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
             console.log("archietecture is: ", selectedArchitecture)
             console.log("selected-sheet-list: ", sheetList)
 
-            const result = await exportData(sheetList,selectedArchitecture);  //Call download template API if user is exporting template
+            const result = await exportData(sheetList, selectedArchitecture);  //Call download template API if user is exporting template
 
             if (result.code === 200) {
                 const { data, headers } = result;
@@ -215,35 +215,35 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                 <DialogContent style={{
                     backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "",
                 }}>
-                    <List   sx={{
-                marginBottom: "50px",
-                height: "400px",
-                // border: "2px solid red",
-                padding: "10px",
-                overflowY: "auto", // Enable vertical scrolling
-                // Scrollbar styles
-                "&::-webkit-scrollbar": {
-                  width: "10px",
-                },
-                "&::-webkit-scrollbar-track": {
-                  background:
-                    theme === "default"
-                      ? "#cecece"
-                      : theme === "light"
-                        ? "#eff3f7"
-                        : "#212121",
-                  borderRadius: "10px",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  background:
-                    theme === "default"
-                      ? "#2158a4"
-                      : theme === "light"
-                        ? "#cbd0d7"
-                        : "#a5d149",
-                  borderRadius: "10px",
-                },
-              }}>
+                    <List sx={{
+                        marginBottom: "50px",
+                        height: "400px",
+                        // border: "2px solid red",
+                        padding: "10px",
+                        overflowY: "auto", // Enable vertical scrolling
+                        // Scrollbar styles
+                        "&::-webkit-scrollbar": {
+                            width: "10px",
+                        },
+                        "&::-webkit-scrollbar-track": {
+                            background:
+                                theme === "default"
+                                    ? "#cecece"
+                                    : theme === "light"
+                                        ? "#eff3f7"
+                                        : "#212121",
+                            borderRadius: "10px",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                            background:
+                                theme === "default"
+                                    ? "#2158a4"
+                                    : theme === "light"
+                                        ? "#cbd0d7"
+                                        : "#a5d149",
+                            borderRadius: "10px",
+                        },
+                    }}>
                         {/* Select All */}
                         <ListItem
                             button
@@ -289,11 +289,22 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                                 title={button.label}
                                 type="submit"
                                 Theme={theme}
-                                onClick={button.label === "Import" || button.label === "Export" || button.label === "ExportTemplate" ? handleAdd : button.onClick}
-                                // onClick={button.onClick}
+                                disabled={
+                                    (button.label === "Import" ||
+                                        button.label === "Export") &&
+                                    selectedItems.length === 0
+                                }
+                                onClick={
+                                    button.label === "Import" ||
+                                        button.label === "Export" ||
+                                        button.label === "ExportTemplate"
+                                        ? handleAdd
+                                        : button.onClick
+                                }
                                 sx={{ width: "auto" }}
                             />
                         ))}
+
                     </Box>
                 </DialogContent>
             </Dialog>

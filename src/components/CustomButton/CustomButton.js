@@ -41,6 +41,8 @@ const CustomButton = React.forwardRef((props, ref) => {
     startIcon,
     buttonBorderColor,
   } = props;
+  console.log("disbaled========================", props.disabled);
+
 
   return (
     <Box>
@@ -49,42 +51,45 @@ const CustomButton = React.forwardRef((props, ref) => {
           variant="outlined"
           onClick={onClick}
           type={type}
+          // disabled
+          // disabled="true"
           disabled={loading || disabled}
           fullWidth={fullWidth}
           ref={ref}
-          className={`${
-            Theme === "default"
+          className={`${Theme === "default"
               ? defaulttheme.default_themebtntextcolor
               : Theme === "dark"
-              ? darktheme.dark_themebtntextcolor
-              : lighttheme.light_themebtntextcolor
-          } ${
-            Theme === "default"
+                ? darktheme.dark_themebtntextcolor
+                : lighttheme.light_themebtntextcolor
+            } ${Theme === "default"
               ? defaulttheme.default_themebtnbordercolor
               : Theme === "dark"
-              ?  darktheme.dark_themebtnbordercolor
-              : lighttheme.light_themebtnbordercolor
-              
-          }`}
+                ? darktheme.dark_themebtnbordercolor
+                : lighttheme.light_themebtnbordercolor
+
+            }`}
           sx={{
             borderColor: buttonBorderColor,
-            color: buttonTitleColor,
+            // color: props.disabled ? "rgba(0, 0, 0, 0.12)" : buttonTitleColor,
             display: "flex",
             // flexDirection:"column",
-            justifyContent:"center",
-            alignItems:"center",
+            justifyContent: "center",
+            alignItems: "center",
             // gap: "10px",
             // alignItems: "center",
             minHeight: "unset",
-            backgroundColor: bgcolor,
-            
-            
+            // backgroundColor:bgcolor,
+            backgroundColor: props.disabled ? "rgba(0, 0, 0, 0.12)" : bgcolor,
+            opacity:props.disabled?"0.5":1,
+            // color:"white",
+
+
             "&:hover": {
-                backgroundColor:
-                  Theme === "dark"
-                    ? "rgba(165,209, 73, 0.5)"
-                    : "rgba(33,88, 164, 0.2)",
-              },
+              backgroundColor:
+                Theme === "dark"
+                  ? "rgba(165,209, 73, 0.5)"
+                  : "rgba(33,88, 164, 0.2)",
+            },
           }}
           startIcon={startIcon}
         >
