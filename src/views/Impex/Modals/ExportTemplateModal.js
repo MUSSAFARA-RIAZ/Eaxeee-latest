@@ -15,7 +15,7 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
     console.log("dialog title===>", dialogTitle);
 
     const theme = props.theme;
-    const [isDisabled,setisDisabled]=useState(false);
+    const [isDisabled, setisDisabled] = useState(false);
     const language = props.language;
     const [selectedItems, setSelectedItems] = useState([]);
     useEffect(() => {
@@ -42,9 +42,9 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
         { id: 3, name: "Item 3" },
         { id: 4, name: "Item 4" },
     ];
-    
 
-   
+
+
 
     // Reset selectedItems when the modal is closed
     useEffect(() => {
@@ -68,13 +68,13 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
             setSelectedItems(items.map((item) => item.id));
         }
     };
-  
+
 
 
     const handleAdd = async () => {
 
 
-        console.log("isdisbaled in handle add ",isDisabled);
+        console.log("isdisbaled in handle add ", isDisabled);
 
         setisDisabled(true);
 
@@ -309,10 +309,13 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                                 type="submit"
                                 Theme={theme}
                                 disabled={
-                                    (button.label === "Import" ||
-                                        button.label === "Export") &&
-                                    selectedItems.length === 0
+                                    isDisabled ||
+                                    (
+                                        (button.label === "Import" || button.label === "Export") &&
+                                        selectedItems.length === 0
+                                    )
                                 }
+
                                 onClick={
                                     button.label === "Import" ||
                                         button.label === "Export" ||
