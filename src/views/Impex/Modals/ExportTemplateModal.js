@@ -10,13 +10,31 @@ import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import { exportTemplate,exportData } from "../../../apis/impex_management";
-export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items, selectedArchitecture }) {
+export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props,  selectedArchitecture }) {
 
     console.log("dialog title===>", dialogTitle);
 
     const theme = props.theme;
     const language = props.language;
     const [selectedItems, setSelectedItems] = useState([]);
+  const items = [
+    { id: 1, name: "Item 1" },
+    { id: 2, name: "Item 2" },
+    { id: 3, name: "Item 3" },
+    { id: 4, name: "Item 4" },
+    { id: 1, name: "Item 1" },
+    { id: 2, name: "Item 2" },
+    { id: 3, name: "Item 3" },
+    { id: 4, name: "Item 4" },
+    { id: 1, name: "Item 1" },
+    { id: 2, name: "Item 2" },
+    { id: 3, name: "Item 3" },
+    { id: 4, name: "Item 4" },
+    { id: 1, name: "Item 1" },
+    { id: 2, name: "Item 2" },
+    { id: 3, name: "Item 3" },
+    { id: 4, name: "Item 4" },
+];
 
     // Reset selectedItems when the modal is closed
     useEffect(() => {
@@ -197,7 +215,35 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                 <DialogContent style={{
                     backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "",
                 }}>
-                    <List>
+                    <List   sx={{
+                marginBottom: "50px",
+                height: "400px",
+                // border: "2px solid red",
+                padding: "10px",
+                overflowY: "auto", // Enable vertical scrolling
+                // Scrollbar styles
+                "&::-webkit-scrollbar": {
+                  width: "10px",
+                },
+                "&::-webkit-scrollbar-track": {
+                  background:
+                    theme === "default"
+                      ? "#cecece"
+                      : theme === "light"
+                        ? "#eff3f7"
+                        : "#212121",
+                  borderRadius: "10px",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  background:
+                    theme === "default"
+                      ? "#2158a4"
+                      : theme === "light"
+                        ? "#cbd0d7"
+                        : "#a5d149",
+                  borderRadius: "10px",
+                },
+              }}>
                         {/* Select All */}
                         <ListItem
                             button
