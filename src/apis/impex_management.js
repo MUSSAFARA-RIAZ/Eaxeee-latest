@@ -85,6 +85,46 @@ export const exportTemplate = async (selectedSheets) => {
   };
 
 
+export const exportData = async (selectedSheets,architectureId) => {
+    try {
+      const url = `${S_URL}/rest/downloadTemplateWithData`;
+  
+      const headers = _headers; // Assuming _headers is pre-defined and contains necessary headers
+  
+      const payload = {
+        architectureId:architectureId,
+        sheetNames: selectedSheets
+      };
+  
+      // Make the API call to get the file
+      const response = await axios.post(url, payload, {
+        headers,
+        withCredentials: true,
+        responseType: 'blob', // Expect the response as a Blob
+      });
+  
+      // Return the raw response for further handling
+      return {
+        code: response.status,
+        data: response.data, // The Blob data
+        headers: response.headers, // Headers may contain filename
+      };
+    } catch (error) {
+      const statusCode = error.response?.status || 500;
+      const errorMessage = error.response?.data?.error || 'Unknown error occurred';
+  
+      // Handle session expiration
+      handleSessionExpiration(statusCode);
+  
+      // Return error details
+      return {
+        code: statusCode,
+        error: errorMessage,
+      };
+    }
+  };
+
+
 
 
 

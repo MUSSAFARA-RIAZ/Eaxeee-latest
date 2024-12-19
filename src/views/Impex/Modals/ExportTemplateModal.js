@@ -9,7 +9,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import { exportTemplate } from "../../../apis/impex_management";
+import { exportTemplate,exportData } from "../../../apis/impex_management";
 export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items, selectedArchitecture }) {
 
     console.log("dialog title===>", dialogTitle);
@@ -88,7 +88,73 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
             // TBD (waiting for Ali to provide API)
             console.log("archietecture is: ", selectedArchitecture)
             console.log("selected-sheet-list: ", sheetList)
+
+            const result = await exportData(sheetList,selectedArchitecture);  //Call download template API if user is exporting template
+
+            if (result.code === 200) {
+                const { data, headers } = result;
+
+                // Create a Blob URL
+                const blob = new Blob([data], { type: headers['content-type'] });
+                const downloadUrl = URL.createObjectURL(blob);
+
+                // Extract filename from headers or use a default
+                const filename = headers['content-disposition']
+                    ? headers['content-disposition'].split('filename=')[1]
+                    : 'Exported-Data.xlsx'; // Default filename
+
+                // Trigger download
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = filename.replace(/['"]/g, ''); // Remove quotes if present
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                // Revoke the Blob URL to free up memory
+                URL.revokeObjectURL(downloadUrl);
+            } else {
+                alert("couldn't download file....")
+                console.error(`Error downloading file: ${result.error}`);
+            }
+
         }
+        // else if (dialogTitle == 'Import Data') {
+        //     // TBD (waiting for Ali to provide API)
+        //     console.log("calling import Data API")
+        //     console.log("archietecture is: ", selectedArchitecture)
+        //     console.log("selected-sheet-list: ", sheetList)
+
+        //     const result = await importData(sheetList,selectedArchitecture);  //Call download template API if user is exporting template
+
+        //     if (result.code === 200) {
+        //         const { data, headers } = result;
+
+        //         // Create a Blob URL
+        //         const blob = new Blob([data], { type: headers['content-type'] });
+        //         const downloadUrl = URL.createObjectURL(blob);
+
+        //         // Extract filename from headers or use a default
+        //         const filename = headers['content-disposition']
+        //             ? headers['content-disposition'].split('filename=')[1]
+        //             : 'Exported-Data.xlsx'; // Default filename
+
+        //         // Trigger download
+        //         const a = document.createElement('a');
+        //         a.href = downloadUrl;
+        //         a.download = filename.replace(/['"]/g, ''); // Remove quotes if present
+        //         document.body.appendChild(a);
+        //         a.click();
+        //         document.body.removeChild(a);
+
+        //         // Revoke the Blob URL to free up memory
+        //         URL.revokeObjectURL(downloadUrl);
+        //     } else {
+        //         alert("couldn't download file....")
+        //         console.error(`Error downloading file: ${result.error}`);
+        //     }
+
+        // }
 
         // console.log("res is:",res)
         handleClose();
