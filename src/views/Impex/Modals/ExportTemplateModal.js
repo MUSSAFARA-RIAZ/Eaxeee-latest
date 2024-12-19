@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import { exportTemplate, exportData } from "../../../apis/impex_management";
-export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, selectedArchitecture, onDisabledChange }) {
+export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items, selectedArchitecture, onDisabledChange }) {
 
     console.log("dialog title===>", dialogTitle);
 
@@ -24,24 +24,24 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
             onDisabledChange(isDisabled);
         }
     }, [isDisabled, onDisabledChange]);
-    const items = [
-        { id: 1, name: "Item 1" },
-        { id: 2, name: "Item 2" },
-        { id: 3, name: "Item 3" },
-        { id: 4, name: "Item 4" },
-        { id: 1, name: "Item 1" },
-        { id: 2, name: "Item 2" },
-        { id: 3, name: "Item 3" },
-        { id: 4, name: "Item 4" },
-        { id: 1, name: "Item 1" },
-        { id: 2, name: "Item 2" },
-        { id: 3, name: "Item 3" },
-        { id: 4, name: "Item 4" },
-        { id: 1, name: "Item 1" },
-        { id: 2, name: "Item 2" },
-        { id: 3, name: "Item 3" },
-        { id: 4, name: "Item 4" },
-    ];
+    // const items = [
+    //     { id: 1, name: "Item 1" },
+    //     { id: 2, name: "Item 2" },
+    //     { id: 3, name: "Item 3" },
+    //     { id: 4, name: "Item 4" },
+    //     { id: 1, name: "Item 1" },
+    //     { id: 2, name: "Item 2" },
+    //     { id: 3, name: "Item 3" },
+    //     { id: 4, name: "Item 4" },
+    //     { id: 1, name: "Item 1" },
+    //     { id: 2, name: "Item 2" },
+    //     { id: 3, name: "Item 3" },
+    //     { id: 4, name: "Item 4" },
+    //     { id: 1, name: "Item 1" },
+    //     { id: 2, name: "Item 2" },
+    //     { id: 3, name: "Item 3" },
+    //     { id: 4, name: "Item 4" },
+    // ];
 
 
 
@@ -193,7 +193,7 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
 
         // console.log("res is:",res)
 
-
+        setisDisabled(false)
         handleClose();
     };
     const isAllSelected = selectedItems.length === items.length;
@@ -309,11 +309,11 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                                 type="submit"
                                 Theme={theme}
                                 disabled={
-                                    isDisabled ||
-                                    (
-                                        (button.label === "Import" || button.label === "Export") &&
-                                        selectedItems.length === 0
-                                    )
+                                    (button.label === "Import" && isDisabled) || (button.label === "Export" && isDisabled) ||
+                                        (
+                                            (button.label === "Import" || button.label === "Export") &&
+                                            selectedItems.length === 0
+                                        )
                                 }
 
                                 onClick={
