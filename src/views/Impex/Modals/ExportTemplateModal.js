@@ -309,7 +309,7 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                                 type="submit"
                                 Theme={theme}
                                 disabled={
-                                    isDisabled ||
+                                    (button.label === "Import"&& isDisabled) || (button.label === "Export"&& isDisabled)
                                     (
                                         (button.label === "Import" || button.label === "Export") &&
                                         selectedItems.length === 0
