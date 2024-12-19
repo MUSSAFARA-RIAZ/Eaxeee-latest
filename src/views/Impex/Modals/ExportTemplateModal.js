@@ -10,31 +10,31 @@ import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import { exportTemplate,exportData } from "../../../apis/impex_management";
-export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props,  selectedArchitecture }) {
+export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props,items,  selectedArchitecture }) {
 
     console.log("dialog title===>", dialogTitle);
 
     const theme = props.theme;
     const language = props.language;
     const [selectedItems, setSelectedItems] = useState([]);
-  const items = [
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-];
+//   const items = [
+//     { id: 1, name: "Item 1" },
+//     { id: 2, name: "Item 2" },
+//     { id: 3, name: "Item 3" },
+//     { id: 4, name: "Item 4" },
+//     { id: 1, name: "Item 1" },
+//     { id: 2, name: "Item 2" },
+//     { id: 3, name: "Item 3" },
+//     { id: 4, name: "Item 4" },
+//     { id: 1, name: "Item 1" },
+//     { id: 2, name: "Item 2" },
+//     { id: 3, name: "Item 3" },
+//     { id: 4, name: "Item 4" },
+//     { id: 1, name: "Item 1" },
+//     { id: 2, name: "Item 2" },
+//     { id: 3, name: "Item 3" },
+//     { id: 4, name: "Item 4" },
+// ];
 
     // Reset selectedItems when the modal is closed
     useEffect(() => {
