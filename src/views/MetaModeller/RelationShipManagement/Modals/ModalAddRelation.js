@@ -26,7 +26,7 @@ import { connect } from 'react-redux';
 import { useSelector } from 'react-redux';
 import DiamondThin from "../../../../Assets/Images/MetaModellerImages/diamondThin.svg";
 import rightOpenArrow from "../../../../Assets/Images/MetaModellerImages/open.svg";
-import CrossIcon from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg"; 
+import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
 
 
 import LineStyleModal from "./LineStyleModal";
@@ -37,7 +37,12 @@ import DottedLine from "../../../../Assets/Images/MetaModellerImages/dotted.svg"
 import StartShapeModal from "./StartShapeModal";
 import Diamond from "../../../../Assets/Images/MetaModellerImages/diamond.svg";
 import EndShapeModal from "./EndShapeModal";
-// import CrossIcon from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg";
+// import Diamond from "../../../../Assets/Images/MetaModellerImages/diamond.svg";
+// import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
+import oval from "../../../../Assets/Images/MetaModellerImages/oval.svg";
+import UnfilledDiamond from "../../../../Assets/Images/MetaModellerImages/unfilled-diamond.svg";
+import Blockfilled from "../../../../Assets/Images/MetaModellerImages/block.svg";
+// import none from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg";
 
 const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, selectedRowData }) => {
 
@@ -67,17 +72,24 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
   ];
   const StartshapeOptions = [
     { id: "diamon", label: "Diamond", image: Diamond },
-    { id: "crossIcon", label: "CrossIcon", image: CrossIcon },
+    { id: "none", label: "none", image: none },
+    { id: "oval", label: "oval", image: oval },
+    { id: "unfilled-diamond", label: "unfilled-diamond", image:
+        UnfilledDiamond },
+        { id: "block", label: "block", image: Blockfilled },
     // Add more shapes as needed
   ];
-  const EndshapeOptions=[
-    { id: "DiamondThin", label: "DiamondThin", image: DiamondThin },
-    { id: "rightOpenArrow", label: "rightOpenArrow", image: rightOpenArrow },
-    {
-        id:"CrossIcon", label:"crossIcon",image:CrossIcon
-    }
-];
-  
+  const EndshapeOptions = [
+    { id: "diamon", label: "Diamond", image: Diamond },
+    { id: "none", label: "none", image: none },
+    { id: "oval", label: "oval", image: oval },
+    { id: "unfilled-diamond", label: "unfilled-diamond", image:
+        UnfilledDiamond },
+        { id: "block", label: "block", image: Blockfilled },
+  ];
+  // console.log("lineStyleOptions.find((option) => option.id === lineStyle)?.image",lineStyleOptions.find((option) => option.id === lineStyle));
+
+
 
 
   const getElementIcon = (iconType) => {
@@ -96,9 +108,55 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
   const [lineStyle, setLineStyle] = useState("solid");
 
   const [startShape, setStartShape] = useState("diamon");
-  const [endShape, setEndShape] = useState("DiamondThin");
+  const [endShape, setEndShape] = useState("unfilled-diamond");
   const [fromToInterpretation, setFromToInterpretation] = useState("");
   const [toFromInterpretation, setToFromInterpretation] = useState("");
+  useEffect(() => {
+    if (selectedRowData) {
+      // Prefill the form and states with the values from selectedRowData
+      reset({
+        RelationName: selectedRowData.RelationName,
+        RelationShipNotation: selectedRowData.RelationShipNotation,
+        isEnabled: selectedRowData.isEnabled === "YES",
+      });
+
+      setSelectedColor(selectedRowData.Color || "#000000");
+      setLineStyle(selectedRowData.LineStyle || "solid");
+      setStartShape(selectedRowData.StartShape || "diamon");
+      setEndShape(selectedRowData.EndShape || "unfilled-diamond");
+      setFromToInterpretation(selectedRowData.FromtoToInterpretation || "");
+      setToFromInterpretation(selectedRowData.TotoFromInterpretation || "");
+      setDescription(selectedRowData.Description || "");
+      setHiddenBy(selectedRowData.HiddenBy || "N/A");
+      setLockedBy(selectedRowData.LockedBy || "N/A");
+      setIsHidden(selectedRowData.isHidden === "YES");
+      setIsLocked(selectedRowData.isLocked === "YES");
+      setIsEnabled(selectedRowData.isEnabled === "YES");
+    } else {
+      // Reset the form and states to default values
+      reset({
+        RelationName: "",
+        RelationShipNotation: "",
+        isEnabled: true,
+      });
+
+      setSelectedColor("#000000");
+      setLineStyle("solid");
+      setStartShape("diamon");
+      setEndShape("DiamondThin");
+      setFromToInterpretation("");
+      setToFromInterpretation("");
+      setDescription("");
+      setHiddenBy("N/A");
+      setLockedBy("N/A");
+      setIsHidden(false);
+      setIsLocked(false);
+      setIsEnabled(true);
+    }
+  }, [selectedRowData, reset]);
+
+
+
 
   const onSubmit = (data) => {
     const newRow = {
@@ -169,233 +227,233 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
 
   return (
     <>
-    <LineStyleModal
-    open={isLineStyleModalOpen}
-    theme={theme}
-    handleClose={handleClose}
-    language={language}
-    onClose={() => setIsLineStyleModalOpen(false)}
-    onSelect={(style) => {
-      setLineStyle(style);
-      setIsLineStyleModalOpen(false);
-    }}
-    selectedLineStyle={lineStyle}
-  />
+      <LineStyleModal
+        open={isLineStyleModalOpen}
+        theme={theme}
+        handleClose={handleClose}
+        language={language}
+        onClose={() => setIsLineStyleModalOpen(false)}
+        onSelect={(style) => {
+          setLineStyle(style);
+          setIsLineStyleModalOpen(false);
+        }}
+        selectedLineStyle={lineStyle}
+      />
 
-  <StartShapeModal
-    open={isStartShapeModalOpen}
-    theme={theme}
-    handleClose={handleClose}
-    language={language}
-    onClose={() => setIsStartShapeModalOpen(false)}
-    onSelect={(shape) => {
-      setStartShape(shape);
-      setIsStartShapeModalOpen(false);  // Close the modal after selection
-    }}
-  />
-    <EndShapeModal
-    open={isEndShapeModalOpen}
-    theme={theme}
-    handleClose={handleClose}
-    language={language}
-    onClose={() => setIsEndShapeModalOpen(false)}
-    onSelect={(shape) => {
-      setEndShape(shape);
-      setIsEndShapeModalOpen(false);  // Close the modal after selection
-    }}
-  />
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      PaperProps={{
-        sx: { width: "500px", maxWidth: "70%" },
-      }}
-    >
-      <DialogTitle
-        sx={{
-          backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
-          color: "#cecece",
-          padding: "3px 16px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          position: "relative",
+      <StartShapeModal
+        open={isStartShapeModalOpen}
+        theme={theme}
+        handleClose={handleClose}
+        language={language}
+        onClose={() => setIsStartShapeModalOpen(false)}
+        onSelect={(shape) => {
+          setStartShape(shape);
+          setIsStartShapeModalOpen(false);  // Close the modal after selection
+        }}
+      />
+      <EndShapeModal
+        open={isEndShapeModalOpen}
+        theme={theme}
+        handleClose={handleClose}
+        language={language}
+        onClose={() => setIsEndShapeModalOpen(false)}
+        onSelect={(shape) => {
+          setEndShape(shape);
+          setIsEndShapeModalOpen(false);  // Close the modal after selection
+        }}
+      />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          sx: { width: "500px", maxWidth: "70%" },
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <img src={GreenEaxee} alt="img" style={{ width: "40px", height: "40px", marginRight: "5px" }} />
-          <Typography variant="h6">
-            {selectedRowData ? (language === "en" ? "Edit Relation" : AdminTranslation["Edit Relation"]) : (language === "en" ? "Add Relation" : AdminTranslation["Add Relation"])}
-          </Typography>
-        </Box>
-        <IconButton
+        <DialogTitle
           sx={{
-            position: "absolute",
-            top: "50%",
-            transform: "translateY(-50%)",
+            backgroundColor: theme === "default" ? "#2158a4" : theme === "dark" ? "#393a3a" : "",
             color: "#cecece",
-            [language === "ar" ? "left" : "right"]: 0,
+            padding: "3px 16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            position: "relative",
           }}
-          onClick={handleClose}
         >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent
-        style={{
-          backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "",
-        }}
-      >
-        <form onSubmit={handleSubmit(onSubmit)}>
-
-
-          <Box sx={{ display: "flex", gap: '16px', alignItems: "center", width: "100%" }}>
-            <TextField
-              label="Relation Name"
-              fullWidth
-              size="small"
-              margin="normal"
-              {...register("RelationName", { required: true })}
-              error={errors.RelationName}
-              sx={{ flex: 1 }}
-            />
-
-            <TextField
-              label="RelationShipNotation"
-              {...register("RelationShipNotation", { required: true })}
-              // value={layerNotation}
-              // disabled={isTextFieldDisabled}
-              // InputProps={{ readOnly: true }}
-              margin="normal"
-              size="small"
-              sx={{ flex: 1 }}
-            />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <img src={GreenEaxee} alt="img" style={{ width: "40px", height: "40px", marginRight: "5px" }} />
+            <Typography variant="h6">
+              {selectedRowData ? (language === "en" ? "Edit Relation" : AdminTranslation["Edit Relation"]) : (language === "en" ? "Add Relation" : AdminTranslation["Add Relation"])}
+            </Typography>
           </Box>
-          <Box sx={{ display: "flex", gap: '16px', alignItems: "center", width: "100%" }}>
-            <TextField
-              label="From to To Interpretation"
-              fullWidth
-              margin="normal"
-              size="small"
-              value={fromToInterpretation}
-              onChange={(e) => setFromToInterpretation(e.target.value)}
-            />
-
-            {/* To to From Interpretation */}
-            <TextField
-              label="To to From Interpretation"
-              fullWidth
-              margin="normal"
-              size="small"
-              value={toFromInterpretation}
-              onChange={(e) => setToFromInterpretation(e.target.value)}
-            />
-          </Box>
-
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: "#cecece",
+              [language === "ar" ? "left" : "right"]: 0,
+            }}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent
+          style={{
+            backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "",
+          }}
+        >
+          <form onSubmit={handleSubmit(onSubmit)}>
 
 
-
-
-          <div style={{ display: 'flex', gap: '16px' }}>
-            <TextField
-              label="Originator"
-              value={originator}
-              InputProps={{ readOnly: true }}
-              fullWidth
-              margin="normal"
-              size="small"
-              style={{ flex: 1 }}
-            />
-            <TextField
-              label="Concept Type"
-              value={conceptType}
-              InputProps={{ readOnly: true }}
-              fullWidth
-              margin="normal"
-              size="small"
-              style={{ flex: 1 }}
-            />
-          </div>
-
-
-          <Box sx={{ display: "flex", gap: "16px" }}>
-            <Box>
-              <FormControlLabel
-                control={<Checkbox checked={isHidden} onChange={handleHiddenChange} />}
-                label="Is Hidden?"
-              />
+            <Box sx={{ display: "flex", gap: '16px', alignItems: "center", width: "100%" }}>
               <TextField
-                label="Hidden By"
-                value={hiddenBy}
+                label="Relation Name"
+                fullWidth
+                size="small"
+                margin="normal"
+                {...register("RelationName", { required: true })}
+                error={errors.RelationName}
+                sx={{ flex: 1 }}
+              />
+
+              <TextField
+                label="RelationShipNotation"
+                {...register("RelationShipNotation", { required: true })}
+                // value={layerNotation}
+                // disabled={isTextFieldDisabled}
+                // InputProps={{ readOnly: true }}
+                margin="normal"
+                size="small"
+                sx={{ flex: 1 }}
+              />
+            </Box>
+            <Box sx={{ display: "flex", gap: '16px', alignItems: "center", width: "100%" }}>
+              <TextField
+                label="From to To Interpretation"
+                fullWidth
+                margin="normal"
+                size="small"
+                value={fromToInterpretation}
+                onChange={(e) => setFromToInterpretation(e.target.value)}
+              />
+
+              {/* To to From Interpretation */}
+              <TextField
+                label="To to From Interpretation"
+                fullWidth
+                margin="normal"
+                size="small"
+                value={toFromInterpretation}
+                onChange={(e) => setToFromInterpretation(e.target.value)}
+              />
+            </Box>
+
+
+
+
+
+            <div style={{ display: 'flex', gap: '16px' }}>
+              <TextField
+                label="Originator"
+                value={originator}
                 InputProps={{ readOnly: true }}
                 fullWidth
                 margin="normal"
                 size="small"
-              />
-            </Box>
-            <Box>
-              <FormControlLabel
-                control={<Checkbox checked={isLocked} onChange={handleLockedChange} />}
-                label="Is Locked?"
+                style={{ flex: 1 }}
               />
               <TextField
-                label="Locked By"
-                value={lockedBy}
+                label="Concept Type"
+                value={conceptType}
                 InputProps={{ readOnly: true }}
                 fullWidth
                 margin="normal"
                 size="small"
+                style={{ flex: 1 }}
               />
+            </div>
+
+
+            <Box sx={{ display: "flex", gap: "16px" }}>
+              <Box>
+                <FormControlLabel
+                  control={<Checkbox checked={isHidden} onChange={handleHiddenChange} />}
+                  label="Is Hidden?"
+                />
+                <TextField
+                  label="Hidden By"
+                  value={hiddenBy}
+                  InputProps={{ readOnly: true }}
+                  fullWidth
+                  margin="normal"
+                  size="small"
+                />
+              </Box>
+              <Box>
+                <FormControlLabel
+                  control={<Checkbox checked={isLocked} onChange={handleLockedChange} />}
+                  label="Is Locked?"
+                />
+                <TextField
+                  label="Locked By"
+                  value={lockedBy}
+                  InputProps={{ readOnly: true }}
+                  fullWidth
+                  margin="normal"
+                  size="small"
+                />
+              </Box>
             </Box>
-          </Box>
-<Box sx={{ display: "flex", gap: "16px" }}>
+            <Box sx={{ display: "flex", gap: "16px" }}>
 
-<Box sx={{flex: 1}}>
+              <Box sx={{ flex: 1 }}>
 
 
-          <FormControlLabel
-            control={<Checkbox checked={isEnabled} onChange={handleEnabledChange} />}
-            label="Is Enabled?"
-          />
-          </Box>
-          
-          <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
-              <Typography sx={{ color: "#393a3a", opacity: 0.8 }}>
-                {language === "en" ? "Line Style" : AdminTranslation["Line Style"]}
-              </Typography>
-              <img
-                src={lineStyleOptions.find((option) => option.id === lineStyle)?.image}
-                alt="Selected Line Style"
-                style={{ width: "80px", height: "40px", objectFit: "contain" }}
-              />
-              <IconButton onClick={() => setIsLineStyleModalOpen(true)}>
+                <FormControlLabel
+                  control={<Checkbox checked={isEnabled} onChange={handleEnabledChange} />}
+                  label="Is Enabled?"
+                />
+              </Box>
 
-              <BorderColorIcon />
-              </IconButton>
+              <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
+                <Typography sx={{ color: "#393a3a", opacity: 0.8 }}>
+                  {language === "en" ? "Line Style" : AdminTranslation["Line Style"]}
+                </Typography>
+                <img
+                  src={lineStyleOptions.find((option) => option.id === lineStyle)?.image}
+                  alt="Selected Line Style"
+                  style={{ width: "80px", height: "40px", objectFit: "contain" }}
+                />
+                <IconButton onClick={() => setIsLineStyleModalOpen(true)}>
 
-            </Box>
-
-</Box>
-
-          <Box sx={{display:"flex",gap:"16px"}}>
-          <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
-                  <Typography sx={{ color: "#393a3a", opacity: 0.8 }}>
-                    {language === "en" ? "Start Shape" : AdminTranslation["Start Shape"]}
-                  </Typography>
-                  {startShape && (
-                    <img
-                      src={StartshapeOptions.find((option) => option.id === startShape)?.image}
-                      alt="Start Shape"
-                      style={{ position:"relative", left:"5px", width: "20px", height: "20px", objectFit: "contain" }}
-                    />
-                  )}
-                  <IconButton onClick={() => setIsStartShapeModalOpen(true)}>
                   <BorderColorIcon />
-                  </IconButton>
-                 
-                </Box>
-           
-             
+                </IconButton>
+
+              </Box>
+
+            </Box>
+
+            <Box sx={{ display: "flex", gap: "16px" }}>
+              <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
+                <Typography sx={{ color: "#393a3a", opacity: 0.8 }}>
+                  {language === "en" ? "Start Shape" : AdminTranslation["Start Shape"]}
+                </Typography>
+                {startShape && (
+                  <img
+                    src={StartshapeOptions.find((option) => option.id === startShape)?.image}
+                    alt="Start Shape"
+                    style={{ position: "relative", left: "5px", width: "20px", height: "20px", objectFit: "contain" }}
+                  />
+                )}
+                <IconButton onClick={() => setIsStartShapeModalOpen(true)}>
+                  <BorderColorIcon />
+                </IconButton>
+
+              </Box>
+
+
 
               {/* End Shape */}
               <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>
@@ -406,98 +464,98 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
                   <img
                     src={EndshapeOptions.find((option) => option.id === endShape)?.image}
                     alt="End Shape"
-                    style={{position:"relative", left:"5px", width: "20px", height: "20px", objectFit: "contain" }}
+                    style={{ position: "relative", left: "5px", width: "20px", height: "20px", objectFit: "contain" }}
                   />
                 )}
                 <IconButton onClick={() => setIsEndShapeModalOpen(true)}>
-                   <BorderColorIcon />
+                  <BorderColorIcon />
                 </IconButton>
-              
+
               </Box>
-       
-
-
-          
 
 
 
 
 
 
-          </Box>
 
-          <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: "10px" }}>
-            <Typography sx={{ color: "#393a3a", opacity: 0.8 }}>
-              {language === "en" ? "Color" : AdminTranslation["Color"]}
-            </Typography>
+
+
+
+            </Box>
+
+            <Box sx={{ mt: 2, display: "flex", alignItems: "center", gap: "10px" }}>
+              <Typography sx={{ color: "#393a3a", opacity: 0.8 }}>
+                {language === "en" ? "Color" : AdminTranslation["Color"]}
+              </Typography>
+              <Box
+                sx={{
+                  width: "20px",
+                  height: "20px",
+                  backgroundColor: selectedColor,
+                  border: "1px solid #ccc",
+                  cursor: "pointer",
+                  position: "relative",
+                  left: "10px",
+                }}
+                onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
+              ></Box>
+            </Box>
+
+            {isColorPickerOpen && (
+              <ChromePicker
+                color={selectedColor}
+                onChangeComplete={(color) => setSelectedColor(color.hex)}
+                styles={{
+                  default: {
+                    picker: {
+                      position: "relative",
+                      left: "80px",
+                      width: '300px',
+                      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+                    },
+                  },
+                }}
+              />
+            )}
+
+            <TextField
+              label="Description"
+              value={description}
+              onChange={handleDescriptionChange}
+              fullWidth
+              multiline
+              rows={4}
+              margin="normal"
+              size="small"
+            />
+
             <Box
               sx={{
-                width: "20px",
-                height: "20px",
-                backgroundColor: selectedColor,
-                border: "1px solid #ccc",
-                cursor: "pointer",
-                position: "relative",
-                left: "10px",
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "10px",
+                marginTop: "20px",
               }}
-              onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
-            ></Box>
-          </Box>
-
-          {isColorPickerOpen && (
-            <ChromePicker
-              color={selectedColor}
-              onChangeComplete={(color) => setSelectedColor(color.hex)}
-              styles={{
-                default: {
-                  picker: {
-                    position: "relative",
-                    left: "80px",
-                    width: '300px',
-                    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                  },
-                },
-              }}
-            />
-          )}
-
-          <TextField
-            label="Description"
-            value={description}
-            onChange={handleDescriptionChange}
-            fullWidth
-            multiline
-            rows={4}
-            margin="normal"
-            size="small"
-          />
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              gap: "10px",
-              marginTop: "20px",
-            }}
-          >
-            <CustomButton
-              title={selectedRowData ? (language === "en" ? "Update" : AdminTranslation["Update"]) : (language === "en" ? "Add" : AdminTranslation["Add"])}
-              type="submit"
-              Theme={theme}
-              sx={{ width: "50%" }}
-              disabled={disableAddButton}
-            />
-            <CustomButton
-              title={language === "en" ? "Cancel" : AdminTranslation["Cancel"]}
-              type="button"
-              Theme={theme}
-              onClick={handleClose}
-              sx={{ width: "50%" }}
-            />
-          </Box>
-        </form>
-      </DialogContent>
-    </Dialog>
+            >
+              <CustomButton
+                title={selectedRowData ? (language === "en" ? "Update" : AdminTranslation["Update"]) : (language === "en" ? "Add" : AdminTranslation["Add"])}
+                type="submit"
+                Theme={theme}
+                sx={{ width: "50%" }}
+                disabled={disableAddButton}
+              />
+              <CustomButton
+                title={language === "en" ? "Cancel" : AdminTranslation["Cancel"]}
+                type="button"
+                Theme={theme}
+                onClick={handleClose}
+                sx={{ width: "50%" }}
+              />
+            </Box>
+          </form>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

@@ -14,12 +14,21 @@ import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslatio
 import SolidLine from "../../../../Assets/Images/solidLin.jpg";
 import DashedLine from "../../../../Assets/Images/dotted.png";
 import Diamond from "../../../../Assets/Images/MetaModellerImages/diamond.svg";
-import CrossIcon from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg";
+import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
+import oval from "../../../../Assets/Images/MetaModellerImages/oval.svg";
+import UnfilledDiamond from "../../../../Assets/Images/MetaModellerImages/unfilled-diamond.svg";
+import Blockfilled from "../../../../Assets/Images/MetaModellerImages/block.svg";
 
 
 const lineStyleOptions = [
     { id: "diamon", label: "Diamond", image: Diamond },
-    { id: "crossIcon", label: "CrossIcon", image: CrossIcon },
+    { id: "none", label: "none", image: none },
+    { id: "oval", label: "oval", image: oval },
+    { id: "unfilled-diamond", label: "unfilled-diamond", image:
+        UnfilledDiamond },
+        { id: "block", label: "block", image: Blockfilled },
+        
+   
 ];
 
 // Line Style Modal Component

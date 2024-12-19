@@ -16,9 +16,14 @@ import DashedLine from "../../../Assets/Images/MetaModellerImages/dashed.svg";
 import DottedLine from "../../../Assets/Images/MetaModellerImages/dotted.svg";
 import DiamondThin from "../../../Assets/Images/MetaModellerImages/diamondThin.svg";
 import rightOpenArrow from "../../../Assets/Images/MetaModellerImages/open.svg";
-import CrossIcon from "../../../Assets/Images/MetaModellerImages/CrossImage.svg"; 
+import none from "../../../Assets/Images/MetaModellerImages/none.svg"; 
 import Diamond from "../../../Assets/Images/MetaModellerImages/diamond.svg";
-// import CrossIcon from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg";
+// import Diamond from "../../../../Assets/Images/MetaModellerImages/diamond.svg";
+// import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
+import oval from "../../../Assets/Images/MetaModellerImages/oval.svg";
+import UnfilledDiamond from "../../../Assets/Images/MetaModellerImages/unfilled-diamond.svg";
+import Blockfilled from "../../../Assets/Images/MetaModellerImages/block.svg";
+// import none from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg";
 
 
 const lineStyleOptions = [
@@ -29,16 +34,28 @@ const lineStyleOptions = [
     }
 ];
 const EndshapeOptions = [
-    { id: "DiamondThin", label: "DiamondThin", image: DiamondThin },
-    { id: "rightOpenArrow", label: "rightOpenArrow", image: rightOpenArrow },
+    { id: "diamon", label: "Diamond", image: Diamond },
+    { id: "none", label: "none", image: none },
+    { id: "oval", label: "oval", image: oval },
     {
-        id:"CrossIcon", label:"crossIcon",image:CrossIcon
-    }
+        id: "unfilled-diamond", label: "unfilled-diamond", image:
+            UnfilledDiamond
+    },
+    { id: "block", label: "block", image: Blockfilled },
+
 ];
 
 const StartshapeOptions = [
     { id: "diamon", label: "Diamond", image: Diamond },
-    { id: "crossIcon", label: "CrossIcon", image: CrossIcon },
+    
+    { id: "none", label: "none", image: none },
+    { id: "oval", label: "oval", image: oval },
+    {
+        id: "unfilled-diamond", label: "unfilled-diamond", image:
+            UnfilledDiamond
+    },
+    { id: "block", label: "block", image: Blockfilled },
+
 ];
 const RelationShipRegistration = (props) => {
     const { language, theme } = props;
@@ -258,8 +275,8 @@ const RelationShipRegistration = (props) => {
                     deleteButtonDisabled={selectedRows.length === 0}
                 >
                     <Box sx={{
-                        display: "flex", justifyContent: "space-between", alignItems: "space-between", width: "350px", ...(language === 'ar' && {
-                            display: "flex", width: "300px", justifyContent: "space-between", position: "relative", right: "10px"
+                        display: "flex", justifyContent: "space-between", alignItems: "space-between", width: "380px", ...(language === 'ar' && {
+                            display: "flex", width: "320px", justifyContent: "space-between", position: "relative", right: "10px"
                         })
                     }}>
                         <CustomButton

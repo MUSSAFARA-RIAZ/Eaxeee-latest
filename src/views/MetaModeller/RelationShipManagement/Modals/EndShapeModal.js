@@ -14,17 +14,24 @@ import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslatio
 import SolidLine from "../../../../Assets/Images/solidLin.jpg";
 import DashedLine from "../../../../Assets/Images/dotted.png";
 
-import DiamondThin from "../../../../Assets/Images/MetaModellerImages/diamondThin.svg";
-import rightOpenArrow from "../../../../Assets/Images/MetaModellerImages/open.svg";
-import CrossIcon from "../../../../Assets/Images/MetaModellerImages/CrossImage.svg"; 
+import Diamond from "../../../../Assets/Images/MetaModellerImages/diamond.svg";
+import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
+import oval from "../../../../Assets/Images/MetaModellerImages/oval.svg";
+import UnfilledDiamond from "../../../../Assets/Images/MetaModellerImages/unfilled-diamond.svg";
+import Blockfilled from "../../../../Assets/Images/MetaModellerImages/block.svg";
 
 
 const lineStyleOptions = [
-    { id: "DiamondThin", label: "DiamondThin", image: DiamondThin },
-    { id: "rightOpenArrow", label: "rightOpenArrow", image: rightOpenArrow },
+    { id: "diamon", label: "Diamond", image: Diamond },
+    { id: "none", label: "none", image: none },
+    { id: "oval", label: "oval", image: oval },
     {
-        id:"CrossIcon", label:"crossIcon",image:CrossIcon
-    }
+        id: "unfilled-diamond", label: "unfilled-diamond", image:
+            UnfilledDiamond
+    },
+    { id: "block", label: "block", image: Blockfilled },
+
+
 ];
 
 // Line Style Modal Component
