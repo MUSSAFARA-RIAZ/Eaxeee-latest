@@ -14,11 +14,13 @@ import { connect } from "react-redux";
 import { useEffect,useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 import ExportTemplateModal from "../Modals/ExportTemplateModal.js";
-import { getElementNames } from "../../../apis/impex_management.js";
+import { getElementNames,getAllRepositories } from "../../../apis/impex_management.js";
 const ImportExportBox = ({ props }) => {
   const [open, setOpen] = useState(false);
 
   const [listOfElements, setListOfElements] = useState([]);
+  const [listOfDropdownElements, setListOfDropdownElements] = useState([]);
+  const [selectedArchitecture, setSelectedArchitecture] = useState('');
   
 //   const items = [
 //     { id: 1, name: "Item 1" },
@@ -32,10 +34,9 @@ const ImportExportBox = ({ props }) => {
     title: "",
     buttons: [],
   });
-  const [selectedArchitecture, setSelectedArchitecture] = useState('');
 
   const handleDropDownChange = (value) => {
-    console.log("Selected Architecture in Parent:", value);
+    // console.log("Selected Architecture in Parent:", value);
     setSelectedArchitecture(value);
   };
   // Open modal with specific configuration
@@ -46,17 +47,17 @@ const ImportExportBox = ({ props }) => {
     //   const res = exportTemplate
     // }
     console.log("opened modal is: ",config)
-    console.log("oelemnt list is:: ",listOfElements)
+    // console.log("oelemnt list is:: ",listOfElements)
 
     setModalConfig({ open: true, ...config });
-    console.log(modalConfig)
+    // console.log(modalConfig)
   };
 
 
   const handleCloseModal = () => {
     setModalConfig({ ...modalConfig, open: false });
   };
-  console.log("In import export box", props.theme);
+  // console.log("In import export box", props.theme);
   
 
 
@@ -89,12 +90,42 @@ const ImportExportBox = ({ props }) => {
       });
   }, []);
 
-  const items = [
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-    { id: 3, name: "Item 3" },
-    { id: 4, name: "Item 4" },
-  ];
+
+  useEffect(() => {
+    getAllRepositories()
+      .then((res) => {
+        if (res.code === 200) {
+          // Assuming res.data is something like: ["Item 1", "Item 2", "Item 3", "Item 4"]
+          // and you want it to be:
+          // [
+          //   { id: 1, name: "Item 1" },
+          //   { id: 2, name: "Item 2" },
+          //   { id: 3, name: "Item 3" },
+          //   { id: 4, name: "Item 4" },
+          // ]
+          const dropdownelements = res.data.map((item, index) => ({
+            id: item.id,
+            architecture_name: item.architecture_name
+          }));
+          
+          setListOfDropdownElements(dropdownelements);
+        } else if (res.code === 401) {
+          console.error("Unauthorized access:", res.data);
+        } else {
+          console.error("Error fetching available licenses:", res.message || "Unknown error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching available licenses:", error);
+      });
+  }, []);
+
+  // const items = [
+  //   { id: 1, name: "Item 1" },
+  //   { id: 2, name: "Item 2" },
+  //   { id: 3, name: "Item 3" },
+  //   { id: 4, name: "Item 4" },
+  // ];
   return (
     <>
       <div
@@ -172,7 +203,7 @@ const ImportExportBox = ({ props }) => {
                   return;
                 }
                 handleOpenModal({
-                  title: "Export Template",
+                  title: "Export Data",
                   buttons: [
                     { label: "Export", variant: "contained", onClick: () => console.log("Add clicked") },
                     { label: "Cancel", variant: "outlined", onClick: handleCloseModal },
@@ -209,6 +240,7 @@ const ImportExportBox = ({ props }) => {
             language="en"
             theme="light"
             onValueChange={handleDropDownChange}
+            listOfDropdownElements={listOfDropdownElements}
           />
           <div style={{ marginTop: "20px" }}>
             <CustomButton
@@ -271,6 +303,7 @@ const ImportExportBox = ({ props }) => {
               dialogButtons={modalConfig.buttons}
               props={props}
               items={listOfElements}
+              selectedArchitecture={selectedArchitecture}
             />
 
             {/* <ExportTemplateModal open={open} handleClose={handleClose} props={props}/> */}

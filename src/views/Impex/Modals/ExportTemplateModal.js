@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import { exportTemplate } from "../../../apis/impex_management";
-export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items }) {
+export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items, selectedArchitecture }) {
 
     console.log("dialog title===>", dialogTitle);
 
@@ -44,44 +44,52 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
     const handleAdd = async () => {
 
 
+
         const selectedItemDetails = items.filter((item) => selectedItems.includes(item.id));
         console.log("Selected Items details are:", selectedItemDetails);
-        const nameList = selectedItemDetails.map(element => element.name);
-        console.log("nameList is: ", nameList)
-        // const res = exportTemplate(nameList)
-        console.log("dialogTitleis: ",dialogTitle)
+        const sheetList = selectedItemDetails.map(element => element.name);
+        console.log("sheetList is: ", sheetList)
+        // const res = exportTemplate(sheetList)
+        console.log("dialogTitleis: ", dialogTitle)
 
-        if (dialogTitle === 'Export Template'){
-            const result = await exportTemplate(nameList);
+        // Call Export/Down Template API here
+        if (dialogTitle === 'Export Template') {
+            const result = await exportTemplate(sheetList);  //Call download template API if user is exporting template
 
-        if (result.code === 200) {
-            const { data, headers } = result;
+            if (result.code === 200) {
+                const { data, headers } = result;
 
-            // Create a Blob URL
-            const blob = new Blob([data], { type: headers['content-type'] });
-            const downloadUrl = URL.createObjectURL(blob);
+                // Create a Blob URL
+                const blob = new Blob([data], { type: headers['content-type'] });
+                const downloadUrl = URL.createObjectURL(blob);
 
-            // Extract filename from headers or use a default
-            const filename = headers['content-disposition']
-                ? headers['content-disposition'].split('filename=')[1]
-                : 'template.xlsx'; // Default filename
+                // Extract filename from headers or use a default
+                const filename = headers['content-disposition']
+                    ? headers['content-disposition'].split('filename=')[1]
+                    : 'template.xlsx'; // Default filename
 
-            // Trigger download
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = filename.replace(/['"]/g, ''); // Remove quotes if present
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+                // Trigger download
+                const a = document.createElement('a');
+                a.href = downloadUrl;
+                a.download = filename.replace(/['"]/g, ''); // Remove quotes if present
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
 
-            // Revoke the Blob URL to free up memory
-            URL.revokeObjectURL(downloadUrl);
-        } else {
-            alert("couldn't download file....")
-            console.error(`Error downloading file: ${result.error}`);
+                // Revoke the Blob URL to free up memory
+                URL.revokeObjectURL(downloadUrl);
+            } else {
+                alert("couldn't download file....")
+                console.error(`Error downloading file: ${result.error}`);
+            }
         }
+        // Call Export Data API here that takes in selected Architecture in input and list of selected sheets
+        else if (dialogTitle == 'Export Data') {
+            // TBD (waiting for Ali to provide API)
+            console.log("archietecture is: ", selectedArchitecture)
+            console.log("selected-sheet-list: ", sheetList)
         }
-        
+
         // console.log("res is:",res)
         handleClose();
     };
