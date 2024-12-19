@@ -52,13 +52,22 @@ const ImportExportBox = ({ props }) => {
     setModalConfig({ open: true, ...config });
     // console.log(modalConfig)
   };
-
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const handleCloseModal = () => {
+   
+    setIsDisabled(false);
+
     setModalConfig({ ...modalConfig, open: false });
+    console.log("disabled sae in handle close ",isDisabled);
   };
   // console.log("In import export box", props.theme);
   
+ 
+
+    const handleDisabledChange = (value) => {
+        setIsDisabled(value); // Update the parent's state
+    };
 
 
   useEffect(() => {
@@ -304,6 +313,7 @@ const ImportExportBox = ({ props }) => {
               props={props}
               items={listOfElements}
               selectedArchitecture={selectedArchitecture}
+              onDisabledChange={handleDisabledChange}
             />
 
             {/* <ExportTemplateModal open={open} handleClose={handleClose} props={props}/> */}

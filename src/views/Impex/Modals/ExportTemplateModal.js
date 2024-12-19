@@ -10,13 +10,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import { exportTemplate, exportData } from "../../../apis/impex_management";
-export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, selectedArchitecture }) {
+export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, selectedArchitecture, onDisabledChange }) {
 
     console.log("dialog title===>", dialogTitle);
 
     const theme = props.theme;
+    const [isDisabled,setisDisabled]=useState(false);
     const language = props.language;
     const [selectedItems, setSelectedItems] = useState([]);
+    useEffect(() => {
+        // Notify parent about the isDisabled state change
+        if (onDisabledChange) {
+            onDisabledChange(isDisabled);
+        }
+    }, [isDisabled, onDisabledChange]);
     const items = [
         { id: 1, name: "Item 1" },
         { id: 2, name: "Item 2" },
@@ -35,6 +42,9 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
         { id: 3, name: "Item 3" },
         { id: 4, name: "Item 4" },
     ];
+    
+
+   
 
     // Reset selectedItems when the modal is closed
     useEffect(() => {
@@ -58,8 +68,15 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
             setSelectedItems(items.map((item) => item.id));
         }
     };
+  
+
 
     const handleAdd = async () => {
+
+
+        console.log("isdisbaled in handle add ",isDisabled);
+
+        setisDisabled(true);
 
 
 
@@ -175,6 +192,8 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
         // }
 
         // console.log("res is:",res)
+
+
         handleClose();
     };
     const isAllSelected = selectedItems.length === items.length;
