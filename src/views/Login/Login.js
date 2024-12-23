@@ -82,7 +82,13 @@ function Login({ onSignIn }) {
       }  //Otherwise it will show message 'invalid domain'
       else {
         setIsLoading(true);
-        setError(res.error)
+        
+        if (res.code === 500){
+          setError("Something went wrong")
+        }
+        else if (res.code === 404){
+          setError("Domain not found")
+        }
         // Swal.fire({
         //   title: 'Invalid Domain',
         //   icon: 'error',
