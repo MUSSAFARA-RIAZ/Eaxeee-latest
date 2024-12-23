@@ -33,6 +33,10 @@ function UserContent(props) {
   return (
     <div>
       {value === 0 && <UserRegistration />}
+      {
+        value === 1 && <PasswordManagement />
+        
+      }
       {/* {value === 1 && <PasswordManagement />}
       {value === 2 && <DirectoryUser />} */}
     </div>
