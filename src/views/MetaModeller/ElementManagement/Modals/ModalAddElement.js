@@ -180,6 +180,8 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
     setLayerNotation(selectedLayerDetails?.layernotation || "");
     setTextFieldDisabled(!selectedLayerDetails);
   };
+
+
   const [isStartShapeModalOpen, setIsStartShapeModalOpen] = useState(false);
 
   const handleHiddenChange = (event) => {
@@ -417,31 +419,14 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
                   height: "20px",
                   backgroundColor: selectedColor,
                   border: "1px solid #ccc",
-                  cursor: "pointer",
+                  cursor: "default", // Disable interaction
                   position: "relative",
                   left: "10px",
                 }}
-                onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
               ></Box>
             </Box>
 
-            {isColorPickerOpen && (
-              <ChromePicker
-                color={selectedColor}
-                onChangeComplete={(color) => setSelectedColor(color.hex)}
-                styles={{
-                  default: {
-                    picker: {
-                      position: "relative",
-                      left: "80px",
-                      width: '300px',
-                      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
-                      backgroundColor: "transparent"
-                    },
-                  },
-                }}
-              />
-            )}
+
 
             <TextField
               label="Description"
