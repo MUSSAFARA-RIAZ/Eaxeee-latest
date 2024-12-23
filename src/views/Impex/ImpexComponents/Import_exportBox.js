@@ -21,6 +21,7 @@ const ImportExportBox = ({ props }) => {
   const [listOfElements, setListOfElements] = useState([]);
   const [listOfDropdownElements, setListOfDropdownElements] = useState([]);
   const [selectedArchitecture, setSelectedArchitecture] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
 
   //   const items = [
   //     { id: 1, name: "Item 1" },
@@ -136,6 +137,7 @@ const ImportExportBox = ({ props }) => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    setSelectedFile(file)
     if (file) {
       console.log("Selected file:", file.name);
       // Add your file processing logic here
@@ -329,6 +331,7 @@ const ImportExportBox = ({ props }) => {
               props={props}
               items={listOfElements}
               selectedArchitecture={selectedArchitecture}
+              selectedFile={selectedFile}
               onDisabledChange={handleDisabledChange}
             />
 
