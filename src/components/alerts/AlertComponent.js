@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Alert } from "@mui/material";
 
-const AlertComponent = ({ message, severity,  duration = 3000, onClose }) => {
+const AlertComponent = ({ message, severity,  duration = 4000, onClose }) => {
   const [visible, setVisible] = useState(true);
 
   // Auto-hide the alert after the specified duration

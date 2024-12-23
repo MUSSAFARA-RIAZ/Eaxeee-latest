@@ -120,7 +120,7 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                 // Revoke the Blob URL to free up memory
                 URL.revokeObjectURL(downloadUrl);
             } else {
-                alert("couldn't download file....")
+                // alert("couldn't download file....")
                 setAlertMessage("Failed to export template")
                 console.error(`Error downloading file: ${result.error}`);
             }
@@ -158,8 +158,8 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                 URL.revokeObjectURL(downloadUrl);
                 setAlertMessage("File downlaoded successfully!")
             } else {
-                alert("couldn't download file....")
-                setAlertMessage("couldn't download file....!")
+                // alert("couldn't download file....")
+                setAlertMessage("Failed to export data")
                 console.error(`Error downloading file: ${result.error}`);
             }
 
@@ -173,11 +173,11 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
 
             if (result.code === 200) {
                 console.log("the result is: ", result)
-                alert(result.data.message)
+                // alert(result.data.message)
                 setAlertMessage(result.data.message)
             } else {
 
-                alert(result.error)
+                // alert(result.error)
                 setAlertMessage(result.error)
                 console.error(`Error downloading file: ${result.error}`);
             }
