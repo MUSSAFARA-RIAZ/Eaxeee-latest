@@ -8,9 +8,8 @@ const INITIAL_STATE = {
     activeTable: "Table1",
     //    //     { id: 2, layername: "as", layernotation: "f", layercolor: "Blue", parentlayer: "Architecture" },
 
-    layers: [        { id: 3, layername: "Mussafara", layernotation: "s", layercolor: "Black", parentlayer: "None" },
-        { id: 4, layername: "Mark", layernotation: "s", layercolor: "Black", parentlayer: "None" },
-        { id: 5, layername: "Ben", layernotation: "s", layercolor: "Black", parentlayer: "None" },],
+    layers: [        { id: 1, layername: "Mussafara", layernotation: "s", layercolor: "Black", parentlayer: "None" },
+     ],
 
 };
 

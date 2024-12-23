@@ -49,6 +49,9 @@ const ModalAddLayer = ({ open, handleClose, language, theme, onUserAdded, select
     const duplicateNotation = layers.some(
       (layer) => layer.layernotation.toLowerCase() === data.layerNotation.toLowerCase()
     );
+    const duplicateColor = layers.some(
+      (layer) => layer.layercolor.toLowerCase() === selectedColor.toLowerCase()
+    );
 
     if (duplicateName) {
       setAlertMessage("This layer name already exists!");
@@ -58,8 +61,13 @@ const ModalAddLayer = ({ open, handleClose, language, theme, onUserAdded, select
       setAlertMessage("This layer notation already exists!");
       return false;
     }
+    if (duplicateColor) {
+      setAlertMessage("This layer color is already used!");
+      return false;
+    }
     return true;
   };
+
 
   const onSubmit = (data) => {
     if (!validateUniqueLayer(data)) return;
