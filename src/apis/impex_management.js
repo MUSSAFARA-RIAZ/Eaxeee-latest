@@ -125,7 +125,46 @@ export const exportData = async (selectedSheets,architectureId) => {
   };
 
 
-
+  export const importData = async (file, architectureId, selectedSheets) => {
+    try {
+      const url = `${S_URL}/rest/importData`;
+  
+      const headers = {
+        ..._headers, // Assuming _headers is pre-defined and contains necessary headers
+        'Content-Type': 'multipart/form-data',
+      };
+  
+      // Construct form data
+      const formData = new FormData();
+      formData.append('file', file); // Assuming file is a File object
+      formData.append('architectureId', architectureId);
+      formData.append('sheetNames', JSON.stringify(selectedSheets));
+  
+      // Make the API call to upload the file and data
+      const response = await axios.post(url, formData, {
+        headers,
+        withCredentials: true,
+      });
+  
+      // Return the response data
+      return {
+        code: response.status,
+        data: response.data, // Success message
+      };
+    } catch (error) {
+      const statusCode = error.response?.status || 500;
+      const errorMessage = error.response?.data?.error || 'An unexpected error occurred.';
+  
+      // Handle session expiration
+      handleSessionExpiration(statusCode);
+  
+      // Return error details
+      return {
+        code: statusCode,
+        error: errorMessage,
+      };
+    }
+  };
 
 
 export const getAllRepositories = async () => {

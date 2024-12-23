@@ -9,12 +9,18 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 import CustomButton from '../../../components/CustomButton/CustomButton';
-import { exportTemplate, exportData } from "../../../apis/impex_management";
-export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items, selectedArchitecture, onDisabledChange }) {
+import { exportTemplate, exportData, importData } from "../../../apis/impex_management";
+import AlertComponent from "../../../components/alerts/AlertComponent";
+export default function ExportTemplateModal({ open, handleClose, dialogTitle, dialogButtons, props, items, selectedArchitecture, selectedFile, onDisabledChange }) {
 
+    if (selectedFile) {
+
+        console.log("filename_is: ", selectedFile.name)
+    }
     console.log("dialog title===>", dialogTitle);
 
     const theme = props.theme;
+    const [alertMessage, setAlertMessage] = useState("");
     const [isDisabled, setisDisabled] = useState(false);
     const language = props.language;
     const [selectedItems, setSelectedItems] = useState([]);
@@ -114,7 +120,8 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                 // Revoke the Blob URL to free up memory
                 URL.revokeObjectURL(downloadUrl);
             } else {
-                alert("couldn't download file....")
+                // alert("couldn't download file....")
+                setAlertMessage("Failed to export template")
                 console.error(`Error downloading file: ${result.error}`);
             }
         }
@@ -144,12 +151,34 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                 a.download = filename.replace(/['"]/g, ''); // Remove quotes if present
                 document.body.appendChild(a);
                 a.click();
+
                 document.body.removeChild(a);
 
                 // Revoke the Blob URL to free up memory
                 URL.revokeObjectURL(downloadUrl);
+                setAlertMessage("File downlaoded successfully!")
             } else {
-                alert("couldn't download file....")
+                // alert("couldn't download file....")
+                setAlertMessage("Failed to export data")
+                console.error(`Error downloading file: ${result.error}`);
+            }
+
+        }
+        else if (dialogTitle == 'Import Data') {
+            // TBD (waiting for Ali to provide API)
+            console.log("archietecture is: ", selectedArchitecture)
+            console.log("selected-sheet-list: ", sheetList)
+
+            const result = await importData(selectedFile, selectedArchitecture, sheetList);  //Call download template API if user is exporting template
+
+            if (result.code === 200) {
+                console.log("the result is: ", result)
+                // alert(result.data.message)
+                setAlertMessage(result.data.message)
+            } else {
+
+                // alert(result.error)
+                setAlertMessage(result.error)
                 console.error(`Error downloading file: ${result.error}`);
             }
 
@@ -200,6 +229,13 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
 
     return (
         <div>
+            {alertMessage && (
+                <AlertComponent
+                    message={alertMessage}
+                    severity={alertMessage.includes("success") ? "success" : "warning"}
+                    onClose={() => setAlertMessage("")} // Reset message on close
+                />
+            )}
             <Dialog open={open} onClose={handleClose} PaperProps={{
                 sx: { width: "500px", maxWidth: "70%" },
             }}>
@@ -327,9 +363,9 @@ export default function ExportTemplateModal({ open, handleClose, dialogTitle, di
                                         : button.onClick
                                 }
                                 sx={{ width: "auto" }}
-                              
+
                             />
-                            
+
                         ))}
 
                     </Box>
