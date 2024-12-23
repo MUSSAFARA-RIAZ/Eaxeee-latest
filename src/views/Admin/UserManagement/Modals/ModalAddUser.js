@@ -76,8 +76,11 @@ const ModalAddUser = ({ open, handleClose, language, theme, onUserAdded }) => {
 
       } else {
         console.log("Couldn't add user for some reason")
-        alert(res.error)
+        setAlertMessage(res.error)
+        // alert(res.error)
       }
+
+      console.log("thisisalertmessage",alertMessage)
 
       console.log("res is: ", res)
 
@@ -92,6 +95,7 @@ const ModalAddUser = ({ open, handleClose, language, theme, onUserAdded }) => {
     setSnackBarFlag(true);
   };
   const isRTL = language === "ar";
+  console.log("thisisalertmessage",alertMessage)
 
   return (
     <>
