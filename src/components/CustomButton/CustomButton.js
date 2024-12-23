@@ -84,7 +84,7 @@ const CustomButton = React.forwardRef((props, ref) => {
             minHeight: "unset",
             // backgroundColor:bgcolor,
             backgroundColor: props.disabled ? "rgba(0, 0, 0, 0.12)" : bgcolor,
-            opacity: props.disabled ? "0.5" : 1,
+            opacity: props.disabled ? "0.3" : 1,
             // color:"white",
 
 

@@ -10,11 +10,30 @@ import { useSelector } from 'react-redux';
 import GreenEaxee from "../../../Assets/Images/ModalEaxeeLogo.png";
 // import GreenEaxeeLogo from "../../../../Assets/Images/ModalEaxeeLogo.png";
 import Crop75Icon from '@mui/icons-material/Crop75';
+import none from "../../../Assets/Images/MetaModellerImages/none.svg";
+import Diamond from "../../../Assets/Images/MetaModellerImages/diamond.svg";
+// import Diamond from "../../../../Assets/Images/MetaModellerImages/diamond.svg";
+// import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
+import oval from "../../../Assets/Images/MetaModellerImages/oval.svg";
+import UnfilledDiamond from "../../../Assets/Images/MetaModellerImages/unfilled-diamond.svg";
+import Blockfilled from "../../../Assets/Images/MetaModellerImages/block.svg";
 
 const ElementRegistration = (props) => {
     const { language, theme } = props;
     const layers = useSelector((state) => state.layers);
     console.log("layers in element registration===> redux ", layers);
+    const StartshapeOptions = [
+        { id: "diamon", label: "Diamond", image: Diamond },
+
+        { id: "none", label: "none", image: none },
+        { id: "oval", label: "oval", image: oval },
+        {
+            id: "unfilled-diamond", label: "unfilled-diamond", image:
+                UnfilledDiamond
+        },
+        { id: "block", label: "block", image: Blockfilled },
+
+    ];
 
 
     const [openModal, setOpenModal] = useState(false);
@@ -128,11 +147,14 @@ const ElementRegistration = (props) => {
             headerName: 'Element Icon',
             flex: 1,
             renderCell: (params) => {
-                if (params.value === "Crop75Icon") {
-                    return <Crop75Icon />;
-                }
-                
-                return params.value; // Text-based icon like "★"
+                const startShapeOption = StartshapeOptions.find(option => option.id === params.value);
+                return startShapeOption ? (
+                    <img
+                        src={startShapeOption.image}
+                        alt={startShapeOption.label}
+                        style={{ width: "20px", height: "20px", objectFit: "contain" }}
+                    />
+                ) : params.value; // Fallback for unrecognized values
             },
         },
         {
@@ -140,25 +162,18 @@ const ElementRegistration = (props) => {
             headerName: 'Element Shape',
             flex: 1,
             renderCell: (params) => {
-              switch (params.value) {
-                case "GreenEaxee":
-                  return (
+                const startShapeOption = StartshapeOptions.find(option => option.id === params.value);
+                return startShapeOption ? (
                     <img
-                      src={GreenEaxee}
-                      alt="GreenEaxee"
-                      width="20"
-                      height="20"
+                        src={startShapeOption.image}
+                        alt={startShapeOption.label}
+                        style={{ width: "20px", height: "20px", objectFit: "contain" }}
                     />
-                  );
-                case "Crop75Icon":
-                  return <Crop75Icon />;
-                default:
-                  return params.value; // Fallback for text-based shapes
-              }
+                ) : params.value; // Fallback for unrecognized values
             },
-          },
-          
-        
+        },
+
+
         { field: 'Description', headerName: (language === 'en' ? 'Description' : 'Description'), flex: 1 },
         { field: 'Originator', headerName: (language === 'en' ? 'Originator' : 'Originator'), flex: 1 },
         { field: 'isEnabled', headerName: (language === 'en' ? 'isEnabled?' : 'isEnabled?'), flex: 1 },
@@ -190,7 +205,7 @@ const ElementRegistration = (props) => {
                     onSelectionChange={setSelectedRows}
                     Theme={theme}
                     checkboxSelection={true}
-                    deleteButtonDisabled={selectedRows.length === 0}
+                // deleteButtonDisabled={selectedRows.length === 0}
                 >
                     <Box sx={{
                         display: "flex", justifyContent: "space-between", alignItems: "space-between", width: "350px", ...(language === 'ar' && {

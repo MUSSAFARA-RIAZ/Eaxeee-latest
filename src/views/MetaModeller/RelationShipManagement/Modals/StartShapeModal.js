@@ -24,11 +24,13 @@ const lineStyleOptions = [
     { id: "diamon", label: "Diamond", image: Diamond },
     { id: "none", label: "none", image: none },
     { id: "oval", label: "oval", image: oval },
-    { id: "unfilled-diamond", label: "unfilled-diamond", image:
-        UnfilledDiamond },
-        { id: "block", label: "block", image: Blockfilled },
-        
-   
+    {
+        id: "unfilled-diamond", label: "unfilled-diamond", image:
+            UnfilledDiamond
+    },
+    { id: "block", label: "block", image: Blockfilled },
+
+
 ];
 
 // Line Style Modal Component
@@ -63,7 +65,7 @@ const StartShapeModal = ({ open, onClose, onSelect, handleClose, selectedLineSty
                         color: "#cecece",
                         [language === "ar" ? "left" : "right"]: 0,
                     }}
-                    onClick={handleClose}
+                    onClick={onClose}
                 >
                     <CloseIcon />
                 </IconButton>
@@ -124,7 +126,7 @@ const StartShapeModal = ({ open, onClose, onSelect, handleClose, selectedLineSty
                         title={language === "en" ? "Cancel" : AdminTranslation["Cancel"]}
                         type="button"
                         Theme={theme}
-                        onClick={handleClose} // Close modal without changes
+                        onClick={onClose} // Close modal without changes
                         sx={{ width: "50%" }}
                     />
                 </Box>

@@ -38,6 +38,7 @@ function Login({ onSignIn }) {
   const [disableConfirmButton, setDisableConfirmButton] = useState(false);
   const [isSignInDisabled, setIsSignInDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error,setError]=useState('')
 
 
 
@@ -62,6 +63,7 @@ function Login({ onSignIn }) {
 
   const handleSignInClick = async (e) => {
     e.preventDefault();
+    setError('');
 
     try {
 
@@ -80,7 +82,7 @@ function Login({ onSignIn }) {
       }  //Otherwise it will show message 'invalid domain'
       else {
         setIsLoading(true);
-        alert("invalid Domain")
+        setError(res.error)
         // Swal.fire({
         //   title: 'Invalid Domain',
         //   icon: 'error',
@@ -98,7 +100,7 @@ function Login({ onSignIn }) {
       // setIsLoading(true);
       
       console.error("Error during sign-in:", error);
-      alert("Unknown error occured");
+      setError("Unknown error occured");
     }
     setIsLoading(false )
     setIsSignInDisabled(false)
@@ -148,11 +150,11 @@ function Login({ onSignIn }) {
         //     confirmButton: 'custom-ok-button' 
         //   }
         // });
-        alert(res_login.data.error + "401-148")
+        setError(res_login.data.error + "401-148")
       }
       setLoading(false)
     } else if (res.code === 401) {
-      alert(res.data.message + "401-152");
+      setError(res.data.message + "401-152");
        // Close the dialog box
       // Swal.fire({
       //     title: res.data.message,
@@ -325,9 +327,11 @@ function Login({ onSignIn }) {
                       </span>
                     </div>
                   </div>
+                  {error &&
                   <Alert
                     sx={{
                       // opacity: 1,
+                      
                       padding: '1px 5px',      // Reduce padding for smaller height
                       fontSize: '12px',         // Adjust font size for a compact look
                       lineHeight:0.3,          // Fine-tune line spacing
@@ -339,8 +343,10 @@ function Login({ onSignIn }) {
                     }}
                     severity="error"
                   >
-                    This is an error Alert.
+                  {error}
                   </Alert>
+
+                  }
 
                   <div className="login-forgot-password">
                     <Link to="/forgetpassword">Reset password?</Link>

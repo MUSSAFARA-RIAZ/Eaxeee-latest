@@ -75,7 +75,7 @@ const RelationShipRegistration = (props) => {
             RelationShipNotation: "A",
             LineStyle: "solid", // LineStyle with an icon
             StartShape: "diamon", // StartShape using image
-            EndShape: "DiamondThin",   // EndShape using icon
+            EndShape: "oval",   // EndShape using icon
             FromtoToInterpretation: "Interpreted from A to B",
             TotoFromInterpretation: "Interpreted from B to A",
             Description: "To be provided later",
@@ -94,7 +94,7 @@ const RelationShipRegistration = (props) => {
             RelationShipNotation: "B",
             LineStyle: "solid", // LineStyle with an icon
             StartShape: "diamon", // StartShape using image
-            EndShape: "DiamondThin",   // EndShape using icon
+            EndShape: "oval",   // EndShape using icon
             FromtoToInterpretation: "Interpreted from B to C",
             TotoFromInterpretation: "Interpreted from C to B",
             Description: "To be provided later",
@@ -113,7 +113,7 @@ const RelationShipRegistration = (props) => {
             RelationShipNotation: "C",
             LineStyle: "solid", // LineStyle with an icon
             StartShape: "diamon", // StartShape using image
-            EndShape: "DiamondThin",   // EndShape using icon
+            EndShape: "oval",   // EndShape using icon
             FromtoToInterpretation: "Data flow from C to D",
             TotoFromInterpretation: "Data flow from D to C",
             Description: "External interface description",

@@ -74,45 +74,35 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
     { id: "diamon", label: "Diamond", image: Diamond },
     { id: "none", label: "none", image: none },
     { id: "oval", label: "oval", image: oval },
-    { id: "unfilled-diamond", label: "unfilled-diamond", image:
-        UnfilledDiamond },
-        { id: "block", label: "block", image: Blockfilled },
+    {
+      id: "unfilled-diamond", label: "unfilled-diamond", image:
+        UnfilledDiamond
+    },
+    { id: "block", label: "block", image: Blockfilled },
     // Add more shapes as needed
   ];
   const EndshapeOptions = [
     { id: "diamon", label: "Diamond", image: Diamond },
     { id: "none", label: "none", image: none },
     { id: "oval", label: "oval", image: oval },
-    { id: "unfilled-diamond", label: "unfilled-diamond", image:
-        UnfilledDiamond },
-        { id: "block", label: "block", image: Blockfilled },
+    {
+      id: "unfilled-diamond", label: "unfilled-diamond", image:
+        UnfilledDiamond
+    },
+    { id: "block", label: "block", image: Blockfilled },
   ];
-  // console.log("lineStyleOptions.find((option) => option.id === lineStyle)?.image",lineStyleOptions.find((option) => option.id === lineStyle));
 
-
-
-
-  const getElementIcon = (iconType) => {
-    switch (iconType) {
-      case "Crop75Icon":
-        return <Crop75Icon />;
-      case "GreenEaxee":
-        return <img src={GreenEaxee} alt="GreenEaxee" width="50" height="40" />;
-      case "★":
-        return "★"; // Text-based Icon
-      default:
-        return "❓"; // Fallback icon
-    }
-  };
   // New State for added fields
   const [lineStyle, setLineStyle] = useState("solid");
 
   const [startShape, setStartShape] = useState("diamon");
-  const [endShape, setEndShape] = useState("unfilled-diamond");
+  const [endShape, setEndShape] = useState("oval");
   const [fromToInterpretation, setFromToInterpretation] = useState("");
   const [toFromInterpretation, setToFromInterpretation] = useState("");
   useEffect(() => {
     if (selectedRowData) {
+      console.log("selectedRowData", selectedRowData);
+
       // Prefill the form and states with the values from selectedRowData
       reset({
         RelationName: selectedRowData.RelationName,
@@ -123,7 +113,7 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
       setSelectedColor(selectedRowData.Color || "#000000");
       setLineStyle(selectedRowData.LineStyle || "solid");
       setStartShape(selectedRowData.StartShape || "diamon");
-      setEndShape(selectedRowData.EndShape || "unfilled-diamond");
+      setEndShape(selectedRowData.EndShape || "oval");
       setFromToInterpretation(selectedRowData.FromtoToInterpretation || "");
       setToFromInterpretation(selectedRowData.TotoFromInterpretation || "");
       setDescription(selectedRowData.Description || "");
@@ -143,7 +133,7 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
       setSelectedColor("#000000");
       setLineStyle("solid");
       setStartShape("diamon");
-      setEndShape("DiamondThin");
+      setEndShape("oval");
       setFromToInterpretation("");
       setToFromInterpretation("");
       setDescription("");
@@ -223,6 +213,14 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
 
 
   const [isLineStyleModalOpen, setIsLineStyleModalOpen] = useState(false);
+  useEffect(() => {
+    if (selectedRowData) {
+      setEndShape(selectedRowData.EndShape || "oval");
+    } else {
+      setEndShape("oval");
+    }
+  }, [selectedRowData]);
+
 
 
   return (
@@ -302,8 +300,26 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
         <DialogContent
           style={{
             backgroundColor: theme === "default" ? "#cecece" : theme === "dark" ? "#212121" : "",
+
+            // border: "2px solid red",
+
           }}
         >
+          <style>
+            {`
+      /* For WebKit-based browsers */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #2158a4;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #2158a4;
+      }
+    `}
+          </style>
           <form onSubmit={handleSubmit(onSubmit)}>
 
 
@@ -513,6 +529,7 @@ const ModalAddRelation = ({ open, handleClose, language, theme, onUserAdded, sel
                       left: "80px",
                       width: '300px',
                       boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+                      backgroundColor:"transparent",
                     },
                   },
                 }}

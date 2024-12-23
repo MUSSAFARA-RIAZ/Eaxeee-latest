@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { Menu, MenuItem, Typography, Dialog, DialogTitle, DialogContent, TextField, IconButton, Box, Button } from '@mui/material';
+import {
+  Menu,
+  MenuItem,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  IconButton,
+  Box,
+  Button,
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import CustomButton from '../../../../components/CustomButton/CustomButton';
 
 const FileItem = ({ fileName }) => {
   const [anchorEl, setAnchorEl] = useState(null); // For menu
@@ -31,7 +41,12 @@ const FileItem = ({ fileName }) => {
 
   // Handle file input change
   const handleFileChange = (event) => {
-    setUploadedFile(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file && file.type === 'text/xml') {
+      setUploadedFile(file);
+    } else {
+      alert('Please select a valid XML file.');
+    }
   };
 
   // Handle file submission
@@ -55,43 +70,47 @@ const FileItem = ({ fileName }) => {
       </Typography>
 
       {/* Material-UI Menu */}
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
         <MenuItem onClick={handleDialogOpen}>Open</MenuItem>
         <MenuItem onClick={() => alert('Save action triggered')}>Save</MenuItem>
         <MenuItem onClick={() => alert('Delete action triggered')}>Delete</MenuItem>
       </Menu>
 
- <Dialog open={dialogOpen} onClose={handleDialogClose} aria-labelledby="dialog-title">
-  <DialogTitle id="dialog-title" sx={{ display: "flex", justifyContent: "space-between" }}>
-    <Typography variant="h6">Upload File</Typography>
-    <IconButton onClick={handleDialogClose} aria-label="Close dialog">
-      <CloseIcon />
-    </IconButton>
-  </DialogTitle>
+      <Dialog open={dialogOpen} onClose={handleDialogClose} aria-labelledby="dialog-title">
+        <DialogTitle
+          id="dialog-title"
+          sx={{ display: 'flex', justifyContent: 'space-between' }}
+        >
+          <Typography variant="h6">Upload File</Typography>
+          <IconButton onClick={handleDialogClose} aria-label="Close dialog">
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
 
-  <DialogContent>
-    <TextField
-      label="Folder name"
-      fullWidth
-      variant="outlined"
-      size="small"
-      sx={{ mt: 2 }}
-      placeholder="Enter folder name"
-    />
-    <Box sx={{ mt: 2 }}>
-      <input type="file" onChange={handleFileChange} />
-    </Box>
+        <DialogContent>
+          <TextField
+            label="Folder name"
+            fullWidth
+            variant="outlined"
+            size="small"
+            sx={{ mt: 2 }}
+            placeholder="Enter folder name"
+          />
+          <Box sx={{ mt: 2 }}>
+            {/* Restrict file input to XML files */}
+            <input type="file" accept=".xml" onChange={handleFileChange} />
+          </Box>
 
-    <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-      <Button variant="contained" color="primary" onClick={handleAddFile}>Add</Button>
-      <Button variant="outlined" color="secondary" onClick={handleDialogClose}>Cancel</Button>
-    </Box>
-  </DialogContent>
-</Dialog>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleAddFile}>
+              Add
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={handleDialogClose}>
+              Cancel
+            </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

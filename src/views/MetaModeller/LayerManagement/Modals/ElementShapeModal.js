@@ -13,7 +13,6 @@ import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png";
 import AdminTranslation from "../../../../Utils/AdminTranslation/AdminTranslation";
 import SolidLine from "../../../../Assets/Images/solidLin.jpg";
 import DashedLine from "../../../../Assets/Images/dotted.png";
-
 import Diamond from "../../../../Assets/Images/MetaModellerImages/diamond.svg";
 import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
 import oval from "../../../../Assets/Images/MetaModellerImages/oval.svg";
@@ -35,7 +34,7 @@ const lineStyleOptions = [
 ];
 
 // Line Style Modal Component
-const EndShapeModal = ({ open, onClose, onSelect, handleClose, selectedLineStyle, theme, language }) => {
+const ElementShapeModal = ({ open, onClose, onSelect, handleClose, selectedLineStyle, theme, language }) => {
     // Local state for temporary selection
     const [tempSelectedStyle, setTempSelectedStyle] = useState(selectedLineStyle);
 
@@ -55,7 +54,7 @@ const EndShapeModal = ({ open, onClose, onSelect, handleClose, selectedLineStyle
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                     <img src={GreenEaxee} alt="img" style={{ width: "40px", height: "40px", marginRight: "5px" }} />
                     <Typography variant="h6">
-                        {language === "en" ? "Select End Shape" : AdminTranslation["Select End Shape"]}
+                        {language === "en" ? "Select Element Icon" : AdminTranslation["Select Element Icon"]}
                     </Typography>
                 </Box>
                 <IconButton
@@ -136,4 +135,4 @@ const EndShapeModal = ({ open, onClose, onSelect, handleClose, selectedLineStyle
     );
 };
 
-export default EndShapeModal;
+export default ElementShapeModal;

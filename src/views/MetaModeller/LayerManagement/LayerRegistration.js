@@ -11,7 +11,7 @@ const LayerRegistration = (props) => {
     const { language, theme } = props;
     const dispatch = useDispatch();
     const layers = useSelector((state) => state.layers);
-    console.log("layerss=>",layers);
+    console.log("layerss=>....................",layers);
 
 
 
@@ -102,6 +102,7 @@ const LayerRegistration = (props) => {
                 open={openModal} 
                 handleClose={handleCloseModal} 
                 onUserAdded={handleUserAdded} 
+                layers={layers}
                 selectedRowData={selectedRowData} // Pass selected data to modal
             />
 
@@ -110,14 +111,14 @@ const LayerRegistration = (props) => {
                     rows={tableRowData}
                     columns={columns}
                     onDeleteClick={handleDeleteClick}
-                    showDeleteButton={true}
+                    showDeleteButton={false}
                     onSelectionChange={setSelectedRows}
                     Theme={theme}
                     checkboxSelection={true}
                     deleteButtonDisabled={selectedRows.length === 0}
                 >
                     <Box sx={{
-                        display: "flex", justifyContent: "space-between", alignItems: "space-between", width: "350px", ...(language === 'ar' && {
+                        display: "flex", justifyContent: "space-between", alignItems: "space-between", width: "320px", ...(language === 'ar' && {
                             display: "flex", width: "300px", justifyContent: "space-between", position: "relative", right: "10px"
                         })
                     }}>

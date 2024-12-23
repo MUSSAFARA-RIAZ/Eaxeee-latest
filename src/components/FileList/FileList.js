@@ -61,10 +61,19 @@ const FileItem = ({ fileName, onUpload, onSave, onDelete, props }) => {
     };
 
     // Handle file selection
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
-    };
+  // Handle file selection
+const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        if (file.type === "text/xml" || file.name.endsWith(".xml")) {
+            setSelectedFile(file);
+        } else {
+            alert("Only XML files are allowed. Please select a valid XML file.");
+            event.target.value = null; // Clear the file input
+        }
+    }
+};
+
 
     // Handle file upload
     const handleFileUpload = () => {
@@ -77,6 +86,7 @@ const FileItem = ({ fileName, onUpload, onSave, onDelete, props }) => {
             alert('Please select a file to upload');
         }
     };
+    
 
     // Handle New Metamodel creation
     const handleCreateNewMetamodel = () => {
@@ -118,7 +128,7 @@ const FileItem = ({ fileName, onUpload, onSave, onDelete, props }) => {
                         transition: 'opacity 0.3s ease',
                     }}
                 >
-                    Metamodel Name: {uploadedFileName}
+                   {uploadedFileName}
                 </Typography>
             </Box>
 
