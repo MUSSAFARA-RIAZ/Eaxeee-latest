@@ -62,6 +62,7 @@ function ConcurrentUser(props) {
       if (res.code === 200) {
         console.log("pool was updated successfully...")
         setAlertMessage(res.data.message)
+        setSelectedPoolOriginalData(selectedPool)
       }
       else {
         console.log("following error occured while updating pool.")

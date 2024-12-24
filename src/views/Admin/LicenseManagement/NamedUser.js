@@ -317,7 +317,7 @@ function NamedUser(props) {
         setAllocatedLicensesRowData((prevData) =>
           prevData.filter((row) => row.id !== item.id)
         );
-        setAlertMessage("License Deallocated Successfully")
+        setAlertMessage("License Deallocated successfully")
         setRecallAvailableNamedLicenses(!recallAllocatedNamedLicenses)
       } else {
 
