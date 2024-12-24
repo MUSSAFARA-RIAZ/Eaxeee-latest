@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom'
 import {
   Dialog,
@@ -38,7 +38,9 @@ function Login({ onSignIn }) {
   const [disableConfirmButton, setDisableConfirmButton] = useState(false);
   const [isSignInDisabled, setIsSignInDisabled] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error,setError]=useState('')
+  const [error,setError]=useState('');
+  const passwordRef = useRef(null);
+  const signInButtonRef = useRef(null);
 
 
 
@@ -95,11 +97,11 @@ function Login({ onSignIn }) {
             }
             else if (res_login.code === 401) {
       
-              setError(res_login.data.error + "401-148")
+              setError(res_login.data.error )
             }
             setLoading(false)
           } else {
-            setError(userExistOrNot.data.message + "401-148")
+            setError(userExistOrNot.data.message)
           }
           // console.log("selected_option_is: ",selectedOption)
           // console.log("The length of repositories is 1.");
@@ -189,11 +191,11 @@ function Login({ onSignIn }) {
         //     confirmButton: 'custom-ok-button' 
         //   }
         // });
-        setError(res_login.data.error + "401-148")
+        setError(res_login.data.error)
       }
       setLoading(false)
     } else if (res.code === 401) {
-      setError(res.data.message + "401-152");
+      setError(res.data.message);
        // Close the dialog box
       // Swal.fire({
       //     title: res.data.message,
@@ -232,6 +234,17 @@ function Login({ onSignIn }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsDialogOpen(true);
+  };
+  const handleKeyPressOnUsername = (e) => {
+    if (e.key === 'Enter') {
+      passwordRef.current?.focus();
+    }
+  };
+
+  const handleKeyPressOnPassword = (e) => {
+    if (e.key === 'Enter') {
+      signInButtonRef.current?.click();
+    }
   };
 
 
@@ -334,6 +347,7 @@ function Login({ onSignIn }) {
                       id="username"
                       name="username"
                       value={username}
+                      onKeyDown={handleKeyPressOnUsername}
                       style={{ outline: "2px solid rgba(206, 206, 206, 0.47)" }}
                       onChange={(e) => setUsername(e.target.value)}
                       required
@@ -346,9 +360,12 @@ function Login({ onSignIn }) {
                         type={showPassword ? "text" : "password"}
                         id="password"
                         name="password"
+                        ref={passwordRef}
+                     
                         style={{ outline: "2px solid rgba(206, 206, 206, 0.47)", paddingRight: '40px' }}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={handleKeyPressOnPassword}
                         required
                       />
                       <span
@@ -394,6 +411,7 @@ function Login({ onSignIn }) {
                     onClick={handleSignInClick}
                     variant="contained"
                     disabled={isSignInDisabled || isLoading}
+                    ref={signInButtonRef}
                     className="login-button"
                     sx={{ padding: "10px", position: "relative", top: "10px" }}
                   >
