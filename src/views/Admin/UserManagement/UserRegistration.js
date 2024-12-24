@@ -21,7 +21,8 @@ const UserRegistration = (props) => {
     const [openModal, setOpenModal] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [activatedRows, setActivatedRows] = useState([]);
-    const [setAlertMessageMessage, setAlertMessage] = useState("");
+    const [alertMessage, setAlertMessage] = useState(""); // Alert message state
+    // const [setAlertMessageMessage, setAlertMessage] = useState("");
 
     const [listOfUsers, setListOfUsers] = useState([]);
     const [refreshUsers, setRefreshUsers] = useState(false);
@@ -279,13 +280,13 @@ const UserRegistration = (props) => {
     ];
     return (
         <>
-            {setAlertMessageMessage && (
-                <AlertComponent
-                    message={setAlertMessageMessage}
-                    severity={setAlertMessageMessage.includes("success") ? "success" : "warning"}
-                    onClose={() => setAlertMessage("")} // Reset message on close
-                />
-            )}
+           {alertMessage && (
+        <AlertComponent
+          message={alertMessage}
+          severity={alertMessage.includes("success") ? "success" : "warning"}
+          onClose={() => setAlertMessage("")} // Reset message on close
+        />
+      )}
 
             <Box className={styles.userRegistrationMain}>
                 <ModalAddUser open={openModal} handleClose={handleCloseModal} onUserAdded={() => setRefreshUsers(!refreshUsers)} />

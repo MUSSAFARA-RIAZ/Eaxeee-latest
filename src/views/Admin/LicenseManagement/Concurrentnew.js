@@ -8,8 +8,9 @@ import ModalAddPool from "./Modals/ModalAddPool";
 import ModalAddLicensePool from "./Modals/ModalAddLicensePool";
 import ModalAddUsersPool from "./Modals/ModalAddUsersPool";
 import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation";
-import { getPools, getPoolLicensesAndUsers,updatePoolLicensesAndUsers,deletePool } from "../../../apis/license_management";
+import { getPools, getPoolLicensesAndUsers, updatePoolLicensesAndUsers, deletePool } from "../../../apis/license_management";
 import { UpdateDisabled } from "@mui/icons-material";
+import AlertComponent from "../../../components/alerts/AlertComponent";
 function ConcurrentUser(props) {
   const [openModal, setOpenModal] = useState(false);
   const [openLicenseModal, setOpenLicenseModal] = useState(false);
@@ -19,7 +20,9 @@ function ConcurrentUser(props) {
   const [selectedPoolOriginalData, setSelectedPoolOriginalData] = useState([]);
   const [disableUpdateButton, setDisableUpdateButton] = useState(true);
   const [disableRemoveButton, setDisableRemoveButton] = useState(false);
-  
+    const [alertMessage, setAlertMessage] = useState(""); // Alert message state
+  // const [setAlertMessageMessage, setAlertMessage] = useState(""); // Alert message state
+
   // const [usersFromDatabase, setUsersFromDatabase] = useState([]);
   const { language, theme } = props;
 
@@ -49,30 +52,30 @@ function ConcurrentUser(props) {
   };
 
   const handleuUpdatePoolClick = async () => {
-    console.log("seleted_pool_is: ",selectedPool)
-    console.log("seleted_original_pool_is: ",selectedPoolOriginalData)
-    console.log("equality: ",selectedPoolOriginalData === selectedPool)
-    
-    if (selectedPool){
-      
-      const res = await updatePoolLicensesAndUsers(selectedPool.name,selectedPool.licenses,selectedPool.users);
+    console.log("seleted_pool_is: ", selectedPool)
+    console.log("seleted_original_pool_is: ", selectedPoolOriginalData)
+    console.log("equality: ", selectedPoolOriginalData === selectedPool)
+
+    if (selectedPool) {
+
+      const res = await updatePoolLicensesAndUsers(selectedPool.name, selectedPool.licenses, selectedPool.users);
       if (res.code === 200) {
         console.log("pool was updated successfully...")
-        alert(res.data.message)
+        setAlertMessage(res.data.message)
       }
       else {
         console.log("following error occured while updating pool.")
         console.log(res)
-        alert(res.error)
+        setAlertMessage(res.error)
       }
     }
   };
 
 
   const handleRemovePoolClick = async () => {
-    
+
     console.log("clicked handled remove")
-    if (selectedPool){
+    if (selectedPool) {
       setDisableRemoveButton(true)
       const res = await deletePool(selectedPool.name);
       setDisableRemoveButton(false)
@@ -83,17 +86,17 @@ function ConcurrentUser(props) {
         );
         setSelectedPool(null)
         console.log("Pool was removed successfully...")
-        alert(res.data.message)
+        setAlertMessage(res.data.message)
       }
       else {
         console.log("following error occured while deleting pool.")
         console.log(res)
-        alert(res.error)
+        setAlertMessage(res.error)
       }
     }
   };
   const updateUsersListOnFrontEnd = () => {
-    
+
   };
 
   // const handleRowClick = async (rowData) => {
@@ -111,7 +114,7 @@ function ConcurrentUser(props) {
 
     // Call the API to get pool licenses and users
     const res = await getPoolLicensesAndUsers(rowData.row.name);
-    
+
     if (res.code === 200) {
       // Find the pool to update and directly modify its licenses
       const updatedPoolRowData = poolRowData.map(pool => {
@@ -137,7 +140,7 @@ function ConcurrentUser(props) {
           // setUsersFromDatabase(availableUsers)
           setSelectedPool(updatedPool);
           setSelectedPoolOriginalData(updatedPool);
-          
+
           return updatedPool;
         }
         return pool; // No changes for other pools
@@ -151,7 +154,7 @@ function ConcurrentUser(props) {
       console.log(updatedPoolRowData)
 
     } else {
-      alert(res.error);
+      setAlertMessage(res.error);
     }
 
 
@@ -160,7 +163,7 @@ function ConcurrentUser(props) {
   useEffect(() => {
     getPools()
       .then((res) => {
-        
+
         if (res.code === 200) {
           const listOfPools = res.data.map((pool, index) => ({
             id: index + 1, // Adding unique id
@@ -269,7 +272,7 @@ function ConcurrentUser(props) {
 
       <Tooltip title="Add License">
         <IconButton size="small" onClick={handleOpenLicenseModal}>
-        <AddIcon />
+          <AddIcon />
 
         </IconButton>
       </Tooltip>
@@ -292,6 +295,14 @@ function ConcurrentUser(props) {
   );
 
   return (
+    <>
+    {alertMessage && (
+      <AlertComponent
+        message={alertMessage}
+        severity={alertMessage.includes("success") ? "success" : "warning"}
+        onClose={() => setAlertMessage("")} // Reset message on close
+      />
+    )}
     <Grid container spacing={2} sx={{ marginTop: "15px", marginLeft: "15px", marginRight: "15px" }}>
       <Box sx={{ display: "flex", width: "100%" }}>
         {/* Pool Table */}
@@ -314,9 +325,9 @@ function ConcurrentUser(props) {
                 <CustomButton title={language === 'en' ? "Add Pool" : AdminTranslation["Add Pool"]}
                   variant="outlined" Theme={props.theme} onClick={handleAddPoolClick} />
                 <CustomButton title={language === 'en' ? "Remove Pool" : AdminTranslation["Remove Pool"]}
-                  variant="outlined" Theme={props.theme} onClick={handleRemovePoolClick} disabled={disableRemoveButton || !selectedPool}        />
+                  variant="outlined" Theme={props.theme} onClick={handleRemovePoolClick} disabled={disableRemoveButton || !selectedPool} />
                 <CustomButton title={language === 'en' ? "Update Pool" : AdminTranslation["Update Pool"]}
-                  variant="outlined" Theme={props.theme} onClick={handleuUpdatePoolClick} disabled={!selectedPool || selectedPool === selectedPoolOriginalData}  />
+                  variant="outlined" Theme={props.theme} onClick={handleuUpdatePoolClick} disabled={!selectedPool || selectedPool === selectedPoolOriginalData} />
               </Box>
             </CustomTable>
           </Box>
@@ -381,11 +392,12 @@ function ConcurrentUser(props) {
       display: none !important;
     }
   `}</style>
-          <ModalAddUsersPool open={openUsersModal} handleClose={handleCloseUsersModal}  selectedPool={selectedPool} updateSelectedPool={(updatedPool) => setSelectedPool(updatedPool)}  />
+          <ModalAddUsersPool open={openUsersModal} handleClose={handleCloseUsersModal} selectedPool={selectedPool} updateSelectedPool={(updatedPool) => setSelectedPool(updatedPool)} />
         </Grid>
 
       </Box>
     </Grid>
+    </>
   );
 
 }

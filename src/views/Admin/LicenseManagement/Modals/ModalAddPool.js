@@ -10,11 +10,13 @@ import AdminTranslation from '../../../../Utils/AdminTranslation/AdminTranslatio
 import CloseIcon from '@mui/icons-material/Close';
 import GreenEaxee from "../../../../Assets/Images/ModalEaxeeLogo.png"
 import { createPool } from '../../../../apis/license_management';
+import AlertComponent from '../../../../components/alerts/AlertComponent';
 
 const ModalAddPool = ({ open, handleClose, language, theme }) => {
     
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     const [role, setRole] = useState('');
+      const [alertMessage, setAlertMessage] = useState(""); // Alert message state
     const [snackBarFlag, setSnackBarFlag] = useState(false);
     const [isAddButtonDisabled, setIsAddButtonDisabled] = useState(false);
     let snackBarMessage = "";
@@ -30,21 +32,21 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
         console.log("poolName: ",poolName)
         console.log("poolRole: ",poolRole)
         if (!poolName) {
-            alert("PoolName is required")
+            setAlertMessage("PoolName is required")
             snackBarMessage = "Pool Name is requiredd";
             setSnackBarFlag(true);
         } else if (!poolRole) {
-            alert("poolRole is required")
+            setAlertMessage("poolRole is required")
             snackBarMessage = "Pool Role is required";
             setSnackBarFlag(true);
         } else {
             const res = await createPool(poolName, poolRole)
             if (res.code === 200){
-                alert("Pool created successfully")
+                setAlertMessage("Pool created successfully")
                 handleClose(); // Close the dialog
                 reset({ poolName: '' });
             }else{
-                alert(res.error)
+                setAlertMessage(res.error)
             }
             // Handle the form submission logic here
             
@@ -64,6 +66,15 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
     const isRTL = language === "ar";
 
     return (
+        <>
+        {alertMessage && (
+            <AlertComponent
+              message={alertMessage}
+              severity={alertMessage.includes("success") ? "success" : "warning"}
+              onClose={() => setAlertMessage("")} // Reset message on close
+            />
+          )}
+    
         <Box>
             <Dialog
                 open={open}
@@ -275,6 +286,9 @@ const ModalAddPool = ({ open, handleClose, language, theme }) => {
                 </DialogContent>
             </Dialog>
         </Box>
+
+
+        </>
 
 
     );

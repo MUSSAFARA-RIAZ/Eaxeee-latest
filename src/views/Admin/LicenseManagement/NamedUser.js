@@ -22,10 +22,14 @@ import styles from "./LicenseManagement.module.css";
 import SelectAllIcon from "@mui/icons-material/SelectAll";
 import DeselectIcon from "@mui/icons-material/Deselect";
 import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation";
+import AlertComponent from "../../../components/alerts/AlertComponent";
 
 
 function NamedUser(props) {
   let { language, theme } = props;
+    const [alertMessage, setAlertMessage] = useState(""); // Alert message state
+
+    // const [setAlertMessageMessage, setAlertMessage] = useState(""); // Alert message state
 
 
   // const AvailableLicensesRowData = [
@@ -313,7 +317,7 @@ function NamedUser(props) {
         setAllocatedLicensesRowData((prevData) =>
           prevData.filter((row) => row.id !== item.id)
         );
-        alert("License Deallocated Successfully")
+        setAlertMessage("License Deallocated Successfully")
         setRecallAvailableNamedLicenses(!recallAllocatedNamedLicenses)
       } else {
 
@@ -380,14 +384,14 @@ function NamedUser(props) {
             prevData.filter(license => license.license_id !== selectedLicenseId)
           );
           setRecallAllocatedNamedLicenses(!recallAllocatedNamedLicenses)
-          alert(res.data.message);
+          setAlertMessage(res.data.message);
         } else {
           console.log("Couldn't allocate license.");
-          alert(res.error);
+          setAlertMessage(res.error);
         }
       } catch (error) {
         console.error("An unexpected error occurred:", error);
-        alert("An unexpected error occurred. Please try again later.");
+        setAlertMessage("An unexpected error occurred. Please try again later.");
       }
     }
   
@@ -454,6 +458,14 @@ function NamedUser(props) {
 
   const isArabic = props.language === 'ar'
   return (
+    <>
+   {alertMessage && (
+        <AlertComponent
+          message={alertMessage}
+          severity={alertMessage.includes("success") ? "success" : "warning"}
+          onClose={() => setAlertMessage("")} // Reset message on close
+        />
+      )}
     <Box className={`${styles.namedUserMain}`}>
       <Box sx={{ float: isArabic ? "right" : "left" }}>
         <CustomTabs value={tabValue} onChange={handleTabChange} tabs={tabs} />
@@ -602,6 +614,7 @@ function NamedUser(props) {
         </Box>
       )}
     </Box>
+    </>
 
   );
 }
