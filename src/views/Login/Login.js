@@ -75,10 +75,44 @@ function Login({ onSignIn }) {
       
       // If the domain in username exist and have some repositories then it will list them
       if (res.code === 200) {
-        
-        setRepositories(res.data);
-        setIsDialogOpen(true);
-        console.log("list of repositories are: ", res);
+
+        if (res.data.length === 1) {
+          setRepositories(res.data)
+          setSelectedOption(res.data[0].repository_id)
+          const userExistOrNot = await checkIfUserExistOrNot(username, password, res.data[0].repository_id);
+          if (userExistOrNot.code === 200){
+            setLoading(true)
+            const res_login = await loginUser(username, password, res.data[0].repository_id)
+
+            if (res_login.code === 200) {
+
+              if (onSignIn) {
+                onSignIn()
+              }
+
+              navigate('/home')
+      
+            }
+            else if (res_login.code === 401) {
+      
+              setError(res_login.data.error + "401-148")
+            }
+            setLoading(false)
+          } else {
+            setError(userExistOrNot.data.message + "401-148")
+          }
+          // console.log("selected_option_is: ",selectedOption)
+          // console.log("The length of repositories is 1.");
+          // You can perform additional actions here if needed
+      } else if (res.data.length === 0){
+        setError("Could not found any Repository...")
+      }
+        else{
+
+          setRepositories(res.data);
+          setIsDialogOpen(true);
+          console.log("list of repositories are: ", res);
+        }
       }  //Otherwise it will show message 'invalid domain'
       else {
         setIsLoading(true);
@@ -117,7 +151,6 @@ function Login({ onSignIn }) {
 
 
   const handleConfirm = async () => {
-
 
     setDisableConfirmButton(true)
     // When user has selected a repository form a list and 'Confirm' button is clicked then this api will be called that check if the username & password exist in that repository
@@ -290,7 +323,7 @@ function Login({ onSignIn }) {
               <div className="login-form">
                 <img className='eaxee-logo' src={GreenPaleGray} alt="Eaxee Logo" />
                 <p className="login-subtitle">
-                  <p className='login-heading'>Eaxee Login</p>
+                  {/* <p className='login-heading'>Eaxee Login</p> */}
                   <p className='subheadtext'>Enterprise architecture-based digital transformation made efficient and effective.</p>
                 </p>
                 <form onSubmit={handleSignInClick}>
