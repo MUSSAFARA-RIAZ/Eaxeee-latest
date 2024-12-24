@@ -9,11 +9,11 @@ const DropDown = ({ language, theme, onValueChange, listOfDropdownElements }) =>
 
 
   const handleChange = (event) => {
-    console.log("dropdown-elements-are: ", listOfDropdownElements)
+    // console.log("dropdown-elements-are: ", listOfDropdownElements)
     const value = event.target.value;
-    console.log("event_is: ",value)
+    // console.log("event_is: ",value)
     setSelectedValue(value);
-    console.log("Selected Value:", value);
+    // console.log("Selected Value:", value);
     if (onValueChange) {
       onValueChange(value);
     }

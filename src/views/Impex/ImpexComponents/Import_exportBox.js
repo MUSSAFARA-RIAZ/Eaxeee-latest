@@ -1,4 +1,4 @@
-import { React , useRef } from "react";
+import { React, useRef } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,9 +12,12 @@ import CustomButton from "../../../components/CustomButton/CustomButton.js";
 import AdminTranslation from "../../../Utils/AdminTranslation/AdminTranslation.js";
 import { connect } from "react-redux";
 import { useEffect, useState } from "react";
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton } from "@mui/material";
 import ExportTemplateModal from "../Modals/ExportTemplateModal.js";
 import { getElementNames, getAllRepositories } from "../../../apis/impex_management.js";
+import CloseIcon from "@mui/icons-material/Close";
+import AlertComponent from "../../../components/alerts/AlertComponent.js";
+
 const ImportExportBox = ({ props }) => {
   const [open, setOpen] = useState(false);
 
@@ -22,7 +25,7 @@ const ImportExportBox = ({ props }) => {
   const [listOfDropdownElements, setListOfDropdownElements] = useState([]);
   const [selectedArchitecture, setSelectedArchitecture] = useState('');
   const [selectedFile, setSelectedFile] = useState();
-
+const [alertMessage, setAlertMessage] = useState(""); 
   //   const items = [
   //     { id: 1, name: "Item 1" },
   //     { id: 2, name: "Item 2" },
@@ -143,6 +146,9 @@ const ImportExportBox = ({ props }) => {
       // Add your file processing logic here
     }
   };
+  const clearSelectedFile = () => {
+    setSelectedFile(null); // Deselect the file
+  };
 
   // const items = [
   //   { id: 1, name: "Item 1" },
@@ -152,6 +158,13 @@ const ImportExportBox = ({ props }) => {
   // ];
   return (
     <>
+       {alertMessage && (
+        <AlertComponent
+          message={alertMessage}
+          severity={alertMessage.includes("success") ? "success" : "warning"}
+          onClose={() => setAlertMessage("")} // Reset message on close
+        />
+      )}
       <div
         className={`${styles.Impex_exportBox} ${props.theme === "default"
           ? ImpexDefaultTheme.Impex_exportBox
@@ -223,7 +236,8 @@ const ImportExportBox = ({ props }) => {
               startIcon={<CloudUploadIcon />}
               onClick={() => {
                 if (!selectedArchitecture) {
-                  alert("Cannot proceed, selectedArchitecture is null");
+                  setAlertMessage("Cannot proceed, selectedArchitecture is null");
+                  // alert("Cannot proceed, selectedArchitecture is null");
                   return;
                 }
                 handleOpenModal({
@@ -288,6 +302,34 @@ const ImportExportBox = ({ props }) => {
               startIcon={<AddIcon />}
               onClick={handleButtonClick} // Trigger the file input click
             />
+            {selectedFile && (
+              <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+                <span>{selectedFile.name}</span>
+                <IconButton
+                  sx={{
+                    // float:"right",
+                    // marginLeft:"20px",
+
+                    position: "absolute",
+                    right: "0",
+                    // border:"2px solid red",
+                    // top: "50%",
+                    // transform: "translateY(-50%)",
+                    color: "#2158a4",
+                    // [language === "ar" ? "left" : "right"]: 0,
+                  }}
+                  onClick={clearSelectedFile}
+                >
+                  <CloseIcon />
+                </IconButton>
+                {/* <AddIcon
+                  style={{ marginLeft: "10px", cursor: "pointer" }}
+                  onClick={clearSelectedFile}
+                /> */}
+              </div>
+            )}
+
+
           </div>
 
           <div style={{ marginTop: "20px" }}>
@@ -302,14 +344,15 @@ const ImportExportBox = ({ props }) => {
               type="submit"
               loading={false}
               Theme={props.theme}
-              disabled={false}
+              disabled={!selectedFile}
               fullWidth={true}
               loaderSize={25}
               loaderColor="success"
               loaderThickness={5}
               onClick={() => {
                 if (!selectedArchitecture) {
-                  alert("Cannot proceed, selectedArchitecture is null");
+                  setAlertMessage("Cannot proceed, selectedArchitecture is null");
+                  // alert("Cannot proceed, selectedArchitecture is null");
                   return;
                 }
                 handleOpenModal({

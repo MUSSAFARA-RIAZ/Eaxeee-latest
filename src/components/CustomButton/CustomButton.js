@@ -100,13 +100,19 @@ const CustomButton = React.forwardRef((props, ref) => {
           {
             (props.label === "Import" && isDisabled) || (props.label === "Export" && isDisabled) ? (
               <>
-                <CircularProgress size={24} style={{ marginLeft: 8 }} />
-                {title}
+                <CircularProgress
+                  size={20}
+                  style={{ marginLeft: 8, verticalAlign: 'middle' }}
+                />
+                <span style={{ marginLeft: 8, display: 'inline-block', verticalAlign: 'middle' }}>
+                  {title}
+                </span>
               </>
             ) : (
               title
             )
           }
+
 
         </Button>
       </LightTooltip>
