@@ -397,7 +397,7 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
                 </Typography>
                 {startShape && (
                   <img
-                    src={StartshapeOptions.find((option) => option.id === startShape)?.image}
+                    src={StartshapeOptions.find((option) => option.id === startShape)?.image || startShape}
                     alt="Start Shape"
                     style={{ position: "relative", left: "5px", width: "20px", height: "20px", objectFit: "contain" }}
                   />
