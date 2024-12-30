@@ -9,6 +9,7 @@ import darkthemestyles from "../../Themes/dark_theme.module.css";
 import defaultthemestyles from "../../Themes/default_theme.module.css";
 import { useLocation } from "react-router-dom";
 const drawerWidth = 380;
+const headerHeight = 50;
 const RightPane = ({ open, handleDrawerOpen, props, children }) => {
   const isLanguageRTL = props.language === "ar";
   const mainWidth = open ? `calc(100% - ${drawerWidth}px)` : "100%";
@@ -36,6 +37,7 @@ const RightPane = ({ open, handleDrawerOpen, props, children }) => {
       }`}
       style={{
         width: mainWidth,
+        marginTop: `${headerHeight}px`,
         marginLeft: isLanguageRTL ? "auto" : open ? `${drawerWidth}px` : 0,
         marginRight: isLanguageRTL ? (open ? `${drawerWidth}px` : 0) : "auto",
         direction: isLanguageRTL ? "rtl" : "ltr",

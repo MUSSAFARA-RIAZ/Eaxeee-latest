@@ -120,7 +120,7 @@ function CustomAppBar(props) {
 
   return (
     <Box>
-      <AppBar position="static" className={styles.appBar}>
+      <AppBar position="fixed" className={styles.appBar}>
         <Toolbar
           // this oen is for header
           sx={{

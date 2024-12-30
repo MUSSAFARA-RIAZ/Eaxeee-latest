@@ -115,7 +115,7 @@ const Metamodel = (props) => {
             </LeftPane>
 
             <RightPane open={open} props={props} handleDrawerOpen={handleDrawerOpen}>
-                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginLeft: open ? '0px' : '40px', }}>
           {
             view===0 &&  <FileList props={props} />
           }       
