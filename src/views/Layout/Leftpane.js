@@ -53,6 +53,7 @@ const LeftPane = ({ props, open, onClose, children }) => {
           zIndex: 0,
           marginTop: "50px",
           border: "none",
+          zIndex: "10",
           backgroundColor:
             props.theme === "default"
               ? "#cecece"

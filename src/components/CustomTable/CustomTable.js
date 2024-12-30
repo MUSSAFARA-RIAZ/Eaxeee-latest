@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
+// import { useDemoData } from '@mui/x-data-grid-generator';
 import { connect } from "react-redux";
+import { useState } from "react";
 import { Tooltip, Box, TextField, IconButton, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import AdminTranslation from "../../Utils/AdminTranslation/AdminTranslation";
-
 function CustomTable(props) {
+  console.log("props in custom table===>", props);
+
+  const [paginationModel, setPaginationModel] = React.useState({
+    page: 0,
+    pageSize: 20,
+  });
   const [searchText, setSearchText] = useState("");
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -34,6 +41,14 @@ function CustomTable(props) {
 
   const handleSelectionChange = (newSelection) => {
     setSelectedRows(newSelection);
+    console.log("Selected Row IDs:", newSelection);
+
+    // Find the selected rows' data and log it
+    const selectedData = newSelection.map((id) =>
+      props.rows.find((row) => row.id === id)
+    );
+    console.log("Selected Row Data:", selectedData);
+
     if (props.onSelectionChange) {
       props.onSelectionChange(newSelection);
     }
@@ -41,16 +56,10 @@ function CustomTable(props) {
 
   const columns = props.columns.map((col) => ({
     ...col,
+    // sortable: true,
     sortable: true,
+    resizable: true, // Enable column resizing
   }));
-  const [paginationModel, setPaginationModel] = useState({
-    pageSize: 5,
-    page: 0,
-  });
-
-  const handlePaginationModelChange = (newModel) => {
-    setPaginationModel(newModel);
-  };
 
   return (
     <Box
@@ -75,7 +84,11 @@ function CustomTable(props) {
             <TextField
               value={searchText}
               onChange={handleSearchChange}
-              placeholder={props.language === "en" ? "Search..." : AdminTranslation["Search..."]}
+              placeholder={
+                props.language === "en"
+                  ? "Search..."
+                  : AdminTranslation["Search..."]
+              }
               InputProps={{
                 startAdornment: <SearchIcon color="disabled" />,
               }}
@@ -104,10 +117,10 @@ function CustomTable(props) {
                       selectedRows.length === 0
                         ? "#a5b7b9"
                         : props.theme === "default"
-                          ? "#2158a4"
-                          : props.theme === "light"
-                            ? "#4A4A4A"
-                            : "#a5d149",
+                        ? "#2158a4"
+                        : props.theme === "light"
+                        ? "#4A4A4A"
+                        : "#a5d149",
                   }}
                 />
               </IconButton>
@@ -116,27 +129,26 @@ function CustomTable(props) {
               <IconButton
                 onClick={props.onDeleteClick}
                 disabled={props.deleteButtonDisabled} // Control enabled/disabled from the parent
-            >
-              <Tooltip
-                title={
-                  props.deleteButtonDisabled
-                    ? "No rows selected"
-                    : "Delete selected rows"
-                }
               >
-                <DeleteIcon
-                  style={{
-                    color:
-                      props.deleteButtonDisabled
+                <Tooltip
+                  title={
+                    props.deleteButtonDisabled
+                      ? "No rows selected"
+                      : "Delete selected rows"
+                  }
+                >
+                  <DeleteIcon
+                    style={{
+                      color: props.deleteButtonDisabled
                         ? "#a5b7b9"
                         : props.theme === "default"
-                          ? "#2158a4"
-                          : props.theme === "light"
-                            ? "#4A4A4A"
-                            : "#a5d149",
-                  }}
-                />
-              </Tooltip>
+                        ? "#2158a4"
+                        : props.theme === "light"
+                        ? "#4A4A4A"
+                        : "#a5d149",
+                    }}
+                  />
+                </Tooltip>
               </IconButton>
             )}
           </Stack>
@@ -144,13 +156,16 @@ function CustomTable(props) {
       )}
       <Box
         sx={{
-          height: props.height ? "68vh" : "calc(80vh - 100px)", 
+          // height: 400,
+          // width: "100%",
+          // border: "2px solid red",
+          height: props.height ? "68vh" : "calc(80vh - 100px)",
           width: "100%",
           overflowY: "auto",
-          overflowX:"auto",
+          overflowX: "auto",
           // border:"2px solid red",
-          position:"relative",
-          top:"10px",
+          position: "relative",
+          top: "10px",
 
           "& ::-webkit-scrollbar": {
             width: "8px",
@@ -160,8 +175,8 @@ function CustomTable(props) {
               props.theme === "default"
                 ? "#cecece"
                 : props.theme === "light"
-                  ? "#eff3f7"
-                  : "#212121",
+                ? "#eff3f7"
+                : "#212121",
             borderRadius: "10px",
           },
           "& ::-webkit-scrollbar-thumb": {
@@ -169,8 +184,8 @@ function CustomTable(props) {
               props.theme === "default"
                 ? "#2158a4"
                 : props.theme === "light"
-                  ? "#cbd0d7"
-                  : "#a5d149",
+                ? "#cbd0d7"
+                : "#a5d149",
             borderRadius: "10px",
           },
           ...props.DataGridDivHeight, // Merge custom styles
@@ -178,6 +193,7 @@ function CustomTable(props) {
       >
         <DataGrid
           {...props}
+          columns={columns}
           rows={props.rows.filter((row) =>
             columns.some((col) => {
               const value = row[col.field];
@@ -187,79 +203,103 @@ function CustomTable(props) {
               );
             })
           )}
-          columns={columns}
+          disableColumnResize={false}
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
           checkboxSelection={props.checkboxSelection}
-          onSelectionModelChange={(newSelection) =>
-            handleSelectionChange(newSelection)
-          }
-          // Show all rows if pagination is disabled
+          columnBuffer={5} // Optional: Adjust column buffer for performance
+          // initialState={{ ...data.initialState, pagination: { rowCount: -1 } }}
+          estimatedRowCount={100}
+          // paginationMeta={paginationMeta}
+          // loading={isLoading}
+          pageSizeOptions={[5, 20, 50, 100]}
           sx={{
             "& .MuiDataGrid-cell:focus": {
               outline: "none",
             },
-            "& .MuiDataGrid-overlay": {
-              backgroundColor: 'transparent',
+            "& .MuiDataGrid-container--top [role='row']": {
+              backgroundColor: "transparent",
             },
+            "& .MuiDataGrid-overlay": {
+              backgroundColor: "transparent",
+            },
+
+            "& .MuiDataGrid-columnSeparator": {
+              pointerEvents: "all",
+              cursor: "col-resize",
+              visibility: "visible",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              position: "sticky",
+              top: 0,
+              zIndex: 1, // Ensures header stays above rows
+              backgroundColor: "#e0e0e0",
+              // backgroundColor: props.theme === "dark" ? "#333" : "#fff", // Adjust to match your theme
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              overflowY: "auto", // Allow scrolling only in the row area
+            },
+            "& .MuiDataGrid-cell": {
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "flex",
+              alignItems: "center"
+            },
+
             "& .MuiButtonBase-root .css-i4bv87-MuiSvgIcon-root": {
-              rotate: props.language === 'ar' ? "180deg" : "0deg",
+              rotate: props.language === "ar" ? "180deg" : "0deg",
             },
             "& .MuiCheckbox-root.Mui-checked": {
               color: props.theme === "default" ? "#2158a4" : "#a5d149",
-              rotate: props.language === 'ar' ? "0deg" : "0deg",
-
-
+              rotate: props.language === "ar" ? "0deg" : "0deg",
             },
             // border:"2px solid red",
-            color:props.theme==="dark"?"#cecece":"#000000DE",
-          
-
-
+            color: props.theme === "dark" ? "#cecece" : "#000000DE",
           }}
           localeText={{
             // Determine locale based on currentLang
-            ...(props.language === 'ar' ? {
-              // Arabic translations
-              MuiTablePagination: {
-                labelRowsPerPage: "عدد الصفوف في الصفحة:",
-                labelDisplayedRows: ({ from, to, count }) =>
-                  `${from}-${to} من ${count !== -1 ? count : `أكثر من ${to}`}`,
-                toolbarDensity: 'Density', // Add translation for density
-                noRowsLabel: 'No rows', // Add translation for no rows
-              },
-              footerRowSelected: (count) =>
-                `${count} ${count === 1 ? 'صف' : 'صفوف'} محددة`,
-            } : {
-              // English translations
-              MuiTablePagination: {
-                labelRowsPerPage: "Rows per page:",
-                labelDisplayedRows: ({ from, to, count }) =>
-                  `${from}-${to} of ${count !== -1 ? count : `more than ${to}`}`,
-              },
-              footerRowSelected: (count) =>
-                `${count} row${count !== 1 ? 's' : ''} selected`,
-            }),
+            ...(props.language === "ar"
+              ? {
+                  // Arabic translations
+                  MuiTablePagination: {
+                    labelRowsPerPage: "عدد الصفوف في الصفحة:",
+                    labelDisplayedRows: ({ from, to, count }) =>
+                      `${from}-${to} من ${
+                        count !== -1 ? count : `أكثر من ${to}`
+                      }`,
+                    toolbarDensity: "Density", // Add translation for density
+                    noRowsLabel: "No rows", // Add translation for no rows
+                  },
+                  footerRowSelected: (count) =>
+                    `${count} ${count === 1 ? "صف" : "صفوف"} محددة`,
+                }
+              : {
+                  // English translations
+                  MuiTablePagination: {
+                    labelRowsPerPage: "Rows per page:",
+                    labelDisplayedRows: ({ from, to, count }) =>
+                      `${from}-${to} of ${
+                        count !== -1 ? count : `more than ${to}`
+                      }`,
+                  },
+                  footerRowSelected: (count) =>
+                    `${count} row${count !== 1 ? "s" : ""} selected`,
+                }),
             // Additional common properties can be added here if necessary
           }}
+          rowCount={filteredRows.length}
+          onRowSelectionModelChange={(newSelection) =>
+            handleSelectionChange(newSelection)
+          }
 
-          pageSize={paginationModel.pageSize} // Bind pagination state
-          page={paginationModel.page} // Bind pagination state
-          onPageSizeChange={(newPageSize) =>
-            setPaginationModel((prev) => ({ ...prev, pageSize: newPageSize, page: 0 }))
-          }
-          onPageChange={(newPage) =>
-            setPaginationModel((prev) => ({ ...prev, page: newPage }))
-          }
-          pagination
-          paginationMode="client"
-          rowCount={filteredRows.length} // Total count of filtered rows
-          rowsPerPageOptions={[5, 10, 25]}
-          disableSelectionOnClick
+          // paginationModel={paginationModel}
+          // paginationMode="server"
+          // onPaginationModelChange={setPaginationModel}
         />
       </Box>
     </Box>
   );
 }
-
 const mapStateToProps = (state) => {
   return {
     language: state.language,
