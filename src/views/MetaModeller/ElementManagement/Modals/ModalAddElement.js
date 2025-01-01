@@ -32,8 +32,9 @@ import none from "../../../../Assets/Images/MetaModellerImages/none.svg";
 import oval from "../../../../Assets/Images/MetaModellerImages/oval.svg";
 import UnfilledDiamond from "../../../../Assets/Images/MetaModellerImages/unfilled-diamond.svg";
 import Blockfilled from "../../../../Assets/Images/MetaModellerImages/block.svg";
-import StartShapeModal from "../../RelationShipManagement/Modals/StartShapeModal";
-import ElementShapeModal from "../../LayerManagement/Modals/ElementShapeModal";
+import ElementShapeModal from "./ElementShapeModal";
+import ModalSelectShapeColor from "./ModalSelectShapeColor";
+import { GetSvgIconImage } from "../../../../Utils/SvgIconsMap/SvgIconMapper";
 
 const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, selectedRowData }) => {
   const [disableAddButton, setDisableAddButton] = useState(false);
@@ -63,7 +64,8 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
     { id: "block", label: "block", image: Blockfilled },
     // Add more shapes as needed
   ];
-  const [startShape, setStartShape] = useState("diamon");
+  const [startShape, setStartShape] = useState("Diamond");
+  const [elementIconColor, setElementIconColor] = useState("#000");
   const getElementIcon = (iconType) => {
     switch (iconType) {
       case "Crop75Icon":
@@ -91,7 +93,7 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
       setSelectedColor(selectedRowData.layercolor || "#000000");
       setLayerNotation(selectedRowData.ElementNotation || "");
       setSelectedLayer(selectedRowData.ElementLayer || "");
-      setStartShape(selectedRowData.StartShape || "diamon");
+      setStartShape(selectedRowData.StartShape || "Diamond");
       setIsHidden(selectedRowData.isHidden === "YES");
       setIsLocked(selectedRowData.isLocked === "YES");
       setIsEnabled(selectedRowData.isEnabled === "YES");
@@ -108,7 +110,8 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
       setSelectedColor("#000000");
       setLayerNotation("");
       setSelectedLayer("");
-      setStartShape("diamon");
+      setStartShape("Diamond");
+      setElementIconColor("#000");
       setIsHidden(false);
       setIsLocked(false);
       setIsEnabled(true);
@@ -183,6 +186,7 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
 
 
   const [isStartShapeModalOpen, setIsStartShapeModalOpen] = useState(false);
+  const [isSelectShapeColorModalOpen, setIsSelectShapeColorModalOpen] = useState(false);
 
   const handleHiddenChange = (event) => {
     setIsHidden(event.target.checked);
@@ -208,6 +212,7 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
 
 
   const isRTL = language === "ar";
+  const ElementIcon = GetSvgIconImage(startShape);
 
   return (
     <>
@@ -216,10 +221,23 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
         theme={theme}
         handleClose={handleClose}
         language={language}
-        onClose={() => setIsStartShapeModalOpen(false)}
+        onClose={() => {setIsStartShapeModalOpen(false); setElementIconColor("#000")}}
         onSelect={(shape) => {
           setStartShape(shape);
-          setIsStartShapeModalOpen(false);  // Close the modal after selection
+          setIsStartShapeModalOpen(false); // Close the modal after selection
+          setIsSelectShapeColorModalOpen(true);
+        }}
+      />
+      <ModalSelectShapeColor
+        open={isSelectShapeColorModalOpen}
+        theme={theme}
+        handleClose={handleClose}
+        selectedLineStyle={startShape}
+        language={language}
+        onClose={() => setIsSelectShapeColorModalOpen(false)}
+        onSelect={(color) => {
+          setElementIconColor(color);
+          setIsSelectShapeColorModalOpen(false); // Close modal after selection
         }}
       />
 
@@ -396,10 +414,8 @@ const ModalAddElement = ({ open, handleClose, language, theme, onUserAdded, sele
                   {language === "en" ? "Element Icon" : AdminTranslation["Element Icon"]}
                 </Typography>
                 {startShape && (
-                  <img
-                    src={StartshapeOptions.find((option) => option.id === startShape)?.image || startShape}
-                    alt="Start Shape"
-                    style={{ position: "relative", left: "5px", width: "20px", height: "20px", objectFit: "contain" }}
+                  <ElementIcon
+                    style={{ position: "relative", left: "5px", width: "20px", height: "20px", objectFit: "contain", color: elementIconColor, }}
                   />
                 )}
                 <IconButton onClick={() => setIsStartShapeModalOpen(true)}>

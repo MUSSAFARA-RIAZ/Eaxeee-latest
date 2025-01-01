@@ -218,7 +218,8 @@ function CustomTable(props) {
               outline: "none",
             },
             "& .MuiDataGrid-container--top [role='row']": {
-              backgroundColor: "transparent",
+              backgroundColor:
+                props.theme === "dark" ? "#000000DE" : "transparent",
             },
             "& .MuiDataGrid-overlay": {
               backgroundColor: "transparent",
